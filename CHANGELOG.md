@@ -13,6 +13,9 @@ Planned next minor release: `0.2.0`.
 
 ### Changed
 
+- Standardized README skill summaries, usage labels, and paragraph wrapping.
+- Standardized example titles and case labels, skill-body wrapping, and
+  changelog list spacing without changing behavior.
 - Installation and update instructions now accept a selected skill name.
 - The migrated skill's default prompt requests scoped implementation, matching
   its explicit-invocation contract, instead of always requesting approval
@@ -23,7 +26,9 @@ Planned next minor release: `0.2.0`.
 
 ### Added
 
-- `maintain-agents-md` for capturing, reviewing, and revising durable project rules.
+- `maintain-agents-md` for capturing, reviewing, and revising durable project
+  rules.
 - Codex interface metadata with implicit invocation enabled.
-- A synthetic example and behavioral cases for authorization, scope, and semantic preservation.
+- A synthetic example and behavioral cases for authorization, scope, and
+  semantic preservation.
 - Package validation and project-scoped setup instructions.
