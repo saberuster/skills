@@ -1,5 +1,24 @@
 # Changelog
 
+## Unreleased
+
+Planned next minor release: `0.2.0`.
+
+### Added
+
+- `learn-from-session` for learning from the current conversation and improving
+  user-maintained skill sources through an available `skill-creator`.
+- Synthetic session-learning cases for evidence, authorization, and source
+  scope.
+
+### Changed
+
+- Installation and update instructions now accept a selected skill name.
+- The migrated skill's default prompt requests scoped implementation, matching
+  its explicit-invocation contract, instead of always requesting approval
+  first. Analysis-only requests remain read-only; implicit selection does not
+  authorize writes. Implicit invocation remains enabled.
+
 ## 0.1.0 - 2026-10-02
 
 ### Added

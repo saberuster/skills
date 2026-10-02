@@ -1,0 +1,6 @@
+interface:
+  display_name: "Learn from Session"
+  short_description: "Improve user-maintained skills from this conversation"
+  default_prompt: "Use $learn-from-session to extract reusable lessons from this conversation and apply focused improvements to my established user-maintained skill sources."
+policy:
+  allow_implicit_invocation: true
