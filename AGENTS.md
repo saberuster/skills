@@ -1,6 +1,7 @@
 # Contributor and agent instructions
 
-See [README.md](README.md) for setup, installation, usage, and release conventions.
+See [README.md](README.md) for setup, installation, usage, and release
+conventions.
 
 ## Maintain skills
 
@@ -9,7 +10,8 @@ See [README.md](README.md) for setup, installation, usage, and release conventio
   resources only when the skill needs them, not to fill a template.
 - Preserve task scope, authorization boundaries, conditions, and exceptions.
   Explain intentional behavior changes and update the relevant synthetic cases
-  in `examples/`. Reviewing or editing a skill does not mean performing its task.
+  in `examples/`. Reviewing or editing a skill does not mean performing its
+  task.
 - Keep public instructions and examples in English. Use ASCII text and LF line
   endings to match the repository's checks. Record user-visible changes in
   `CHANGELOG.md`; follow the README version policy.
@@ -18,6 +20,14 @@ See [README.md](README.md) for setup, installation, usage, and release conventio
 
 Use the isolated development environment and interpreter paths in the README.
 Install the pinned `requirements-dev.txt`; use the same Ruff version as CI.
+Use Node.js 22 or later; CI uses Node.js 24. From the repository root, install
+the pinned Node.js development dependencies and check Markdown:
+
+```text
+npm ci
+npm run lint:md
+```
+
 From the repository root, run these with that environment's Python:
 
 ```text
@@ -26,7 +36,11 @@ python -m ruff format --check .
 python -m unittest discover -s tests -v
 ```
 
-Ruff rules live in `ruff.toml`; use `python -m ruff format .` to apply formatting.
+Ruff rules live in `ruff.toml`; use `python -m ruff format .` to apply
+formatting.
+Markdown rules live in `.markdownlint-cli2.jsonc`. Use `npm run lint:md:fix`
+only for fixes supported by markdownlint; it is not a full Markdown formatter
+and does not guarantee automatic line wrapping for every violation.
 The existing tests validate skill frontmatter and interface metadata, local
 Markdown links, and text hygiene. They do not validate agent decisions. For
 behavior changes, exercise relevant cases from `examples/` in an isolated
@@ -35,7 +49,8 @@ host discovery, behavior tests, and hosted CI results.
 
 ## Keep contributions public-safe
 
-Use synthetic examples. Exclude credentials, private conversations, machine-local
-paths, private repository links, and generated environments or caches. Include
-third-party material only with verified redistribution rights and required
-attribution; do not assume the root MIT license covers external material.
+Use synthetic examples. Exclude credentials, private conversations,
+machine-local paths, private repository links, and generated environments or
+caches. Include third-party material only with verified redistribution rights
+and required attribution; do not assume the root MIT license covers external
+material.

@@ -44,7 +44,7 @@ class PackageTests(unittest.TestCase):
     def test_local_markdown_links(self):
         for path in ROOT.rglob("*.md"):
             if any(
-                part in {".git", ".venv", ".ruff_cache", "__pycache__"}
+                part in {".git", ".venv", ".ruff_cache", "__pycache__", "node_modules"}
                 for part in path.relative_to(ROOT).parts
             ):
                 continue
@@ -63,7 +63,7 @@ class PackageTests(unittest.TestCase):
         for path in ROOT.rglob("*"):
             relative = path.relative_to(ROOT)
             if any(
-                part in {".git", ".venv", ".ruff_cache", "__pycache__"}
+                part in {".git", ".venv", ".ruff_cache", "__pycache__", "node_modules"}
                 for part in relative.parts
             ):
                 continue

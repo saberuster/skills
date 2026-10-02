@@ -1,0 +1,16 @@
+{
+  "globs": ["**/*.md"],
+  "ignores": ["node_modules/**", ".venv/**", ".git/**", ".ruff_cache/**"],
+  "config": {
+    // Use the same heading and list styles across all documents.
+    "MD003": { "style": "atx" },
+    "MD004": { "style": "dash" },
+    // Keep prose readable without reflowing runnable examples or tables.
+    "MD013": { "line_length": 80, "code_blocks": false, "tables": false },
+    // Skill names and changelog labels repeat under distinct parent headings.
+    "MD024": { "siblings_only": true },
+    "MD029": { "style": "ordered" },
+    "MD046": { "style": "fenced" },
+    "MD048": { "style": "backtick" }
+  }
+}

@@ -180,8 +180,8 @@ The package targets Codex's local skill format. Metadata and links are checked
 locally; this is not a claim of end-to-end installation or automatic selection
 in every Codex interface. Other agent hosts have not been validated.
 
-Development checks require Python 3.11 or later. Create an isolated environment
-from the repository root:
+Development checks require Python 3.11 or later and Node.js 22 or later. CI uses
+Node.js 24. Create an isolated Python environment from the repository root:
 
 ```text
 python -m venv .venv
@@ -196,6 +196,24 @@ Run the following with `.venv/bin/python` on macOS/Linux. On Windows, replace
 .venv/bin/python -m ruff format --check .
 .venv/bin/python -m unittest discover -s tests -v
 ```
+
+Install the pinned Node.js development dependencies and check Markdown from the
+repository root:
+
+```text
+npm ci
+npm run lint:md
+```
+
+`package.json` pins `markdownlint-cli2` to `0.23.3`.
+`.markdownlint-cli2.jsonc` sets an 80-character prose line limit, exempts code
+blocks and tables, and allows repeated headings under different parent headings
+with `siblings_only`. It also requires ATX (`#`) headings, dash bullets,
+ascending ordered-list numbers, and fenced code blocks using backticks. It
+excludes `node_modules`, `.venv`, `.git`, and `.ruff_cache`. Run
+`npm run lint:md:fix` to apply fixes supported by the tool.
+This command is not a full Markdown formatter and does not guarantee automatic
+line wrapping for every violation.
 
 Ruff provides both linting and formatting. Its version is pinned in
 `requirements-dev.txt`, which local development and CI both install. Rules in
