@@ -45,17 +45,34 @@ plugin caches writable. Links must resolve inside the authorized source scope.
 Invocation does not authorize commits, publication, installation, or edits to
 unrelated settings.
 
+### maintain-skills
+
+**Purpose:** [maintain-skills](skills/maintain-skills/SKILL.md) maintains
+standalone agent skills through the Vercel Skills CLI: list, install, update,
+and remove. It resolves the requested scope, checks source records and shared
+paths, and verifies the result.
+
+**Requirements:** A compatible Node.js environment with npx, access to the
+Skills CLI, and network access for remote packages. The skill is
+instruction-only and calls `npx skills`; it supplies no separate installer.
+
+**Scope:** It does not author skill content or manage plugins. Read-only update
+checks and agent-isolated updates depend on verified CLI capabilities; the
+current upstream update interface does not provide either. Unknown provenance
+or unresolved local edits prevent automatic replacement. Real CLI execution
+and cross-host compatibility require separate validation.
+
 ## Agent installation and updates
 
 This repository supplies standalone skill folders, not a plugin. Give your
 agent an explicit installation or update request; reading this README alone
 grants no permission to install, run a skill, or edit project or skill files.
 
-Copy a prompt below, replacing `<skill-name>` with `maintain-agents-md` or
-`learn-from-session`, `<revision>` with an existing release tag or full commit
-SHA containing that skill, and `<project-root>` with your project's absolute
-path. For a user-wide installation, replace the project scope with "my Codex
-user scope".
+Copy a prompt below, replacing `<skill-name>` with `maintain-agents-md`,
+`learn-from-session`, or `maintain-skills`, `<revision>` with an existing release
+tag or full commit SHA containing that skill, and `<project-root>` with your
+project's absolute path. For a user-wide installation, replace the project scope
+with "my Codex user scope".
 
 **Install:**
 
@@ -171,6 +188,27 @@ directory. Use the available skill-creator for authoring and validation.
 
 See the [behavioral cases](examples/learn-from-session.md) for evidence,
 authorization, dependency, and source-scope checks.
+
+### maintain-skills
+
+Invoke it explicitly with `$maintain-skills`. Its Codex policy disables
+automatic selection; other hosts may not honor this metadata.
+
+**Read-only:**
+
+```text
+Use $maintain-skills to list the skills installed for Codex in this project.
+```
+
+**Apply changes:**
+
+```text
+Use $maintain-skills to update only format-report in this project's scope.
+Preserve local edits and report any shared-client impact.
+```
+
+See the [behavioral cases](examples/maintain-skills.md) for installation,
+updates, removal, source tracking, shared paths, and read-only boundaries.
 
 ## Validation and compatibility
 

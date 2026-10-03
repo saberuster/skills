@@ -6,6 +6,10 @@ Planned next minor release: `0.2.0`.
 
 ### Added
 
+- `maintain-skills` for standalone skill maintenance through the Vercel Skills
+  CLI, with scope-aware installation, updates, removal, and result checks.
+- Synthetic maintenance cases covering shared paths, unknown sources, local
+  edits, read-only requests, and partial failures.
 - Pinned Markdown linting and supported automatic fixes, with the same lint
   check in CI.
 - `learn-from-session` for learning from the current conversation and improving
@@ -15,6 +19,8 @@ Planned next minor release: `0.2.0`.
 
 ### Changed
 
+- Disabled implicit invocation for `maintain-skills` in Codex; invoke it
+  explicitly with `$maintain-skills`.
 - Fixed Markdown heading, list, and code-fence styles across documents.
 - Standardized README skill summaries, usage labels, and paragraph wrapping.
 - Standardized example titles and case labels, skill-body wrapping, and
