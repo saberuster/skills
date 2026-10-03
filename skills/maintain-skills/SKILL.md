@@ -36,6 +36,10 @@ files and source records; do not build another installer or registry.
 | Update all user skills | `npx skills update -g` |
 | Remove a user skill from Codex | `npx skills remove <name> --agent codex -g` |
 
+In Skills CLI 1.7.0, `add --list` rejects `--json`; inspect source offerings
+without that flag. This rejected combination can exit zero while reporting
+`status: failed`, so check the reported result as well as the process exit code.
+
 For project removal, run from that project and omit `-g`. Pass multiple names
 or agents only when requested and supported by that command. Preserve an
 explicit copy-versus-link preference using the CLI's supported install option.

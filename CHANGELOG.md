@@ -19,6 +19,8 @@ Planned next minor release: `0.2.0`.
 
 ### Changed
 
+- Clarified Skills CLI 1.7.0 source listing flags and failure results that can
+  accompany a zero exit code, with a read-only inspection case.
 - Disabled implicit invocation for `maintain-skills` in Codex; invoke it
   explicitly with `$maintain-skills`.
 - Fixed Markdown heading, list, and code-fence styles across documents.

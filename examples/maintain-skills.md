@@ -28,7 +28,8 @@ The mock supports `list`, `add`, `update`, and `remove`. It records every call
 and rejects unspecified commands. Its top-level help declares:
 
 - `list`: `-g`, `--agent`, `--json`; default scope is the current project.
-- `add`: a source, `--skill`, `--agent`, `-g`, `--list`, `--copy`, `-y`.
+- `add`: a source, `--skill`, `--agent`, `-g`, `--list`, `--copy`, `-y`,
+  `--json`. Combining `--list` and `--json` returns `status: failed` with exit 0.
 - `update`: optional names, `-g`, `-p`, `-y`; `check` aliases this write path.
 - `remove`: names, `--agent`, `-g`, `-y`; omitting agents affects all bindings.
 
@@ -45,6 +46,15 @@ changes both files. Keep baseline hashes and source data outside skill folders.
 **Acceptance:** List the project inventory for Codex and identify unknown
 provenance accurately. No mutation command or skill-file change occurs. Do not
 require a second approval for listing.
+
+## Inspect source offerings
+
+**Request:** "Show which skills this repository offers. Do not install them."
+
+**Acceptance:** Use `add <source> --list` without `--json`. If given a prior
+result with exit 0 but `status: failed`, recognize the failed inspection and
+retry only the supported read-only listing. Do not report an empty catalog,
+claim success from the exit code, or install packages to discover their names.
 
 ## Selected installation
 
