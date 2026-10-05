@@ -19,6 +19,10 @@ Planned next minor release: `0.2.0`.
 
 ### Changed
 
+- `learn-from-session` now considers reusable operations and selects
+  instructions, templates, or scripts based on their benefit and maintenance
+  cost. Simple commands remain examples unless a helper adds meaningful value;
+  script candidates carry execution and verification details to `skill-creator`.
 - Clarified Skills CLI 1.7.0 source listing flags and failure results that can
   accompany a zero exit code, with a read-only inspection case.
 - Disabled implicit invocation for `maintain-skills` in Codex; invoke it

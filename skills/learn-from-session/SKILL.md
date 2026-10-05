@@ -14,6 +14,9 @@ sessions.
 - Look for user corrections, verified methods, and useful lessons from failed
   attempts. Keep the conditions and outcome that support each lesson; a
   proposed fix or an assistant's success claim alone is not verification.
+- Also look for repeated code, fixed command sequences, and stable processing
+  steps, even when they succeeded without corrections. Use recurrence in this
+  conversation or user-provided reuse evidence; do not infer unseen history.
 - Skip generic advice, temporary task state, unverified guesses, and one-off
   details. Keep project-specific procedures in project skills; do not turn
   local paths, business rules, or a one-time permission into general
@@ -23,6 +26,14 @@ sessions.
   lessons need no change, and zero useful lessons is a valid result. Use
   synthetic examples when generalizing private conversation details for shared
   skills.
+- Reuse existing tools and helpers first. Capture judgment as instructions,
+  fixed structures as templates, and deterministic operations as script
+  candidates. In mixed workflows, keep judgment separate from executable steps.
+- Weigh complexity, error risk, and expected reuse against the cost of calling
+  and maintaining a helper. Keep simple commands, including commands with a few
+  replaceable arguments, as invocation examples unless a script adds meaningful
+  value. Repetition or line count alone does not justify a wrapper; extract a
+  script when it reduces repeated implementation, fragile handling, or steps.
 
 ## Apply
 
@@ -41,6 +52,10 @@ perform applicable validation. Pass along the lesson, evidence limits, intended
 behavior, and allowed source scope; avoid duplicating its authoring
 instructions. If it is unavailable, provide the proposed changes and state that
 implementation remains incomplete.
+
+For selected scripts, pass inputs, outputs, prerequisites, failure behavior,
+and representative verification cases to `skill-creator`. Keep each script in
+the source skill that owns the task, and document when and how to call it.
 
 Briefly report what was learned, which files changed, and what was checked or
 remains unverified. For analysis-only requests, report proposals without

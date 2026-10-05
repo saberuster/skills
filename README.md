@@ -25,9 +25,11 @@ copies.
 
 **Purpose:** [learn-from-session](skills/learn-from-session/SKILL.md) extracts
 reusable lessons from the current conversation and improves user-maintained
-skills. It favors verified methods and user corrections, updates existing
-skills when possible, and accepts that some sessions need no changes. It does
-not scan other sessions.
+skills. It favors verified methods, user corrections, and reusable operations,
+updating existing skills when possible. It considers instructions, templates,
+and scripts, weighing reuse and reliability against helper complexity and
+maintenance. Simple commands can remain invocation examples. Some sessions need
+no changes; it does not scan other sessions.
 
 **Requirements:** Analysis needs the available conversation and read access to
 relevant skills. Applying changes also requires an available `skill-creator`,
