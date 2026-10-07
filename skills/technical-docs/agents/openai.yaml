@@ -1,0 +1,7 @@
+interface:
+  display_name: "Technical Documentation"
+  short_description: "Write and maintain version-controlled project docs"
+  default_prompt: "Use $technical-docs to write or revise this project's technical documentation, following its conventions and checking the supporting evidence."
+
+policy:
+  allow_implicit_invocation: true

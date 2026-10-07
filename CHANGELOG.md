@@ -6,6 +6,10 @@ Planned next minor release: `0.2.0`.
 
 ### Added
 
+- `technical-docs` for creating, revising, reviewing, and consolidating project
+  documentation, including comparisons with implementation and contracts.
+- Synthetic documentation cases for scoped edits, review-only requests,
+  unresolved decisions, consolidation, and implementation evidence.
 - `maintain-skills` for standalone skill maintenance through the Vercel Skills
   CLI, with scope-aware installation, updates, removal, and result checks.
 - Synthetic maintenance cases covering shared paths, unknown sources, local

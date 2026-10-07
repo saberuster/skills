@@ -64,6 +64,25 @@ current upstream update interface does not provide either. Unknown provenance
 or unresolved local edits prevent automatic replacement. Real CLI execution
 and cross-host compatibility require separate validation.
 
+### technical-docs
+
+**Purpose:** [technical-docs](skills/technical-docs/SKILL.md) creates, revises,
+reviews, or consolidates technical project documentation intended for version
+control. It also compares identified documents or accepted contracts with
+implementation. It chooses content around readers' needs, preserves decision
+status, and distinguishes intended behavior from observed behavior and gaps.
+
+**Requirements:** The skill is instruction-only. It needs read access to the
+relevant project evidence and, for revisions, write access to authorized
+documents. Runnable examples and rendering checks need their own applicable
+tools and environment.
+
+**Scope:** Review-only requests remain read-only. Ordinary explanations, design
+discussions, and coding do not alone request documents or implementation audits.
+Project instruction governance and persistent task tracking follow their
+established workflows. Documentation work does not authorize commits,
+publication, or unrelated implementation.
+
 ## Agent installation and updates
 
 This repository supplies standalone skill folders, not a plugin. Give your
@@ -71,10 +90,10 @@ agent an explicit installation or update request; reading this README alone
 grants no permission to install, run a skill, or edit project or skill files.
 
 Copy a prompt below, replacing `<skill-name>` with `maintain-agents-md`,
-`learn-from-session`, or `maintain-skills`, `<revision>` with an existing release
-tag or full commit SHA containing that skill, and `<project-root>` with your
-project's absolute path. For a user-wide installation, replace the project scope
-with "my Codex user scope".
+`learn-from-session`, `maintain-skills`, or `technical-docs`, `<revision>` with
+an existing release tag or full commit SHA containing that skill, and
+`<project-root>` with your project's absolute path. For a user-wide
+installation, replace the project scope with "my Codex user scope".
 
 **Install:**
 
@@ -211,6 +230,26 @@ Preserve local edits and report any shared-client impact.
 
 See the [behavioral cases](examples/maintain-skills.md) for installation,
 updates, removal, source tracking, shared paths, and read-only boundaries.
+
+### technical-docs
+
+**Read-only:**
+
+```text
+Use $technical-docs to compare docs/jobs.md with the current job cancellation
+implementation. Report evidence and gaps without editing files.
+```
+
+**Apply changes:** State the document scope and the intended change.
+
+```text
+Use $technical-docs to consolidate docs/setup.md and docs/quickstart.md into
+docs/setup.md. Preserve supported instructions and repair affected links.
+```
+
+See the [behavioral cases](examples/technical-docs.md) for document creation,
+scoped edits, read-only review, unresolved decisions, consolidation, and
+implementation comparison.
 
 ## Validation and compatibility
 
