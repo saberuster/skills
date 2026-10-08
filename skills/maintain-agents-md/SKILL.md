@@ -14,8 +14,8 @@ execution boundaries, or validation.
   rules, `review` audits or recommends without writing, and `revise` implements
   revisions, including trimming. Reuse valid authorization from the
   conversation; "review and suggest improvements" remains `review`.
-- Use visible conversation context and verifiable repository evidence. Do not
-  invent missing history; disclose coverage gaps that affect conclusions.
+- Use visible conversation context and verifiable repository evidence; disclose
+  coverage gaps that affect conclusions.
 - Identify the instruction files that actually apply to the target paths: a
   repository-wide audit discovers all of them, a local task checks only its
   scope chain and target subtree. Do not assume files in the same directory are
@@ -75,8 +75,7 @@ execution boundaries, or validation.
 
 ## Delivery
 
-For `review`, lead with findings ordered by impact, including location,
-evidence, consequence, and recommendation; write `No findings` when
-appropriate. For `capture` and `revise`, describe actual changes and
-validation. Disclose material uncertainty, coverage gaps, conflicts, and
-unhandled relocation candidates.
+For `review`, lead with findings by impact (location, evidence, consequence,
+recommendation), or `No findings`. For `capture` and `revise`, report actual
+changes and validation. Disclose material uncertainty, coverage gaps, conflicts,
+and unhandled relocation candidates.

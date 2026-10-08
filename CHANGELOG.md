@@ -30,6 +30,9 @@ Planned next minor release: `0.2.0`.
 
 ### Changed
 
+- Condensed repeated guidance in the four skill entrypoints and grouped Skills
+  CLI command examples without changing scope, authorization, or validation
+  requirements. Each skill retains its installation guidance and resources.
 - Moved skill-specific installation, update, and usage guidance into each
   skill's README. The repository README now provides navigation, discovery
   status, and development entrypoints, with shared protocols in `docs/`.

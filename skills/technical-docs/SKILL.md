@@ -71,9 +71,7 @@ tree merely to satisfy a classification.
 
 ## Writing and maintenance rules
 
-- Lead with the information readers need most. Use informative headings, focused
-  paragraphs, consistent terminology, and concrete claims. Retain necessary
-  constraints and exceptions when shortening text.
+- Retain necessary constraints and exceptions when shortening text.
 - Use steps for ordered actions, tables for comparisons or structured reference,
   and diagrams for relationships or flows when they clarify the content. Match
   the project's renderer; keep diagrams editable and consistent with the prose,
@@ -90,9 +88,8 @@ tree merely to satisfy a classification.
   decisions and supersession relationships under local conventions. Add status,
   applicability, or verification dates when they change how readers should use
   the content, rather than requiring metadata and changelogs on every page.
-- Keep diffs focused. Avoid unrelated rewrapping, table realignment, and
-  structural changes. Update generated documentation through its source and
-  established generation process.
+- Update generated documentation through its source and established generation
+  process.
 - Keep durable contracts and validation entrypoints in project docs; place
   transient execution logs and task progress in their appropriate records. Do
   not freeze private implementation choices without a reader or contract need.

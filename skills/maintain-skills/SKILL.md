@@ -26,22 +26,21 @@ files and source records; do not build another installer or registry.
 
 | Request | Command example |
 | --- | --- |
-| List project skills | `npx skills list --json` |
-| List user skills for Codex | `npx skills list -g --agent codex --json` |
+| List installed skills | `npx skills list --json` |
 | Inspect skills offered by a source | `npx skills add <source> --list` |
-| Install a selected project skill | `npx skills add <source> --skill <name> --agent codex` |
-| Install a selected user skill | `npx skills add <source> --skill <name> --agent codex -g` |
-| Update one project skill | `npx skills update <name> -p` |
-| Update one user skill | `npx skills update <name> -g` |
-| Update all user skills | `npx skills update -g` |
-| Remove a user skill from Codex | `npx skills remove <name> --agent codex -g` |
+| Install one skill for Codex | `npx skills add <source> --skill <name> --agent codex` |
+| Update one skill | `npx skills update <name> -p` |
+| Remove one skill from Codex | `npx skills remove <name> --agent codex` |
+
+For `list`, `add`, and `remove`, omit `-g` for project scope or add it for user
+scope; only these commands accept `--agent`. For `update`, use `-p` (project)
+or `-g` (user); omit `<name>` only for a requested update of the whole scope.
 
 In Skills CLI 1.7.0, `add --list` rejects `--json`; inspect source offerings
 without that flag. This rejected combination can exit zero while reporting
 `status: failed`, so check the reported result as well as the process exit code.
 
-For project removal, run from that project and omit `-g`. Pass multiple names
-or agents only when requested and supported by that command. Preserve an
+Pass multiple names or agents only when requested and supported. Preserve an
 explicit copy-versus-link preference using the CLI's supported install option.
 Use `-y` only when its effects stay within the established request. Do not use
 `--all` to resolve ambiguity or to recover from a failed selective operation.

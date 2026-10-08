@@ -5,10 +5,6 @@ description: Learn reusable lessons from the current conversation and use skill-
 
 # Learn from Session
 
-Turn the current conversation into small, useful skill improvements. Use the
-available conversation, including relevant earlier work; do not scan other
-sessions.
-
 ## Extract and select
 
 - Look for user corrections, verified methods, and useful lessons from failed
@@ -26,14 +22,12 @@ sessions.
   lessons need no change, and zero useful lessons is a valid result. Use
   synthetic examples when generalizing private conversation details for shared
   skills.
-- Reuse existing tools and helpers first. Capture judgment as instructions,
-  fixed structures as templates, and deterministic operations as script
-  candidates. In mixed workflows, keep judgment separate from executable steps.
-- Weigh complexity, error risk, and expected reuse against the cost of calling
-  and maintaining a helper. Keep simple commands, including commands with a few
-  replaceable arguments, as invocation examples unless a script adds meaningful
-  value. Repetition or line count alone does not justify a wrapper; extract a
-  script when it reduces repeated implementation, fragile handling, or steps.
+- Reuse existing tools and helpers first. Use instructions for judgment,
+  templates for fixed structures, and consider scripts for deterministic steps.
+  Weigh complexity, error risk, and reuse against invocation and maintenance
+  cost. Keep simple commands, even with parameters, as examples unless a script
+  reduces repeated implementation, fragile handling, or steps; repetition or
+  line count alone is insufficient. Keep judgment separate from executable steps.
 
 ## Apply
 
