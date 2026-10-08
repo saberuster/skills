@@ -165,20 +165,22 @@ def render_support_block(reports, revision, channel="pinned", run_url=None, root
     ]
     for name in sources:
         cells = [SYMBOLS[results[client][name]] for client in CLIENTS]
-        lines.append(f"| [{name}](skills/{name}/SKILL.md) | {' | '.join(cells)} |")
+        lines.append(f"| [{name}](skills/{name}/README.md) | {' | '.join(cells)} |")
+    revision_label = "Tested source commit" if run_url else "Source base commit"
     lines.extend(
         [
             "",
             "&#9989; discovery passed; &#10060; discovery failed; &mdash; unknown.",
             f"Channel: `{channel}`. Versions:",
             f"Codex {versions['codex']}; Claude Code {versions['claude-code']}.",
-            f"Tested source commit: `{revision}`.",
+            f"{revision_label}: `{revision}`.",
         ]
     )
     if run_url:
         lines.append(f"Evidence: [CI run]({run_url}).")
     else:
         lines.append("Evidence: local discovery; hosted CI not run.")
+        lines.append("Local evidence covers the current working tree.")
     lines.extend(["", ""])
     return "\n".join(lines)
 

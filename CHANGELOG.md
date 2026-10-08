@@ -30,6 +30,9 @@ Planned next minor release: `0.2.0`.
 
 ### Changed
 
+- Moved skill-specific installation, update, and usage guidance into each
+  skill's README. The repository README now provides navigation, discovery
+  status, and development entrypoints, with shared protocols in `docs/`.
 - `learn-from-session` now considers reusable operations and selects
   instructions, templates, or scripts based on their benefit and maintenance
   cost. Simple commands remain examples unless a helper adds meaningful value;
