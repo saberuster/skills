@@ -6,6 +6,13 @@ Planned next minor release: `0.2.0`.
 
 ### Added
 
+- A generated README support table with emoji statuses for each skill and
+  client, CI previews, and default-branch updates from matching discovery
+  evidence.
+- Continuous Codex and Claude Code skill discovery checks with isolated
+  profiles, per-skill reports, pinned PR coverage, and weekly upstream checks.
+  These initialize real clients without sending model prompts; behavioral
+  acceptance and host-specific invocation policy remain separate.
 - `technical-docs` for creating, revising, reviewing, and consolidating project
   documentation, including comparisons with implementation and contracts.
 - Synthetic documentation cases for scoped edits, review-only requests,

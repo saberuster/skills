@@ -1,0 +1,174 @@
+name: Validate agent support
+
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: '23 1 * * 1'
+  workflow_dispatch:
+    inputs:
+      latest:
+        description: Also check the latest published clients
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: agent-support-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  discovery:
+    name: ${{ matrix.agent }} (${{ matrix.channel }})
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        agent: [codex, claude-code]
+        channel: ${{ fromJSON((github.event_name == 'schedule' || inputs.latest) && '["pinned","latest"]' || '["pinned"]') }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.11'
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: '24'
+      - run: python -m pip install -r requirements-dev.txt
+      - name: Install Codex locally in the runner
+        if: matrix.agent == 'codex'
+        env:
+          CODEX_VERSION: ${{ matrix.channel == 'latest' && 'latest' || '0.161.0' }}
+        run: |
+          npm install --prefix "$RUNNER_TEMP/skill-clients" --no-save --no-package-lock "@openai/codex@$CODEX_VERSION"
+          echo "$RUNNER_TEMP/skill-clients/node_modules/.bin" >> "$GITHUB_PATH"
+      - name: Install Claude SDK and its bundled CLI
+        if: matrix.agent == 'claude-code'
+        run: python -m pip install -r requirements-agent-ci.txt
+      - name: Upgrade Claude SDK and bundled CLI for upstream coverage
+        if: matrix.agent == 'claude-code' && matrix.channel == 'latest'
+        run: python -m pip install --upgrade claude-agent-sdk
+      - name: Check Codex discovery
+        if: matrix.agent == 'codex'
+        run: python scripts/check_codex_skills.py --report "$RUNNER_TEMP/agent-support.json"
+      - name: Check Claude Code discovery
+        if: matrix.agent == 'claude-code'
+        run: python scripts/check_claude_skills.py --report "$RUNNER_TEMP/agent-support.json"
+      - name: Summarize discovery evidence
+        if: always()
+        env:
+          AGENT: ${{ matrix.agent }}
+          CHANNEL: ${{ matrix.channel }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          report = Path(os.environ["RUNNER_TEMP"]) / "agent-support.json"
+          lines = [f"## {os.environ['AGENT']} ({os.environ['CHANNEL']})", ""]
+          if report.is_file():
+              data = json.loads(report.read_text())
+              data.update(source_revision=os.environ["GITHUB_SHA"],
+                          channel=os.environ["CHANNEL"],
+                          run_url=os.environ["RUN_URL"])
+              report.write_text(json.dumps(data, indent=2) + "\n")
+              lines += [f"Client: `{data.get('client_version', 'unknown')}`",
+                        f"Discovery: **{data['status']}**", "",
+                        "| Skill | Discovery |", "| --- | --- |"]
+              for skill in data.get("skills", []):
+                  lines.append(f"| {skill['name']} | {skill['status']} |")
+              lines += ["", "Behavior tests: **not run**. No model request was sent."]
+              for note in data.get("policy_limitations", []):
+                  lines += ["", note]
+              for error in data.get("errors", []):
+                  lines += ["", f"- {error}"]
+          else:
+              lines += ["Discovery **not run**: setup failed before a report was created."]
+          with open(os.environ["GITHUB_STEP_SUMMARY"], "a") as summary:
+              summary.write("\n".join(lines) + "\n")
+          PY
+      - name: Upload discovery report
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: agent-support-${{ matrix.agent }}-${{ matrix.channel }}
+          path: ${{ runner.temp }}/agent-support.json
+          if-no-files-found: warn
+          retention-days: 14
+
+  support-table:
+    name: Build README support table
+    needs: discovery
+    if: always() && !cancelled()
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.11'
+      - name: Download pinned discovery reports
+        continue-on-error: true
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          pattern: agent-support-*-pinned
+          path: ${{ runner.temp }}/support-reports
+      - name: Render the README table
+        env:
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          mkdir -p "$RUNNER_TEMP/support-reports"
+          python scripts/update_agent_support.py --reports "$RUNNER_TEMP/support-reports" --revision "$GITHUB_SHA" --run-url "$RUN_URL" > "$RUNNER_TEMP/support-table.md"
+          cat "$RUNNER_TEMP/support-table.md" >> "$GITHUB_STEP_SUMMARY"
+      - name: Upload README preview
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: agent-support-readme
+          path: README.md
+          retention-days: 14
+
+  update-readme:
+    name: Update default-branch support table
+    needs: support-table
+    if: >-
+      always() && !cancelled() && needs.support-table.result == 'success' &&
+      github.event_name != 'pull_request' &&
+      github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Download generated README
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: agent-support-readme
+          path: ${{ runner.temp }}/support-readme
+      - name: Commit current discovery results
+        env:
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+        run: |
+          git fetch --no-tags origin "$DEFAULT_BRANCH"
+          if [ "$(git rev-parse FETCH_HEAD)" != "$GITHUB_SHA" ]; then
+            echo 'Default branch moved; leaving README for the newer run.' >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          cp "$RUNNER_TEMP/support-readme/README.md" README.md
+          if git diff --quiet -- README.md; then
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- README.md
+          git commit -m 'docs: update agent support table [skip ci]'
+          git push origin "HEAD:$DEFAULT_BRANCH"
