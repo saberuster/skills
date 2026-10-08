@@ -20,8 +20,8 @@ Task behavior and tool dependencies are described below and in
 &#9989; discovery passed; &#10060; discovery failed; &mdash; unknown.
 Channel: `pinned`. Versions:
 Codex `codex-cli 0.161.0`; Claude Code `2.1.292 (Claude Code)`.
-Tested source commit: `739eca8f5e7579ba3d848ef7f41c6f7a9e72dd4b`.
-Evidence: local discovery; hosted CI not run.
+Tested source commit: `14f5773832bbf8a89d8a6dcbf2baaf56f4a2709d`.
+Evidence: [CI run](https://github.com/saberuster/skills/actions/runs/37757319853).
 
 <!-- agent-support:end -->
 
