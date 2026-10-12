@@ -18,6 +18,13 @@ neither. Unknown provenance or unresolved local edits prevent automatic
 replacement. Shared directories may affect several agents. Real CLI execution
 and cross-host behavior require separate validation.
 
+Removal normally uses the CLI. A verified CLI limitation permits direct removal
+only for an explicitly authorized exact directory whose paths are free of
+links and whose contents are not shared with another agent. Shared records are
+preserved; unresolved stale records are reported. See the skill instructions
+for the complete conditions. Verify the selected agent and path, since a
+same-name inventory entry may belong to another agent's independent copy.
+
 Invoke this skill explicitly. Its Codex metadata disables automatic selection;
 Claude Code does not apply that metadata policy.
 

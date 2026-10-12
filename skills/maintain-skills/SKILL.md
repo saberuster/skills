@@ -5,8 +5,8 @@ description: List, install, update, or remove standalone agent skills through th
 
 # Maintain Skills
 
-Use `npx skills` for standalone skill maintenance. Let the CLI handle package
-files and source records; do not build another installer or registry.
+Use `npx skills` by default for standalone skill maintenance. Let the CLI handle
+package files and source records; do not build another installer or registry.
 
 ## Establish the operation
 
@@ -17,6 +17,13 @@ files and source records; do not build another installer or registry.
   CLI version and read `npx skills --help` before choosing flags. The commands
   below are examples, not a substitute for the installed version's behavior.
   If Node.js or npx is unavailable, report the missing prerequisite.
+- For a local source, use an explicit local path such as `./skills/design`
+  relative to the working directory, or an absolute path. A bare
+  `skills/design` can be interpreted as a remote `owner/repository` shorthand.
+  If expected skills are missing from a listing, check the resolved source
+  and directory layout before changing the search scope. Do not assume a
+  grouping directory requires an extra discovery flag; verify the available
+  CLI's search behavior first.
 - Inspect the selected scope with `list`, using JSON when supported. Identify
   skill paths, recorded sources, target agents, and resolved symlink or
   junction targets. A visible skill is not necessarily tracked for updates.
@@ -88,17 +95,34 @@ pass guessed flags, including subcommand help flags that may be ignored.
 
 Use the CLI's removal operation with explicit names, agents, and scope where
 supported. Inspect shared paths before claiming removal is isolated to one
-agent. Preserve packages still needed by other agents. If the CLI cannot honor
-the requested scope, explain the limitation instead of deleting directories
-manually. Treat plugin-owned skills and host-bundled system skills as outside
-this standalone workflow.
+agent. Distinguish independent copies from links to a shared package. Preserve
+packages still needed by other agents. Treat plugin-owned skills and
+host-bundled system skills as outside this standalone workflow.
+
+If the CLI cannot honor the requested scope, explain the limitation. Direct
+directory removal is permitted only when the user explicitly authorized that
+exact path, the available CLI's behavior is verified to leave it behind, and
+no other agent depends on that directory. A skill name or agent-only request
+does not by itself authorize this fallback. Honor any CLI-only constraint.
+
+Before direct removal, verify the resolved absolute target is the intended
+installation, with no symlink, junction, or other reparse point redirecting
+its ancestors, the target, or descendants. Delete only that directory; do not
+remove other same-name copies or sever another agent's links. If these
+conditions cannot be established, preserve it and report the unresolved scope.
+Use supported CLI operations to reconcile source records only when they
+preserve other installations. Keep shared or uncertain records and report any
+stale entries that remain; do not invent a registry-repair operation.
 
 ## Verify and report
 
 Read back the relevant inventory and, for mutations, check affected paths and
-available source records. Verify the requested selection and scope, including
-whether shared installations remain intact. Do not infer success solely from
-an exit code, or claim that file installation proves the current chat loaded it.
+available source records. Match entries to the requested agent, scope, and
+resolved installation path or binding: even a filtered list may include a
+same-name copy belonging to another agent. Its presence alone does not prove
+that the requested removal failed. Verify that other agents' copies, links,
+and needed source records remain intact. Do not infer success solely from an
+exit code, or claim that file installation proves the current chat loaded it.
 
 Report what succeeded, failed, or was skipped, with the affected scope and any
 remaining action. After partial failure, inspect the resulting state before a

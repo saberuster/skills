@@ -33,6 +33,15 @@ Planned next minor release: `0.2.0`.
 - Condensed repeated guidance in the four skill entrypoints and grouped Skills
   CLI command examples without changing scope, authorization, or validation
   requirements. Each skill retains its installation guidance and resources.
+- `maintain-skills` now distinguishes explicit local paths from remote
+  repository shorthand without assuming grouped skills need extra discovery
+  flags. Synthetic cases cover local source discovery and removals that
+  complete or partially complete before an abnormal process exit.
+- `maintain-skills` now allows direct removal of an explicitly authorized exact
+  directory when verified CLI limitations prevent removal and no links or
+  other-agent dependencies are involved. Removal checks distinguish independent
+  same-name copies, preserve shared records, and report unresolved stale entries.
+  Synthetic cases cover the fallback and its authorization and sharing limits.
 - Moved skill-specific installation, update, and usage guidance into each
   skill's README. The repository README now provides navigation, discovery
   status, and development entrypoints, with shared protocols in `docs/`.
