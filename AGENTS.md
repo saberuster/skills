@@ -44,8 +44,10 @@ and does not guarantee automatic line wrapping for every violation.
 The existing tests validate skill frontmatter and interface metadata, local
 Markdown links, and text hygiene. They do not validate agent decisions. For
 behavior changes, exercise relevant cases from `examples/` in an isolated
-project and report actual outcomes and coverage. Distinguish local checks from
-host discovery, behavior tests, and hosted CI results.
+project and report actual outcomes and coverage. Use the
+[behavior check guide](docs/behavior-checks.md) to prepare selected smoke cases
+and retain actual replies, file changes, and assessments. Distinguish local
+checks from host discovery, behavior tests, and hosted CI results.
 
 ## Keep contributions public-safe
 

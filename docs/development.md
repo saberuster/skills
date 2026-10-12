@@ -16,7 +16,7 @@ claim of successful task execution or automatic selection in every interface.
 | Validate package | Metadata, Markdown, local links, text hygiene, and checker regression tests |
 | Codex discovery | `skills/list` returns each copied skill with its expected name, description, path, enabled state, and no load errors |
 | Claude Code discovery | SDK initialization lists each copied skill's name and description as an available command |
-| Model behavior | Not run; the examples remain separate behavioral acceptance cases |
+| Model behavior | Not run by CI; execute selected cases with the [behavior check guide](behavior-checks.md) |
 
 Pushes, pull requests, and manual runs check pinned clients. A weekly run also
 checks the latest published Codex package and Claude SDK with its bundled CLI;
@@ -131,9 +131,9 @@ the static checks can run on Windows.
 
 The existing package workflow runs the static checks on Ubuntu, while the agent
 support workflow runs these separate discovery probes.
-Neither evaluates model decisions. Run behavioral cases separately in an
-isolated project and compare actions and resulting files with their documented
-expectations.
+Neither evaluates model decisions. Run selected
+[behavioral cases](behavior-checks.md) separately in an isolated project and
+compare actions and resulting files with their documented expectations.
 
 Claude discovery errors include the exception type and failure stage. The CLI
 version probe has a 15-second timeout; initialization has a 60-second timeout.

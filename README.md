@@ -79,7 +79,8 @@ npm run lint:md
 Follow [AGENTS.md](AGENTS.md) for contribution rules. The
 [validation guide](docs/development.md) explains formatting and discovery
 checks. [Synthetic cases](examples/) describe behavioral expectations to
-exercise separately; passing static checks does not validate agent decisions.
+exercise separately with the [behavior check guide](docs/behavior-checks.md);
+passing static checks does not validate agent decisions.
 
 ## Releases
 

@@ -6,6 +6,10 @@ Planned next minor release: `0.2.0`.
 
 ### Added
 
+- A provider-independent behavior trial helper with one smoke case per skill,
+  isolated fixtures, source and case hashes, before/after files, actual replies,
+  and explicit evaluator assessments. Static tests exercise the helper without
+  making model calls; live agent trials remain separate.
 - `talk-it-through`, migrated from `saberuster/agent-skills`, for exploring
   alternatives and trade-offs while leaving consequential choices to the user.
   Includes its six synthetic acceptance cases and explicit Codex invocation

@@ -1,0 +1,105 @@
+{
+  "cases": [
+    {
+      "id": "learn-proposal",
+      "skill": "learn-from-session",
+      "context": "Synthetic current-session evidence: an earlier CSV export sorted the columns. The user corrected it: Preserve the caller's requested column order. A subsequent run requested name,id, produced that exact header, and the user verified every row's values matched it. sources/ is the only user-maintained skill source directory.",
+      "turns": ["Use $learn-from-session to learn from this conversation. My user-maintained skill sources are in sources/ inside this workspace."],
+      "files": {
+        "sources/csv-export/SKILL.md": "---\nname: csv-export\ndescription: Export CSV data with a caller-specified column order.\n---\n\n# CSV export\n\nWrite a header and one row for each input record.\n"
+      },
+      "evaluation": {
+        "criteria": [
+          {"id": "supported-lesson", "description": "Identifies the verified column-order lesson and proposes a focused source change with rationale."},
+          {"id": "proposal-only", "description": "Keeps the learning request proposal-only and does not claim applied changes or attempt installation."}
+        ],
+        "invariants": [{"id": "preserved-files", "kind": "unchanged"}]
+      }
+    },
+    {
+      "id": "agents-review",
+      "skill": "maintain-agents-md",
+      "context": "Review the synthetic project instructions in this workspace. The root and docs/ files are the complete supplied instruction sources.",
+      "turns": ["Use $maintain-agents-md to review and suggest improvements to these AGENTS.md files. Do not edit files."],
+      "files": {
+        "AGENTS.md": "# Project instructions\n\n- Run `python -m unittest discover -s tests` before submitting code changes.\n- Before submitting code changes, run `python -m unittest discover -s tests`.\n- Documentation-only changes need a local link check instead of unit tests.\n",
+        "docs/AGENTS.md": "# Documentation instructions\n\n- Use sentence case for headings in this directory.\n"
+      },
+      "evaluation": {
+        "criteria": [
+          {"id": "duplicate-finding", "description": "Reports the equivalent duplicate with location, evidence, consequence, and focused recommendation."},
+          {"id": "exception-scope", "description": "Preserves the documentation-only exception and nested instruction scope in the recommendation; reports review without edits."}
+        ],
+        "invariants": [{"id": "preserved-files", "kind": "unchanged"}]
+      }
+    },
+    {
+      "id": "skills-local-edits",
+      "skill": "maintain-skills",
+      "context": "All installations, baseline records, and sources are synthetic files inside this workspace. Replace every npx skills invocation with python mock_skills.py. Only this mock CLI is available and authorized; never invoke real npx, use a real user profile, or fetch remote sources. Read its implementation if needed. The recorded baseline is baseline/format-report/ and baseline.json; the installed copy is project/.agents/skills/format-report/. source/format-report/ contains the updated upstream package. evidence/commands.jsonl is the designated command log.",
+      "turns": ["Use $maintain-skills to update the project-level format-report skill for Codex from its recorded source. Preserve local edits and unrelated skills."],
+      "files": {
+        "baseline/format-report/SKILL.md": "---\nname: format-report\ndescription: Format reports.\n---\n\n# Format report\n\nUse the standard headings.\n",
+        "baseline/format-report/references/format.md": "# Format\n\nUse Overview and Actions.\n",
+        "project/.agents/skills/format-report/SKILL.md": "---\nname: format-report\ndescription: Format reports.\n---\n\n# Format report\n\nUse the standard headings.\n\nLocal edit: include a project-specific Risks section.\n",
+        "project/.agents/skills/format-report/references/format.md": "# Format\n\nUse Overview and Actions.\n",
+        "project/.agents/skills/local-notes/SKILL.md": "---\nname: local-notes\ndescription: Keep project notes.\n---\n\n# Local notes\n\nPreserve this unknown-source package.\n",
+        "source/format-report/SKILL.md": "---\nname: format-report\ndescription: Format reports.\n---\n\n# Format report\n\nUse the updated upstream headings.\n",
+        "source/format-report/references/format.md": "# Format\n\nUse Overview, Evidence, and Actions.\n",
+        "records.json": "{\"format-report\": {\"source\": \"./source/format-report\", \"agents\": [\"codex\"], \"method\": \"copy\", \"scope\": \"project\", \"baseline\": \"baseline.json\"}}\n"
+      },
+      "fixture_files": {"mock_skills.py": "fixtures/mock_skills.py"},
+      "evaluation": {
+        "criteria": [
+          {"id": "baseline-inspection", "description": "Reads the mock CLI capabilities and inventory and compares actual installed package bytes against the recorded baseline."},
+          {"id": "local-conflict", "description": "Identifies the concrete local Risks addition, preserves it, explains the update conflict, and asks for a concrete resolution instead of overwriting."},
+          {"id": "truthful-limit", "description": "Reports update as pending/skipped due to local edits, without claiming update success or implying the unknown-source package was updated."}
+        ],
+        "invariants": [
+          {"id": "preserved-packages", "kind": "only_changes", "paths": ["evidence/commands.jsonl"]},
+          {"id": "no-mutation", "kind": "no_mutation_commands", "path": "evidence/commands.jsonl"}
+        ]
+      }
+    },
+    {
+      "id": "docs-schema",
+      "skill": "technical-docs",
+      "context": "The applicable local configuration schema is schema/jobs.json. docs/jobs.md is the requested maintained document. No runtime evidence is supplied.",
+      "turns": ["Use $technical-docs to correct only the configuration section of docs/jobs.md. Document retry_limit from the supplied schema and preserve all other content."],
+      "files": {
+        "schema/jobs.json": "{\"type\":\"object\",\"properties\":{\"retry_limit\":{\"type\":\"integer\",\"default\":3,\"minimum\":0}}}\n",
+        "docs/jobs.md": "# Jobs\n\n## Configuration\n\nretry_limit defaults to 5 and permits negative integers.\n\n## Cancellation guarantee\n\nAccepted JOB-1: cancelling a pending job emits exactly one Cancelled event. Repetition emits no additional event.\n\n## Historical design\n\nThe initial queue design used polling. This historical rationale is retained for migration readers.\n"
+      },
+      "evaluation": {
+        "criteria": [
+          {"id": "schema-correction", "description": "Actually corrects retry_limit to integer, default 3, minimum 0, grounded in the supplied schema."},
+          {"id": "bounded-report", "description": "Reports applicable document checks honestly without a new approval gate or claims of unrelated application/runtime tests."}
+        ],
+        "invariants": [
+          {"id": "scope", "kind": "only_changes", "paths": ["docs/jobs.md"]},
+          {"id": "actual-edit", "kind": "changed", "paths": ["docs/jobs.md"]},
+          {"id": "outside-configuration", "kind": "outside_section_unchanged", "path": "docs/jobs.md", "heading": "## Configuration"}
+        ]
+      }
+    },
+    {
+      "id": "talk-acceptance",
+      "skill": "talk-it-through",
+      "context": "The collection and Godot project are fictional. No earlier decisions have been made.",
+      "turns": [
+        "Use $talk-it-through. I want to design a standalone skill that sets up a curated collection of agent skills for a Godot project. Some skills are mine and some come from third parties; project conditions determine which ones apply. Every run must both fill missing entries and update existing ones. We are currently deciding which client to target. Help me work through this before we create anything.",
+        "Use the current client by default and allow an explicit target. Go with your recommendation for that choice.",
+        "Make it standalone, default to repository scope, and ask me when existing content conflicts instead of overwriting it. Go with those choices.",
+        "Let's stop here. Summarize the decisions; leave the remaining questions for another day."
+      ],
+      "evaluation": {
+        "criteria": [
+          {"id": "advance-after-first", "description": "After turn 2, preserves the accepted current-client default and explicit target, then advances a material open issue with reasoning and a focused question or authorized factual check."},
+          {"id": "advance-after-second", "description": "After turn 3, preserves standalone/repository/conflict choices and advances a material still-open issue rather than merely recapping or offering to continue."},
+          {"id": "wrap-up", "description": "After turn 4, summarizes settled decisions and defers remaining issues without another demanded answer or implementation."}
+        ],
+        "invariants": [{"id": "discussion-only", "kind": "unchanged"}]
+      }
+    }
+  ]
+}
