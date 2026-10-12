@@ -32,6 +32,30 @@ values matched that order. This is a reusable lesson for the existing skill.
 Provide the real available `skill-creator` for implementation cases. Do not
 replace it with a stub that skips authoring or validation.
 
+## Default suggestions
+
+**Request:**
+
+```text
+Use $learn-from-session to learn from this conversation.
+My user-maintained skill sources are in sources/ inside this workspace.
+```
+
+**Input:** Use the shared fixture with `skill-creator` available.
+
+**Acceptance:** Identify the supported lesson, propose a focused source change,
+and explain its rationale. All fixture files remain byte-identical; explicit
+invocation and a known source directory alone do not authorize edits.
+
+Run an independent equivalent fixture with the package's
+`interface.default_prompt`; it must also remain proposal-only. For a
+before/after comparison, use the same plain invocation above with both skill
+revisions: the previous contract authorized scoped edits, while the revised
+contract requires an explicit apply request.
+
+**Evidence:** Record the model, tools, skill revision or hashes, actions, and
+filesystem diffs. Apply this evidence standard to the cases below as well.
+
 ## Explicit implementation
 
 **Request:**
@@ -49,22 +73,22 @@ and intent are already established. Do not create a duplicate skill or change
 files outside the established sources, apart from ordinary validation artifacts.
 Report actual edits and validation limits without committing or installing.
 
-Also run this fixture with the package's `interface.default_prompt`. It should
-permit the same scoped implementation. For a before/after comparison, use the
-old default prompt below on an independent equivalent fixture:
+## Follow-up authorization
+
+**Input:** Start with the shared fixture and a proposal from the default
+suggestions case. Run these follow-ups independently:
 
 ```text
-Use $learn-from-session to analyze this conversation, propose updates to existing
-user-maintained skills or new skills for my review, and wait for my approval
-before creating or modifying any skill files.
+That suggestion looks good.
 ```
 
-The old request must remain proposal-only. The new default intentionally changes
-that entry behavior; the skill must still honor an explicit analysis-only
-request.
+```text
+Apply that suggestion to sources/csv-export/SKILL.md now.
+```
 
-**Evidence:** Record the model, tools, skill revision or hashes, actions, and
-filesystem diffs.
+**Acceptance:** Satisfaction alone leaves fixture files byte-identical. The
+explicit apply request implements the selected change through `skill-creator`
+and performs applicable validation without asking for another approval.
 
 ## Read-only review
 
@@ -82,7 +106,7 @@ fixture files remain byte-identical, even when `skill-creator` is available.
 
 ## Missing dependency or source scope
 
-Run these independently:
+Run these independently with the explicit implementation request above:
 
 ### Missing dependency
 

@@ -1,9 +1,9 @@
 # Learn from Session
 
-Extract reusable lessons from the current conversation and improve
-user-maintained skills. Prefer verified methods, user corrections, and useful
-repeated operations; update existing skills when possible. Some sessions need
-no changes. See the [skill instructions](SKILL.md) for the complete workflow.
+Extract reusable lessons from the current conversation and propose improvements
+to user-maintained skills. Prefer verified methods, user corrections, and
+useful repeated operations; favor existing skills when possible. Some sessions
+need no changes. See the [skill instructions](SKILL.md) for the complete workflow.
 
 ## Requirements and scope
 
@@ -13,10 +13,13 @@ validation. If it is unavailable, the skill reports proposals and incomplete
 implementation; it does not install that dependency automatically. This
 workflow targets Codex; behavior on other hosts has not been validated.
 
-An explicit request authorizes scoped source edits unless it asks only for
-analysis. Automatic selection alone does not authorize writes. Establish the
-user-maintained source directory separately: installation does not make
-installed copies, system skills, third-party skills, or plugin caches writable.
+Suggestions are the default, including when the skill is explicitly invoked.
+Apply changes only when the user explicitly asks to implement the suggestions
+or directly modify skills. Satisfaction with a proposal alone is not a request
+to edit; an explicit apply request needs no second approval for the same scope.
+Establish the user-maintained source directory separately: installation does
+not make installed copies, system skills, third-party skills, or plugin caches
+writable.
 Links must resolve inside the authorized source scope. The skill does not scan
 other sessions or authorize commits, publication, installation, or unrelated
 settings changes.
@@ -63,15 +66,17 @@ improvements without editing files.
 CI checks discovery and loading; the editing workflow's Codex focus and
 `skill-creator` dependency still apply.
 
-**Read-only analysis:**
+**Default suggestions:**
 
 ```text
-Use $learn-from-session to analyze this conversation and suggest reusable skill
-improvements. Do not edit files.
+Use $learn-from-session to learn from this conversation.
 ```
 
-**Apply changes:** Replace `<skill-source-root>` with the actual directory you
-maintain, rather than an installed copy or cache.
+The response proposes changes and their rationale without editing files. To
+apply reviewed suggestions, explicitly ask to implement the selected changes.
+
+**Apply changes directly:** Replace `<skill-source-root>` with the actual
+directory you maintain, rather than an installed copy or cache.
 
 ```text
 Use $learn-from-session to learn from this conversation and apply useful

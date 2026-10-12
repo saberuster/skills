@@ -1,6 +1,6 @@
 ---
 name: learn-from-session
-description: Learn reusable lessons from the current conversation and use skill-creator to update or create user-maintained skills. Use when asked to learn from this session, not for historical-session or project-wide analysis.
+description: Extract reusable lessons from the current conversation and propose improvements to user-maintained skills. Apply changes through skill-creator only when explicitly requested. Use when asked to learn from this session, not for historical-session or project-wide analysis.
 ---
 
 # Learn from Session
@@ -29,11 +29,18 @@ description: Learn reusable lessons from the current conversation and use skill-
   reduces repeated implementation, fragile handling, or steps; repetition or
   line count alone is insufficient. Keep judgment separate from executable steps.
 
-## Apply
+## Propose by default
 
-An explicit request to run this skill authorizes the scoped skill edits unless
-the user asks only for analysis or suggestions. Automatic selection alone does
-not authorize writes.
+Present supported lessons, the proposed source changes, and why they help.
+Default to suggestions without creating or modifying files. Invoking this
+skill, asking to learn from a session, or expressing satisfaction with a
+proposal does not by itself authorize writes.
+
+## Apply when explicitly requested
+
+Apply changes only when the user explicitly asks to implement selected
+suggestions or directly modify skills. Honor such authorization already given
+in the conversation; do not request a second approval for the same scope.
 
 Only write to skill source directories established by the user or project
 instructions as user-maintained. Resolve links and junctions and check that the
@@ -51,6 +58,6 @@ For selected scripts, pass inputs, outputs, prerequisites, failure behavior,
 and representative verification cases to `skill-creator`. Keep each script in
 the source skill that owns the task, and document when and how to call it.
 
-Briefly report what was learned, which files changed, and what was checked or
-remains unverified. For analysis-only requests, report proposals without
-editing. No separate report file is needed unless requested.
+After applying changes, briefly report what was learned, which files changed,
+and what was checked or remains unverified. No separate report file is needed
+unless requested.

@@ -65,10 +65,10 @@ Planned next minor release: `0.2.0`.
 - Standardized example titles and case labels, skill-body wrapping, and
   changelog list spacing without changing behavior.
 - Installation and update instructions now accept a selected skill name.
-- The migrated skill's default prompt requests scoped implementation, matching
-  its explicit-invocation contract, instead of always requesting approval
-  first. Analysis-only requests remain read-only; implicit selection does not
-  authorize writes. Implicit invocation remains enabled.
+- `learn-from-session` now defaults to proposals without editing files,
+  including explicit invocation and its default prompt. Applying suggestions
+  or directly modifying skills requires an explicit user request; existing
+  authorization needs no repeated approval. Implicit invocation remains enabled.
 
 ## 0.1.0 - 2026-10-02
 
