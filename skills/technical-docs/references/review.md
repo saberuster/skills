@@ -34,7 +34,12 @@ when revisions are requested, complete the corrections within that scope.
   diagrams, or format-specific features changed; disclose an unavailable
   renderer.
 - Check whether readers can access the referenced material. A useful
-  cross-reference need not be expanded into duplicated prose.
+  cross-reference need not be expanded into duplicated prose. For moved,
+  copied, or packaged documents, resolve links from the delivery location:
+  bundled targets must remain available, and external material needs an
+  appropriate source readers can access. Report unverified access separately
+  from observed broken links; this does not require every document to be
+  packaged, every link to be absolute, or every task to use the network.
 - After consolidation, preserve relevant decisions, requirement IDs, current
   entrypoints, and history. Update affected inbound links and document
   replacement locations under local conventions.

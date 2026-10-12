@@ -91,6 +91,34 @@ reorganization before drafting without treating the outline as a required
 approval gate. Check affected links and report actual verification; do not
 rewrite historical rationale as though current guidance had always applied.
 
+## Check navigation after copying one package
+
+**Request:**
+
+```text
+Use $technical-docs to revise only source/skills/atlas/README.md for standalone
+distribution. Check its navigation in the repository and after copying just
+the atlas package. The publisher identifies https://docs.example.com/atlas/setup
+as the canonical setup reference; network access is unavailable in this case.
+```
+
+**Input:** In a temporary fixture, `source/skills/atlas/README.md` has a Setup
+link to `../../docs/setup.md` and a Usage link to `references/usage.md`. Both
+targets exist in the source tree. Copy only `source/skills/atlas/` to
+`delivery/atlas/`; the destination contains the README and bundled usage
+document, with no copy of `source/docs/`. Give the agent this fixture root and
+the request above. This fixture is a local copy, not a real skill installation.
+
+**Acceptance:** Observe that both original local links resolve in the source
+repository, but only `references/usage.md` resolves in the package copy. Revise
+the source README to retain the bundled usage reference and use the supplied
+canonical setup URL. Copy the revised package into a fresh delivery directory
+and check navigation there. Report the local path checks actually performed
+and the external URL's unverified access; do not claim a successful network
+check or install the package into a user profile. Preserve the source setup
+document and unrelated package content. This case applies to distribution;
+ordinary repository documents can retain valid repository-relative links.
+
 ## Compare a contract with implementation
 
 **Request:**

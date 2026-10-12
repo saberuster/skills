@@ -103,6 +103,11 @@ examples in an available, authorized environment; if that is not possible,
 identify the missing prerequisite and distinguish static inspection from
 execution. Prose-only edits do not require unrelated application tests.
 
+When documentation is moved, copied, or packaged, check links from its intended
+delivery location. Keep bundled references valid there and use accessible
+sources for material outside the delivered package; repository-local existence
+alone does not prove that a delivered reference works.
+
 For a substantial new document or reorganization, consider an independent reader
 check using the document and the references its intended readers can access.
 Check whether readers can find and use the information; this does not establish

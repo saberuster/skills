@@ -42,6 +42,9 @@ Planned next minor release: `0.2.0`.
   other-agent dependencies are involved. Removal checks distinguish independent
   same-name copies, preserve shared records, and report unresolved stale entries.
   Synthetic cases cover the fallback and its authorization and sharing limits.
+- `technical-docs` now checks navigation from the intended delivery location
+  when documents are moved, copied, or packaged, with a synthetic package-copy
+  case and explicit limits for unverified external references.
 - Moved skill-specific installation, update, and usage guidance into each
   skill's README. The repository README now provides navigation, discovery
   status, and development entrypoints, with shared protocols in `docs/`.
