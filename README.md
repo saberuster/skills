@@ -17,9 +17,9 @@ the coverage limits.
 
 | Skill | Codex | Claude Code |
 | --- | --- | --- |
-| [brief-to-image-prompt](skills/brief-to-image-prompt/README.md) | &mdash; | &mdash; |
-| [gpt-image-prompting](skills/gpt-image-prompting/README.md) | &mdash; | &mdash; |
-| [image-to-prompt](skills/image-to-prompt/README.md) | &mdash; | &mdash; |
+| [brief-to-image-prompt](skills/brief-to-image-prompt/README.md) | &#9989; | &#9989; |
+| [gpt-image-prompting](skills/gpt-image-prompting/README.md) | &#9989; | &#9989; |
+| [image-to-prompt](skills/image-to-prompt/README.md) | &#9989; | &#9989; |
 | [learn-from-session](skills/learn-from-session/README.md) | &#9989; | &#9989; |
 | [maintain-agents-md](skills/maintain-agents-md/README.md) | &#9989; | &#9989; |
 | [maintain-skills](skills/maintain-skills/README.md) | &#9989; | &#9989; |
@@ -29,8 +29,8 @@ the coverage limits.
 &#9989; discovery passed; &#10060; discovery failed; &mdash; unknown.
 Channel: `pinned`. Versions:
 Codex `codex-cli 0.161.0`; Claude Code `2.1.292 (Claude Code)`.
-Tested source commit: `191bb2db39c1acd10cbb3509f214850cb6e9ce3b`.
-Evidence: [CI run](https://github.com/saberuster/skills/actions/runs/38260495835).
+Tested source commit: `875e33705dcaac3558fee681579e2807532cd825`.
+Evidence: [CI run](https://github.com/saberuster/skills/actions/runs/38273043668).
 
 <!-- agent-support:end -->
 
