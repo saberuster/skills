@@ -6,7 +6,13 @@ Planned next minor release: `0.2.0`.
 
 ### Added
 
-- A provider-independent behavior trial helper with one smoke case per skill,
+- `gpt-image-prompting`, a shared six-section GPT Image prompt standard, with
+  delivery requirements inside one copyable prompt and conditional guidance
+  for styles, game assets, references, edits, lettering, and related outputs.
+- `brief-to-image-prompt` and `image-to-prompt`, lightweight entries that use
+  the core for preference-led brief refinement and standalone image-to-text
+  prompting. Includes synthetic cases and explicit core dependency guidance.
+- A provider-independent behavior trial helper with selected smoke cases,
   isolated fixtures, source and case hashes, before/after files, actual replies,
   and explicit evaluator assessments. Static tests exercise the helper without
   making model calls; live agent trials remain separate.

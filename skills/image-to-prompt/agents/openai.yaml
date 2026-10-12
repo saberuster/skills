@@ -1,0 +1,7 @@
+interface:
+  display_name: "Image to Prompt"
+  short_description: "Describe an image as a self-contained GPT Image prompt"
+  default_prompt: "Use $image-to-prompt to describe this reference as a self-contained GPT Image prompt, preserving the features I choose."
+
+policy:
+  allow_implicit_invocation: true

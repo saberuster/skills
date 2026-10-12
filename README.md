@@ -3,7 +3,8 @@
 Focused standalone agent skills by saberuster, licensed under the
 [MIT License](LICENSE). Use them to maintain project instructions and installed
 skills, learn from a session, write technical documentation, and work through
-ideas and decisions.
+ideas and decisions, or compose structured GPT Image prompts from briefs and
+reference images.
 
 ## Available skills
 
@@ -16,6 +17,9 @@ the coverage limits.
 
 | Skill | Codex | Claude Code |
 | --- | --- | --- |
+| [brief-to-image-prompt](skills/brief-to-image-prompt/README.md) | &mdash; | &mdash; |
+| [gpt-image-prompting](skills/gpt-image-prompting/README.md) | &mdash; | &mdash; |
+| [image-to-prompt](skills/image-to-prompt/README.md) | &mdash; | &mdash; |
 | [learn-from-session](skills/learn-from-session/README.md) | &#9989; | &#9989; |
 | [maintain-agents-md](skills/maintain-agents-md/README.md) | &#9989; | &#9989; |
 | [maintain-skills](skills/maintain-skills/README.md) | &#9989; | &#9989; |

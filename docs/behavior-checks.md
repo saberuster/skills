@@ -4,8 +4,8 @@ Use a fresh agent and an isolated fixture to exercise selected skill behavior.
 These checks complement static tests and client discovery. They do not prove
 automatic selection, another client's behavior, or a real installation workflow.
 
-The [smoke cases](../examples/behavior-smoke.json) select one representative
-case per skill from the broader examples:
+The [smoke cases](../examples/behavior-smoke.json) cover selected workflows from
+the broader examples:
 
 | Case | Skill and behavior |
 | --- | --- |
