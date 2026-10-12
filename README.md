@@ -29,8 +29,8 @@ after CI checks the new package.
 &#9989; discovery passed; &#10060; discovery failed; &mdash; unknown.
 Channel: `pinned`. Versions:
 Codex `codex-cli 0.161.0`; Claude Code `2.1.292 (Claude Code)`.
-Tested source commit: `56b881aaa372ebf2eb5967d23fb9fa82c93af41a`.
-Evidence: [CI run](https://github.com/saberuster/skills/actions/runs/38217983572).
+Tested source commit: `ce098484751c240d6174ad798c62031b36b66241`.
+Evidence: [CI run](https://github.com/saberuster/skills/actions/runs/38235794659).
 
 <!-- agent-support:end -->
 
