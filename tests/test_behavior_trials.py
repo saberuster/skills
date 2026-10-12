@@ -27,7 +27,7 @@ class BehaviorTrialsTests(unittest.TestCase):
         shutil.copytree(ROOT / "examples/fixtures", self.spec_path.parent / "fixtures")
         for case in trials.read_json(self.spec_path)["cases"]:
             package = self.source / "skills" / case["skill"]
-            (package / "references").mkdir(parents=True)
+            (package / "references").mkdir(parents=True, exist_ok=True)
             (package / "SKILL.md").write_text("Synthetic complete source\n")
             (package / "references/detail.txt").write_text("Bundled resource\n")
         self.run = self.root / "run"
@@ -92,7 +92,10 @@ class BehaviorTrialsTests(unittest.TestCase):
         inputs = trials.read_json(trial / "input.json")
         self.assertNotIn("evaluation", inputs)
         self.assertFalse((trial / "workspace/evaluator.json").exists())
-        self.assertEqual(len(list(self.run.iterdir())), 5)
+        self.assertEqual(
+            len(list(self.run.iterdir())),
+            len(trials.read_json(self.spec_path)["cases"]),
+        )
 
     def test_prepare_never_overwrites(self):
         baseline = trials.hashes(self.run)

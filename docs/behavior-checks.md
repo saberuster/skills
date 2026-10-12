@@ -14,6 +14,7 @@ the broader examples:
 | `skills-local-edits` | [maintain-skills](../examples/maintain-skills.md): identify and preserve local edits before an update |
 | `docs-schema` | [technical-docs](../examples/technical-docs.md): apply a scoped schema correction while preserving accepted content |
 | `talk-acceptance` | [talk-it-through](../examples/talk-it-through.md): advance after local acceptance and stop when asked |
+| `ready-*` (eight cases) | [agent-ready](../examples/agent-ready.md): trace real fixture tasks, calibrate recommendations, distinguish validation layers, and preserve review scope |
 
 ## Prepare
 
@@ -43,6 +44,14 @@ request from `input.json`. Allow only the fixture operations requested by that
 case. Keep `evaluator.json`, `manifest.json`, and `before/` out of its context.
 For `talk-acceptance`, deliver each subsequent request only after receiving the
 previous actual reply, keeping the same session. Do not add hints to continue.
+
+The eight `ready-*` cases are executable synthetic project reviews. Their
+Python standard-library commands use `-B` to preserve the read-only workspace;
+inspect command effects before running them. Do not start listeners, install
+dependencies, or execute data-writing paths. Supply only worker inputs, never
+the expected diagnoses from the case descriptions or evaluator criteria. A
+passing simulated review does not establish readiness of a real project or
+prove browser, rendering, or human-experience behavior.
 
 The maintenance case replaces `npx skills` with `python mock_skills.py`. Its
 inventory, source records, upstream files, and command log are synthetic. Never
