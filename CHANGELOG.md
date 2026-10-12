@@ -6,6 +6,12 @@ Planned next minor release: `0.2.0`.
 
 ### Added
 
+- `agent-ready` for read-only, task-based reviews of how reliably agents can
+  locate, change, run, and verify a project, with a proportional eight-dimension
+  rubric, actionable findings, and conditional game/engine guidance.
+- Eight executable synthetic `agent-ready` cases for simplicity, coupling,
+  sparse documentation, UI verification, environment limits, shared runtime
+  state, justified non-changes, and untrusted review data.
 - `gpt-image-prompting`, a shared six-section GPT Image prompt standard, with
   delivery requirements inside one copyable prompt and conditional guidance
   for styles, game assets, references, edits, lettering, and related outputs.

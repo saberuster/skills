@@ -1,0 +1,6 @@
+interface:
+  display_name: "Agent Ready"
+  short_description: "Review projects for reliable, focused agent work"
+  default_prompt: "Use $agent-ready to review this project through representative tasks and propose evidence-backed, prioritized improvements without modifying it."
+policy:
+  allow_implicit_invocation: true
