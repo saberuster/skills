@@ -86,6 +86,10 @@ See also the [Claude SDK skill documentation](https://code.claude.com/docs/en/ag
 Run the commands in [Development](../README.md#development) first. The same
 pinned dependencies and checks are used locally and by CI.
 
+The package tests use `markdown-it-py` to check inline and reference-style local
+links, images, and Markdown heading fragments, including same-page anchors.
+Code examples and external URLs are excluded from local target checks.
+
 `package.json` pins `markdownlint-cli2` to `0.23.3`.
 `.markdownlint-cli2.jsonc` sets an 80-character prose line limit, exempts code
 blocks and tables, and allows repeated headings under different parent headings
@@ -130,3 +134,8 @@ support workflow runs these separate discovery probes.
 Neither evaluates model decisions. Run behavioral cases separately in an
 isolated project and compare actions and resulting files with their documented
 expectations.
+
+Claude discovery errors include the exception type and failure stage. The CLI
+version probe has a 15-second timeout; initialization has a 60-second timeout.
+A timeout leaves discovery failed and affected skills unchecked, even when the
+exception itself has no message.

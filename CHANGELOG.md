@@ -34,6 +34,10 @@ Planned next minor release: `0.2.0`.
 
 ### Changed
 
+- Claude discovery failures now retain exception types and execution stages,
+  including explicit CLI-version and initialization timeout diagnostics.
+- Local Markdown checks now parse links and images, including reference-style
+  destinations and heading fragments, while ignoring code examples.
 - Removed the installation protocol's requirement to copy the repository root
   license into each installed skill package.
 - Moved `talk-it-through` acceptance cases into `examples/` and updated its

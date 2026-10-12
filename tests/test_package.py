@@ -1,11 +1,11 @@
 """Static package checks; these do not test model behavior."""
 
-import re
 import unittest
 from pathlib import Path
-from urllib.parse import unquote, urlsplit
 
 import yaml
+
+from scripts.check_markdown_links import check_markdown_links
 
 ROOT = Path(__file__).resolve().parents[1]
 SKILLS = ROOT / "skills"
@@ -42,22 +42,16 @@ class PackageTests(unittest.TestCase):
                 self.assertIsInstance(ui["policy"]["allow_implicit_invocation"], bool)
 
     def test_local_markdown_links(self):
-        for path in ROOT.rglob("*.md"):
-            if any(
-                part in {".git", ".venv", ".ruff_cache", "__pycache__", "node_modules"}
-                for part in path.relative_to(ROOT).parts
-            ):
-                continue
-            for target in re.findall(
-                r"(?<!!)\[[^\]]+\]\(([^)]+)\)", path.read_text(encoding="utf-8")
-            ):
-                link = urlsplit(target)
-                if link.scheme or not link.path:
-                    continue
-                with self.subTest(path=path.relative_to(ROOT), target=target):
-                    resolved = (path.parent / unquote(link.path)).resolve()
-                    self.assertTrue(resolved.is_relative_to(ROOT))
-                    self.assertTrue(resolved.exists(), "Missing local link target")
+        findings = check_markdown_links(ROOT)
+        self.assertEqual(
+            findings,
+            [],
+            "\n".join(
+                f"{item.document.relative_to(ROOT)}:{item.line}: "
+                f"{item.message}: {item.target}"
+                for item in findings
+            ),
+        )
 
     def test_release_text_hygiene(self):
         for path in ROOT.rglob("*"):

@@ -4,14 +4,18 @@ import asyncio
 import io
 import json
 import os
+import subprocess
 import tempfile
 import unittest
+from contextlib import contextmanager
 from pathlib import Path
-from unittest.mock import patch
+from types import ModuleType, SimpleNamespace
+from unittest.mock import AsyncMock, Mock, patch
 
 from scripts.check_claude_skills import (
     check,
     copy_skills,
+    discovery_stage,
     expected_skills,
     initialization_info,
     isolated_environment,
@@ -130,8 +134,41 @@ class ReportTests(unittest.TestCase):
             report = check(Path("unused"), discovery_runner=runner)
         self.assertEqual(report["client_version"], "Claude test")
         self.assertEqual(report["skills"][0]["status"], "not_checked")
-        self.assertEqual(report["errors"], ["Initialization failed"])
+        self.assertEqual(
+            report["errors"], ["discovery: ValueError: Initialization failed"]
+        )
         self.assertFalse(report["scan_completed"])
+
+    def test_empty_exception_message_keeps_type_and_stage(self):
+        for stage, target in (
+            ("source metadata", "scripts.check_claude_skills.expected_skills"),
+            ("discovery", "scripts.check_claude_skills.run_discovery"),
+        ):
+            with self.subTest(stage=stage):
+                with (
+                    patch(
+                        "scripts.check_claude_skills.expected_skills",
+                        return_value={"sample": {"description": "Sample"}},
+                    ),
+                    patch(target, side_effect=TimeoutError()),
+                ):
+                    report = check(Path("unused"))
+                self.assertEqual(report["errors"], [f"{stage}: TimeoutError"])
+                self.assertEqual(report["status"], "failed")
+                self.assertFalse(report["scan_completed"])
+                self.assertEqual(report["model_turns"], 0)
+                self.assertEqual(report["behavior"], "not_run")
+
+    def test_stage_annotation_preserves_exception_and_existing_notes(self):
+        error = TimeoutError()
+        error.add_note("Existing diagnostic")
+        with self.assertRaises(TimeoutError) as caught:
+            with discovery_stage("synthetic stage"):
+                raise error
+        self.assertIs(caught.exception, error)
+        self.assertEqual(
+            error.__notes__, ["Existing diagnostic", "Discovery stage: synthetic stage"]
+        )
 
     def test_malformed_response_is_not_a_completed_scan(self):
         with patch(
@@ -141,6 +178,79 @@ class ReportTests(unittest.TestCase):
             report = check(Path("unused"), discovery_runner=lambda *args: {})
         self.assertFalse(report["scan_completed"])
         self.assertEqual(report["skills"][0]["status"], "not_checked")
+
+
+class TimeoutTests(unittest.TestCase):
+    def test_live_runner_timeout_reports_are_fail_closed_without_client_dependencies(
+        self,
+    ):
+        for stage in ("CLI version probe", "Claude initialization"):
+            with self.subTest(stage=stage):
+                anyio = ModuleType("anyio")
+                sdk = ModuleType("claude_agent_sdk")
+                sdk.ClaudeAgentOptions = Mock(return_value="synthetic options")
+                time_limits = []
+
+                @contextmanager
+                def fail_after(seconds):
+                    time_limits.append(seconds)
+                    yield
+
+                anyio.fail_after = fail_after
+                anyio.run = Mock(
+                    side_effect=lambda function, options: asyncio.run(function(options))
+                )
+                version_probe = Mock(return_value=SimpleNamespace(stdout="Claude test"))
+                if stage == "CLI version probe":
+                    version_probe.side_effect = subprocess.TimeoutExpired(
+                        ["synthetic-claude", "--version"], 15
+                    )
+                initialize = AsyncMock(side_effect=TimeoutError())
+                with (
+                    patch.dict(
+                        "sys.modules", {"anyio": anyio, "claude_agent_sdk": sdk}
+                    ),
+                    patch(
+                        "scripts.check_claude_skills.expected_skills",
+                        return_value={"sample": {"description": "Sample"}},
+                    ),
+                    patch(
+                        "scripts.check_claude_skills.importlib.metadata.version",
+                        return_value="SDK test",
+                    ),
+                    patch(
+                        "scripts.check_claude_skills.cli_executable",
+                        return_value="synthetic-claude",
+                    ),
+                    patch("scripts.check_claude_skills.copy_skills"),
+                    patch("scripts.check_claude_skills.subprocess.run", version_probe),
+                    patch(
+                        "scripts.check_claude_skills.initialization_info", initialize
+                    ),
+                ):
+                    report = check(Path("unused"))
+                self.assertEqual(report["status"], "failed")
+                self.assertFalse(report["scan_completed"])
+                self.assertEqual(report["model_turns"], 0)
+                self.assertEqual(report["behavior"], "not_run")
+                self.assertEqual(report["sdk_version"], "SDK test")
+                self.assertEqual(report["skills"][0]["status"], "not_checked")
+                self.assertEqual(len(report["errors"]), 1)
+                self.assertIn(f"Discovery stage: {stage}", report["errors"][0])
+                self.assertEqual(version_probe.call_args.kwargs["timeout"], 15)
+                if stage == "CLI version probe":
+                    self.assertIn("TimeoutExpired", report["errors"][0])
+                    self.assertIn("15-second timeout", report["errors"][0])
+                    self.assertIsNone(report["client_version"])
+                    anyio.run.assert_not_called()
+                    initialize.assert_not_called()
+                    self.assertEqual(time_limits, [])
+                else:
+                    self.assertIn("TimeoutError", report["errors"][0])
+                    self.assertIn("60-second timeout", report["errors"][0])
+                    self.assertEqual(report["client_version"], "Claude test")
+                    initialize.assert_awaited_once_with("synthetic options")
+                    self.assertEqual(time_limits, [60])
 
 
 class IsolationTests(unittest.TestCase):

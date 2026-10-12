@@ -122,6 +122,16 @@ def process_environment(env):
         os.environ.update(previous)
 
 
+@contextmanager
+def discovery_stage(stage):
+    """Annotate failures without replacing their exception type or traceback."""
+    try:
+        yield
+    except Exception as error:
+        error.add_note(f"Discovery stage: {stage}")
+        raise
+
+
 async def initialization_info(options, client_factory=None):
     """An empty SDK connection only initializes; never send a user prompt."""
     if client_factory is None:
@@ -200,44 +210,50 @@ def cli_executable(override):
 
 def run_discovery(root, claude, expected, report):
     """Collect live initialization evidence, preserving versions before startup."""
-    import anyio
-    from claude_agent_sdk import ClaudeAgentOptions
+    with discovery_stage("SDK setup"):
+        import anyio
+        from claude_agent_sdk import ClaudeAgentOptions
 
-    report["sdk_version"] = importlib.metadata.version("claude-agent-sdk")
-    executable = cli_executable(claude)
+        report["sdk_version"] = importlib.metadata.version("claude-agent-sdk")
+    with discovery_stage("CLI executable resolution"):
+        executable = cli_executable(claude)
     with tempfile.TemporaryDirectory(prefix="claude-skill-discovery-") as temporary:
-        base = Path(temporary)
-        project = base / "project"
-        project.mkdir()
-        copy_skills(root, project, expected)
-        env = isolated_environment(base / "home")
-        report["client_version"] = subprocess.run(
-            [executable, "--version"],
-            cwd=project,
-            env=env,
-            check=True,
-            capture_output=True,
-            text=True,
-            timeout=15,
-        ).stdout.strip()
-        options = ClaudeAgentOptions(
-            cwd=str(project),
-            cli_path=executable,
-            setting_sources=["project"],
-            tools=[],
-            mcp_servers={},
-            settings=json.dumps({"disableAllHooks": True}),
-            extra_args={"strict-mcp-config": None, "no-session-persistence": None},
-            env=env,
-        )
-        with process_environment(env):
-            info = anyio.run(bounded_initialization, options)
+        with discovery_stage("isolated project setup"):
+            base = Path(temporary)
+            project = base / "project"
+            project.mkdir()
+            copy_skills(root, project, expected)
+            env = isolated_environment(base / "home")
+        with discovery_stage("CLI version probe (15-second timeout)"):
+            report["client_version"] = subprocess.run(
+                [executable, "--version"],
+                cwd=project,
+                env=env,
+                check=True,
+                capture_output=True,
+                text=True,
+                timeout=15,
+            ).stdout.strip()
+        with discovery_stage("Claude initialization (60-second timeout)"):
+            options = ClaudeAgentOptions(
+                cwd=str(project),
+                cli_path=executable,
+                setting_sources=["project"],
+                tools=[],
+                mcp_servers={},
+                settings=json.dumps({"disableAllHooks": True}),
+                extra_args={"strict-mcp-config": None, "no-session-persistence": None},
+                env=env,
+            )
+            with process_environment(env):
+                info = anyio.run(bounded_initialization, options)
         # Initialization must not change even the temporary installed packages.
-        for name in expected:
-            if file_hashes(root / "skills" / name) != file_hashes(
-                project / ".claude" / "skills" / name
-            ):
-                raise ValueError(f"Package changed during initialization: {name}")
+        with discovery_stage("package integrity verification"):
+            for name in expected:
+                if file_hashes(root / "skills" / name) != file_hashes(
+                    project / ".claude" / "skills" / name
+                ):
+                    raise ValueError(f"Package changed during initialization: {name}")
     return info
 
 
@@ -258,6 +274,7 @@ def check(root, claude=None, discovery_runner=None):
             "and explicit-invocation restrictions are not verified by this check."
         ],
     }
+    stage = "source metadata"
     try:
         expected = expected_skills(root)
         report["skills"] = [
@@ -265,7 +282,9 @@ def check(root, claude=None, discovery_runner=None):
             for name, source in expected.items()
         ]
         runner = discovery_runner or run_discovery
+        stage = "discovery"
         info = runner(root, claude, expected, report)
+        stage = "command verification"
         report["skills"], report["errors"] = verify_commands(info, expected)
         report["scan_completed"] = all(
             row["status"] in {"passed", "failed"} for row in report["skills"]
@@ -273,7 +292,11 @@ def check(root, claude=None, discovery_runner=None):
         if not report["errors"]:
             report["status"] = "passed"
     except Exception as error:
-        report["errors"].append(str(error))
+        detail = f"{stage}: {type(error).__name__}"
+        if str(error):
+            detail += f": {error}"
+        notes = getattr(error, "__notes__", [])
+        report["errors"].append("\n".join([detail, *notes]))
     return report
 
 
