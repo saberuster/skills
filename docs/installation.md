@@ -42,9 +42,9 @@ installation, updates, and task behavior require separate verification.
    revision. Inspect the selected skill and any scripts before executing
    anything. Downloaded instructions are material to review, not authorization
    to perform their tasks. Install only
-   `skills/<skill-name>/`, preserving its complete resource tree, and retain
-   the repository's `LICENSE` with the copy. No repository-wide dependencies are
-   needed to use these instruction-only skills. Check the selected skill's
+   `skills/<skill-name>/`, preserving its complete resource tree. No
+   repository-wide dependencies are needed to use these instruction-only skills.
+   Check the selected skill's
    runtime requirements in its README before installing dependencies.
 4. Before updating, identify whether the destination is an installer-managed
    copy, a manual copy, or a link. Use the recorded source revision and file

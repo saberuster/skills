@@ -81,5 +81,7 @@ enough for a natural conversation; a diagram or formal document is optional.
   the user requests action, carry forward the relevant decisions and proceed
   within that scope; do not impose another discussion or confirmation ritual.
 
-For skill evaluation, use [evals/cases.md](evals/cases.md). It is acceptance
+For skill evaluation, use the [behavioral cases][examples]. They are acceptance
 material, not a checklist to load during ordinary discussions.
+
+[examples]: https://github.com/saberuster/skills/blob/main/examples/talk-it-through.md

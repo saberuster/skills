@@ -1,4 +1,4 @@
-# Acceptance Cases
+# talk-it-through examples and behavioral cases
 
 Use these synthetic cases to evaluate conversation behavior. They are not an
 automated test suite or evidence that a run has passed.

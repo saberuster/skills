@@ -34,6 +34,10 @@ Planned next minor release: `0.2.0`.
 
 ### Changed
 
+- Removed the installation protocol's requirement to copy the repository root
+  license into each installed skill package.
+- Moved `talk-it-through` acceptance cases into `examples/` and updated its
+  evaluation links. Removed the obsolete pre-CI notice from the catalog.
 - Condensed repeated guidance in the four skill entrypoints and grouped Skills
   CLI command examples without changing scope, authorization, or validation
   requirements. Each skill retains its installation guidance and resources.

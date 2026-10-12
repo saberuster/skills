@@ -66,11 +66,12 @@ before we implement anything. I want to make the key business decisions.
 Accepting one recommendation advances the discussion to the remaining material
 questions. Ask to wrap up or defer when you want a stopping point.
 
-The bundled [acceptance cases](evals/cases.md) cover creative exploration,
+The [acceptance cases][examples] cover creative exploration,
 architecture trade-offs, evidence gaps, changed goals, continued discussion,
 and explicit closure. They describe expected behavior, not successful runs.
 
 [Back to the skill catalog][catalog].
 
 [installation]: https://github.com/saberuster/skills/blob/main/docs/installation.md
+[examples]: https://github.com/saberuster/skills/blob/main/examples/talk-it-through.md
 [catalog]: https://github.com/saberuster/skills#available-skills
