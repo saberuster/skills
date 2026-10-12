@@ -1,0 +1,7 @@
+interface:
+  display_name: "Talk It Through"
+  short_description: "Explore ideas and trade-offs through focused discussion"
+  default_prompt: "Use $talk-it-through to help me explore this idea, examine the trade-offs, and work through the key questions while I make the important choices."
+
+policy:
+  allow_implicit_invocation: false

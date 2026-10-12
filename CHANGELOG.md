@@ -6,6 +6,10 @@ Planned next minor release: `0.2.0`.
 
 ### Added
 
+- `talk-it-through`, migrated from `saberuster/agent-skills`, for exploring
+  alternatives and trade-offs while leaving consequential choices to the user.
+  Includes its six synthetic acceptance cases and explicit Codex invocation
+  policy.
 - A generated README support table with emoji statuses for each skill and
   client, CI previews, and default-branch updates from matching discovery
   evidence.

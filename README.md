@@ -2,7 +2,8 @@
 
 Focused standalone agent skills by saberuster, licensed under the
 [MIT License](LICENSE). Use them to maintain project instructions and installed
-skills, learn from a session, and write technical documentation.
+skills, learn from a session, write technical documentation, and work through
+ideas and decisions.
 
 ## Available skills
 
@@ -10,6 +11,10 @@ Open a skill's README for its purpose, requirements, installation, updates, and
 usage examples. The status columns report discovery and loading with the tested
 clients; see [Validation and compatibility](#validation-and-compatibility) for
 the coverage limits.
+
+[Talk It Through](skills/talk-it-through/README.md) is also available for
+guided discussions. Its discovery results will appear in the generated table
+after CI checks the new package.
 
 <!-- agent-support:start -->
 
