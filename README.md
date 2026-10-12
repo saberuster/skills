@@ -23,13 +23,14 @@ after CI checks the new package.
 | [learn-from-session](skills/learn-from-session/README.md) | &#9989; | &#9989; |
 | [maintain-agents-md](skills/maintain-agents-md/README.md) | &#9989; | &#9989; |
 | [maintain-skills](skills/maintain-skills/README.md) | &#9989; | &#9989; |
+| [talk-it-through](skills/talk-it-through/README.md) | &#9989; | &#9989; |
 | [technical-docs](skills/technical-docs/README.md) | &#9989; | &#9989; |
 
 &#9989; discovery passed; &#10060; discovery failed; &mdash; unknown.
 Channel: `pinned`. Versions:
 Codex `codex-cli 0.161.0`; Claude Code `2.1.292 (Claude Code)`.
-Tested source commit: `c24a58e76a94053dbc99e93ae91f46c0b8cfe6aa`.
-Evidence: [CI run](https://github.com/saberuster/skills/actions/runs/37790862147).
+Tested source commit: `735cecb5969523457d7b5eae4031be3df6f6a327`.
+Evidence: [CI run](https://github.com/saberuster/skills/actions/runs/38214086908).
 
 <!-- agent-support:end -->
 
