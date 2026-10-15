@@ -86,7 +86,7 @@ def prepare(output, cases=None, source_root=ROOT, spec_path=SPEC):
         for relative, content in case.get("files", {}).items():
             path = inside(workspace, relative)
             path.parent.mkdir(parents=True, exist_ok=True)
-            path.write_text(content, encoding="ascii", newline="\n")
+            path.write_text(content, encoding="utf-8", newline="\n")
         for relative, fixture in case.get("fixture_files", {}).items():
             path = inside(workspace, relative)
             path.parent.mkdir(parents=True, exist_ok=True)

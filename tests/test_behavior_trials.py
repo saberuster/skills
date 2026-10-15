@@ -103,6 +103,31 @@ class BehaviorTrialsTests(unittest.TestCase):
             trials.prepare(self.run, source_root=self.source)
         self.assertEqual(trials.hashes(self.run), baseline)
 
+    def test_unicode_fixture_round_trip_and_unchanged_record(self):
+        spec = trials.read_json(self.spec_path)
+        case = next(c for c in spec["cases"] if c["id"] == "agents-review")
+        content = "# Project Overview\n\n\u4e2d\u6587\u6b63\u6587\u3002\n"
+        case["files"]["AGENTS.md"] = content
+        trials.write_json(self.spec_path, spec)
+        self.run = self.root / "unicode-run"
+        trials.prepare(
+            self.run,
+            cases=["agents-review"],
+            source_root=self.source,
+            spec_path=self.spec_path,
+        )
+        trial = self.run / "agents-review"
+        for tree in ("workspace", "before"):
+            self.assertEqual(
+                (trial / tree / "AGENTS.md").read_bytes(), content.encode("utf-8")
+            )
+        result = self.evidence("agents-review")
+        self.assertEqual(result["outcome"], "passed")
+        self.assertEqual(result["file_changes"], [])
+        self.assertEqual(
+            (trial / "after/AGENTS.md").read_bytes(), content.encode("utf-8")
+        )
+
     def test_semantic_assessment_missing_cannot_pass(self):
         result = self.evidence("learn-proposal", missing=True)
         self.assertEqual(result["outcome"], "unverified")

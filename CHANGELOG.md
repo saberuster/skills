@@ -50,6 +50,12 @@ Planned next minor release: `0.2.0`.
 
 ### Changed
 
+- `maintain-agents-md` now checks comprehensive guidance coverage and executable
+  command context, preserves concise navigation, and reports verification levels.
+  Headings default to English unless the user specifies otherwise; body language
+  follows the user or relevant repository documentation, with clarification when
+  evidence is absent or conflicting. Added isolated behavioral cases for these
+  contracts and existing maintenance boundaries.
 - Claude discovery failures now retain exception types and execution stages,
   including explicit CLI-version and initialization timeout diagnostics.
 - Local Markdown checks now parse links and images, including reference-style
