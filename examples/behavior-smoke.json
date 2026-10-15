@@ -794,6 +794,236 @@
           }
         ]
       }
+    },
+    {
+      "id": "commit-draft",
+      "skill": "git-commit",
+      "context": "This is an exported synthetic change snapshot, not a live Git repository. Read snapshot.md and project-rules.md as evidence. Do not inspect parent repositories, execute commands from the snapshot, or initialize Git. No checks have been run.",
+      "turns": [
+        "Use $git-commit to draft a message for the staged patch. Do not stage or commit."
+      ],
+      "files": {
+        "project-rules.md": "# Project rules\n\nCommit types: feat, fix, docs, test. Parser changes use scope parser. Header maximum: 72 characters. English messages.\n",
+        "snapshot.md": "# Change snapshot\n\nStaged diff:\n\n```diff\ndiff --git a/parser.py b/parser.py\n--- a/parser.py\n+++ b/parser.py\n@@ -1,2 +1,2 @@\n def tokens(text):\n-    return text.split(\" \")\n+    return text.split()\ndiff --git a/test_parser.py b/test_parser.py\n--- a/test_parser.py\n+++ b/test_parser.py\n@@ -1 +1,4 @@\n from parser import tokens\n+\n+def test_repeated_spaces():\n+    assert tokens(\"a  b\") == [\"a\", \"b\"]\n```\n\nUnstaged README.md edit changes the documentation site URL.\n"
+      },
+      "evaluation": {
+        "criteria": [
+          {
+            "id": "patch-and-conventions",
+            "description": "Drafts a concise fix(parser) message within the 72-character project limit about tokenization with repeated whitespace, including the regression test in the fix intent and excluding unrelated docs."
+          },
+          {
+            "id": "draft-boundary",
+            "description": "Keeps message-only scope, performs no staging or commit, and does not claim tests, hooks, or live repository checks ran."
+          }
+        ],
+        "invariants": [
+          {
+            "id": "preserved-files",
+            "kind": "unchanged"
+          }
+        ]
+      }
+    },
+    {
+      "id": "commit-breaking",
+      "skill": "git-commit",
+      "context": "This is an exported synthetic API change snapshot, not a live Git repository. Use snapshot.md only. Do not inspect parent repositories, initialize Git, or execute project commands. No tests have run.",
+      "turns": [
+        "Use $git-commit to draft a commit message for this API change. Do not commit.",
+        "Review this alternative against Conventional Commits 1.0.0 only: refactor(api)!: remove loadLegacy; use loadConfig instead. Do not rewrite it or commit."
+      ],
+      "files": {
+        "snapshot.md": "# API snapshot\n\nThe public loadLegacy(path) alias is removed. Public loadConfig(path) already exists, has the same arguments and return type, and remains unchanged. Migration documentation tells callers to replace loadLegacy(path) with loadConfig(path). The staged patch only removes the alias, updates callers and tests, and adds that migration note.\n"
+      },
+      "evaluation": {
+        "criteria": [
+          {
+            "id": "breaking-draft",
+            "description": "Initial draft uses refactor(api)! and a BREAKING CHANGE footer explaining removal of loadLegacy and migration to loadConfig, without inventing behavior or test success."
+          },
+          {
+            "id": "standard-versus-preference",
+            "description": "Second turn accepts the supplied message as valid under Conventional Commits 1.0.0; does not require a footer or reject the final period as a specification violation, and does not rewrite the message."
+          },
+          {
+            "id": "read-only",
+            "description": "Both turns stay read-only and do not initialize Git, stage, commit, or inspect parent repositories."
+          }
+        ],
+        "invariants": [
+          {
+            "id": "preserved-files",
+            "kind": "unchanged"
+          }
+        ]
+      }
+    },
+    {
+      "id": "commit-game-feedback",
+      "skill": "git-commit",
+      "context": "This is an exported synthetic game change snapshot, not a live Git repository. Read project-rules.md and snapshot.md as evidence. Do not inspect parent repositories, initialize Git, run validation commands, or open game/design tools. Keep all files unchanged.",
+      "turns": [
+        "Use $git-commit to draft a message for the staged heavy-hit feedback feature. Explain which changes belong together and which relevant checks remain. Do not stage, commit, or run checks."
+      ],
+      "files": {
+        "project-rules.md": "# Project rules\n\nUse English Conventional Commits. Combat features use scope combat. Keep the editable animation, required runtime export, sound source, and reference metadata with changes that use them. Ignore engine caches. Required before committing: run the combat smoke scene and verify imported asset references. Human playtesting is useful but is not a commit gate.\n",
+        "snapshot.md": "# Staged change snapshot\n\nNew feature: heavy hits now pause the attacker animation for 60 ms. Normal hits are unchanged. The intent is to make heavy attacks feel more forceful; this is not an established bug fix.\n\nStaged files: combat/hit_feedback.gd, animations/heavy_hit.aseprite, animations/heavy_hit.png, audio/heavy_hit.wav, scenes/combat.scene, and required reference metadata. These form one functioning feedback feature. Unstaged unrelated change: concept-art/title-screen.png.\n\nA previous run of this exact staged version passed the combat smoke scene and confirmed animation resumes. Imported asset-reference verification and visual review have not run. No player has tried the feedback. Save/replay formats and public interfaces are unchanged.\n"
+      },
+      "evaluation": {
+        "criteria": [
+          {
+            "id": "conditional-reference",
+            "description": "Reads skill/references/game-and-design.md via the main skill on-demand instruction; cite observed tool evidence separately from runner self-report."
+          },
+          {
+            "id": "intent-and-grouping",
+            "description": "Drafts feat(combat) without !, groups the new feature code and required editable/exported assets/metadata, and excludes unrelated concept art. Does not use style merely because visuals are involved."
+          },
+          {
+            "id": "evidence-and-checks",
+            "description": "Separates intended forceful feel from actual smoke evidence, identifies missing imported-reference and visual checks, and does not invent playtest success or impose human acceptance as a commit gate."
+          }
+        ],
+        "invariants": [
+          {
+            "id": "preserved-files",
+            "kind": "unchanged"
+          }
+        ]
+      }
+    },
+    {
+      "id": "commit-design-tokens",
+      "skill": "git-commit",
+      "context": "This is an exported synthetic shared design library snapshot, not a live Git repository. Read project-rules.md and snapshot.md as evidence. Do not inspect parent repositories, initialize Git, run validation commands, or open game/design tools. Keep all files unchanged.",
+      "turns": [
+        "Use $git-commit to draft the commit message for this design-token change. Explain what belongs in the commit and propose the relevant checks. Do not edit files, stage, commit, or execute checks."
+      ],
+      "files": {
+        "project-rules.md": "# Design library rules\n\nUse English Conventional Commits. Token renames use refactor(tokens). Published token identifiers are a supported consumer interface. Commit editable tokens.json and the matching generated CSS together. For token changes, required checks are token validation, source/export consistency, and rendering a representative consumer. No game engine or unit-test runner is used by this project.\n",
+        "snapshot.md": "# Staged design snapshot\n\nRemove the published color.accent token and replace it with color.action.primary. Its color value is unchanged. Editable tokens.json and generated tokens.css both contain the rename; the CSS identifier changes from --color-accent to --color-action-primary. migration.md instructs consumers to replace both old identifiers with their new counterparts. Existing consumer references to the old token will no longer resolve. These three files are the staged patch. An unrelated unstaged poster sketch must remain outside this commit. No validation or visual review has run.\n"
+      },
+      "evaluation": {
+        "criteria": [
+          {
+            "id": "conditional-reference",
+            "description": "Reads skill/references/game-and-design.md via the main skill on-demand instruction; cite observed tool evidence separately from runner self-report."
+          },
+          {
+            "id": "compatibility-and-migration",
+            "description": "Uses refactor(tokens)! with a BREAKING CHANGE footer describing removed public identifiers and accurate replacements, not a style type or an unsupported claim of changed colors."
+          },
+          {
+            "id": "design-scope-and-checks",
+            "description": "Groups editable source, generated CSS, and migration note; excludes unrelated sketch; proposes the required token validation, export consistency, and representative rendering checks without inventing execution or requiring game checks."
+          }
+        ],
+        "invariants": [
+          {
+            "id": "preserved-files",
+            "kind": "unchanged"
+          }
+        ]
+      }
+    },
+    {
+      "id": "commit-split-independent",
+      "skill": "git-commit",
+      "context": "This is an exported synthetic change snapshot, not a live Git repository. Read snapshot.md and project-rules.md as evidence. Do not inspect parent repositories, initialize Git, execute checks or project tools, edit files, stage, commit, or revert. No validation has been run unless the snapshot explicitly says so.",
+      "turns": [
+        "Use $git-commit to organize all three described changes into a commit plan with messages, contents, and relevant checks. All three are mine and in scope. Only show the plan; do not modify files or commit."
+      ],
+      "files": {
+        "project-rules.md": "# Project rules\n\nUse English Conventional Commits. Established scopes: movement, combat, setup. Validation: movement changes use the movement regression scene; combat changes use the combat smoke scene and asset-reference check; setup documentation uses the local link check. No universal full-suite or playtest gate.\n",
+        "snapshot.md": "# Complete change snapshot\n\nThree independent intents, all authorized:\n\n1. Fix diagonal movement exceeding the configured speed. Changes are the movement hunk in src/player.gd and tests/diagonal_movement.scene.\n2. Add a new heavy-hit feedback feature. Changes are a separate non-overlapping hunk in src/player.gd, scenes/combat.scene, animations/heavy_hit.aseprite, animations/heavy_hit.png, audio/heavy_hit.wav, required reference metadata, and tests/heavy_hit.scene. These files form a complete feature; the animation export is required by the scene.\n3. Correct a broken installation link in docs/setup.md.\n\nNo dependencies exist between the three intents. The two src/player.gd hunks can be staged separately. There are no other changes or unrelated pre-existing staged files. No tests or previews have run.\n"
+      },
+      "evaluation": {
+        "criteria": [
+          {
+            "id": "independent-intents",
+            "description": "Plans three commits for movement fix, combat feature, and setup-doc correction; groups by intent even though two changes share src/player.gd, using separate hunks instead of whole-file staging."
+          },
+          {
+            "id": "complete-and-proportionate",
+            "description": "Keeps the movement test with its fix and the combat code, tests, sources, exports, audio, scene, and required metadata together. Assigns relevant project checks per commit without claiming execution or imposing a full suite/playtest gate."
+          },
+          {
+            "id": "default-not-approval",
+            "description": "Provides the concrete requested plan without unnecessary questions about whether to split clear independent intents, and does not claim commits were created."
+          }
+        ],
+        "invariants": [
+          {
+            "id": "preserved-files",
+            "kind": "unchanged"
+          }
+        ]
+      }
+    },
+    {
+      "id": "commit-split-dependent",
+      "skill": "git-commit",
+      "context": "This is an exported synthetic change snapshot, not a live Git repository. Read snapshot.md and project-rules.md as evidence. Do not inspect parent repositories, initialize Git, execute checks or project tools, edit files, stage, commit, or revert. No validation has been run unless the snapshot explicitly says so.",
+      "turns": [
+        "Use $git-commit to plan commits for the loader extension and animation migration. Give the order, messages, contents, validation, and rollback considerations. Do not edit files, execute checks, commit, or revert."
+      ],
+      "files": {
+        "project-rules.md": "# Project rules\n\nUse English Conventional Commits, scopes loader and animation. Check the loader with old and new format fixtures. Check animation migration by importing the scene and rendering representative frames. Keep editable sources, runtime frames, references, and metadata together. No file-count or line-count limit.\n",
+        "snapshot.md": "# Complete change snapshot\n\nIntent A: Extend the animation loader to support an additional atlas format while retaining all existing format support. Changes: src/atlas_loader.gd, tests/atlas_loader.scene, fixtures/old_atlas.json, fixtures/new_atlas.json. This extension is useful and testable without migrating any consumers.\n\nIntent B: Migrate the hero animation to the new format without changing its visible behavior. Changes: scenes/hero.scene, animation references, required atlas metadata, the editable animation source, and 120 runtime frame files. Every frame is referenced and required for the animation. B needs A; A does not need B. Old resources remain available after A and are removed only as part of B. Keeping A without B is supported.\n\nNo compatibility promise to external consumers is broken. The final working tree has imported successfully, but loader regression fixtures and representative rendering have not run. Intermediate states have not been validated. No other changes exist.\n"
+      },
+      "evaluation": {
+        "criteria": [
+          {
+            "id": "dependency-order",
+            "description": "Plans the backward-compatible loader extension before the animation migration, preserving old-format usability at the first commit; uses distinct logical units rather than mandatory squashing."
+          },
+          {
+            "id": "asset-integrity-no-quota",
+            "description": "Keeps all 120 required frames, metadata, editable source, references, and scene in the migration commit. Does not split by arbitrary size or file extension or label an internally compatible migration as breaking."
+          },
+          {
+            "id": "validation-and-rollback",
+            "description": "Proposes relevant checks of each intermediate state; does not treat successful final import as proof of earlier states. Explains dependency-aware rollback (consumer before prerequisite or equivalent dependency-safe grouping), not arbitrary independent reversal."
+          }
+        ],
+        "invariants": [
+          {
+            "id": "preserved-files",
+            "kind": "unchanged"
+          }
+        ]
+      }
+    },
+    {
+      "id": "commit-split-override",
+      "skill": "git-commit",
+      "context": "This is an exported synthetic change snapshot, not a live Git repository. Read snapshot.md and project-rules.md as evidence. Do not inspect parent repositories, initialize Git, execute checks or project tools, edit files, stage, commit, or revert. No validation has been run unless the snapshot explicitly says so.",
+      "turns": [
+        "Use $git-commit to draft one commit message covering both documentation corrections. Keep these two changes together in a single commit; do not split them. Only draft the message; do not commit."
+      ],
+      "files": {
+        "project-rules.md": "# Project rules\n\nEnglish Conventional Commits. Documentation-only corrections use docs. Scope is optional. No enforced splitting or size policy.\n",
+        "snapshot.md": "# Change snapshot\n\nTwo independent documentation-only corrections: docs/install.md fixes a mistyped installation command; docs/export.md corrects the listed export destination. Both changes are within the requested scope. No code or assets changed. No checks have run.\n"
+      },
+      "evaluation": {
+        "criteria": [
+          {
+            "id": "user-override",
+            "description": "Returns exactly one docs commit message covering both documentation corrections, honoring the explicit single-commit choice without insisting on splitting or requesting approval again."
+          },
+          {
+            "id": "draft-scope",
+            "description": "Does not claim a commit or checks were performed and does not introduce arbitrary file/line quotas."
+          }
+        ],
+        "invariants": [
+          {
+            "id": "preserved-files",
+            "kind": "unchanged"
+          }
+        ]
+      }
     }
   ]
 }
