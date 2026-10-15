@@ -1,6 +1,6 @@
 interface:
   display_name: "Maintain AGENTS.md"
-  short_description: "Capture, review, and trim AGENTS.md rules"
+  short_description: "Capture, review, trim, and revise AGENTS.md rules"
   default_prompt: "Use $maintain-agents-md to capture, review, trim, or revise project AGENTS.md rules as requested."
 
 policy:
