@@ -27,9 +27,10 @@ execution boundaries, or validation.
   Note sibling files for other hosts (`CLAUDE.md`, `GEMINI.md`, Copilot
   instructions): whether they import, link, or diverge from AGENTS.md.
 - Put repository-wide rules in the root file and local rules in the narrowest
-  applicable file. Move content only within the authorized scope; report
-  out-of-scope content as a `relocation-candidate` and continue independent
-  work.
+  applicable file, or explicitly constrain their paths in an authorized parent
+  file; prefer existing files. Move content only within the authorized scope;
+  report out-of-scope content as a `relocation-candidate` and continue
+  independent work.
 
 ## Coverage
 
