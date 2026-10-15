@@ -1,0 +1,7 @@
+interface:
+  display_name: "Git Commit"
+  short_description: "Draft and create scoped Conventional Commits"
+  default_prompt: "Use $git-commit to inspect my intended changes and draft a Conventional Commit message using this project's conventions."
+
+policy:
+  allow_implicit_invocation: true

@@ -6,6 +6,14 @@ Planned next minor release: `0.2.0`.
 
 ### Added
 
+- `git-commit` for Conventional Commits 1.0.0 message drafting, review, and
+  authorized scoped commits, with five fallback preferences, existing lint
+  integration, and synthetic cases for format and execution boundaries. Defaults
+  to complete commits per independent intent, ordered by dependency and checked
+  per commit, without hard file or line count limits.
+  Includes optional game and design guidance for asset completeness,
+  compatibility, experience claims, and proportionate checks.
+
 - `agent-ready` for read-only, task-based reviews of how reliably agents can
   locate, change, run, and verify a project, with a proportional eight-dimension
   rubric, actionable findings, and conditional game/engine guidance.
