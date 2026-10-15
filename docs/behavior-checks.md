@@ -16,6 +16,18 @@ the broader examples:
 | `talk-acceptance` | [talk-it-through](../examples/talk-it-through.md): advance after local acceptance and stop when asked |
 | `ready-*` (eight cases) | [agent-ready](../examples/agent-ready.md): trace real fixture tasks, calibrate recommendations, distinguish validation layers, and preserve review scope |
 
+The `commit-draft`, `commit-breaking`, `commit-game-feedback`,
+`commit-design-tokens`, `commit-split-independent`,
+`commit-split-dependent`, and `commit-split-override` cases cover
+[git-commit](../examples/git-commit.md) using exported change snapshots.
+Deliver the two `commit-breaking` turns separately. These are read-only
+message trials; they do not validate Git staging, hooks, signing, or real
+commit execution. The game and design cases also exercise conditional
+reference loading and proposed checks; do not execute game or design tools.
+The split cases exercise grouping, dependency order, asset completeness,
+and user overrides through read-only plans; they do not execute commits
+or reversions. Inspect the transcript as well as unchanged files.
+
 ## Prepare
 
 From the repository root, use the development environment described in the

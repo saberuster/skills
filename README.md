@@ -4,7 +4,12 @@ Focused standalone agent skills by saberuster, licensed under the
 [MIT License](LICENSE). Use them to maintain project instructions and installed
 skills, learn from a session, write technical documentation, review project
 readiness for agent work, and work through ideas and decisions, or compose
-structured GPT Image prompts from briefs and reference images.
+structured GPT Image prompts from briefs and reference images, and prepare
+Conventional Commits.
+
+New skill: [git-commit](skills/git-commit/README.md). Client discovery for this
+addition is not yet verified; the generated table below retains its recorded
+source revision.
 
 ## Available skills
 
