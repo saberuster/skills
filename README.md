@@ -24,6 +24,7 @@ the coverage limits.
 | --- | --- | --- |
 | [agent-ready](skills/agent-ready/README.md) | &#9989; | &#9989; |
 | [brief-to-image-prompt](skills/brief-to-image-prompt/README.md) | &#9989; | &#9989; |
+| [git-commit](skills/git-commit/README.md) | &#9989; | &#9989; |
 | [gpt-image-prompting](skills/gpt-image-prompting/README.md) | &#9989; | &#9989; |
 | [image-to-prompt](skills/image-to-prompt/README.md) | &#9989; | &#9989; |
 | [learn-from-session](skills/learn-from-session/README.md) | &#9989; | &#9989; |
@@ -35,8 +36,8 @@ the coverage limits.
 &#9989; discovery passed; &#10060; discovery failed; &mdash; unknown.
 Channel: `pinned`. Versions:
 Codex `codex-cli 0.161.0`; Claude Code `2.1.292 (Claude Code)`.
-Tested source commit: `d51242c7beb3ac5b6042734c1e2ab4591b7e1a55`.
-Evidence: [CI run](https://github.com/saberuster/skills/actions/runs/38740313626).
+Tested source commit: `cf2f55ebe514050a2cc27bddc14224d97a279b38`.
+Evidence: [CI run](https://github.com/saberuster/skills/actions/runs/38744771432).
 
 <!-- agent-support:end -->
 
