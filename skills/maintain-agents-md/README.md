@@ -11,6 +11,20 @@ for edits, write the authorized files. It distinguishes read-only review from
 authorized capture or revision and preserves obligations unless sufficient
 authority establishes a change or expiry.
 
+Comprehensive reviews use a [coverage guide](references/coverage.md) to find
+missing guidance or navigation across eight project responsibilities. Local
+maintenance stays within its requested scope. Build and test guidance is checked
+against its maintained sources; inspected commands are distinguished from checks
+actually run. This is not a full implementation or architecture audit.
+
+Document titles and headings at every level default to English unless the user
+explicitly chooses another heading language. Body text follows the user's
+choice, otherwise the maintained documentation relevant to the target scope.
+If that evidence is absent or conflicting, the agent asks before writing the
+affected prose. English headings can accompany Chinese or other-language body
+text. Narrow edits preserve unrelated headings and prose; authorized heading
+renames include reference checks.
+
 The skill cannot recover missing conversation history or guarantee that another
 host loads instruction files with Codex's precedence rules. It does not manage
 custom agent configuration files. Invoking it does not authorize staging,
@@ -65,11 +79,26 @@ Use $maintain-agents-md to review this project's AGENTS.md files.
 Report findings and suggested changes without editing files.
 ```
 
+**Comprehensive review:**
+
+```text
+Use $maintain-agents-md to review this project's complete AGENTS.md guidance.
+Check missing responsibilities and authoritative links as well as existing
+rules. Report coverage, evidence, and proposed changes without editing files.
+```
+
 **Apply changes:** State both the scope and the intended change.
 
 ```text
 Use $maintain-agents-md to remove equivalent duplicate rules in the root
 AGENTS.md. Preserve all obligations, exceptions, and nested rules.
+```
+
+**Language choice:**
+
+```text
+Use $maintain-agents-md to revise the whole root AGENTS.md and its contents
+links. Use English headings and Chinese body text. Preserve obligations.
 ```
 
 See the [behavioral cases][examples] for expected

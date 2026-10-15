@@ -10,7 +10,7 @@ the broader examples:
 | Case | Skill and behavior |
 | --- | --- |
 | `learn-proposal` | [learn-from-session](../examples/learn-from-session.md): propose a supported lesson without changing sources |
-| `agents-review` | [maintain-agents-md](../examples/maintain-agents-md.md): review duplicates while preserving exceptions and scope |
+| `agents-*` (ten cases) | [maintain-agents-md](../examples/maintain-agents-md.md): discover coverage and effective sources, review commands, preserve policy, apply language preferences, and respect edit scope |
 | `skills-local-edits` | [maintain-skills](../examples/maintain-skills.md): identify and preserve local edits before an update |
 | `docs-schema` | [technical-docs](../examples/technical-docs.md): apply a scoped schema correction while preserving accepted content |
 | `talk-acceptance` | [talk-it-through](../examples/talk-it-through.md): advance after local acceptance and stop when asked |
@@ -37,13 +37,56 @@ Preparation refuses to overwrite an existing run. Each case directory contains:
   fixture hash, and initial workspace hashes.
 - `before/`: the original workspace for inspecting changes.
 
+## Select AGENTS.md maintenance cases
+
+The ten `agents-*` cases are individually selectable; selection uses exact IDs,
+not wildcard expansion. Their full definitions live in the smoke JSON, with
+[narrative acceptance cases](../examples/maintain-agents-md.md).
+
+| Case | Focus and observed file boundary |
+| --- | --- |
+| `agents-review` | Equivalent duplicate, documentation exception, nested scope; unchanged workspace |
+| `agents-coverage` | Sparse instructions and eight coverage responsibilities grounded in canonical sources; unchanged workspace |
+| `agents-discovery` | Nested discovery, supplied synthetic host precedence, and unknown-host boundary; unchanged workspace |
+| `agents-command-review` | Stale command, prerequisites, success signal, and deployment effects; static inspection only |
+| `agents-capture-revise` | Confirmed capture, deduplication, established expiry, and preserved signing duty; one required file change |
+| `agents-language-default` | Chinese body inference, default English headings, contents and authorized dependent anchors; two required file changes |
+| `agents-language-scoped` | Chinese body and section-limited addition; required edit with bytes outside the section preserved |
+| `agents-language-override` | Explicit Chinese headings with English body and revised anchor; one required file change |
+| `agents-language-question` | Ambiguous body language prompts a focused question; unchanged workspace |
+| `agents-untrusted-source` | Embedded unauthorized instructions and fake sensitive content; unchanged workspace |
+
+For example, select the three language-edit cases together:
+
+```text
+.venv/bin/python scripts/behavior_trials.py prepare --output /tmp/agents-language-001 --case agents-language-default --case agents-language-scoped --case agents-language-override
+```
+
+To exercise the complete maintenance set, repeat `--case` for all ten IDs in the
+table; omitting selection also prepares unrelated skills. Chinese fixture text
+uses Unicode escapes in the ASCII JSON and becomes UTF-8 project text during
+preparation. Inspect prepared files when judging actual heading/body languages
+and links; escaped source text is not the agent's document output.
+
 ## Run the agent
 
-Give a fresh agent the workspace path, copied `skill/SKILL.md`, context, and first
+Give a fresh agent the workspace path, copied `skill/SKILL.md`, context, and
+first
 request from `input.json`. Allow only the fixture operations requested by that
 case. Keep `evaluator.json`, `manifest.json`, and `before/` out of its context.
 For `talk-acceptance`, deliver each subsequent request only after receiving the
 previous actual reply, keeping the same session. Do not add hints to continue.
+
+For `agents-*`, honor each case's edit and execution boundary. All
+command-review
+cases are static: do not run the supplied validation, deployment, or approval
+scripts. The discovery fixture supplies a fictional host contract solely to
+test evidence-based precedence; passing does not establish loading behavior of
+Codex, Claude Code, or any other real host. The ambiguous body-language case
+ends after the initial question; it does not supply a language answer. Review
+cases require no file changes, while edit cases require actual authorized
+changes as well as semantic preservation. Inspect observed actions for command
+execution: an unchanged workspace alone cannot prove that no command ran.
 
 The eight `ready-*` cases are executable synthetic project reviews. Their
 Python standard-library commands use `-B` to preserve the read-only workspace;
@@ -73,14 +116,16 @@ Record each exact request and actual reply in a transcript JSON file:
 
 Keep tool output or other supporting evidence when needed to assess a criterion.
 Do not replace missing observations with an agent's success claim. The prepared
-directory is an isolation boundary for the trial instructions, not an OS sandbox;
+directory is an isolation boundary for the trial instructions, not an OS
+sandbox;
 filesystem checks observe only that workspace, not the rest of the host.
 
 ## Assess and record
 
 A separate evaluator reads the transcript, actual file changes, available tool
 evidence, and `evaluator.json`. Assess each criterion as `passed`, `failed`, or
-`unverified`, with a reason and concrete evidence. The following is illustrative:
+`unverified`, with a reason and concrete evidence. The following is
+illustrative:
 
 ```json
 {
@@ -110,7 +155,8 @@ criterion fails the run. Incomplete turns, unassessed criteria, or source/case
 drift prevent a passing result. Recording does not independently establish that
 an evaluator's semantic judgment is correct.
 
-The command exits 0 for passed, 1 for failed or unverified, and 2 for an input or
+The command exits 0 for passed, 1 for failed or unverified, and 2 for an input
+or
 execution error. It refuses to overwrite an existing result. For a retry or a
 before-and-after comparison, prepare fresh directories and preserve earlier
 results. Keep equivalent requests, fixtures, and runner settings when comparing
