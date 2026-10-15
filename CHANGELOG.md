@@ -50,6 +50,12 @@ Planned next minor release: `0.2.0`.
 
 ### Changed
 
+- `maintain-agents-md` is shorter: language rules, authorization limits, and
+  reporting duties are each stated once. Trimming now names what to remove
+  (generic advice, discoverable facts, scope-chain duplicates) while keeping
+  obligations. Reviews flag loading-size risk and sibling host files such as
+  `CLAUDE.md`, creating a missing file follows the coverage guide, and the
+  description covers creation, coverage audits, and nested or override files.
 - `maintain-agents-md` now checks comprehensive guidance coverage and executable
   command context, preserves concise navigation, and reports verification levels.
   Headings default to English unless the user specifies otherwise; body language

@@ -310,6 +310,38 @@ authoritative documentation before making claims. Do not assume both files are
 combined. If the host cannot be established, disclose that gap instead of
 guessing.
 
+## Trim generic advice
+
+**Request:**
+
+```text
+Trim the root AGENTS.md. Keep every project obligation.
+```
+
+**Input:** Rules: "Write clean, readable code.", "Run `make check` before
+submitting code changes.", and "The parser lives in `src/parser/`." The README
+already contains the same module map.
+
+**Acceptance:** Remove the generic code-quality advice and the module fact that
+the README already provides, or replace it with a short link. Keep the
+`make check` duty with its condition. Report each removal and why no obligation
+was lost.
+
+## Sibling instruction files
+
+**Request:**
+
+```text
+Review the instruction files for this repository. Do not edit files.
+```
+
+**Input:** `AGENTS.md` requires `make check`; `CLAUDE.md` is a separate copy
+that still requires a removed `make test` target.
+
+**Acceptance:** Report that `CLAUDE.md` diverges from `AGENTS.md` and carries a
+stale command. Recommend importing or linking the canonical file rather than
+maintaining two copies. Make no file changes.
+
 ## Requests that should not select this skill
 
 **Request:**
