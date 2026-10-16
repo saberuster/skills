@@ -27,8 +27,8 @@ class BehaviorTrialsTests(unittest.TestCase):
         shutil.copytree(ROOT / "examples/fixtures", self.spec_path.parent / "fixtures")
         for case in trials.read_json(self.spec_path)["cases"]:
             package = self.source / "skills" / case["skill"]
-            if case["skill"] == "technical-writing":
-                package = self.source / "skills/fern/technical-writing"
+            if case["skill"] in {"technical-writing", "reflect"}:
+                package = self.source / "skills/fern" / case["skill"]
             (package / "references").mkdir(parents=True, exist_ok=True)
             (package / "SKILL.md").write_text("Synthetic complete source\n")
             (package / "references/detail.txt").write_text("Bundled resource\n")
@@ -81,7 +81,7 @@ class BehaviorTrialsTests(unittest.TestCase):
 
     def test_fixture_isolation_and_full_source_copy(self):
         baseline = trials.hashes(self.source)
-        trial = self.run / "learn-proposal"
+        trial = self.run / "reflect-proposal"
         self.assertEqual(
             (trial / "workspace/skill/references/detail.txt").read_text(),
             "Bundled resource\n",
@@ -144,7 +144,7 @@ class BehaviorTrialsTests(unittest.TestCase):
         )
 
     def test_semantic_assessment_missing_cannot_pass(self):
-        result = self.evidence("learn-proposal", missing=True)
+        result = self.evidence("reflect-proposal", missing=True)
         self.assertEqual(result["outcome"], "unverified")
         self.assertEqual(result["file_changes"], [])
 
@@ -155,7 +155,7 @@ class BehaviorTrialsTests(unittest.TestCase):
 
     def test_positive_assessment_without_evidence_cannot_pass(self):
         self.assertEqual(
-            self.evidence("learn-proposal", unsupported=True)["outcome"], "unverified"
+            self.evidence("reflect-proposal", unsupported=True)["outcome"], "unverified"
         )
 
     def test_incomplete_multiturn_transcript_cannot_pass(self):
@@ -256,9 +256,13 @@ class BehaviorTrialsTests(unittest.TestCase):
         trials.write_json(assessment, {"criteria": {}})
         with self.assertRaisesRegex(ValueError, "turns"):
             trials.record(
-                self.run / "learn-proposal", transcript, assessment, "test", "no model"
+                self.run / "reflect-proposal",
+                transcript,
+                assessment,
+                "test",
+                "no model",
             )
-        self.assertFalse((self.run / "learn-proposal/result.json").exists())
+        self.assertFalse((self.run / "reflect-proposal/result.json").exists())
 
     def test_mock_mutation_log_fails_even_when_packages_unchanged(self):
         log = self.run / "skills-local-edits/workspace/evidence/commands.jsonl"
@@ -269,10 +273,10 @@ class BehaviorTrialsTests(unittest.TestCase):
         self.assertEqual(result["file_changes"][0]["path"], "evidence/commands.jsonl")
 
     def test_source_byte_drift_prevents_attribution(self):
-        (self.source / "skills/learn-from-session/references/detail.txt").write_text(
+        (self.source / "skills/fern/reflect/references/detail.txt").write_text(
             "New source revision\n"
         )
-        result = self.evidence("learn-proposal")
+        result = self.evidence("reflect-proposal")
         self.assertEqual(result["outcome"], "unverified")
         self.assertEqual(result["source_drift"][0]["path"], "references/detail.txt")
 
@@ -280,7 +284,7 @@ class BehaviorTrialsTests(unittest.TestCase):
         (self.source / "skills/fern/technical-writing/SKILL.md").write_text(
             "Unrelated\n"
         )
-        self.assertEqual(self.evidence("learn-proposal")["outcome"], "passed")
+        self.assertEqual(self.evidence("reflect-proposal")["outcome"], "passed")
 
     def test_definition_and_fixture_hashes_recorded(self):
         manifest = trials.read_json(self.run / "skills-local-edits/manifest.json")
@@ -293,25 +297,26 @@ class BehaviorTrialsTests(unittest.TestCase):
 
     def test_case_definition_drift_cannot_pass(self):
         spec = trials.read_json(self.spec_path)
-        spec["cases"][0]["context"] = "Changed source case"
+        case = next(c for c in spec["cases"] if c["id"] == "reflect-proposal")
+        case["context"] = "Changed source case"
         trials.write_json(self.spec_path, spec)
-        result = self.evidence("learn-proposal")
+        result = self.evidence("reflect-proposal")
         self.assertEqual(result["outcome"], "unverified")
         self.assertTrue(result["definition_drift"])
 
     def test_result_cannot_be_overwritten(self):
-        self.evidence("learn-proposal")
+        self.evidence("reflect-proposal")
         with self.assertRaisesRegex(ValueError, "already recorded"):
-            self.evidence("learn-proposal")
+            self.evidence("reflect-proposal")
 
     def test_links_rejected_from_source(self):
-        linked = self.source / "skills/learn-from-session/outside.txt"
+        linked = self.source / "skills/fern/reflect/outside.txt"
         try:
             linked.symlink_to(self.root / "sentinel.txt")
         except OSError:
             self.skipTest("Host does not permit creating test symbolic links")
         with self.assertRaisesRegex(ValueError, "Links"):
-            trials.hashes(self.source / "skills/learn-from-session")
+            trials.hashes(self.source / "skills/fern/reflect")
 
 
 if __name__ == "__main__":

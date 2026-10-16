@@ -83,6 +83,17 @@ Planned next minor release: `0.2.0`.
 
 ### Changed
 
+- Simplified `reflect` into four stages with an early return for no supported
+  candidates and conditional loading of routing branches. Consolidated repeated
+  rules while preserving independent review, authoring dependencies, write
+  authorization, evidence boundaries, and complete proposed-patch validation.
+- Moved `learn-from-session` to `skills/fern/reflect` and renamed it to
+  `reflect`. Expanded current-session learning to route durable preferences,
+  project rules, facts, and reusable methods to appropriate existing sources,
+  with evidence, conflict, visibility, recall, and expiry checks. Preserved
+  proposal-only defaults and existing explicit write authorization. Updated
+  usage and synthetic cases; existing installations are unchanged, and client
+  discovery for the renamed package remains unverified.
 - Clarified the image-prompt skills' primary tasks: creative brief development,
   visual extraction, and organizing, revising, or reviewing established prompts.
   Explicit skill selection remains supported. Shared rules now distinguish
