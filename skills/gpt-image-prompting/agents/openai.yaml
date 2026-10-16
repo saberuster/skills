@@ -1,7 +1,0 @@
-interface:
-  display_name: "GPT Image Prompting"
-  short_description: "Structure complete, consistent GPT Image prompts"
-  default_prompt: "Use $gpt-image-prompting to organize these established requirements into one titled GPT Image prompt, including output requirements."
-
-policy:
-  allow_implicit_invocation: true

@@ -71,3 +71,37 @@ Request:
 
 Observe whether the agent identifies the conflicting requirements and asks
 which view should govern instead of inventing a workaround or weakening both.
+
+## 6. Review without rewriting
+
+Request:
+
+> Use $gpt-image-prompting to review this prompt for contradictions. Give findings
+> and suggested changes in English, but do not rewrite it: A small robot made
+> entirely of matte clay, with sharp mirror-like chrome reflections across its
+> body, centered front view, blue eyes, transparent background. No metallic parts.
+
+Observe whether it identifies the material/reflection conflict and suggests a
+focused correction without returning a replacement prompt. It should preserve
+unaffected requirements and avoid inventing image-generation or validation results.
+
+## 7. Scoped fragment from settled requirements
+
+Request:
+
+> Use $gpt-image-prompting to turn only these approved color requirements into a
+> reusable English prompt fragment: muted teal and cream dominate; small amber
+> accents have the strongest saturation. Do not write a complete image prompt.
+
+Observe whether it returns a concise copyable color fragment without adding a
+subject, composition, output specification, or full set of schema headings.
+Optional unspecified details do not require clarification or creative invention.
+
+## Routing checks
+
+- Positive: organize settled information, revise an existing prompt, review
+  prompt text, or return a scoped fragment without new image observation.
+- Creative choices requiring clarification belong to the brief entry; visual
+  observation belongs to the image entry. Honor explicit skill invocation.
+- Prompt work does not authorize image generation, asset processing, or claims
+  of production validation.

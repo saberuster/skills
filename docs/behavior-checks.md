@@ -16,6 +16,7 @@ the broader examples:
 | `talk-acceptance` | [talk-it-through](../examples/talk-it-through.md): advance after local acceptance and stop when asked |
 | `ready-*` (eight cases) | [agent-ready](../examples/agent-ready.md): trace real fixture tasks, calibrate recommendations, distinguish validation layers, and preserve review scope |
 | `research-*` (four cases) | [research-skill-patterns](../examples/research-skill-patterns.md): inspect primary sources, resolve conflicts, reuse evidence, report gaps, and preserve authoring/review scope |
+| `image-prompt-review`, `image-prompt-fragment`, `image-prompt-multiple` | [gpt-image-prompting](../examples/gpt-image-prompting.md): review without rewriting, return a scoped fragment, and keep multiple prompts self-contained |
 
 The `commit-draft`, `commit-breaking`, `commit-game-feedback`,
 `commit-design-tokens`, `commit-split-independent`,
@@ -28,6 +29,13 @@ reference loading and proposed checks; do not execute game or design tools.
 The split cases exercise grouping, dependency order, asset completeness,
 and user overrides through read-only plans; they do not execute commits
 or reversions. Inspect the transcript as well as unchanged files.
+
+The three `image-prompt-*` cases copy only the shared core package and exercise
+text output. They do not cover the two entry skills, image observation, or
+automatic routing. Use the [brief](../examples/brief-to-image-prompt.md) and
+[image](../examples/image-to-prompt.md) narrative cases for those checks, with
+their named core dependency available. No image generation or asset processing
+is authorized by these trials.
 
 ## Prepare
 

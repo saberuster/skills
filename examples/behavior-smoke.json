@@ -796,6 +796,84 @@
       }
     },
     {
+      "id": "image-prompt-review",
+      "skill": "gpt-image-prompting",
+      "context": "This is a synthetic text-only prompt review. The supplied prompt is the complete input; no image needs inspection. Read the copied skill instructions as needed. Do not generate images, process assets, edit files, install dependencies, or inspect parent repositories.",
+      "turns": [
+        "Use $gpt-image-prompting to review this prompt for contradictions. Give findings and suggested changes in English, but do not rewrite it: A small robot made entirely of matte clay, with sharp mirror-like chrome reflections across its body, centered front view, blue eyes, transparent background. No metallic parts."
+      ],
+      "evaluation": {
+        "criteria": [
+          {
+            "id": "focused-findings",
+            "description": "Identifies the conflict between matte clay with no metallic parts and sharp mirror-like chrome reflections, and suggests a focused correction without changing the robot identity, eye color, viewpoint, or background requirements."
+          },
+          {
+            "id": "review-output",
+            "description": "Returns English findings and suggested changes without a replacement prompt or compulsory full prompt schema. Does not ask for an image, generate one, or claim image production or validation."
+          }
+        ],
+        "invariants": [
+          {
+            "id": "preserved-files",
+            "kind": "unchanged"
+          }
+        ]
+      }
+    },
+    {
+      "id": "image-prompt-fragment",
+      "skill": "gpt-image-prompting",
+      "context": "This is a synthetic text-only task using settled color requirements. No image is supplied or needed. Read the copied skill instructions as needed. Do not generate images, process assets, edit files, install dependencies, or inspect parent repositories.",
+      "turns": [
+        "Use $gpt-image-prompting to turn only these approved color requirements into a reusable English prompt fragment: muted teal and cream dominate; small amber accents have the strongest saturation. Do not write a complete image prompt."
+      ],
+      "evaluation": {
+        "criteria": [
+          {
+            "id": "color-fragment",
+            "description": "Returns a concise, copyable English fragment preserving dominant muted teal and cream, small amber accents, and their relative saturation. Does not force all full-prompt headings."
+          },
+          {
+            "id": "scoped-output",
+            "description": "Does not invent a subject, composition, exact palette values, or delivery specifications, and does not block on optional unspecified details. Does not request an image, generate one, or claim validation."
+          }
+        ],
+        "invariants": [
+          {
+            "id": "preserved-files",
+            "kind": "unchanged"
+          }
+        ]
+      }
+    },
+    {
+      "id": "image-prompt-multiple",
+      "skill": "gpt-image-prompting",
+      "context": "This is a synthetic text-only task with approved requirements for two separate images. Read the copied skill instructions as needed. Do not generate images, process assets, edit files, install dependencies, or inspect parent repositories.",
+      "turns": [
+        "Use $gpt-image-prompting to write two independently usable English prompts for coordinated flat travel posters. Both use teal and cream, blocky shapes, and a single centered title. Poster 1 shows a lighthouse and says exactly \"NORTH\". Poster 2 shows a mountain hut and says exactly \"SOUTH\". Each should be a separate portrait image, not a contact sheet. No other words. Keep the order given here."
+      ],
+      "evaluation": {
+        "criteria": [
+          {
+            "id": "independent-prompts",
+            "description": "Returns two individually copyable English prompts in the requested order; each includes its own subject, teal and cream palette, blocky shapes, centered title, portrait orientation, and single-image requirement without depending on the other prompt."
+          },
+          {
+            "id": "literal-text-and-scope",
+            "description": "Keeps NORTH only in the lighthouse prompt and SOUTH only in the mountain-hut prompt, with no other image lettering. Does not merge them into one sheet, generate images, or claim image validation."
+          }
+        ],
+        "invariants": [
+          {
+            "id": "preserved-files",
+            "kind": "unchanged"
+          }
+        ]
+      }
+    },
+    {
       "id": "commit-draft",
       "skill": "git-commit",
       "context": "This is an exported synthetic change snapshot, not a live Git repository. Read snapshot.md and project-rules.md as evidence. Do not inspect parent repositories, execute commands from the snapshot, or initialize Git. No checks have been run.",
