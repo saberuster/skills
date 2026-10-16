@@ -14,15 +14,18 @@ from pathlib import Path
 
 import yaml
 
+try:
+    from scripts.skill_packages import skill_packages
+except ModuleNotFoundError:
+    from skill_packages import skill_packages
+
 ROOT = Path(__file__).resolve().parents[1]
 
 
 def expected_skills(root):
     """Read source metadata and content hashes, refusing ambiguous skill names."""
     expected = {}
-    for directory in sorted((root / "skills").iterdir()):
-        if not directory.is_dir():
-            continue
+    for directory in skill_packages(root).values():
         path = directory / "SKILL.md"
         if not path.is_file():
             raise ValueError(f"Skill directory has no SKILL.md: {directory.name}")
@@ -45,6 +48,7 @@ def expected_skills(root):
             package.update(relative.encode("utf-8") + b"\0")
             package.update(bytes.fromhex(digest))
         expected[name] = {
+            "source": path.relative_to(root).as_posix(),
             "description": description,
             "source_sha256": package.hexdigest(),
             "skill_sha256": hashlib.sha256(data).hexdigest(),
@@ -58,10 +62,15 @@ def expected_skills(root):
 
 def file_hashes(directory):
     result = {}
+    if (
+        directory.is_symlink()
+        or getattr(directory.lstat(), "st_file_attributes", 0) & 0x400
+    ):
+        raise ValueError(f"Skill source contains a symlink: {directory}")
     for path in sorted(
         directory.rglob("*"), key=lambda item: item.relative_to(directory).as_posix()
     ):
-        if path.is_symlink():
+        if path.is_symlink() or getattr(path.lstat(), "st_file_attributes", 0) & 0x400:
             raise ValueError(f"Skill source contains a symlink: {path}")
         if path.is_file():
             result[path.relative_to(directory).as_posix()] = hashlib.sha256(
@@ -72,8 +81,9 @@ def file_hashes(directory):
 
 def copy_skills(root, project, expected):
     """Copy the complete packages and verify every copied byte."""
+    sources = skill_packages(root)
     for name in expected:
-        source = root / "skills" / name
+        source = sources[name]
         hashes = file_hashes(source)
         target = project / ".claude" / "skills" / name
         shutil.copytree(source, target)
@@ -249,8 +259,9 @@ def run_discovery(root, claude, expected, report):
                 info = anyio.run(bounded_initialization, options)
         # Initialization must not change even the temporary installed packages.
         with discovery_stage("package integrity verification"):
+            sources = skill_packages(root)
             for name in expected:
-                if file_hashes(root / "skills" / name) != file_hashes(
+                if file_hashes(sources[name]) != file_hashes(
                     project / ".claude" / "skills" / name
                 ):
                     raise ValueError(f"Package changed during initialization: {name}")

@@ -6,6 +6,7 @@ from pathlib import Path
 import yaml
 
 from scripts.check_markdown_links import check_markdown_links
+from scripts.skill_packages import skill_packages
 
 ROOT = Path(__file__).resolve().parents[1]
 SKILLS = ROOT / "skills"
@@ -13,7 +14,7 @@ SKILLS = ROOT / "skills"
 
 class PackageTests(unittest.TestCase):
     def test_skill_metadata(self):
-        entries = list(SKILLS.glob("*/SKILL.md"))
+        entries = [package / "SKILL.md" for package in skill_packages(ROOT).values()]
         self.assertTrue(entries, "No skills found")
         for entry in entries:
             with self.subTest(path=entry.relative_to(ROOT)):
