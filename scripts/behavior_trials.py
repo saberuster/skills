@@ -10,6 +10,11 @@ from pathlib import Path
 
 from markdown_it import MarkdownIt
 
+try:
+    from scripts.skill_packages import skill_packages
+except ModuleNotFoundError:
+    from skill_packages import skill_packages
+
 ROOT = Path(__file__).resolve().parents[1]
 SPEC = ROOT / "examples/behavior-smoke.json"
 
@@ -67,6 +72,10 @@ def prepare(output, cases=None, source_root=ROOT, spec_path=SPEC):
     # A run may never write beneath the source packages it snapshots.
     if output.is_relative_to(source_root / "skills"):
         raise ValueError("Run directory must be outside source skill packages")
+    packages = skill_packages(source_root)
+    for case in selected:
+        if case["skill"] not in packages:
+            raise ValueError(f"Missing source skill: {case['skill']}")
     revision = subprocess.run(
         ["git", "-C", str(source_root), "rev-parse", "HEAD"],
         capture_output=True,
@@ -78,7 +87,7 @@ def prepare(output, cases=None, source_root=ROOT, spec_path=SPEC):
         trial = output / case["id"]
         workspace = trial / "workspace"
         workspace.mkdir(parents=True)
-        source = source_root / "skills" / case["skill"]
+        source = packages[case["skill"]]
         source_hashes = hashes(source)
         if "SKILL.md" not in source_hashes:
             raise ValueError(f"Missing source skill: {source}")

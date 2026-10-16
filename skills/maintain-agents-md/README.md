@@ -1,6 +1,7 @@
 # Maintain AGENTS.md
 
-Capture, review, trim, or revise durable project rules in `AGENTS.md` files.
+Capture, create, review, trim, or revise durable project rules in `AGENTS.md`
+files.
 Preserve obligations and place local rules in their applicable scope. See the
 [skill instructions](SKILL.md) for the complete workflow.
 
@@ -16,6 +17,12 @@ missing guidance or navigation across eight project responsibilities. Local
 maintenance stays within its requested scope. Build and test guidance is checked
 against its maintained sources; inspected commands are distinguished from checks
 actually run. This is not a full implementation or architecture audit.
+
+Trimming removes generic advice a capable agent already follows, facts
+discoverable from code or linked documents, and duplicates across the scope
+chain, while keeping every obligation. Reviews flag files at risk of the host's
+loading size limit and note sibling instruction files for other hosts, such as
+`CLAUDE.md`, that import, link, or diverge from `AGENTS.md`.
 
 Document titles and headings at every level default to English unless the user
 explicitly chooses another heading language. Body text follows the user's

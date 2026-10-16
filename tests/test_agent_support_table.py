@@ -146,6 +146,22 @@ class SupportTableTests(unittest.TestCase):
             hashes["body_sha256"], hashlib.sha256(b"\nInstructions.\n").hexdigest()
         )
 
+    def test_nested_package_hash_and_readme_link_follow_actual_source(self):
+        source = self.root / "skills/alpha"
+        original = source_hashes(self.root)["alpha"]["source_sha256"]
+        target = self.root / "skills/fern/alpha"
+        target.parent.mkdir(parents=True)
+        source.rename(target)
+        hashes = source_hashes(self.root)
+        self.assertEqual(hashes["alpha"]["source_sha256"], original)
+        rendered = self.render()
+        self.assertIn("[alpha](skills/fern/alpha/SKILL.md)", rendered)
+        self.assertTrue(self.row(rendered).endswith("| &#9989; | &#9989; |"))
+
+    def test_catalog_prefers_readme_when_present(self):
+        (self.root / "skills/alpha/README.md").write_bytes(b"# Alpha\n")
+        self.assertIn("[alpha](skills/alpha/README.md)", self.render())
+
     def test_changed_resource_invalidates_both_clients_package_evidence(self):
         (self.root / "skills/alpha/resource.txt").write_bytes(b"Changed.\n")
         self.assertTrue(self.row(self.render()).endswith("| &mdash; | &mdash; |"))
