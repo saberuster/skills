@@ -1,0 +1,7 @@
+interface:
+  display_name: "Unslop"
+  short_description: "Edit formulaic prose while preserving meaning and voice"
+  default_prompt: "Use $unslop to make this text more direct and natural while preserving its meaning, necessary qualifications, and my voice."
+
+policy:
+  allow_implicit_invocation: true

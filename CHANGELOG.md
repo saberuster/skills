@@ -6,6 +6,10 @@ Planned next minor release: `0.2.0`.
 
 ### Added
 
+- `unslop` in `skills/fern` for focused prose revision and review, preserving
+  meaning, claim strength, exact content, and the writer's voice. Includes
+  contextual patterns, counterexamples, source rationale, and synthetic behavior
+  cases for English, Chinese, unchanged good text, and editing boundaries.
 - Shared package discovery for standalone skills and skills grouped in
   collections, used by client probes, behavior trials, and package checks.
   Catalog links fall back to `SKILL.md` when a package has no README.

@@ -8,17 +8,13 @@ structured GPT Image prompts from briefs and reference images, and prepare
 Conventional Commits.
 
 [fern](skills/fern/README.md) groups personal workflows for accomplishing
-complex tasks with the simplest effective methods. Its first skill is
+complex tasks with the simplest effective methods. It includes
 [Technical Writing](skills/fern/technical-writing/SKILL.md), migrated
-from `technical-docs`; discovery under the new name is not yet verified.
+from `technical-docs`, and [Unslop](skills/fern/unslop/SKILL.md) for focused
+language editing.
 
 [Image generation](skills/image-generation/README.md) groups the three GPT Image
-prompting skills. Client discovery after their source move and workflow updates
-is not yet verified; the support table retains its recorded source revision.
-
-New skill: [git-commit](skills/git-commit/README.md). Client discovery for this
-addition is not yet verified; the generated table below retains its recorded
-source revision.
+prompting skills.
 
 ## Available skills
 
@@ -41,12 +37,14 @@ the coverage limits.
 | [maintain-skills](skills/maintain-skills/README.md) | &#9989; | &#9989; |
 | [talk-it-through](skills/talk-it-through/README.md) | &#9989; | &#9989; |
 | [technical-writing](skills/fern/technical-writing/SKILL.md) | &#9989; | &#9989; |
+| [unslop](skills/fern/unslop/SKILL.md) | &#9989; | &#9989; |
 
 &#9989; discovery passed; &#10060; discovery failed; &mdash; unknown.
 Channel: `pinned`. Versions:
 Codex `codex-cli 0.161.0`; Claude Code `2.1.292 (Claude Code)`.
-Tested source commit: `18dd797d699ddce1d100c1bc9f40ff4bda4bc2d0`.
-Evidence: [CI run](https://github.com/saberuster/skills/actions/runs/38950060296).
+Source base commit: `cf7ac87a6091ff5c652857078ff0cd790fb85116`.
+Evidence: local discovery; hosted CI not run.
+Local evidence covers the current working tree.
 
 <!-- agent-support:end -->
 
