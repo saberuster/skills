@@ -1,0 +1,7 @@
+interface:
+  display_name: "Technical Writing"
+  short_description: "Write and maintain version-controlled project docs"
+  default_prompt: "Use $technical-writing to write or revise this project's technical documentation, following its conventions and checking the supporting evidence."
+
+policy:
+  allow_implicit_invocation: true

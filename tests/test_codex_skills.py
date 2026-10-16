@@ -82,6 +82,27 @@ class CodexDiscoveryTests(unittest.TestCase):
         with self.assertRaisesRegex(DiscoveryError, "invalid YAML"):
             discover_expected(self.repo)
 
+    def test_nested_source_is_discovered_and_copied_as_leaf_package(self):
+        source = self.repo / "skills/fern/technical-writing"
+        source.mkdir(parents=True)
+        (source / "SKILL.md").write_text(
+            "---\nname: technical-writing\ndescription: Write documentation.\n---\nBody.\n",
+            encoding="ascii",
+        )
+        (source / "reference.txt").write_text("Nested resource.\n", encoding="ascii")
+        expected = discover_expected(self.repo)
+        self.assertEqual(expected["technical-writing"]["source"], source / "SKILL.md")
+        self.assertNotIn("fern", expected)
+        with isolated_project(self.repo) as (project, _):
+            staged = project / ".agents/skills/technical-writing"
+            self.assertEqual(
+                (staged / "reference.txt").read_text(), "Nested resource.\n"
+            )
+            self.assertEqual(
+                package_sha256(staged), expected["technical-writing"]["source_sha256"]
+            )
+            self.assertFalse((project / ".agents/skills/fern").exists())
+
     def test_missing_source_skill_fails(self):
         (self.repo / "skills/empty").mkdir()
         with self.assertRaisesRegex(DiscoveryError, "missing source SKILL.md"):

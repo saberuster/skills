@@ -1,4 +1,4 @@
-# technical-docs examples and behavioral cases
+# technical-writing examples and behavioral cases
 
 All projects, files, and decisions below are fictional. Create each fixture in
 an isolated temporary project. Give the evaluating agent the skill, request,
@@ -11,7 +11,7 @@ checks do not establish model behavior or host discovery.
 **Request:**
 
 ```text
-Use $technical-docs to write docs/invitations.md for maintainers. Document the
+Use $technical-writing to write docs/invitations.md for maintainers. Document the
 accepted requirements below and keep unresolved choices visible.
 ```
 
@@ -28,12 +28,70 @@ is within scope. Use a small useful structure; no mandatory requirements,
 design, and specification file sequence or extra tool dependency is needed.
 Report actual checks and evidence limits without staging or committing.
 
+## Write a substantial document with a known structure
+
+**Request:**
+
+```text
+Use $technical-writing to write docs/worker-operations.md for on-call maintainers.
+Follow docs/service-operations.md's headings: Startup, Configuration, Monitoring,
+and Recovery. Use the supplied worker commands, schema, and recovery runbook.
+```
+
+**Input:** The reference document establishes the maintained structure. The
+worker sources supply enough verified material for several pages, including
+startup prerequisites, configuration defaults, health checks, and recovery
+steps. The audience, destination, scope, and section order are clear.
+
+**Acceptance:** Inspect the reference and relevant sources, then write the
+requested artifact directly using the established headings. Length alone does
+not require a separate outline or approval step. Preserve exact commands and
+identifiers, identify any remaining evidence limits, and check relevant links
+and command examples. Report actual checks without claiming runtime execution
+unless it occurred.
+
+## Write a clear task guide
+
+**Request:**
+
+```text
+Use $technical-writing to turn the supplied notes into docs/download-snapshot.md
+for new Birch operators. Help them download a project snapshot and keep the
+unresolved retention decision visible.
+```
+
+**Input:** Operators know the project interface but have not encountered
+snapshots. A snapshot is a saved copy of project metadata; it excludes uploaded
+files. Accepted steps: open **Snapshots**, select **Create snapshot**, wait for
+Birch to display **Ready** automatically, then select **Download**. If the
+browser asks for a destination, choose a writable folder. Success means the
+downloaded archive is present there. Snapshot retention is undecided. The local
+`docs/troubleshooting.md` has a `Download errors` heading and instructions for
+download failures. The notes have a vague `Stuff` heading, repeat that creating
+a snapshot creates a snapshot, call the download control both a button and an
+export action, link to troubleshooting as `click here`, and describe it only as
+the green control on the right. No executable tool or runtime evidence is
+supplied.
+
+**Acceptance:** Create the requested guide with its goal or first useful action
+near the start. Explain snapshot for this audience, preserve its contents and
+exclusions, and use precise wording, clear actors, consistent interface terms,
+and focused paragraphs without empty repetition. Number the operator's actions;
+present the automatic **Ready** state as a system result rather than a separate
+operator action. Put the destination condition before its instruction. Use
+informative headings and a descriptive link to the valid troubleshooting
+section. Identify controls in text without depending solely on color, position,
+or an image. Preserve the retention unknown and distinguish documented expected
+results from an executed download. Equivalent wording and useful structures are
+acceptable; no fixed sentence length, extra document, or approval step is
+required.
+
 ## Apply a local revision
 
 **Request:**
 
 ```text
-Use $technical-docs to correct only the configuration section of docs/jobs.md.
+Use $technical-writing to correct only the configuration section of docs/jobs.md.
 Document retry_limit from the supplied schema and preserve all other content.
 ```
 
@@ -52,7 +110,7 @@ which checks ran without claiming unrelated application tests passed.
 **Request:**
 
 ```text
-Use $technical-docs to review docs/invitations.md for requirements readiness.
+Use $technical-writing to review docs/invitations.md for requirements readiness.
 Report findings and a readiness judgment. Do not edit files.
 ```
 
@@ -67,12 +125,24 @@ and identify affected requirements or decisions. All files remain
 byte-identical; document readiness does not certify implementation or runtime
 behavior.
 
+**Ordinary review variation:** Use the same input with this request:
+
+```text
+Use $technical-writing to review docs/invitations.md for contradictions and
+unclear requirements. Report findings without editing files.
+```
+
+**Acceptance:** Report the contradiction and unresolved decision with evidence
+and focused corrections. No readiness assessment is requested or required by
+the project, so omit an automatic Ready, Conditionally ready, or Not ready
+rating. Preserve all files.
+
 ## Consolidate maintained guidance
 
 **Request:**
 
 ```text
-Use $technical-docs to consolidate docs/quickstart.md into docs/setup.md and
+Use $technical-writing to consolidate docs/quickstart.md into docs/setup.md and
 remove the superseded quickstart. Update affected documentation links.
 ```
 
@@ -86,17 +156,18 @@ status and rationale.
 **Acceptance:** Keep one authoritative home for current setup guidance, retain
 `SETUP-1` and the success check, and repair the README link to a valid
 replacement section. Remove the authorized superseded file while preserving
-useful navigation and historical decisions. Outline the substantial
-reorganization before drafting without treating the outline as a required
-approval gate. Check affected links and report actual verification; do not
-rewrite historical rationale as though current guidance had always applied.
+useful navigation and historical decisions. Draft an outline only if the scope
+or resulting structure needs clarification; the size of the reorganization
+alone does not require one. Check affected links and report actual verification;
+do not rewrite historical rationale as though current guidance had always
+applied.
 
 ## Check navigation after copying one package
 
 **Request:**
 
 ```text
-Use $technical-docs to revise only source/skills/atlas/README.md for standalone
+Use $technical-writing to revise only source/skills/atlas/README.md for standalone
 distribution. Check its navigation in the repository and after copying just
 the atlas package. The publisher identifies https://docs.example.com/atlas/setup
 as the canonical setup reference; network access is unavailable in this case.
@@ -124,7 +195,7 @@ ordinary repository documents can retain valid repository-relative links.
 **Request:**
 
 ```text
-Use $technical-docs to compare docs/jobs.md with this checkout's cancellation
+Use $technical-writing to compare docs/jobs.md with this checkout's cancellation
 capability. Report findings without editing documents or code.
 ```
 
@@ -140,18 +211,20 @@ older report claims cancellation passed in a different deployment.
 changes, and scope. Trace the public entrypoint and required layers instead of
 declaring conformance from the helper. Report the repeated-event violation with
 source evidence; distinguish source inspection, unavailable runtime evidence,
-and historical results. Treat retention as an open decision. For each compared
-capability, show its accepted basis, implementation evidence, runtime evidence,
-and gap or next step in a compact table or equivalent format. Preserve all
-files; do not weaken the contract, repair code, or create an unrequested
-roadmap.
+and historical results from the intended contract. Treat retention as an open
+decision and identify unknowns. Report the findings and supporting evidence in
+proportion to this focused comparison; a per-capability matrix is optional when
+it makes the result clearer. Identify the relevant gap or next verification
+step without requiring a repeated evidence checklist for every capability.
+Preserve all files; do not weaken the contract, repair code, or create an
+unrequested roadmap.
 
 ## Preserve an unresolved design choice
 
 **Request:**
 
 ```text
-Use $technical-docs to revise docs/storage-rfc.md with the supplied benchmark
+Use $technical-writing to revise docs/storage-rfc.md with the supplied benchmark
 results. Keep the storage decision provisional.
 ```
 

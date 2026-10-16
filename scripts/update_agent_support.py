@@ -7,6 +7,11 @@ import re
 import sys
 from pathlib import Path
 
+try:
+    from scripts.skill_packages import skill_packages
+except ModuleNotFoundError:
+    from skill_packages import skill_packages
+
 ROOT = Path(__file__).resolve().parents[1]
 START = b"<!-- agent-support:start -->"
 END = b"<!-- agent-support:end -->"
@@ -16,15 +21,8 @@ SYMBOLS = {"passed": "&#9989;", "failed": "&#10060;", "unknown": "&mdash;"}
 
 def source_hashes(root):
     """Match both probe hash formats without importing either client SDK."""
-    directory = root / "skills"
-    if not directory.is_dir() or directory.is_symlink():
-        raise ValueError("Source skill tree is missing or linked")
     sources = {}
-    for skill in sorted(directory.iterdir()):
-        if not skill.is_dir():
-            continue
-        if not re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", skill.name):
-            raise ValueError("Invalid source skill name")
+    for name, skill in skill_packages(root).items():
         entry = skill / "SKILL.md"
         if not entry.is_file():
             raise ValueError("Source skill is missing SKILL.md")
@@ -40,7 +38,11 @@ def source_hashes(root):
         parts = data.decode("utf-8").split("---", 2)
         if len(parts) != 3 or parts[0]:
             raise ValueError("Source skill has invalid frontmatter")
-        sources[skill.name] = {
+        sources[name] = {
+            "readme": (
+                skill.relative_to(root)
+                / ("README.md" if (skill / "README.md").is_file() else "SKILL.md")
+            ).as_posix(),
             "source_sha256": digest.hexdigest(),
             "skill_sha256": hashlib.sha256(data).hexdigest(),
             "body_sha256": hashlib.sha256(parts[2].encode()).hexdigest(),
@@ -165,7 +167,7 @@ def render_support_block(reports, revision, channel="pinned", run_url=None, root
     ]
     for name in sources:
         cells = [SYMBOLS[results[client][name]] for client in CLIENTS]
-        lines.append(f"| [{name}](skills/{name}/README.md) | {' | '.join(cells)} |")
+        lines.append(f"| [{name}]({sources[name]['readme']}) | {' | '.join(cells)} |")
     revision_label = "Tested source commit" if run_url else "Source base commit"
     lines.extend(
         [

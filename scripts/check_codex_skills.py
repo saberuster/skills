@@ -17,6 +17,11 @@ from pathlib import Path
 
 import yaml
 
+try:
+    from scripts.skill_packages import skill_packages
+except ModuleNotFoundError:
+    from skill_packages import skill_packages
+
 ROOT = Path(__file__).resolve().parents[1]
 
 
@@ -45,11 +50,10 @@ def package_sha256(directory):
 def discover_expected(repo_root):
     """Read the existing YAML contract, rather than approximate its parser."""
     expected = {}
-    sources = [
-        p / "SKILL.md" for p in sorted((repo_root / "skills").iterdir()) if p.is_dir()
-    ]
-    if not sources:
-        raise DiscoveryError("No skills/*/SKILL.md sources found")
+    try:
+        sources = [p / "SKILL.md" for p in skill_packages(repo_root).values()]
+    except ValueError as error:
+        raise DiscoveryError(str(error)) from error
     for source in sources:
         source_sha256 = package_sha256(source.parent)
         if not source.is_file():
@@ -112,11 +116,12 @@ def isolated_project(repo_root):
         destination.mkdir(parents=True)
         # Stop ancestor project discovery before it can reach a real checkout.
         (project / ".git").mkdir()
-        for source in sorted((repo_root / "skills").iterdir()):
-            if source.is_symlink() or any(p.is_symlink() for p in source.rglob("*")):
-                raise DiscoveryError(f"Refusing linked skill source: {source}")
-            if source.is_dir():
-                shutil.copytree(source, destination / source.name)
+        try:
+            sources = skill_packages(repo_root)
+        except ValueError as error:
+            raise DiscoveryError(str(error)) from error
+        for name, source in sources.items():
+            shutil.copytree(source, destination / name)
         home.mkdir()
         yield project.resolve(), home.resolve()
 

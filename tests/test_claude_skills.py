@@ -254,6 +254,34 @@ class TimeoutTests(unittest.TestCase):
 
 
 class IsolationTests(unittest.TestCase):
+    def test_nested_package_copy_uses_actual_source_path(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary) / "source"
+            skill = root / "skills/fern/technical-writing"
+            (skill / "agents").mkdir(parents=True)
+            (skill / "SKILL.md").write_text(
+                "---\nname: technical-writing\ndescription: Write docs.\n---\nBody.\n"
+            )
+            (skill / "agents/openai.yaml").write_text(
+                "policy:\n  allow_implicit_invocation: true\n"
+            )
+            (skill / "reference.txt").write_text("Nested reference.\n")
+            expected = expected_skills(root)
+            self.assertEqual(set(expected), {"technical-writing"})
+            self.assertEqual(
+                expected["technical-writing"]["source"],
+                "skills/fern/technical-writing/SKILL.md",
+            )
+            project = Path(temporary) / "project"
+            copy_skills(root, project, expected)
+            self.assertEqual(
+                (
+                    project / ".claude/skills/technical-writing/reference.txt"
+                ).read_text(),
+                "Nested reference.\n",
+            )
+            self.assertFalse((project / ".claude/skills/fern").exists())
+
     def test_skill_directory_without_entry_is_rejected(self):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)

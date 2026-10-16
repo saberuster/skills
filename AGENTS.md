@@ -5,7 +5,8 @@ conventions.
 
 ## Maintain skills
 
-- Edit skill sources in `skills/<name>/`. Keep `SKILL.md`, `agents/openai.yaml`,
+- Edit skill sources at their cataloged path: `skills/<name>/` or
+  `skills/<collection>/<name>/`. Keep `SKILL.md`, `agents/openai.yaml`,
   and any required resources consistent; keep packages self-contained. Add
   resources only when the skill needs them, not to fill a template.
 - Preserve task scope, authorization boundaries, conditions, and exceptions.

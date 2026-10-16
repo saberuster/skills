@@ -27,6 +27,8 @@ class BehaviorTrialsTests(unittest.TestCase):
         shutil.copytree(ROOT / "examples/fixtures", self.spec_path.parent / "fixtures")
         for case in trials.read_json(self.spec_path)["cases"]:
             package = self.source / "skills" / case["skill"]
+            if case["skill"] == "technical-writing":
+                package = self.source / "skills/fern/technical-writing"
             (package / "references").mkdir(parents=True, exist_ok=True)
             (package / "SKILL.md").write_text("Synthetic complete source\n")
             (package / "references/detail.txt").write_text("Bundled resource\n")
@@ -102,6 +104,19 @@ class BehaviorTrialsTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "overwrite"):
             trials.prepare(self.run, source_root=self.source)
         self.assertEqual(trials.hashes(self.run), baseline)
+
+    def test_nested_skill_preparation_records_actual_source_and_resources(self):
+        trial = self.run / "docs-schema"
+        manifest = trials.read_json(trial / "manifest.json")
+        self.assertEqual(
+            Path(manifest["source_path"]),
+            self.source / "skills/fern/technical-writing",
+        )
+        self.assertIn("references/detail.txt", manifest["source_hashes"])
+        self.assertEqual(
+            (trial / "workspace/skill/references/detail.txt").read_text(),
+            "Bundled resource\n",
+        )
 
     def test_unicode_fixture_round_trip_and_unchanged_record(self):
         spec = trials.read_json(self.spec_path)
@@ -262,7 +277,9 @@ class BehaviorTrialsTests(unittest.TestCase):
         self.assertEqual(result["source_drift"][0]["path"], "references/detail.txt")
 
     def test_unrelated_source_change_does_not_invalidate_trial(self):
-        (self.source / "skills/technical-docs/SKILL.md").write_text("Unrelated\n")
+        (self.source / "skills/fern/technical-writing/SKILL.md").write_text(
+            "Unrelated\n"
+        )
         self.assertEqual(self.evidence("learn-proposal")["outcome"], "passed")
 
     def test_definition_and_fixture_hashes_recorded(self):
