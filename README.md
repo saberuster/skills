@@ -48,15 +48,15 @@ the coverage limits.
 | [maintain-skills](skills/maintain-skills/README.md) | &#9989; | &#9989; |
 | [reflect](skills/fern/reflect/README.md) | &#9989; | &#9989; |
 | [research-skill-patterns](skills/meta-skills/research-skill-patterns/README.md) | &#9989; | &#9989; |
-| [talk-it-through](skills/thinking/talk-it-through/README.md) | &mdash; | &mdash; |
+| [talk-it-through](skills/thinking/talk-it-through/README.md) | &#9989; | &#9989; |
 | [technical-writing](skills/fern/technical-writing/SKILL.md) | &#9989; | &#9989; |
 | [unslop](skills/fern/unslop/SKILL.md) | &#9989; | &#9989; |
 
 &#9989; discovery passed; &#10060; discovery failed; &mdash; unknown.
 Channel: `pinned`. Versions:
 Codex `codex-cli 0.161.0`; Claude Code `2.1.292 (Claude Code)`.
-Tested source commit: `4f8a87ae99d64e1b98602cfc7fb41a8aed1eee90`.
-Evidence: [CI run](https://github.com/saberuster/skills/actions/runs/38959655862).
+Tested source commit: `389317b5161fc3a00d6cd7fea9e7f13a69b129cf`.
+Evidence: [CI run](https://github.com/saberuster/skills/actions/runs/38963411239).
 
 <!-- agent-support:end -->
 
