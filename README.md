@@ -36,13 +36,13 @@ the coverage limits.
 | [maintain-agents-md](skills/maintain-agents-md/README.md) | &#9989; | &#9989; |
 | [maintain-skills](skills/maintain-skills/README.md) | &#9989; | &#9989; |
 | [talk-it-through](skills/talk-it-through/README.md) | &#9989; | &#9989; |
-| [technical-writing](skills/fern/technical-writing/SKILL.md) | &mdash; | &mdash; |
+| [technical-writing](skills/fern/technical-writing/SKILL.md) | &#9989; | &#9989; |
 
 &#9989; discovery passed; &#10060; discovery failed; &mdash; unknown.
 Channel: `pinned`. Versions:
 Codex `codex-cli 0.161.0`; Claude Code `2.1.292 (Claude Code)`.
-Tested source commit: `cf2f55ebe514050a2cc27bddc14224d97a279b38`.
-Evidence: [CI run](https://github.com/saberuster/skills/actions/runs/38744771432).
+Tested source commit: `cb167a36174bb4ef8e349445a18e884098e2993b`.
+Evidence: [CI run](https://github.com/saberuster/skills/actions/runs/38942832179).
 
 <!-- agent-support:end -->
 
