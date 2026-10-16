@@ -10,6 +10,11 @@ Planned next minor release: `0.2.0`.
   meaning, claim strength, exact content, and the writer's voice. Includes
   contextual patterns, counterexamples, source rationale, and synthetic behavior
   cases for English, Chinese, unchanged good text, and editing boundaries.
+- The `meta-skills` collection for skills that maintain skills or agents, with
+  `research-skill-patterns` as its first member. The new skill supplements
+  creation, editing, and review with proportionate open-source research,
+  inspected evidence, and adopt/adapt/reject decisions. Includes a repository
+  entry rule and synthetic behavior cases; existing skill paths are unchanged.
 - Shared package discovery for standalone skills and skills grouped in
   collections, used by client probes, behavior trials, and package checks.
   Catalog links fall back to `SKILL.md` when a package has no README.

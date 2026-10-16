@@ -7,6 +7,12 @@ readiness for agent work, and work through ideas and decisions, or compose
 structured GPT Image prompts from briefs and reference images, and prepare
 Conventional Commits.
 
+[meta-skills](skills/meta-skills/README.md) groups skills for maintaining
+skills and agents. Its first member,
+[Research Skill Patterns](skills/meta-skills/research-skill-patterns/README.md),
+grounds skill creation, editing, and review in inspected open-source examples.
+The support workflow checks its discovery alongside the existing skills.
+
 [fern](skills/fern/README.md) groups personal workflows for accomplishing
 complex tasks with the simplest effective methods. It includes
 [Technical Writing](skills/fern/technical-writing/SKILL.md), migrated
@@ -35,6 +41,7 @@ the coverage limits.
 | [learn-from-session](skills/learn-from-session/README.md) | &#9989; | &#9989; |
 | [maintain-agents-md](skills/maintain-agents-md/README.md) | &#9989; | &#9989; |
 | [maintain-skills](skills/maintain-skills/README.md) | &#9989; | &#9989; |
+| [research-skill-patterns](skills/meta-skills/research-skill-patterns/README.md) | &#9989; | &#9989; |
 | [talk-it-through](skills/talk-it-through/README.md) | &#9989; | &#9989; |
 | [technical-writing](skills/fern/technical-writing/SKILL.md) | &#9989; | &#9989; |
 | [unslop](skills/fern/unslop/SKILL.md) | &#9989; | &#9989; |
@@ -42,7 +49,7 @@ the coverage limits.
 &#9989; discovery passed; &#10060; discovery failed; &mdash; unknown.
 Channel: `pinned`. Versions:
 Codex `codex-cli 0.161.0`; Claude Code `2.1.292 (Claude Code)`.
-Source base commit: `cf7ac87a6091ff5c652857078ff0cd790fb85116`.
+Source base commit: `c9f364db539cc2cb26933bb6d1fafadeb9c0a6fe`.
 Evidence: local discovery; hosted CI not run.
 Local evidence covers the current working tree.
 
