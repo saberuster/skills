@@ -18,8 +18,11 @@ the task requires it.
 
 - [Technical Writing](technical-writing/SKILL.md): create, revise,
   review, and consolidate technical project documentation.
+- [Unslop](unslop/SKILL.md): revise or review existing prose while preserving
+  meaning, necessary qualifications, and the writer's voice.
 
 ## Status
 
-The first skill is maintained here as `technical-writing`, migrated from
-`technical-docs`. Plugin packaging and installation are not configured yet.
+Skills are maintained individually in this collection. `technical-writing`
+was migrated from `technical-docs`; `unslop` handles focused language editing.
+Plugin packaging and installation are not configured yet.

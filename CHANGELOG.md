@@ -6,6 +6,10 @@ Planned next minor release: `0.2.0`.
 
 ### Added
 
+- `unslop` in `skills/fern` for focused prose revision and review, preserving
+  meaning, claim strength, exact content, and the writer's voice. Includes
+  contextual patterns, counterexamples, source rationale, and synthetic behavior
+  cases for English, Chinese, unchanged good text, and editing boundaries.
 - The `meta-skills` collection for skills that maintain skills or agents, with
   `research-skill-patterns` as its first member. The new skill supplements
   creation, editing, and review with proportionate open-source research,

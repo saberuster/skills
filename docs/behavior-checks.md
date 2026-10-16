@@ -17,6 +17,7 @@ the broader examples:
 | `ready-*` (eight cases) | [agent-ready](../examples/agent-ready.md): trace real fixture tasks, calibrate recommendations, distinguish validation layers, and preserve review scope |
 | `research-*` (four cases) | [research-skill-patterns](../examples/research-skill-patterns.md): inspect primary sources, resolve conflicts, reuse evidence, report gaps, and preserve authoring/review scope |
 | `image-prompt-review`, `image-prompt-fragment`, `image-prompt-multiple` | [gpt-image-prompting](../examples/gpt-image-prompting.md): review without rewriting, return a scoped fragment, and keep multiple prompts self-contained |
+| `unslop-*` (fourteen cases) | [unslop](../examples/unslop.md): improve existing prose while preserving meaning, voice, protected material, and action scope |
 
 The `commit-draft`, `commit-breaking`, `commit-game-feedback`,
 `commit-design-tokens`, `commit-split-independent`,
@@ -36,6 +37,32 @@ automatic routing. Use the [brief](../examples/brief-to-image-prompt.md) and
 [image](../examples/image-to-prompt.md) narrative cases for those checks, with
 their named core dependency available. No image generation or asset processing
 is authorized by these trials.
+
+The Unslop cases copy the complete `skills/fern/unslop/` package. Select exact
+IDs from the following list; `unslop-*` is descriptive, not a wildcard option:
+
+- `unslop-english` and `unslop-chinese`: natural prose improvements.
+- `unslop-good-english` and `unslop-good-chinese`: leave clear prose unchanged.
+- `unslop-contract` and `unslop-unknowns`: quantities, modals, scope, and unknown
+  actors or causes.
+- `unslop-protected` and `unslop-authority`: protected content, embedded
+  instructions as data, and unsupported claims.
+- `unslop-voice`: distinct voices, functional repetition, and a subsequent
+  explicit style preference; deliver its two turns separately.
+- `unslop-review` and `unslop-file-edit`: review-only versus an actual scoped
+  section edit with file and section invariants.
+- `unslop-previous`, `unslop-routing`, and `unslop-missing-target`: contextual
+  targets, workflow boundaries, and a necessary target question.
+
+For example, add `--case unslop-chinese --case unslop-file-edit` to the prepare
+command below. Chinese strings use Unicode escapes in the public ASCII JSON;
+preparation decodes the worker requests. Evaluate the decoded text and actual
+responses. All Unslop cases prohibit project commands and network use; only
+`unslop-file-edit` authorizes a fixture file change. Message revisions leave
+source files unchanged. Keep evaluator observations out of worker inputs and
+accept equivalent successful rewrites. Inspect the transcript for semantic
+drift, protected text, voice, and actions: unchanged hashes do not prove that
+no command ran, and a required file change does not prove a good edit.
 
 ## Prepare
 

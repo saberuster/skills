@@ -14,17 +14,13 @@ grounds skill creation, editing, and review in inspected open-source examples.
 The support workflow checks its discovery alongside the existing skills.
 
 [fern](skills/fern/README.md) groups personal workflows for accomplishing
-complex tasks with the simplest effective methods. Its first skill is
+complex tasks with the simplest effective methods. It includes
 [Technical Writing](skills/fern/technical-writing/SKILL.md), migrated
-from `technical-docs`; discovery under the new name is not yet verified.
+from `technical-docs`, and [Unslop](skills/fern/unslop/SKILL.md) for focused
+language editing.
 
 [Image generation](skills/image-generation/README.md) groups the three GPT Image
-prompting skills. Client discovery after their source move and workflow updates
-is not yet verified; the support table retains its recorded source revision.
-
-New skill: [git-commit](skills/git-commit/README.md). Client discovery for this
-addition is not yet verified; the generated table below retains its recorded
-source revision.
+prompting skills.
 
 ## Available skills
 
@@ -48,12 +44,14 @@ the coverage limits.
 | [research-skill-patterns](skills/meta-skills/research-skill-patterns/README.md) | &#9989; | &#9989; |
 | [talk-it-through](skills/talk-it-through/README.md) | &#9989; | &#9989; |
 | [technical-writing](skills/fern/technical-writing/SKILL.md) | &#9989; | &#9989; |
+| [unslop](skills/fern/unslop/SKILL.md) | &#9989; | &#9989; |
 
 &#9989; discovery passed; &#10060; discovery failed; &mdash; unknown.
 Channel: `pinned`. Versions:
 Codex `codex-cli 0.161.0`; Claude Code `2.1.292 (Claude Code)`.
-Tested source commit: `db5b711d9d0d9491617a1f70683efd9e1ff1ceef`.
-Evidence: [CI run](https://github.com/saberuster/skills/actions/runs/38955387851).
+Source base commit: `c9f364db539cc2cb26933bb6d1fafadeb9c0a6fe`.
+Evidence: local discovery; hosted CI not run.
+Local evidence covers the current working tree.
 
 <!-- agent-support:end -->
 
