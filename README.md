@@ -24,6 +24,10 @@ predecessor's results do not establish discovery for the renamed package.
 [Image generation](skills/image-generation/README.md) groups the three GPT Image
 prompting skills.
 
+[Thinking](skills/thinking/README.md) groups skills for exploring ideas,
+clarifying questions, and working through decisions. It includes
+`talk-it-through`; client discovery from its relocated source remains unverified.
+
 ## Available skills
 
 Open the linked README or skill instructions for its purpose and requirements.
@@ -44,7 +48,7 @@ the coverage limits.
 | [maintain-skills](skills/maintain-skills/README.md) | &#9989; | &#9989; |
 | [reflect](skills/fern/reflect/README.md) | &#9989; | &#9989; |
 | [research-skill-patterns](skills/meta-skills/research-skill-patterns/README.md) | &#9989; | &#9989; |
-| [talk-it-through](skills/talk-it-through/README.md) | &#9989; | &#9989; |
+| [talk-it-through](skills/thinking/talk-it-through/README.md) | &mdash; | &mdash; |
 | [technical-writing](skills/fern/technical-writing/SKILL.md) | &#9989; | &#9989; |
 | [unslop](skills/fern/unslop/SKILL.md) | &#9989; | &#9989; |
 

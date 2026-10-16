@@ -83,6 +83,10 @@ Planned next minor release: `0.2.0`.
 
 ### Changed
 
+- Moved `talk-it-through` into `skills/thinking/talk-it-through` and added the
+  `thinking` collection. Updated catalog links; the skill name, instructions,
+  and invocation policy are unchanged. Existing installations are unchanged;
+  client discovery from the relocated source remains unverified.
 - Simplified `reflect` into four stages with an early return for no supported
   candidates and conditional loading of routing branches. Consolidated repeated
   rules while preserving independent review, authoring dependencies, write
