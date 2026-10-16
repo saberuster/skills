@@ -18,6 +18,10 @@ Planned next minor release: `0.2.0`.
   source discovery for the nested location. Existing installations are unchanged.
 - Removed the `technical-writing` README; its catalog entries now link directly
   to `SKILL.md`. Catalog generation uses `SKILL.md` for packages without a README.
+- Simplified `technical-writing` into one short workflow with document patterns
+  and review details loaded as needed. Outlines now depend on unclear scope or
+  structure, readiness labels on an explicit request or project requirement,
+  and implementation comparisons use proportionate evidence reporting.
 - `git-commit` for Conventional Commits 1.0.0 message drafting, review, and
   authorized scoped commits, with five fallback preferences, existing lint
   integration, and synthetic cases for format and execution boundaries. Defaults
@@ -70,6 +74,9 @@ Planned next minor release: `0.2.0`.
 
 ### Changed
 
+- `technical-writing` now gives direct guidance for clear prose, reader actions,
+  and accessible instructions. Removed repeated example and review rules,
+  consolidated source boundaries, and recorded pstack as a writing reference.
 - `git-commit` maintenance guidance now describes disposable live Git trials
   for commit contents, intermediate-version checks, and preservation of unrelated
   work, with a combined split-execution case and explicit evidence limits.

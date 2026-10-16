@@ -5,121 +5,63 @@ description: Create, revise, review, or consolidate technical project documentat
 
 # Technical Writing
 
-Turn project facts, requirements, and decisions into documentation that readers
-can use and maintain with the project. Cover existing documents and drafts
-intended for the repository; being tracked already is not a prerequisite.
+Help readers understand, decide, or act through accurate project documentation.
+Existing files and new drafts intended for the repository are both in scope.
 
 ## Scope
 
-Use for requested documentation work, including documentation updates required
-by an implementation task and comparisons of identified documents or accepted
-contracts with implementation. A comparison can produce findings without
-changing documents. Ordinary explanations, design discussions, and coding do not
-by themselves request new documents. Review-only requests remain read-only;
-authorized revisions should produce the actual edits.
+Use for requested documentation work or updates required by an implementation
+task. Explanation, design discussion, or coding alone does not request a document
+or implementation audit. Project instruction governance and persistent task
+tracking keep their established workflows.
 
-Follow the project's language, source format, paths, templates, and authority.
-Keep project instruction governance and persistent execution tracking in their
-established workflows; storing those files in Git does not make them ordinary
-technical documentation.
+Review without editing unless changes are requested. Complete authorized edits
+without expanding the task.
 
 ## Workflow
 
-1. Identify the readers, what they need to understand, decide, or do, and the
-   existing document location. Read local rules and relevant surrounding content
-   before adding another entrypoint.
-2. Establish the basis: accepted requirements and decisions for intended
-   behavior; source, schemas, configuration, tests, and observations for
-   implemented behavior. Distinguish both from proposals, assumptions, and
-   unknowns. Ask only about material gaps unresolved by available context;
-   continue independent authorized work.
-3. Choose the smallest useful structure. Make local corrections directly;
-   outline substantial new documents or reorganizations before drafting. An
-   outline need not create an approval gate. Use the intent table below and read
-   only the relevant sections of
-   [content-patterns.md](references/content-patterns.md).
-4. Write or revise around the reader's questions. Preserve agreed scope,
-   normative strength, identifiers, and decision status. When authorities
-   disagree, explain the discrepancy and change only the authorized side or
-   sides; do not relax a contract to hide an implementation mismatch.
-5. Verify the affected content and its relationships using the rules below. For
-   substantive reviews or implementation comparisons, use
-   [review.md](references/review.md). Fix task-induced problems within scope and
-   report remaining gaps.
-6. Deliver the requested document, edits, or review. Summarize meaningful
-   changes, checks actually performed, and unresolved matters that affect use.
-   Documentation work does not itself authorize staging, committing, publishing,
-   or unrelated implementation.
-
-## Document intent
-
-| Reader's need | Content to prioritize |
-| --- | --- |
-| Enter the project or get started | Purpose, prerequisites, first useful result, navigation |
-| Establish requirements | Outcomes, scope, observable acceptance, unresolved decisions |
-| Propose or record a design | Context, options, evidence, decision status, consequences |
-| Consult a contract or reference | Precise behavior, inputs and outputs, defaults, errors, boundaries |
-| Understand architecture | Responsibilities, ownership, relationships, flows, constraints |
-| Learn, operate, or troubleshoot | Appropriate starting knowledge, actions, expected results, diagnosis and recovery |
-| Adopt a new version | Old and new behavior, affected consumers, compatibility and migration |
-
-These are content responsibilities, not mandatory files or development stages.
-Sections may serve different needs within one document when their purpose and
-status remain clear. Split documents when audience, lifecycle, size, or reuse
-warrants it. Do not generate a requirements/design/spec sequence or a directory
-tree merely to satisfy a classification.
+1. **Establish the target.** Identify the reader, intended outcome, document,
+   and relevant project rules and evidence. Follow the project's language,
+   format, paths, and authority. Ask only about material gaps that cannot be
+   resolved from available context. Continue independent authorized work while
+   keeping unresolved gaps explicit. Resolve them before claiming completion,
+   or report the affected parts as incomplete.
+2. **Write or revise.** Use the smallest structure that serves the reader.
+   Outline first when scope or structure needs clarification; otherwise write
+   directly. Read the relevant [content patterns](references/content-patterns.md)
+   when choosing or refining a document type. Preserve scope, decision status,
+   identifiers, constraints, and exceptions.
+3. **Check and deliver.** Verify affected facts, examples, links, and rendering
+   with applicable project checks. Fix issues introduced by the edit and report
+   meaningful changes, checks performed, and remaining gaps. For substantive
+   reviews or requested implementation comparisons, use
+   [review and verification](references/review.md).
 
 ## Writing and maintenance rules
 
-- Retain necessary constraints and exceptions when shortening text.
-- Use steps for ordered actions, tables for comparisons or structured reference,
-  and diagrams for relationships or flows when they clarify the content. Match
-  the project's renderer; keep diagrams editable and consistent with the prose,
-  with useful labels and text alternatives.
-- Distinguish runnable examples from illustrative fragments. Give the
-  prerequisites, inputs, working directory, placeholders, and expected result
-  needed to use the example; do not invent command syntax, outputs, or
-  successful runs.
-- Maintain an authoritative home for each substantive rule. Link or summarize
-  where needed rather than maintaining competing copies. Preserve useful
-  navigation and identifiers; repair affected links and anchors when moving or
-  renaming content.
-- Keep current guidance aligned with its stated version. Preserve historical
-  decisions and supersession relationships under local conventions. Add status,
-  applicability, or verification dates when they change how readers should use
-  the content, rather than requiring metadata and changelogs on every page.
-- Update generated documentation through its source and established generation
-  process.
-- Keep durable contracts and validation entrypoints in project docs; place
-  transient execution logs and task progress in their appropriate records. Do
-  not freeze private implementation choices without a reader or contract need.
+- Lead with the reader's answer or next action. Use plain, precise language,
+  clear actors, and consistent terms. Explain unfamiliar terms, keep paragraphs
+  focused, and remove repetition that adds no useful information.
+- Separate accepted requirements, observed behavior, proposals, and unknowns.
+  Existing code or passing tests do not establish intended behavior. Explain
+  discrepancies without weakening a contract to fit its implementation.
+- Keep one authoritative home for each rule. Repair affected links and anchors
+  after consolidation or moves; preserve useful history and supersession links.
+  Update generated documentation through its source. Add status or version
+  metadata only when it changes how readers should use the content.
+- Make examples usable: state needed prerequisites, inputs, working directory,
+  placeholders, and expected results. Label illustrative fragments; never invent
+  commands or successful runs. Run changed executable examples when available
+  and authorized, otherwise state what remains unverified.
+- Use descriptive headings and link text, and lists, tables, or diagrams when
+  helpful. Match the renderer; retain editable diagram sources and consistent
+  labels. Keep essential meaning in text, not solely in color, position, or
+  images. Prose-only changes do not require unrelated application tests.
+- For copied or packaged documents, check links from the intended delivery
+  location. Bundled targets must remain available; external references need
+  accessible sources. Local existence alone does not prove delivery works.
+- Keep durable contracts and validation entrypoints in project docs; put
+  transient execution logs and progress in their appropriate records.
 
-## Verification and delivery
-
-Choose checks that cover the change: relevant source facts and versions, local
-paths and anchors, terminology, examples, and rendering. Use the project's
-existing documentation checks where applicable. Execute changed runnable
-examples in an available, authorized environment; if that is not possible,
-identify the missing prerequisite and distinguish static inspection from
-execution. Prose-only edits do not require unrelated application tests.
-
-When documentation is moved, copied, or packaged, check links from its intended
-delivery location. Keep bundled references valid there and use accessible
-sources for material outside the delivered package; repository-local existence
-alone does not prove that a delivered reference works.
-
-For a substantial new document or reorganization, consider an independent reader
-check using the document and the references its intended readers can access.
-Check whether readers can find and use the information; this does not establish
-technical correctness. Small edits need no fixed interview, brainstorming round,
-or independent review ceremony.
-
-Review findings should identify location, evidence, impact, and a focused
-correction. Keep unverified questions separate from demonstrated defects. For
-requirements, design, or contract readiness judgments, identify the affected
-scope and unresolved decisions; document readiness does not certify
-implementation.
-
-The source rationale is in [sources.md](references/sources.md). Consult it when
-maintaining this skill or resolving a writing-policy question, not as a
-mandatory reading or browsing step for each document task.
+Consult [sources](references/sources.md) when maintaining this skill or resolving
+a writing-policy question, not during every documentation task.

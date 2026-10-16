@@ -1,76 +1,48 @@
 # Content patterns
 
-Read the sections relevant to the document's purpose. These are questions to
-answer, not mandatory templates. Combine purposes in clearly identified sections
-when that serves the same audience; split files when audience, authority,
-lifecycle, or navigation warrants it. Do not automatically create separate
-requirements, design, and specification files or four documentation directories.
+Use only the sections relevant to the reader's purpose. These are content needs,
+not mandatory templates or stages. Combine purposes when they serve the same
+reader; split files when audience, authority, lifecycle, or navigation warrants
+it. Do not create a requirements/design/spec sequence just to fit a taxonomy.
 
 ## Entry and onboarding
 
-- Explain the project's purpose, intended users, and the first useful outcome.
-- Provide supported prerequisites, setup, and a short path to that outcome,
-  including how to recognize success.
-- Link to maintained development, contribution, configuration, and support
-  material instead of duplicating it.
-- State relevant limitations or environment differences before the reader
-  encounters them.
+- Give the intended reader a short path from prerequisites to a first useful
+  result, including a success check and relevant environment limitations.
+- Link to maintained setup and support details instead of duplicating them.
 
 ## Requirements and acceptance
 
-- Identify the problem, actors, intended outcomes, scope, non-goals, and
-  relevant dependencies or constraints.
-- Express each requirement through observable conditions and results. Use
-  scenarios, thresholds, state tables, rules, or Given/When/Then where useful.
-- Check requirement-to-acceptance coverage when requirements have traceable
-  identifiers.
-- Include performance, reliability, security, privacy, accessibility,
-  compatibility, and observability requirements only when relevant; define how
-  each will be judged.
-- Keep unresolved product decisions visible rather than completing a template
-  with invented commitments.
+- State the problem, affected users, desired outcomes, scope, and constraints.
+  Make requirements observable and connect acceptance conditions to their IDs.
+- Include quality requirements only when relevant, with a way to judge them.
+  Keep unresolved choices visible rather than inventing commitments.
 
-Illustrative acceptance condition, not a universal threshold:
+Illustrative acceptance condition:
 
 > Given a user with an expired invitation, when they submit it, the service
 > rejects the request with `INVITATION_EXPIRED` and does not create an account.
 
 ## Design, RFC, and ADR
 
-- Explain the decision boundary, context, drivers, and constraints. Describe
-  alternatives only as far as needed to understand the choice; one viable option
-  can still warrant a record of its consequences.
-- Place supporting evidence beside the claim or decision. Separate measured
-  results from hypotheses and describe what evidence would invalidate the
-  rationale.
-- Record the decision and its status using the project's vocabulary, including
-  provisional or unresolved choices where applicable.
-- Cover relevant consequences: ownership, dependencies, security/privacy,
-  operations, performance, compatibility, migration, rollback, and risks.
-- Preserve accepted decision history and supersession links according to project
-  conventions. Keep current usage instructions current without rewriting
-  historical rationale as though it were always true.
-- Link stable conclusions to the local contract authority when the project
-  separates it from design history. An approved RFC may itself be authoritative;
-  do not require another document.
+- Explain the decision, meaningful alternatives, evidence, and consequences.
+  Separate measured results from hypotheses and provisional from accepted choices.
+- Preserve decision history and supersession under project conventions. Do not
+  rewrite historical rationale as though current guidance had always applied.
+- Link stable conclusions to their contract when separate. An approved RFC may
+  already be authoritative; do not require another document.
 
 ## Contracts and reference
 
-- Define observable guarantees and relevant scope, ownership/source of truth,
-  invariants, interfaces, state transitions, and conformance criteria.
-- State applicable conditions, inputs, outputs, side effects, errors, recovery
-  behavior, and non-guarantees. Consider persistence, permissions, concurrency,
-  and idempotency when they affect consumers.
-- For API, schema, and configuration reference, preserve exact identifiers and
-  cover types, defaults, allowed values/ranges, precedence, required fields, and
-  version availability where relevant.
-- Use MUST, MUST NOT, SHOULD, SHOULD NOT, and MAY only for actual obligations or
-  permissions. State the project's interpretation when needed.
-- Leave private helpers and algorithms open unless they are themselves an
-  accepted constraint. Describe consumer-visible behavior rather than producing
-  a code inventory.
-- Keep durable validation entrypoints and conformance criteria here; keep
-  individual command runs and their results in validation or execution records.
+- Describe observable guarantees, conditions, inputs, outputs, errors, and
+  recovery. Include ownership, state transitions, persistence, concurrency, or
+  idempotency where they affect consumers; leave private algorithms open unless
+  they are accepted constraints.
+- Preserve exact API and schema identifiers, types, defaults, allowed values,
+  precedence, required fields, and applicable versions.
+- Use MUST, MUST NOT, SHOULD, SHOULD NOT, and MAY for actual obligations or
+  permissions. Keep conformance criteria and validation entrypoints here;
+  individual run results belong in execution records.
 
 Illustrative contract:
 
@@ -81,52 +53,30 @@ Illustrative contract:
 
 ## Architecture and explanation
 
-- Explain system boundaries, component responsibilities, ownership,
-  dependencies, and the relevant flow of data or control.
-- Describe important lifecycles and constraints, including where state is owned
-  and how failures cross boundaries.
-- Use a diagram when relationships or sequence are easier to understand
-  visually. Match labels to code and prose; identify the diagram's scope and
-  preserve its editable source.
-- Give enough rationale to explain the structure. Link to decision records and
-  interface references for details that already have a maintained home.
+- Explain boundaries, responsibilities, state ownership, dependencies, and the
+  relevant flow, including lifecycle and failure boundaries.
+- Use diagrams when helpful and link to maintained decisions and interfaces
+  rather than producing a code inventory.
 
 ## Tutorials, tasks, and runbooks
 
-- A tutorial should guide a learner through a coherent example with explanations
-  and checkpoints. A task guide should help a prepared reader accomplish a
-  specific goal.
-- State relevant prerequisites, permissions, versions, environment, and starting
-  state. Explain placeholders and whether examples are complete or illustrative.
-- Order actions by dependencies; show expected output or another success check
-  where it helps the reader proceed.
-- Include likely failure paths and recovery. For runbooks, state operational
-  triggers, checks before acting, impact, stop conditions, and escalation or
-  rollback when applicable.
-- Distinguish commands verified in the applicable environment from commands
-  reviewed only as text.
+- Tutorials develop understanding through a coherent example; task guides help
+  prepared readers achieve a goal. State the starting state and show success.
+- Number reader actions in dependency order and distinguish system responses
+  from actions. Place applicable conditions before the instruction.
+- For runbooks, include triggers, impact, checks before acting, stop conditions,
+  and recovery or escalation where applicable.
 
 ## Troubleshooting
 
-- Start from an observable symptom, exact error message, or diagnostic result.
-  Preserve exact error strings needed for search, including localized strings
-  when necessary.
-- Separate confirmed causes from possible causes and provide checks that
-  distinguish them.
-- Distinguish a workaround from a resolution, explaining relevant limitations
-  and side effects.
-- Show how to verify recovery and when the available evidence calls for
-  escalation. Avoid presenting an unverified guess as the cause.
+- Start from an observable symptom and preserve searchable error strings.
+- Separate confirmed causes from hypotheses, with checks to distinguish them.
+  Identify workaround limits, how to verify recovery, and when to escalate.
 
 ## Migration and release information
 
-- Identify the affected versions and consumers, old and new behavior or
-  guarantees, compatibility impact, and necessary action.
-- Explain prerequisites, order-sensitive migration steps, deprecation behavior,
-  and how consumers can verify completion.
-- Describe rollback when feasible and relevant, including restrictions after
-  irreversible data or schema changes.
-- In release notes, prioritize reader-visible effects and required actions; link
-  to detailed migration or reference material.
-- Preserve identifiers and traceability across renamed or replaced contracts.
-  Follow project conventions for historical release records.
+- Explain affected versions and consumers, behavior changes, compatibility,
+  and required actions. Include order-sensitive steps, deprecations, completion
+  checks, and rollback limits where relevant.
+- Preserve identifier traceability and historical records. Release notes should
+  emphasize reader-visible effects and link to detailed migration guidance.

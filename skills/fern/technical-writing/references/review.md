@@ -1,100 +1,60 @@
 # Review and verification
 
-Use the sections needed for the request. A local correction needs its relevant
-context and checks, not a full audit. Reviewing alone does not authorize edits;
-when revisions are requested, complete the corrections within that scope.
+Inspect the requested scope. A local correction needs its relevant checks, not
+a full audit. Apply the shared writing and maintenance rules in `SKILL.md`.
 
 ## Purpose and evidence
 
-- Can the intended reader understand, decide, or do what the document promises?
-  Does its introduction match the actual coverage?
-- Are facts supported by the relevant project sources, with intended behavior,
-  observed behavior, proposals, assumptions, and unknowns distinguishable?
-- Do omissions, contradictions, or ambiguous terms change a reader's decision or
-  action? Check applicable roles, prerequisites, configuration precedence,
-  failure paths, and compatibility.
-- Are requirements observable and covered by acceptance conditions? Are quality
-  attributes included only when relevant and measurable?
-- Do design records explain meaningful alternatives and the evidence for a
-  decision, its status, and relevant consequences? Follow local ownership and
-  dating conventions without inventing metadata.
-- Do contracts specify guarantees and non-guarantees without unnecessarily
-  fixing private algorithms? Existing code or passing tests alone do not
-  establish intended behavior.
-- Are instructions and examples consistent with their stated environment and
-  version? Separate expected sample output from output actually observed.
+- Can readers understand, decide, or do what the document promises? Identify
+  contradictions, omissions, or ambiguity that change their action or decision.
+- Are requirements observable, design choices supported, and contracts clear
+  about guarantees and limits? Keep open decisions distinct from defects and
+  intended behavior distinct from implementation evidence.
+- Do examples and claims match the relevant environment and version? Distinguish
+  expected results, source inspection, executed checks, and historical reports.
 
 ## Reading and maintenance
 
-- Check information order, useful headings, terminology, cross-references, and
-  distracting repetition. Keep conditions close to the actions or claims they
-  qualify.
-- Check links, anchors, exact paths, images, and the existing documentation
-  build or lint rules as applicable. Inspect the rendered result when layout,
-  diagrams, or format-specific features changed; disclose an unavailable
-  renderer.
-- Check whether readers can access the referenced material. A useful
-  cross-reference need not be expanded into duplicated prose. For moved,
-  copied, or packaged documents, resolve links from the delivery location:
-  bundled targets must remain available, and external material needs an
-  appropriate source readers can access. Report unverified access separately
-  from observed broken links; this does not require every document to be
-  packaged, every link to be absolute, or every task to use the network.
-- After consolidation, preserve relevant decisions, requirement IDs, current
-  entrypoints, and history. Update affected inbound links and document
-  replacement locations under local conventions.
-- Keep current guidance and historical records distinguishable. A recent Git
-  modification date is not proof of technical revalidation.
+When checking links, distinguish a broken target from unverified external access.
 
-For substantive new or reorganized content, an independent reader can work
-without the author's conversation history. Provide the intended audience,
-document, and normally available references. Ask realistic questions such as
-locating the correct procedure, explaining a component boundary, or identifying
-success and failure outcomes. Revise supported gaps; do not require a fixed
-question count or repeated passes without new concerns. Reader comprehension is
-separate from source verification and execution.
+For substantial new or reorganized content, consider an independent reader check
+using only the document and references its readers can access. Check whether
+they can find the procedure, understand a boundary, or identify success. Use this
+when comprehension is uncertain; it is not a required round or proof of technical
+correctness.
 
-## Implementation reconciliation
+## Compare documentation with implementation
 
-Use this branch when asked to compare identified documentation or accepted
-contracts with an implementation. Do not turn ordinary writing or an informal
-code explanation into an implementation audit.
+Use only when asked to compare identified documents or accepted contracts with
+an implementation. Ordinary writing or code explanation does not request this.
 
-1. Establish the requested document version, implementation revision and
-   relevant local changes, comparison scope, environment, roles, and evidence
-   time. Do not substitute an older deployment or test report for the requested
-   checkout.
-2. Associate each capability with its accepted basis. Trace the complete user
-   entrypoint and the layers needed to fulfill it; a helper, schema, or isolated
-   instance does not establish the whole capability. Undecided behavior is an
-   open design question, not a demonstrated missing feature.
-3. Separate source/configuration evidence, checks actually executed for the
-   relevant target, and gaps. Distinguish unobserved behavior, unavailable
-   prerequisites, and demonstrated contract violations. Label historical
-   evidence and unsupported completion summaries accordingly.
-4. For each compared capability, show the accepted basis, implementation
-   evidence, runtime evidence, and remaining gap or next step. Use a compact
-   table or equivalent format. Limit the conclusion to the scope and conditions
-   these observations support.
-5. Explain disagreements without silently rewriting requirements, weakening
-   contracts, or changing code to make the comparison pass. Make only the
-   document or implementation changes already authorized; a gap in one
-   capability need not stop independent work.
+1. **Identify the comparison.** Establish the document, implementation revision,
+   relevant local changes, and scope. Include environment and evidence timing
+   when they affect the comparison; older deployment reports do not validate the
+   current checkout.
+2. **Trace the behavior.** Connect accepted requirements to the public entrypoint
+   and relevant layers. A helper or isolated instance cannot establish the whole
+   capability. Unresolved choices remain open decisions, not missing features.
+3. **Report the differences.** Connect findings to the accepted basis and actual
+   evidence. Distinguish source observations, executed checks, unavailable
+   prerequisites, unknowns, and demonstrated violations. Use detail or a table
+   proportional to the comparison; do not imply untested behavior was verified.
 
-When follow-up tasks are requested, include the observation and source, user
-scenario, expected change, preserved contracts, and observable acceptance. The
-comparison alone does not request a roadmap or implementation.
+Do not change requirements or code to make them agree without authorization.
+Follow-up tasks, when requested, should state the evidence, expected change,
+preserved contracts, and observable acceptance. Comparison alone does not request
+a roadmap.
 
 ## Findings and readiness
 
-Lead with findings ordered by impact, each with a location, evidence, concrete
+Lead with findings ordered by impact, each with its location, evidence,
 consequence, and correction. If none are supported, say `No findings` and state
 meaningful coverage limits.
 
-For requirements, design, or contract reviews, conclude with `Ready`,
-`Conditionally ready`, or `Not ready` for the stated document purpose,
-identifying the requirements or decisions affected by unresolved questions. This
-judgment does not certify implementation, runtime behavior, or visual quality.
+Use `Ready`, `Conditionally ready`, or `Not ready` only when the user asks for a
+readiness judgment or the project requires one. Tie it to the stated document
+purpose and affected unresolved decisions; it does not certify implementation,
+runtime behavior, or visual quality.
 
-For edits, briefly report the changed content, actual checks, and material gaps.
-Avoid adding a separate report file unless the task or project requires one.
+For edits, briefly report the result, actual checks, and material gaps. Create a
+separate report file only when requested or required by the project.
