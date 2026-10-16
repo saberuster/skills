@@ -74,6 +74,10 @@ Planned next minor release: `0.2.0`.
 
 ### Changed
 
+- Grouped `brief-to-image-prompt`, `gpt-image-prompting`, and `image-to-prompt`
+  under `skills/image-generation/`, with a collection README and updated catalog,
+  dependency links, and source-path guidance. Skill names, prompt workflows,
+  and individual installation destinations are unchanged.
 - `technical-writing` now gives direct guidance for clear prose, reader actions,
   and accessible instructions. Removed repeated example and review rules,
   consolidated source boundaries, and recorded pstack as a writing reference.

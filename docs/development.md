@@ -8,10 +8,11 @@ root. See [AGENTS.md](../AGENTS.md) for maintenance instructions.
 The package targets Codex's local skill format. The
 [agent support workflow](../.github/workflows/agent-support.yml) checks real CLI
 discovery for Codex and Claude Code in temporary projects. It checks packages at
-`skills/<name>/` and `skills/<collection>/<name>/`, including fern. Each
-package is copied into an isolated client directory under its own skill name;
-collection directories are not installed as skills. This is not a claim of
-successful task execution or automatic selection in every interface.
+`skills/<name>/` and `skills/<collection>/<name>/`, including fern and
+image-generation. Each package is copied into an isolated client directory
+under its own skill name; collection directories are not installed as skills.
+This is not a claim of successful task execution or automatic selection in
+every interface.
 
 | Check | Coverage |
 | --- | --- |

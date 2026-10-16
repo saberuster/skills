@@ -12,6 +12,10 @@ complex tasks with the simplest effective methods. Its first skill is
 [Technical Writing](skills/fern/technical-writing/SKILL.md), migrated
 from `technical-docs`; discovery under the new name is not yet verified.
 
+[Image generation](skills/image-generation/README.md) groups the three GPT Image
+prompting skills. Client discovery after this source move is not yet verified;
+the support table retains its recorded source revision.
+
 New skill: [git-commit](skills/git-commit/README.md). Client discovery for this
 addition is not yet verified; the generated table below retains its recorded
 source revision.
@@ -28,10 +32,10 @@ the coverage limits.
 | Skill | Codex | Claude Code |
 | --- | --- | --- |
 | [agent-ready](skills/agent-ready/README.md) | &#9989; | &#9989; |
-| [brief-to-image-prompt](skills/brief-to-image-prompt/README.md) | &#9989; | &#9989; |
+| [brief-to-image-prompt](skills/image-generation/brief-to-image-prompt/README.md) | &#9989; | &#9989; |
 | [git-commit](skills/git-commit/README.md) | &#9989; | &#9989; |
-| [gpt-image-prompting](skills/gpt-image-prompting/README.md) | &#9989; | &#9989; |
-| [image-to-prompt](skills/image-to-prompt/README.md) | &#9989; | &#9989; |
+| [gpt-image-prompting](skills/image-generation/gpt-image-prompting/README.md) | &#9989; | &#9989; |
+| [image-to-prompt](skills/image-generation/image-to-prompt/README.md) | &#9989; | &#9989; |
 | [learn-from-session](skills/learn-from-session/README.md) | &#9989; | &#9989; |
 | [maintain-agents-md](skills/maintain-agents-md/README.md) | &#9989; | &#9989; |
 | [maintain-skills](skills/maintain-skills/README.md) | &#9989; | &#9989; |
@@ -54,7 +58,7 @@ Evidence: [CI run](https://github.com/saberuster/skills/actions/runs/38944151918
 3. Follow its usage examples after confirming discovery in a fresh session.
 
 Skills are installed individually from their source folder, usually
-`skills/<name>/` or `skills/fern/<name>/`. Each skill folder contains
+`skills/<name>/` or `skills/<collection>/<name>/`. Each skill folder contains
 agent instructions in `SKILL.md`, metadata, and any supporting resources;
 some also include a human-facing `README.md`. Development dependencies are not
 needed to use the skills. The [shared installation protocol](docs/installation.md)

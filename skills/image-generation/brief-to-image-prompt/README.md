@@ -71,7 +71,7 @@ The [synthetic cases][examples] describe acceptance criteria, not successful run
 
 [Back to the skill catalog][catalog].
 
-[core]: https://github.com/saberuster/skills/blob/main/skills/gpt-image-prompting/README.md
+[core]: https://github.com/saberuster/skills/blob/main/skills/image-generation/gpt-image-prompting/README.md
 [installation]: https://github.com/saberuster/skills/blob/main/docs/installation.md
 [examples]: https://github.com/saberuster/skills/blob/main/examples/brief-to-image-prompt.md
 [catalog]: https://github.com/saberuster/skills#available-skills
