@@ -7,6 +7,12 @@ readiness for agent work, and work through ideas and decisions, or compose
 structured GPT Image prompts from briefs and reference images, and prepare
 Conventional Commits.
 
+[meta-skills](skills/meta-skills/README.md) groups skills for maintaining
+skills and agents. Its first member,
+[Research Skill Patterns](skills/meta-skills/research-skill-patterns/README.md),
+grounds skill creation, editing, and review in inspected open-source examples.
+The support workflow checks its discovery alongside the existing skills.
+
 [fern](skills/fern/README.md) groups personal workflows for accomplishing
 complex tasks with the simplest effective methods. Its first skill is
 [Technical Writing](skills/fern/technical-writing/SKILL.md), migrated
@@ -54,7 +60,8 @@ Evidence: [CI run](https://github.com/saberuster/skills/actions/runs/38944151918
 3. Follow its usage examples after confirming discovery in a fresh session.
 
 Skills are installed individually from their source folder, usually
-`skills/<name>/` or `skills/fern/<name>/`. Each skill folder contains
+`skills/<name>/` or `skills/<collection>/<name>/`, including `fern` and
+`meta-skills`. Each skill folder contains
 agent instructions in `SKILL.md`, metadata, and any supporting resources;
 some also include a human-facing `README.md`. Development dependencies are not
 needed to use the skills. The [shared installation protocol](docs/installation.md)

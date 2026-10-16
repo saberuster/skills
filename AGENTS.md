@@ -9,6 +9,14 @@ conventions.
   `skills/<collection>/<name>/`. Keep `SKILL.md`, `agents/openai.yaml`,
   and any required resources consistent; keep packages self-contained. Add
   resources only when the skill needs them, not to fill a template.
+- Place new skills for maintaining skills or agents in `skills/meta-skills/`.
+  The collection covers their instructions, configuration, lifecycle, review,
+  and improvement; each leaf remains an independent package.
+- When creating, reviewing, or editing skill content, apply
+  [research-skill-patterns](skills/meta-skills/research-skill-patterns/SKILL.md).
+  Use its proportional source research or evidence reuse, and report the
+  decisions and evidence limits. Share one research pass across collaborating
+  authoring and review workflows; reading reference skills does not recurse.
 - Preserve task scope, authorization boundaries, conditions, and exceptions.
   Explain intentional behavior changes and update the relevant synthetic cases
   in `examples/`. Reviewing or editing a skill does not mean performing its
