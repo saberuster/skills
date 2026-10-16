@@ -58,6 +58,9 @@ Planned next minor release: `0.2.0`.
 
 ### Changed
 
+- `git-commit` maintenance guidance now describes disposable live Git trials
+  for commit contents, intermediate-version checks, and preservation of unrelated
+  work, with a combined split-execution case and explicit evidence limits.
 - `maintain-agents-md` is shorter: language rules, authorization limits, and
   reporting duties are each stated once. Trimming now names what to remove
   (generic advice, discoverable facts, scope-chain duplicates) while keeping

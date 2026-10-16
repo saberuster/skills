@@ -132,6 +132,62 @@ directory is an isolation boundary for the trial instructions, not an OS
 sandbox;
 filesystem checks observe only that workspace, not the rest of the host.
 
+## Live Git trials
+
+Use this maintainer procedure when validating actual `git-commit` execution,
+such as the [split execution case](../examples/git-commit.md#live-split-execution-and-intermediate-versions).
+It is not a requirement for ordinary commits. The snapshot helper above does
+not create or verify live Git fixtures; retain these trial artifacts separately.
+
+1. Create a disposable repository outside the source repository and client
+   profiles, with no remote. Copy the skill package and record its revision and
+   file hashes. Prepare a runnable baseline, synthetic intended changes, and
+   unrelated staged, unstaged, and untracked work. Record fixture-local
+   identity, signing, hooks, and configuration; do not alter user configuration
+   to prepare the trial. If signing is not exercised, state that coverage limit.
+2. Before running the agent, save the baseline commit and expected logical
+   changes in evaluator-only evidence. Record index entries (path, mode, stage,
+   and blob content), working-file hashes, and tracking/staging status. Useful
+   inspection commands include `git ls-files --stage -z`,
+   `git status --porcelain=v1 -z`, and `git cat-file blob <object-id>`.
+   Include untracked files in the baseline; status labels alone cannot prove
+   unchanged contents. Keep expected outcomes and baseline evidence outside
+   the agent's inputs.
+3. Give a fresh agent the copied skill, fixture path, and a request naming the
+   changes it may commit. Allow staging, relevant checks, and local commits
+   within that fixture. Retain observed actions and check output. When a hook
+   checks the staged candidate, record its tree and result, then compare that
+   tree with the resulting commit so evidence cannot silently apply to a
+   different version.
+4. Independently inspect the commits created since the recorded baseline.
+   For each commit, compare `git ls-tree -r -z <commit>` and its blob contents
+   with the expected cumulative logical changes: paths, modes, object types,
+   and content must match. Check intent completeness and prerequisite order;
+   accept valid alternative ordering of independent intents. Do not infer
+   grouping from messages or a fixed commit count alone.
+5. Create a fresh isolated checkout or export matching each recorded commit
+   tree, and run that version's relevant checks there. Verify that the copy
+   includes the required files and dependencies before running checks. Retain
+   the commit/tree IDs, commands, exit codes, and output for each version.
+   Do not let later working-tree changes supply missing files or mask an
+   unusable intermediate version. Report unavailable checks as unverified.
+6. Compare the remaining index entries and working files with the expected
+   final state. For untouched paths, compare with the baseline. For paths
+   shared with intended changes, construct the expected index from the final
+   committed version plus the preserved unrelated staged changes, then the
+   expected working file by adding the preserved unstaged changes. Compare
+   these versions and their differences; do not require the whole index blob
+   to equal its baseline. Verify untracked files retain their contents and
+   tracking state. Check relevant modes and paths as well as hashes. This
+   comparison concerns content and staging state, not byte-identical
+   `.git/index` metadata. Confirm configuration and hooks remain as prepared.
+
+Retain a local result with per-commit checks, preservation comparisons, observed
+failures, and coverage limits. Use a separate evaluator to inspect the evidence;
+keep raw transcripts and machine paths out of the public repository. A passing
+synthetic trial does not establish real engine behavior, visual quality, human
+acceptance, or unexercised signing and rejecting-hook paths.
+
 ## Assess and record
 
 A separate evaluator reads the transcript, actual file changes, available tool

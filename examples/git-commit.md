@@ -68,6 +68,31 @@ and explicitly request one commit message. Expect the user override to be
 honored, without insisting on multiple commits, an extra approval, or a
 file/line quota. Keep the message-only request read-only.
 
+## Live split execution and intermediate versions
+
+Use the [live Git trial procedure](../docs/behavior-checks.md#live-git-trials)
+to exercise actual commits in a disposable repository. Combine an independent
+fix and its regression test, a backward-compatible loader extension, and an
+asset migration that consumes the extension. Put separate fix and loader hunks
+in one file. Include required source assets, runtime exports, and references in
+the migration; keep legacy resources usable until that migration lands.
+
+Add unrelated staged and unstaged edits, including in the shared source file,
+and an untracked note. Ask the agent to commit only the three named intents,
+preserving unrelated work. Expect three complete commits for this fixture,
+with the loader before its consumer; the independent fix can appear anywhere
+that preserves usable intermediate versions. Three is this fixture's expected
+count, not a general splitting rule.
+
+Independently check each actual commit's paths, modes, object types, and content
+against the expected cumulative changes. Run relevant checks from an isolated
+copy of each committed version. Verify preservation of unrelated staged and
+unstaged changes and untracked files. For shared paths, compare the index and
+working file with the expected final versions, including the newly committed
+changes; the entire index blob need not equal its baseline. A passing final
+version or an agent's completion message does not establish these properties.
+Record unavailable checks and fixture limits separately from successful evidence.
+
 ## Scoped commit with partially staged work
 
 In a disposable repository, stage a fix and its test, leave unrelated edits in
