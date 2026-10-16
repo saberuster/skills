@@ -2,7 +2,7 @@
 
 Focused standalone agent skills by saberuster, licensed under the
 [MIT License](LICENSE). Use them to maintain project instructions and installed
-skills, learn from a session, write technical documentation, review project
+skills, reflect on a session, write technical documentation, review project
 readiness for agent work, and work through ideas and decisions, or compose
 structured GPT Image prompts from briefs and reference images, and prepare
 Conventional Commits.
@@ -16,8 +16,10 @@ The support workflow checks its discovery alongside the existing skills.
 [fern](skills/fern/README.md) groups personal workflows for accomplishing
 complex tasks with the simplest effective methods. It includes
 [Technical Writing](skills/fern/technical-writing/SKILL.md), migrated
-from `technical-docs`, and [Unslop](skills/fern/unslop/SKILL.md) for focused
-language editing.
+from `technical-docs`, [Unslop](skills/fern/unslop/SKILL.md) for focused
+language editing, and [reflect](skills/fern/reflect/README.md), migrated from
+`learn-from-session`. Discovery for `reflect` remains unverified; its
+predecessor's results do not establish discovery for the renamed package.
 
 [Image generation](skills/image-generation/README.md) groups the three GPT Image
 prompting skills.
@@ -38,9 +40,9 @@ the coverage limits.
 | [git-commit](skills/git-commit/README.md) | &#9989; | &#9989; |
 | [gpt-image-prompting](skills/image-generation/gpt-image-prompting/README.md) | &#9989; | &#9989; |
 | [image-to-prompt](skills/image-generation/image-to-prompt/README.md) | &#9989; | &#9989; |
-| [learn-from-session](skills/learn-from-session/README.md) | &#9989; | &#9989; |
 | [maintain-agents-md](skills/maintain-agents-md/README.md) | &#9989; | &#9989; |
 | [maintain-skills](skills/maintain-skills/README.md) | &#9989; | &#9989; |
+| [reflect](skills/fern/reflect/README.md) | &mdash; | &mdash; |
 | [research-skill-patterns](skills/meta-skills/research-skill-patterns/README.md) | &#9989; | &#9989; |
 | [talk-it-through](skills/talk-it-through/README.md) | &#9989; | &#9989; |
 | [technical-writing](skills/fern/technical-writing/SKILL.md) | &#9989; | &#9989; |

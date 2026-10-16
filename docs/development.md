@@ -73,7 +73,7 @@ skills into the developer's user profile.
 Discovery does not establish invocation-policy parity. Claude Code does not
 apply `agents/openai.yaml`; in particular, the explicit-only Codex policy for
 `maintain-skills` is not enforced by that file in Claude Code. The
-`learn-from-session` editing workflow still requires an available
+`reflect` skill-editing workflow still requires an available
 `skill-creator`; discovery does not test this dependency or the Skills CLI used
 by `maintain-skills`. No model decisions, domain tools, or installation/update
 operations are exercised.

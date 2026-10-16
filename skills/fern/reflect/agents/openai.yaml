@@ -1,0 +1,7 @@
+interface:
+  display_name: "Reflect"
+  short_description: "Extract durable knowledge from the current session"
+  default_prompt: "Use $reflect to extract supported, reusable knowledge from this conversation, reconcile it with existing sources, and propose focused changes without editing files."
+
+policy:
+  allow_implicit_invocation: true

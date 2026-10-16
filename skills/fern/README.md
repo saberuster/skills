@@ -20,9 +20,15 @@ the task requires it.
   review, and consolidate technical project documentation.
 - [Unslop](unslop/SKILL.md): revise or review existing prose while preserving
   meaning, necessary qualifications, and the writer's voice.
+- [reflect](reflect/README.md): extract durable knowledge from the current
+  session, reconcile it with existing sources, and propose or apply scoped
+  updates according to the user's authorization.
 
 ## Status
 
 Skills are maintained individually in this collection. `technical-writing`
-was migrated from `technical-docs`; `unslop` handles focused language editing.
-Plugin packaging and installation are not configured yet.
+was migrated from `technical-docs`, and `reflect` from `learn-from-session`;
+`unslop` handles focused language editing.
+Existing installations are unchanged; select the new source path and name
+when installing or migrating a skill. Discovery under `reflect` has not been
+verified. Plugin packaging and installation are not configured yet.

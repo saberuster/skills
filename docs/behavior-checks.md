@@ -9,7 +9,7 @@ the broader examples:
 
 | Case | Skill and behavior |
 | --- | --- |
-| `learn-proposal` | [learn-from-session](../examples/learn-from-session.md): propose a supported lesson without changing sources |
+| `reflect-*` (seven cases) | [reflect](../examples/reflect.md): stop when no durable candidate exists, preserve proposal defaults, route knowledge, apply authorized updates without duplication, preserve unresolved obligations, handle an unavailable skill author, and check stale knowledge during recall |
 | `agents-*` (ten cases) | [maintain-agents-md](../examples/maintain-agents-md.md): discover coverage and effective sources, review commands, preserve policy, apply language preferences, and respect edit scope |
 | `skills-local-edits` | [maintain-skills](../examples/maintain-skills.md): identify and preserve local edits before an update |
 | `docs-schema` | [technical-writing](../examples/technical-writing.md): apply a scoped schema correction while preserving accepted content |
@@ -75,7 +75,7 @@ with a writable temporary path on Windows, and use `.venv\Scripts\python.exe`.
 .venv/bin/python scripts/behavior_trials.py prepare --output /tmp/skills-behavior-001
 ```
 
-Add `--case learn-proposal` to select one case; repeat `--case` for several.
+Add `--case reflect-proposal` to select one case; repeat `--case` for several.
 Preparation refuses to overwrite an existing run. Each case directory contains:
 
 - `workspace/`: the synthetic project and complete copied skill package.
@@ -84,6 +84,33 @@ Preparation refuses to overwrite an existing run. Each case directory contains:
 - `manifest.json`: preparation time, source revision and hashes, case and
   fixture hash, and initial workspace hashes.
 - `before/`: the original workspace for inspecting changes.
+
+## Select reflection cases
+
+Select the seven `reflect-*` cases by their exact IDs:
+
+| Case | Focus and observed file boundary |
+| --- | --- |
+| `reflect-empty` | Reject temporary notes and generic advice after reading the candidate rubric, without loading later references or starting a reviewer; unchanged workspace |
+| `reflect-proposal` | Evidence-backed skill improvement proposal; unchanged workspace |
+| `reflect-routing` | Route different kinds of durable knowledge to appropriate sources; unchanged workspace |
+| `reflect-save-repeat` | Save authorized project knowledge and reconcile a repeated request; only the existing project document may change |
+| `reflect-conflict` | Keep an existing obligation active while a proposed conflict is unresolved; unchanged workspace |
+| `reflect-missing-author` | Propose skill changes when the required author is unavailable and apply an independent document update; only the existing project document may change |
+| `reflect-stale-recall` | Check a stale fact through the ordinary project's reading entrypoint without invoking reflection; unchanged workspace |
+
+Deliver the two `reflect-save-repeat` requests separately in the same session.
+Retain the file contents after the first response as well as the final contents
+to check the initial save and detect repeated writes. For
+`reflect-stale-recall`, start a fresh agent with the case's ordinary task and
+project context; do not provide or load `skill/SKILL.md`. Its prewritten
+`AGENTS.md` and linked memory exercise the reading contract only; a passing
+result does not prove a complete save-and-recall sequence across sessions.
+
+For `reflect-empty`, retain observed tool actions to establish that the
+candidate rubric was read and routing, reviewer references, and an independent
+reviewer were not used. An unchanged workspace alone does not establish this
+early exit.
 
 ## Select AGENTS.md maintenance cases
 
@@ -151,8 +178,9 @@ substantive edits; the narrative examples describe that additional coverage.
 ## Run the agent
 
 Give a fresh agent the workspace path, copied `skill/SKILL.md`, context, and
-first
-request from `input.json`. Allow only the fixture operations requested by that
+first request from `input.json`, except for the ordinary-task
+`reflect-stale-recall` delivery described above. Allow only the fixture
+operations requested by that
 case. Keep `evaluator.json`, `manifest.json`, and `before/` out of its context.
 For `talk-acceptance`, deliver each subsequent request only after receiving the
 previous actual reply, keeping the same session. Do not add hints to continue.
@@ -280,7 +308,7 @@ Use the actual criterion IDs for the selected case. Missing assessments or
 evidence remain unverified. Save this JSON separately, then record the run:
 
 ```text
-.venv/bin/python scripts/behavior_trials.py record --trial /tmp/skills-behavior-001/learn-proposal --transcript /tmp/transcript.json --assessment /tmp/assessment.json --runner "Codex desktop subagent" --model "actual model/version, or unavailable"
+.venv/bin/python scripts/behavior_trials.py record --trial /tmp/skills-behavior-001/reflect-proposal --transcript /tmp/transcript.json --assessment /tmp/assessment.json --runner "Codex desktop subagent" --model "actual model/version, or unavailable"
 ```
 
 Record the actual runner and model/version when exposed; state unavailable when
