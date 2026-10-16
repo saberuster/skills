@@ -9,6 +9,15 @@ Planned next minor release: `0.2.0`.
 - Shared package discovery for standalone skills and skills grouped in
   collections, used by client probes, behavior trials, and package checks.
   Catalog links fall back to `SKILL.md` when a package has no README.
+- An initial `fern` README recording the personal workflow plugin project's
+  inspiration from pstack and Fern, and its goal of accomplishing complex tasks
+  with the simplest effective methods.
+- Moved `technical-docs` into `skills/fern/technical-writing` and renamed
+  it to `technical-writing` (Technical Writing), preserving its documentation
+  workflow and supporting references. Updated usage, behavioral cases, and
+  source discovery for the nested location. Existing installations are unchanged.
+- Removed the `technical-writing` README; its catalog entries now link directly
+  to `SKILL.md`. Catalog generation uses `SKILL.md` for packages without a README.
 - `git-commit` for Conventional Commits 1.0.0 message drafting, review, and
   authorized scoped commits, with five fallback preferences, existing lint
   integration, and synthetic cases for format and execution boundaries. Defaults

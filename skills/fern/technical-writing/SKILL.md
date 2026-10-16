@@ -1,9 +1,9 @@
 ---
-name: technical-docs
+name: technical-writing
 description: Create, revise, review, or consolidate technical project documentation intended for version control, or compare implementation with identified documents or accepted contracts. Use for requested documentation work or required documentation updates, not explanation-only requests or task tracking.
 ---
 
-# Technical Docs
+# Technical Writing
 
 Turn project facts, requirements, and decisions into documentation that readers
 can use and maintain with the project. Cover existing documents and drafts

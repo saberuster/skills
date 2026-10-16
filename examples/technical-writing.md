@@ -1,4 +1,4 @@
-# technical-docs examples and behavioral cases
+# technical-writing examples and behavioral cases
 
 All projects, files, and decisions below are fictional. Create each fixture in
 an isolated temporary project. Give the evaluating agent the skill, request,
@@ -11,7 +11,7 @@ checks do not establish model behavior or host discovery.
 **Request:**
 
 ```text
-Use $technical-docs to write docs/invitations.md for maintainers. Document the
+Use $technical-writing to write docs/invitations.md for maintainers. Document the
 accepted requirements below and keep unresolved choices visible.
 ```
 
@@ -33,7 +33,7 @@ Report actual checks and evidence limits without staging or committing.
 **Request:**
 
 ```text
-Use $technical-docs to correct only the configuration section of docs/jobs.md.
+Use $technical-writing to correct only the configuration section of docs/jobs.md.
 Document retry_limit from the supplied schema and preserve all other content.
 ```
 
@@ -52,7 +52,7 @@ which checks ran without claiming unrelated application tests passed.
 **Request:**
 
 ```text
-Use $technical-docs to review docs/invitations.md for requirements readiness.
+Use $technical-writing to review docs/invitations.md for requirements readiness.
 Report findings and a readiness judgment. Do not edit files.
 ```
 
@@ -72,7 +72,7 @@ behavior.
 **Request:**
 
 ```text
-Use $technical-docs to consolidate docs/quickstart.md into docs/setup.md and
+Use $technical-writing to consolidate docs/quickstart.md into docs/setup.md and
 remove the superseded quickstart. Update affected documentation links.
 ```
 
@@ -96,7 +96,7 @@ rewrite historical rationale as though current guidance had always applied.
 **Request:**
 
 ```text
-Use $technical-docs to revise only source/skills/atlas/README.md for standalone
+Use $technical-writing to revise only source/skills/atlas/README.md for standalone
 distribution. Check its navigation in the repository and after copying just
 the atlas package. The publisher identifies https://docs.example.com/atlas/setup
 as the canonical setup reference; network access is unavailable in this case.
@@ -124,7 +124,7 @@ ordinary repository documents can retain valid repository-relative links.
 **Request:**
 
 ```text
-Use $technical-docs to compare docs/jobs.md with this checkout's cancellation
+Use $technical-writing to compare docs/jobs.md with this checkout's cancellation
 capability. Report findings without editing documents or code.
 ```
 
@@ -151,7 +151,7 @@ roadmap.
 **Request:**
 
 ```text
-Use $technical-docs to revise docs/storage-rfc.md with the supplied benchmark
+Use $technical-writing to revise docs/storage-rfc.md with the supplied benchmark
 results. Keep the storage decision provisional.
 ```
 

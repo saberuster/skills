@@ -436,9 +436,9 @@
     },
     {
       "id": "docs-schema",
-      "skill": "technical-docs",
+      "skill": "technical-writing",
       "context": "The applicable local configuration schema is schema/jobs.json. docs/jobs.md is the requested maintained document. No runtime evidence is supplied.",
-      "turns": ["Use $technical-docs to correct only the configuration section of docs/jobs.md. Document retry_limit from the supplied schema and preserve all other content."],
+      "turns": ["Use $technical-writing to correct only the configuration section of docs/jobs.md. Document retry_limit from the supplied schema and preserve all other content."],
       "files": {
         "schema/jobs.json": "{\"type\":\"object\",\"properties\":{\"retry_limit\":{\"type\":\"integer\",\"default\":3,\"minimum\":0}}}\n",
         "docs/jobs.md": "# Jobs\n\n## Configuration\n\nretry_limit defaults to 5 and permits negative integers.\n\n## Cancellation guarantee\n\nAccepted JOB-1: cancelling a pending job emits exactly one Cancelled event. Repetition emits no additional event.\n\n## Historical design\n\nThe initial queue design used polling. This historical rationale is retained for migration readers.\n"

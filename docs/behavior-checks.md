@@ -12,7 +12,7 @@ the broader examples:
 | `learn-proposal` | [learn-from-session](../examples/learn-from-session.md): propose a supported lesson without changing sources |
 | `agents-*` (ten cases) | [maintain-agents-md](../examples/maintain-agents-md.md): discover coverage and effective sources, review commands, preserve policy, apply language preferences, and respect edit scope |
 | `skills-local-edits` | [maintain-skills](../examples/maintain-skills.md): identify and preserve local edits before an update |
-| `docs-schema` | [technical-docs](../examples/technical-docs.md): apply a scoped schema correction while preserving accepted content |
+| `docs-schema` | [technical-writing](../examples/technical-writing.md): apply a scoped schema correction while preserving accepted content |
 | `talk-acceptance` | [talk-it-through](../examples/talk-it-through.md): advance after local acceptance and stop when asked |
 | `ready-*` (eight cases) | [agent-ready](../examples/agent-ready.md): trace real fixture tasks, calibrate recommendations, distinguish validation layers, and preserve review scope |
 
