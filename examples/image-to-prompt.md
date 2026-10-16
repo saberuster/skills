@@ -115,9 +115,40 @@ Observe whether it reports the missing named dependency and avoids claiming to
 recover the original prompt, load the core, or verify reconstruction. It does not
 invent a tool or installation path, duplicate a core schema, or install anything.
 
+## 9. Reusable color fragment
+
+Fixture: the accessible lighthouse image from case 1.
+
+Request:
+
+> Extract only the color relationships as a short reusable English prompt
+> fragment. Do not write a complete scene prompt.
+
+Observe whether it returns a copyable fragment describing the visible red,
+dark blue, and pale color relationships. It should not import subject or camera
+instructions, force the full prompt schema, or invent exact palette values.
+
+## 10. Requested independent prompts
+
+Fixture: the accessible lighthouse image from case 1.
+
+Request:
+
+> Write two independently usable English prompts from this image. The first
+> preserves the lighthouse scene. The second replaces only the lighthouse with
+> a windmill. Preserve the island, camera angle, flat shadows, and color
+> relationships in both. Each is a separate landscape image, not a contact
+> sheet. The future generator receives only the text.
+
+Observe whether it inspects the image and produces two self-contained prompts,
+keeping their order and the second prompt's requested subject replacement.
+Neither prompt should rely on the attachment or on the other prompt.
+
 ## Routing checks
 
 - Positive: image-led prompts and requested style, composition, or local scope.
+- An image supplied only as background context does not require this entry;
+  route by the main work, while honoring explicit skill invocation.
 - Negative: requests to generate images, process assets, or verify native specs.
 - Check discovery, explicit loading, and implicit selection separately. Passing
   a supplied-instructions trial does not establish installed host discovery.

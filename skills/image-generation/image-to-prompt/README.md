@@ -1,8 +1,8 @@
 # Image to Prompt
 
-Describe a reference image as a GPT Image prompt, or extract its style,
-composition, or selected features. Use `gpt-image-prompting` for the shared prompt
-contract. See the [skill instructions](SKILL.md) for the workflow.
+Observe a reference image to describe its visible content or extract the
+requested style, composition, or features. Use `gpt-image-prompting` to express
+the result. See the [skill instructions](SKILL.md) for the workflow.
 
 ## Requirements and scope
 
@@ -14,12 +14,15 @@ Using the same source revision for both skills is recommended.
 Image inspection requires an accessible image and the host's image-reading
 capability. An explicit description can substitute when appropriate, but does not
 count as inspection. Default output is a self-contained whole-image text prompt.
-Attached-reference or editing prompts require a request to use that mode;
-scoped extraction follows the requested scope.
+Attached-reference or editing prompts require a request to use that mode.
+Scoped extraction can return only the requested reusable fragment.
 
-This instruction-only workflow writes prompts. It does not generate or process
-images, recover original prompts, or verify reconstruction. Prompts default to
-Chinese; requested language or format and literal image text take precedence.
+Use this entry when the main work is visual observation or extraction. An image
+supplied only as background does not require this entry; honor an explicitly
+selected skill. The core owns shared output, language, and revision rules.
+
+This instruction-only workflow writes prompt text. It does not generate or
+process images, recover original prompts, or verify reconstruction.
 
 Codex metadata allows implicit invocation. Claude Code does not apply
 `agents/openai.yaml`; metadata alone does not establish policy parity. Discovery,

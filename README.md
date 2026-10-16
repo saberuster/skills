@@ -13,8 +13,8 @@ complex tasks with the simplest effective methods. Its first skill is
 from `technical-docs`; discovery under the new name is not yet verified.
 
 [Image generation](skills/image-generation/README.md) groups the three GPT Image
-prompting skills. Client discovery after this source move is not yet verified;
-the support table retains its recorded source revision.
+prompting skills. Client discovery after their source move and workflow updates
+is not yet verified; the support table retains its recorded source revision.
 
 New skill: [git-commit](skills/git-commit/README.md). Client discovery for this
 addition is not yet verified; the generated table below retains its recorded

@@ -63,3 +63,38 @@ Final specifications may require downstream work. Express the desired file,
 pixel, alignment, or animation properties without claiming to have exported,
 sliced, palette-quantized, tested, or integrated anything. A prompt can request
 seamless tiles or matching views; writing it is not evidence of those results.
+
+## Example: complete asset prompt
+
+This example assumes the user has supplied the dimensions, palette limit,
+alpha rule, and design. It illustrates the English output requested for this
+example. Do not adopt these values as defaults for other tasks.
+
+```text
+[Task and use]
+Create a single pixel-art potion icon for a game inventory.
+
+[Image content]
+Show one round glass bottle with a short neck, cork stopper, and red liquid.
+Keep its silhouette easy to recognize at the final icon size.
+
+[Composition and viewpoint]
+Use a front view. Center the complete bottle with clear space around it.
+
+[Visual treatment]
+Use compact pixel clusters, a dark outline, and stepped shading. Concentrate
+detail on the liquid level and one small highlight; keep the rest simple.
+
+[Output requirements]
+The final asset is one 32 by 32 pixel PNG with a transparent background.
+Use at most 12 visible colors. Final alpha values must be either 0 or 255.
+Keep the logical pixel grid distinct from any enlarged preview.
+
+[Constraints and freedom]
+Include no lettering, labels, surrounding props, or cropped bottle parts.
+Small interior highlight shapes may vary within the established palette.
+```
+
+All requirements are in the same prompt. The example specifies an intended
+final asset; it does not claim that an image has been produced or checked, or
+that 32 by 32 is a supported native generation size.

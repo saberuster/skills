@@ -1,7 +1,7 @@
 interface:
   display_name: "GPT Image Prompting"
-  short_description: "Structure complete, consistent GPT Image prompts"
-  default_prompt: "Use $gpt-image-prompting to organize these established requirements into one titled GPT Image prompt, including output requirements."
+  short_description: "Structure, revise, or review GPT Image prompt text"
+  default_prompt: "Use $gpt-image-prompting to structure these established requirements or revise or review this prompt, returning only the output I request."
 
 policy:
   allow_implicit_invocation: true

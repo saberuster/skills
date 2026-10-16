@@ -74,6 +74,14 @@ Planned next minor release: `0.2.0`.
 
 ### Changed
 
+- Clarified the image-prompt skills' primary tasks: creative brief development,
+  visual extraction, and organizing, revising, or reviewing established prompts.
+  Explicit skill selection remains supported. Shared rules now distinguish
+  review-only feedback, reusable fragments, and full prompts, with separately
+  copyable prompts for requested independent outputs. Optional omissions do not
+  grant creative freedom. Consolidated output rules in the core, moved its
+  structure guide into the entrypoint, and made the pixel example conditional.
+  Added narrative cases and executable smoke definitions for these boundaries.
 - Grouped `brief-to-image-prompt`, `gpt-image-prompting`, and `image-to-prompt`
   under `skills/image-generation/`, with a collection README and updated catalog,
   dependency links, and source-path guidance. Skill names, prompt workflows,

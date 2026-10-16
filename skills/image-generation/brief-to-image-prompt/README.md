@@ -1,7 +1,7 @@
 # Brief to Image Prompt
 
-Turn an idea or brief into a GPT Image prompt. Resolve important creative choices
-with the user, then use `gpt-image-prompting` for the shared prompt contract.
+Develop an idea or brief by resolving consequential creative choices, then use
+`gpt-image-prompting` to express the established requirements as a prompt.
 See the [skill instructions](SKILL.md) for the workflow.
 
 ## Requirements and scope
@@ -11,10 +11,14 @@ the current host. The entry resolves the core by name using host discovery or
 supported invocation; it does not assume an installation path or install it.
 Using the same source revision for both skills is recommended.
 
-This instruction-only workflow writes and revises GPT Image prompts from the
-conversation and accessible references. It produces no images, processed assets,
-or verification results. Prompts default to Chinese; requested language or format
-and literal text intended for the image take precedence.
+Use this entry when the main work is clarifying the desired image. Known
+requirements, existing-prompt edits, and reviews can use the core directly.
+Honor an explicitly selected skill; a reference image alone does not change
+the main task.
+
+This instruction-only workflow produces prompt text, not images, processed
+assets, or verification results. The core owns output, language, and revision
+rules, including requested alternatives, review-only findings, and fragments.
 
 Codex metadata allows implicit invocation. Claude Code does not apply
 `agents/openai.yaml`; metadata alone does not establish policy parity. Discovery,
@@ -65,8 +69,10 @@ banner: two foxes resting under a maple tree, soft autumn light, no lettering.
 Choose the small background details freely.
 ```
 
-The entry asks only about choices that matter. A complete brief can proceed
-directly to a prompt; later edits preserve unaffected choices.
+The entry asks about conflicting hard requirements, information necessary for
+delivery, and consequential choices the user has retained. Optional details can
+be omitted; leaving them unspecified does not grant creative freedom. Use
+freedom the user has delegated, and proceed directly when the brief is complete.
 The [synthetic cases][examples] describe acceptance criteria, not successful runs.
 
 [Back to the skill catalog][catalog].

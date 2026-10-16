@@ -1,52 +1,56 @@
 ---
 name: gpt-image-prompting
 description: >-
-  Structure, revise, or check established image requirements as a complete
-  GPT Image prompt. Provides the shared prompt standard used by brief and
-  reference-image entry skills. Produces prompt text, including delivery
-  requirements; does not generate images or process assets.
+  Structure established image requirements, revise existing GPT Image prompts,
+  or review them without rewriting. Provides shared output rules for brief and
+  reference-image entry skills. Produces text only, not images or assets.
 ---
 
 # GPT Image Prompting
 
-Express established requirements as one self-contained, copyable GPT Image
-prompt. Own the prompt structure and consistency rules; the calling workflow
-owns brief development, image observation, and consequential creative choices.
-This skill also works directly on sufficiently specified requirements or an
-existing prompt. No other skill is required by this core.
+Own prompt wording, output structure, and consistency. Use directly for known
+requirements or existing prompts. A calling entry owns brief development,
+image observation, and creative choices; this core needs no other skill.
 
-## Use the available information
+## Resolve scope and information
 
-- Preserve the user's intent, accepted choices, literal image text, and scope.
-  Distinguish explicit requirements, supplied observations, and assumptions
-  internally; do not put this bookkeeping into the image prompt.
-- A later explicit change replaces the affected earlier requirement. Keep
-  unaffected requirements. Observations and assumptions do not override the
-  user's instructions. Ask about incompatible current hard requirements.
-- If a consequential preference is unresolved, surface the decision for the
-  current workflow to ask the user before finalizing. Do not choose a style,
-  subject design, use, or technical specification merely to fill a section.
-  Honor creative freedom the user has already delegated.
-- Refine wording and organization without changing meaning. Optional unknowns
-  may be omitted; an unknown required specification needs clarification.
-  Do not require the user to complete a form or reconfirm settled choices.
+- Follow the requested deliverable: review-only returns findings and suggested
+  corrections without a replacement prompt; a fragment request returns only
+  the reusable text for that scope; otherwise compose or revise full prompts.
+- Preserve intent, accepted choices, literal image text, and exact requirements.
+  Later explicit changes replace only affected requirements. Observations and
+  assumptions do not override instructions or become verified facts.
+- When drafting or revising, ask about conflicting hard requirements, missing
+  information necessary for the deliverable, and consequential choices the user
+  has not delegated. Do not silently choose identity, style, or asset specifications
+  when that would materially change the intended result. Omit optional gaps;
+  omission does not grant creative freedom. Use freedom already granted.
+- Ask directly when used alone; when an entry is active, let it resolve the
+  missing choices. Do not require a full form or reconfirm settled decisions.
 
-## Apply the shared standard
+## Compose and revise
 
-Read [prompt-structure.md](references/prompt-structure.md) when composing or
-revising the prompt. It defines six semantic sections:
+Use these semantic sections for full prompts. They are an authoring convention,
+not special GPT Image syntax. Keep relevant sections in order, omit empty ones,
+and state each requirement once. Do not expand a fragment into a full prompt.
 
-1. Task and use
-2. Image content
-3. Composition and viewpoint
-4. Visual treatment
-5. Output requirements
-6. Constraints and freedom
+| Section | Information to express |
+| --- | --- |
+| Task and use | What to create or edit, its use, and intended communication. |
+| Image content | Subjects, counts, attributes, actions, setting, and relationships. |
+| Composition and viewpoint | View, framing, placement, scale, depth, and negative space. |
+| Visual treatment | Medium, shapes, color, shading, edges, texture, and detail. |
+| Output requirements | Final dimensions, background and alpha, format, count, layout, and asset specifications. |
+| Constraints and freedom | Remaining invariants, exclusions, and explicitly flexible details. |
 
-Use the titles in the prompt language. Include only relevant, supported
-content; omit empty or irrelevant sections. Keep the meaning and order stable
-without padding a small request. State a requirement once, in its appropriate
-section, and keep related statements consistent.
+- Describe relationships, contact, and overlaps, not just object lists.
+  Distinguish screen placement, camera direction, and subject facing; clarify
+  anatomical sides when needed. Do not present estimated coordinates as measured.
+- Prefer useful proportions, readability, and edge or detail instructions to
+  filler quality tags. Camera terms and exclusions should serve the task.
+- Refine wording without losing required attributes, literal strings, view order,
+  or permitted variations. For revisions, remove superseded instructions and
+  adjust their consequences while preserving unaffected choices.
 
 Read conditional guidance only when needed:
 
@@ -55,30 +59,29 @@ Read conditional guidance only when needed:
 | Style description, stylized or pixel art, or game-asset specifications | [Visual styles and assets](references/visual-styles-and-assets.md) |
 | Attached references, image editing, exact lettering, or related outputs | [References, edits, and series](references/references-edits-and-series.md) |
 
-## Return the prompt
+## Deliver the result
 
-Default to Chinese, with titled natural-language sections inside one fenced
-text block. Follow an explicitly requested language or representation instead.
-Translate instructions and headings, not literal text meant to appear in the
-image. A requested JSON or YAML representation is not an API schema.
+Default to Chinese; preserve literal image text rather than translating it.
+Honor the requested language and format. Full prompts use natural-language
+section titles inside a fenced text block; fragments need only the requested
+text. A requested JSON or YAML representation is not an API schema.
 
-Delivery requirements belong inside the prompt, including final dimensions,
-transparency, file format, count, layout, and applicable asset constraints.
-Do not split them into a separate specification or handoff appendix. Describe
-them as desired outcomes, not as already verified properties. Distinguish a
-final asset's dimensions from an intermediate generation or enlarged preview.
-Do not invent tool settings or promise that prose enforces an exact export.
+For full-prompt requests, default to one. If multiple independent prompts are
+requested, make each self-contained and separately copyable, repeating its baseline
+instead of "same as above". Preserve requested order and separate-image versus
+combined-sheet organization. Only explicitly reference-dependent tasks may
+rely on identified attachments.
 
-For separately usable prompts, repeat the necessary shared information in each;
-do not rely on "same as above". Only an explicitly reference-dependent task
-may rely on identified attachments. Keep analysis and material uncertainty
-outside the copyable prompt, briefly and only when useful.
+Keep applicable delivery requirements inside the prompt, not in a separate
+specification or handoff appendix. Do not invent specs to fill sections or add
+unrelated ones to fragments. Distinguish final asset dimensions from generation
+dimensions or enlarged previews. Requirements express desired outcomes, not
+verified properties or promises that prose can enforce an exact export.
 
-Before returning, check subject counts, relationships, directions, literal
-text, reference roles, output organization, and constraints across sections.
-For revisions, remove superseded requirements and resolve affected descriptions
-without changing unrelated choices. Prompt review does not validate generated
-pixels, asset readiness, or a model's actual output.
+Check counts, relationships, directions, literal text, reference roles, and
+constraints across the requested output. Keep analysis and material uncertainty
+outside copyable prompt text, briefly. Review-only findings describe prompt
+issues, not validated image defects; report no material issues when appropriate.
 
-This skill ends at prompt text. It does not generate or edit images, export or
-validate assets, install tooling, or launch another production workflow.
+This skill ends at text. Do not invent tool settings, generate or edit images,
+export or validate assets, install tooling, or launch a production workflow.
