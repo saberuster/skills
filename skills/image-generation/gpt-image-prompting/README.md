@@ -1,23 +1,29 @@
 # GPT Image Prompting
 
-Turn established requirements into a complete GPT Image prompt. This is the
-shared standard behind `brief-to-image-prompt` and `image-to-prompt`, and can
-also organize or revise an existing prompt directly. See the
+Structure established requirements, revise an existing GPT Image prompt, or
+review one. This is the shared standard behind `brief-to-image-prompt` and
+`image-to-prompt`, and can also be used directly. See the
 [skill instructions](SKILL.md) for its scope.
 
 ## Requirements and scope
 
 This instruction-only core needs no other skill or image-generation tool.
-Its six sections cover task, content, composition, visual treatment, output
-requirements, and constraints. The default result is one copyable prompt in
-Chinese, with natural-language headings and all delivery requirements inside
-it. A requested language or format takes precedence.
+Its six semantic sections cover task, content, composition, visual treatment,
+output requirements, and constraints. Drafting defaults to one copyable prompt
+in Chinese, with natural-language headings and all delivery requirements inside
+it. A requested language or format takes precedence; requested independent
+prompts each contain the necessary shared requirements.
+
+Review-only requests return findings and suggestions without rewriting the
+prompt. Requests for a reusable fragment return only that fragment. Neither
+mode requires a complete prompt or empty sections.
 
 Guidance covers stylized and pixel art, strict game-asset specifications,
 illustrations, references, edits, exact text, and related outputs as needed.
-The core organizes established information. Brief development and image
-analysis belong to the entry skills. It does not generate, export, process,
-or verify images and assets.
+The core organizes established information. Use the entries when the main work
+is brief development or image observation; honor an explicitly selected skill.
+An image supplied only as context does not force a switch to the image entry.
+The core does not generate, export, process, or verify images and assets.
 
 Codex metadata allows implicit invocation. Client discovery, automatic
 selection, dependency loading, and task behavior require separate evidence.

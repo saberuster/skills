@@ -1,0 +1,7 @@
+interface:
+  display_name: "Brief to Image Prompt"
+  short_description: "Develop a brief and resolve creative choices"
+  default_prompt: "Use $brief-to-image-prompt to develop my idea into a GPT Image prompt, clarifying necessary decisions and using only the creative freedom I delegate."
+
+policy:
+  allow_implicit_invocation: true

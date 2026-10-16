@@ -64,9 +64,16 @@ Context and request:
 > Older prompt: Two foxes resting beneath a maple tree, wide watercolor banner,
 > soft autumn light, no lettering.
 
-Observe whether it revises the subject locally, preserves unaffected choices,
-and uses the core without requiring an image-entry workflow. If a reference
-image is also supplied, it remains context for this brief-led request.
+Observe automatic selection separately: this settled local revision belongs
+directly to `gpt-image-prompting`, which preserves unaffected choices. An image
+supplied only as background context does not make image extraction the main task.
+
+Explicit-invocation variant:
+
+> Use $brief-to-image-prompt for the same revision.
+
+Observe whether it honors the named skill, uses its core dependency, and performs
+the local revision without reopening settled choices or requiring image extraction.
 
 ## 6. Literal image text and default language
 
@@ -90,9 +97,38 @@ Observe whether it reports `gpt-image-prompting` as the missing dependency witho
 claiming to load it, inventing a tool or path, copying a substitute core schema,
 or installing it automatically.
 
+## 8. Optional unspecified details
+
+Request:
+
+> Use $brief-to-image-prompt to write an English prompt for a wide watercolor
+> banner of two foxes resting beneath a maple tree in soft autumn light.
+> No lettering.
+
+Observe whether it drafts from the supplied choices without blocking on optional
+details such as clothing, extra scenery, or precise poses. It should leave those
+details unspecified instead of treating silence as permission to invent them.
+
+## 9. Requested independent prompts
+
+Request:
+
+> Use $brief-to-image-prompt to write two separate English prompts for woodland
+> banners. Both use watercolor, soft autumn light, and no lettering. The first
+> shows two foxes resting beneath a maple tree; the second shows two badgers
+> resting beneath an oak. Each is a separate wide image. Keep this order.
+
+Observe whether it honors the explicit entry skill and returns two individually
+copyable, self-contained prompts with each banner's subject, tree, style, and
+delivery requirements. It should not return one combined image or require the
+second prompt to refer to the first.
+
 ## Routing checks
 
-- Positive: brief-led prompt writing with optional image or older-prompt context.
+- Positive: creative brief clarification with optional image or older-prompt
+  context, and explicit invocation of this skill.
+- Settled requirements, local prompt revision, and prompt review route directly
+  to the core when no entry skill is explicitly requested.
 - Negative: a request to generate an actual image or verify exported asset pixels.
 - Check discovery, explicit loading, and implicit selection separately. Passing
   a supplied-instructions trial does not establish installed host discovery.
