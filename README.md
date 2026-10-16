@@ -49,9 +49,8 @@ the coverage limits.
 &#9989; discovery passed; &#10060; discovery failed; &mdash; unknown.
 Channel: `pinned`. Versions:
 Codex `codex-cli 0.161.0`; Claude Code `2.1.292 (Claude Code)`.
-Source base commit: `c9f364db539cc2cb26933bb6d1fafadeb9c0a6fe`.
-Evidence: local discovery; hosted CI not run.
-Local evidence covers the current working tree.
+Tested source commit: `dc7574fb2b44d4b1e82adc2c34a6eed6aa9fb06e`.
+Evidence: [CI run](https://github.com/saberuster/skills/actions/runs/38956755081).
 
 <!-- agent-support:end -->
 
