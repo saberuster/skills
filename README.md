@@ -7,6 +7,12 @@ readiness for agent work, and work through ideas and decisions, or compose
 structured GPT Image prompts from briefs and reference images, and prepare
 Conventional Commits.
 
+[meta-skills](skills/meta-skills/README.md) groups skills for maintaining
+skills and agents. Its first member,
+[Research Skill Patterns](skills/meta-skills/research-skill-patterns/README.md),
+grounds skill creation, editing, and review in inspected open-source examples.
+The support workflow checks its discovery alongside the existing skills.
+
 [fern](skills/fern/README.md) groups personal workflows for accomplishing
 complex tasks with the simplest effective methods. Its first skill is
 [Technical Writing](skills/fern/technical-writing/SKILL.md), migrated
