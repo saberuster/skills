@@ -27,7 +27,7 @@ class BehaviorTrialsTests(unittest.TestCase):
         shutil.copytree(ROOT / "examples/fixtures", self.spec_path.parent / "fixtures")
         for case in trials.read_json(self.spec_path)["cases"]:
             package = self.source / "skills" / case["skill"]
-            if case["skill"] in {"technical-writing", "reflect"}:
+            if case["skill"] in {"commit", "technical-writing", "reflect"}:
                 package = self.source / "skills/fern" / case["skill"]
             (package / "references").mkdir(parents=True, exist_ok=True)
             (package / "SKILL.md").write_text("Synthetic complete source\n")

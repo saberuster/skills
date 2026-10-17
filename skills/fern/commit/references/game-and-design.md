@@ -1,9 +1,7 @@
 # Game and design projects
 
-Read this supplement when the proposed commit changes gameplay, visual design,
-creative assets, or design deliverables. Keep the main skill's format and project
-precedence. This reference does not authorize staging, committing, or mutating
-checks for a message-only or review request.
+Apply this supplement to gameplay, visual design, creative assets, and design
+deliverables within the main skill's format, conventions, and authorization.
 
 ## Choose type and scope
 
@@ -42,12 +40,10 @@ Checked animation recovery and attack chaining; feel awaits playtesting.
 
 ## Keep assets and dependencies complete
 
-Apply the main skill's intent grouping and dependency ordering. Keep code,
-scenes, assets, and required metadata for one coherent intent together when
-needed for a usable intermediate version. Split an unrelated UI fix from a
-combat feature; keep that feature's script, scene, and effect assets complete.
-Do not split solely by file type. Inspect binary changes using available previews
-or source tools; a filename or diff summary alone may not explain the change.
+Apply the main skill's intent grouping across file types: keep a feature's
+scripts, scenes, assets, and metadata complete. Inspect binary changes using
+available previews or source tools; filenames and diff summaries may not explain
+the change.
 
 Follow project rules for editable sources, exports, import metadata, caches, and
 large files. Check relevant references and external dependencies; avoid missing
@@ -65,9 +61,7 @@ compatibility when breaking markers apply; do not invent a migration path.
 
 ## Choose proportionate checks
 
-Honor required project checks and reuse relevant evidence. Choose additional
-checks for the changed behavior and available tools; this table is guidance.
-Report checks actually performed and any gaps without claiming unobserved results.
+Use this table to select domain checks within the main skill's validation rules.
 
 | Change | Relevant checks |
 | --- | --- |
