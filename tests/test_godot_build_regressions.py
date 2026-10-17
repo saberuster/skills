@@ -41,6 +41,13 @@ $root = $args[[array]::IndexOf($args, '--path') + 1]
 Write-Output 'child stdout, not JSON'
 [Console]::Error.WriteLine('child stderr, not JSON')
 if ($args -contains '--fake-wait') { Start-Sleep -Seconds 2 }
+if ($args -contains '--fake-wait-for-release') {
+    $deadline = [datetime]::UtcNow.AddSeconds(90)
+    while (-not (Test-Path -LiteralPath (Join-Path $root 'child-release.txt'))) {
+        if ([datetime]::UtcNow -ge $deadline) { exit 92 }
+        Start-Sleep -Milliseconds 20
+    }
+}
 if ($args -notcontains '--fake-stale') { [IO.File]::WriteAllText($log, "Godot Engine fixture`n") }
 if ($args -contains '--fake-error') { [IO.File]::AppendAllText($log, "ERROR: fixture`n") }
 if ($args -contains '--fake-stdout-error') { [Console]::Out.WriteLine('ERROR: fixture') }
@@ -529,8 +536,10 @@ exit 23
 
     def test_runner_explicit_log_concurrency(self):
         path = self.root / "shared.log"
+        started = self.root / "child-started.txt"
+        release = self.root / "child-release.txt"
         params = self.runner_params(
-            RequestedLogFile=str(path), EngineArgs=["--fake-wait"]
+            RequestedLogFile=str(path), EngineArgs=["--fake-wait-for-release"]
         )
         cmd, env = self.command(
             "godot-build-and-diagnostics", "invoke_godot.ps1", params
@@ -538,23 +547,39 @@ exit 23
         first = subprocess.Popen(
             cmd, env=env, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True
         )
+
+        def release_and_collect():
+            release.touch()
+            try:
+                return first.communicate(timeout=10)
+            except subprocess.TimeoutExpired:
+                first.kill()
+                return first.communicate(timeout=5)
+
         try:
-            deadline = time.monotonic() + 8
+            deadline = time.monotonic() + 30
             while (
-                not (self.root / "child-started.txt").exists()
+                not started.exists()
+                and first.poll() is None
                 and time.monotonic() < deadline
             ):
                 time.sleep(0.02)
-            self.assertTrue((self.root / "child-started.txt").exists())
+            if not started.exists() or first.poll() is not None:
+                output, error = release_and_collect()
+                self.fail(
+                    "First runner did not hold a ready child within 30 seconds; "
+                    f"exit code: {first.returncode}\nstdout:\n{output}\nstderr:\n{error}"
+                )
             code, result = self.runner(RequestedLogFile=str(path))
+            self.assertIsNone(
+                first.poll(), "First runner exited before contention ended"
+            )
             self.assertEqual((code, result["failureKind"]), (65, "preflight"))
-            output, error = first.communicate(timeout=10)
+            output, error = release_and_collect()
             self.assertEqual(first.returncode, 0, error)
             self.assertEqual(json.loads(output)["status"], "success")
         finally:
-            if first.poll() is None:
-                first.kill()
-                first.communicate()
+            release_and_collect()
 
 
 if __name__ == "__main__":
