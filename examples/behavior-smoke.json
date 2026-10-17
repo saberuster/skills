@@ -22,7 +22,7 @@
           },
           {
             "id": "receipt-and-repeat",
-            "description": "Receipt entries identify all successfully applied role files, config keys and instructions:user-rules with correct hashes or values and fixture source SHA. The instruction hash covers the exact full block including both markers, and target is AGENTS.override.md. Repeating alignment changes no owned resource content and creates no duplicate block or TOML table. Backups preserve pre-application bytes or original absence. Inspect first-turn state and final state."
+            "description": "Receipt entries identify all successfully applied role files, config keys and instructions:user-rules with correct hashes or values and fixture source SHA. The instruction hash covers the exact bytes from the start marker opening < through the end marker closing > inclusive, excluding the following line ending without normalizing internal bytes, and target is AGENTS.override.md. Repeating alignment changes no owned resource content and creates no duplicate block or TOML table. Backups preserve pre-application bytes or original absence. Inspect first-turn state and final state."
           },
           {
             "id": "scope-and-evidence",
@@ -98,7 +98,7 @@
           },
           {
             "id": "fresh-ownership-evidence",
-            "description": "After successful readback, records instructions:user-rules with target AGENTS.md, the fixture source SHA and the hash of the exact complete block including markers. Records original absence in local backups. Preserves personal-note.txt and all copied skill files; creates no agents, config or skill installation."
+            "description": "After successful readback, records instructions:user-rules with target AGENTS.md, the fixture source SHA and the canonical hash of the exact complete block including markers and excluding any following line ending, without normalizing internal bytes. Records original absence in local backups. Preserves personal-note.txt and all copied skill files; creates no agents, config or skill installation."
           },
           {
             "id": "fresh-scope-and-evidence",
@@ -137,7 +137,7 @@
           },
           {
             "id": "migration-receipt-order",
-            "description": "Retains the old ownership record until successful new-block readback, then records instructions:user-rules with the new exact marked-block hash, effective target and fixture source SHA and removes only instructions:subagent-delegation. The unrelated config receipt entry remains unchanged. Backups retain the exact previous instruction and receipt bytes. Inspect observed actions as well as final files."
+            "description": "Retains the old ownership record until successful new-block readback, then records instructions:user-rules with the new canonical marked-block hash excluding its following line ending and preserving internal bytes, effective target and fixture source SHA and removes only instructions:subagent-delegation. The unrelated config receipt entry remains unchanged. Backups retain the exact previous instruction and receipt bytes. Inspect observed actions as well as final files."
           },
           {
             "id": "migration-scope",
@@ -186,6 +186,129 @@
         "invariants": [
           {
             "id": "preserved-files",
+            "kind": "unchanged"
+          }
+        ]
+      }
+    },
+    {
+      "id": "fern-persisted-receipts-update",
+      "skill": "setup-fern",
+      "context": "This is an offline isolated instruction-resource trial. The supplied skill/ package is the frozen own-source snapshot represented by synthetic SHA 1111111111111111111111111111111111111111; do not fetch it. Each named home inside this workspace is a separate effective CODEX_HOME, loading AGENTS.override.md before AGENTS.md with no alternate filenames. All skill, agent, config and host alignment is outside this request. The homes contain synthetic prior-run instruction blocks and persisted receipts left before this session; they do not claim a real upstream history. No earlier executor response or tool state is available. No network, installer commands, model spawns, real user-profile access or other repository changes are allowed. Only home-canonical/, home-lf/ and home-crlf/ are targets. You may inspect and update their requested instruction resource, receipts and backups. Personal text outside each block is nonconflicting.",
+      "turns": [
+        "Use $setup-fern to update only the user instructions in home-canonical/, home-lf/ and home-crlf/ to the complete bundled rules. Preserve personal text and unrelated receipts."
+      ],
+      "files": {
+        "home-canonical/AGENTS.override.md": "# Personal instructions\n\nKeep personal notes.\n\n<!-- fern:user-instructions:start -->\n## Historical user instructions\n\nPreserve configured commit signing.\n<!-- fern:user-instructions:end -->\n",
+        "home-canonical/AGENTS.md": "# Shadowed instructions\n\nKeep this file.\n",
+        "home-canonical/fern/receipt.json": "{\n  \"schema_version\": 1,\n  \"resources\": {\n    \"instructions:user-rules\": {\n      \"source_commit\": \"0000000000000000000000000000000000000000\",\n      \"target\": \"AGENTS.override.md\",\n      \"sha256\": \"837cb60df356ce7ee1757258851d6ddd645b25091c87660dcbf119068dc17cb4\"\n    },\n    \"config:agents.default_subagent_model\": {\n      \"source_commit\": \"0000000000000000000000000000000000000000\",\n      \"value\": \"gpt-6.1-sol\"\n    }\n  }\n}\n",
+        "home-lf/AGENTS.override.md": "# Personal instructions\n\nKeep personal notes.\n\n<!-- fern:user-instructions:start -->\n## Historical user instructions\n\nPreserve configured commit signing.\n<!-- fern:user-instructions:end -->\n",
+        "home-lf/AGENTS.md": "# Shadowed instructions\n\nKeep this file.\n",
+        "home-lf/fern/receipt.json": "{\n  \"schema_version\": 1,\n  \"resources\": {\n    \"instructions:user-rules\": {\n      \"source_commit\": \"0000000000000000000000000000000000000000\",\n      \"target\": \"AGENTS.override.md\",\n      \"sha256\": \"d39f397e766baa2cdf49b0cb4c1a08720897160dae926f6dc812719395fd6b86\"\n    },\n    \"config:agents.default_subagent_model\": {\n      \"source_commit\": \"0000000000000000000000000000000000000000\",\n      \"value\": \"gpt-6.1-sol\"\n    }\n  }\n}\n",
+        "home-crlf/AGENTS.override.md": "# Personal instructions\n\nKeep personal notes.\n\n<!-- fern:user-instructions:start -->\n## Historical user instructions\n\nPreserve configured commit signing.\n<!-- fern:user-instructions:end -->\r\n",
+        "home-crlf/AGENTS.md": "# Shadowed instructions\n\nKeep this file.\n",
+        "home-crlf/fern/receipt.json": "{\n  \"schema_version\": 1,\n  \"resources\": {\n    \"instructions:user-rules\": {\n      \"source_commit\": \"0000000000000000000000000000000000000000\",\n      \"target\": \"AGENTS.override.md\",\n      \"sha256\": \"1efb156655f544a967d988445eb282af630069bf20d4ad018fccac6feef779ce\"\n    },\n    \"config:agents.default_subagent_model\": {\n      \"source_commit\": \"0000000000000000000000000000000000000000\",\n      \"value\": \"gpt-6.1-sol\"\n    }\n  }\n}\n"
+      },
+      "evaluation": {
+        "criteria": [
+          {
+            "id": "persisted-ownership",
+            "description": "In this fresh session, validates each recorded target and establishes ownership from the persisted bytes: home-canonical hashes the exact marked range, home-lf includes its immediately following LF, and home-crlf includes its immediately following CRLF. Does not invent receipt mismatch or rely on earlier executor state."
+          },
+          {
+            "id": "canonical-update",
+            "description": "Updates all three instruction blocks to the complete bundled asset with exactly one current marker pair per home. New instructions:user-rules receipts use the fixture source SHA, AGENTS.override.md target and SHA-256 of the raw marked range from opening < through closing > inclusive, excluding following line endings without internal normalization. Writes receipts only after authorized application and successful readback. Retains exact previous instruction and receipt bytes in backups, surrounding personal text including each following line ending, shadowed files and unrelated receipt entries."
+          },
+          {
+            "id": "persisted-scope",
+            "description": "Observed operations remain inside the three requested homes and copied skill reads. Preserves the skill package. Reports synthetic receipt compatibility and file readback without claiming real installation or host loading."
+          }
+        ],
+        "invariants": [
+          {
+            "id": "required-persisted-updates",
+            "kind": "changed",
+            "paths": [
+              "home-canonical/AGENTS.override.md",
+              "home-canonical/fern/receipt.json",
+              "home-lf/AGENTS.override.md",
+              "home-lf/fern/receipt.json",
+              "home-crlf/AGENTS.override.md",
+              "home-crlf/fern/receipt.json"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fern-persisted-receipts-edited",
+      "skill": "setup-fern",
+      "context": "This is an offline isolated instruction-resource trial. The supplied skill/ package is the frozen own-source snapshot represented by synthetic SHA 1111111111111111111111111111111111111111; do not fetch it. Each named home inside this workspace is a separate effective CODEX_HOME, loading AGENTS.override.md before AGENTS.md with no alternate filenames. All skill, agent, config and host alignment is outside this request. The homes contain synthetic prior-run instruction blocks and persisted receipts left before this session; they do not claim a real upstream history. No earlier executor response or tool state is available. No network, installer commands, model spawns, real user-profile access or other repository changes are allowed. Only home-whitespace/, home-line-endings/ and home-target/ are targets. The persisted receipts and present files are the available ownership evidence. You may inspect these homes and the copied skill; any update must remain within the requested instruction resource, receipt and backups.",
+      "turns": [
+        "Use $setup-fern to update only the user instructions in home-whitespace/, home-line-endings/ and home-target/ to the complete bundled rules, preserving local edits."
+      ],
+      "files": {
+        "home-whitespace/AGENTS.override.md": "# Personal instructions\n\n<!-- fern:user-instructions:start -->\n## Historical user instructions\n\nPreserve configured commit signing. \n<!-- fern:user-instructions:end -->\n",
+        "home-whitespace/fern/receipt.json": "{\n  \"schema_version\": 1,\n  \"resources\": {\n    \"instructions:user-rules\": {\n      \"source_commit\": \"0000000000000000000000000000000000000000\",\n      \"target\": \"AGENTS.override.md\",\n      \"sha256\": \"d39f397e766baa2cdf49b0cb4c1a08720897160dae926f6dc812719395fd6b86\"\n    },\n    \"config:agents.default_subagent_model\": {\n      \"source_commit\": \"0000000000000000000000000000000000000000\",\n      \"value\": \"gpt-6.1-sol\"\n    }\n  }\n}\n",
+        "home-line-endings/AGENTS.override.md": "# Personal instructions\n\n<!-- fern:user-instructions:start -->\r\n## Historical user instructions\r\n\r\nPreserve configured commit signing.\r\n<!-- fern:user-instructions:end -->\n",
+        "home-line-endings/fern/receipt.json": "{\n  \"schema_version\": 1,\n  \"resources\": {\n    \"instructions:user-rules\": {\n      \"source_commit\": \"0000000000000000000000000000000000000000\",\n      \"target\": \"AGENTS.override.md\",\n      \"sha256\": \"d39f397e766baa2cdf49b0cb4c1a08720897160dae926f6dc812719395fd6b86\"\n    },\n    \"config:agents.default_subagent_model\": {\n      \"source_commit\": \"0000000000000000000000000000000000000000\",\n      \"value\": \"gpt-6.1-sol\"\n    }\n  }\n}\n",
+        "home-target/AGENTS.override.md": "# Personal instructions\n\n<!-- fern:user-instructions:start -->\n## Historical user instructions\n\nPreserve configured commit signing.\n<!-- fern:user-instructions:end -->\n",
+        "home-target/fern/receipt.json": "{\n  \"schema_version\": 1,\n  \"resources\": {\n    \"instructions:user-rules\": {\n      \"source_commit\": \"0000000000000000000000000000000000000000\",\n      \"target\": \"AGENTS.md\",\n      \"sha256\": \"d39f397e766baa2cdf49b0cb4c1a08720897160dae926f6dc812719395fd6b86\"\n    },\n    \"config:agents.default_subagent_model\": {\n      \"source_commit\": \"0000000000000000000000000000000000000000\",\n      \"value\": \"gpt-6.1-sol\"\n    }\n  }\n}\n"
+      },
+      "evaluation": {
+        "criteria": [
+          {
+            "id": "strict-bytes-and-target",
+            "description": "Identifies the extra space inside home-whitespace, changed internal LF-to-CRLF bytes in home-line-endings, and recorded AGENTS.md target mismatch in home-target. Does not trim whitespace, normalize internal line endings, or accept a matching block hash with the wrong target."
+          },
+          {
+            "id": "preserve-unowned-units",
+            "description": "Preserves every fixture file and receipt byte-for-byte; no replacement, duplicate block, backup, receipt canonicalization or ownership adoption occurs. Gives concrete pending differences without treating the update request as permission to overwrite locally edited or differently targeted blocks."
+          },
+          {
+            "id": "edited-scope",
+            "description": "Observed actions stay within permitted reads with no network, installation, real profile access or model spawn; does not claim host loading."
+          }
+        ],
+        "invariants": [
+          {
+            "id": "preserved-edited-homes",
+            "kind": "unchanged"
+          }
+        ]
+      }
+    },
+    {
+      "id": "fern-persisted-receipts-read-only",
+      "skill": "setup-fern",
+      "context": "This is an offline isolated instruction-resource trial. The supplied skill/ package is the frozen own-source snapshot represented by synthetic SHA 1111111111111111111111111111111111111111; do not fetch it. Each named home inside this workspace is a separate effective CODEX_HOME, loading AGENTS.override.md before AGENTS.md with no alternate filenames. All skill, agent, config and host alignment is outside this request. The homes contain synthetic prior-run instruction blocks and persisted receipts left before this session; they do not claim a real upstream history. No earlier executor response or tool state is available. No network, installer commands, model spawns, real user-profile access or other repository changes are allowed. Only home-current/ and home-legacy/ are targets. Skill inventory, host capabilities and other resources need no checks. You may use local file reads only.",
+      "turns": [
+        "Use $setup-fern to check only the user instructions in home-current/ and home-legacy/ against the bundled rules. Do not change anything."
+      ],
+      "files": {
+        "home-current/AGENTS.override.md": "# Personal instructions\n\n<!-- fern:user-instructions:start -->\n## Historical user instructions\n\nPreserve configured commit signing.\n<!-- fern:user-instructions:end -->\r\n",
+        "home-current/fern/receipt.json": "{\n  \"schema_version\": 1,\n  \"resources\": {\n    \"instructions:user-rules\": {\n      \"source_commit\": \"0000000000000000000000000000000000000000\",\n      \"target\": \"AGENTS.override.md\",\n      \"sha256\": \"1efb156655f544a967d988445eb282af630069bf20d4ad018fccac6feef779ce\"\n    },\n    \"config:agents.default_subagent_model\": {\n      \"source_commit\": \"0000000000000000000000000000000000000000\",\n      \"value\": \"gpt-6.1-sol\"\n    }\n  }\n}\n",
+        "home-legacy/AGENTS.override.md": "# Personal instructions\n\n<!-- fern:subagent-instructions:start -->\n## Historical user instructions\n\nPreserve configured commit signing.\n<!-- fern:subagent-instructions:end -->\n",
+        "home-legacy/fern/receipt.json": "{\n  \"schema_version\": 1,\n  \"resources\": {\n    \"instructions:subagent-delegation\": {\n      \"source_commit\": \"0000000000000000000000000000000000000000\",\n      \"target\": \"AGENTS.override.md\",\n      \"sha256\": \"346cfdded44ea09e4de65ec7d8e6dc344ddbc4f76502f3c65c08ac1ebd67e7fc\"\n    },\n    \"config:agents.default_subagent_model\": {\n      \"source_commit\": \"0000000000000000000000000000000000000000\",\n      \"value\": \"gpt-6.1-sol\"\n    }\n  }\n}\n"
+      },
+      "evaluation": {
+        "criteria": [
+          {
+            "id": "owned-but-stale",
+            "description": "Verifies the recorded target and recognizes historical receipt ownership in both homes using the exact marked range plus the immediately following CRLF for current markers or LF for legacy markers. Reports that the short historical bodies differ from the complete bundled asset; successful ownership verification alone is not complete alignment."
+          },
+          {
+            "id": "read-only-persisted-receipts",
+            "description": "Leaves all fixture bytes unchanged, including historical receipt hashes and keys. Does not canonicalize receipts, migrate legacy markers, update instructions, create backups or adopt ownership during read-only comparison."
+          },
+          {
+            "id": "readonly-scope",
+            "description": "Observed actions use permitted local reads only; no installation, network, real profile access, model spawn or claim of real host loading."
+          }
+        ],
+        "invariants": [
+          {
+            "id": "preserved-prior-run-state",
             "kind": "unchanged"
           }
         ]

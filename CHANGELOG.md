@@ -111,6 +111,11 @@ Planned next minor release: `0.2.0`.
 
 ### Changed
 
+- Defined the exact byte range for Fern instruction receipt hashes, excluding
+  the line ending after the end marker. Recognize existing receipts that
+  included one immediately following LF or CRLF without normalizing internal
+  edits or rewriting receipts during read-only checks. Added fresh-session
+  compatibility cases alongside the existing same-session repeat case.
 - `setup-fern` now carries the complete personal user instruction baseline:
   initiative, instruction precedence, writing style, subagent delegation,
   built-in explorer model selection (`gpt-6-luna`, `high`), and testing rules.
