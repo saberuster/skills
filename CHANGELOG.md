@@ -111,6 +111,10 @@ Planned next minor release: `0.2.0`.
 
 ### Changed
 
+- Clarified optional Fern custom-agent loading checks using native role spawns,
+  correlated parent and child records, and actual instructions and settings.
+  Added synthetic cases separating loading from blocked task probes and
+  unavailable trace evidence, without claiming new host validation.
 - `setup-fern` now requires explicit invocation in Codex. Disable implicit
   selection through its invocation policy while retaining `$setup-fern` use.
 - Require each verified `find-skill-references` claim to match supporting content

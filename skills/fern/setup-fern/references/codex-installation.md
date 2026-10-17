@@ -183,6 +183,21 @@ fresh Codex chat. Do not claim fresh-chat loading or model availability from
 source tests alone. This task's source validation does not require updating
 the author's installed environment.
 
+When fresh-session loading is requested, start a new parent session using the
+selected Codex home and its normal configuration. Spawn each selected custom
+role through the native agent tool without supplying its instruction text or
+overriding model or effort. Direct instruction injection tests behavior, not
+standalone discovery.
+
+Where the host exposes the evidence, correlate parent and child records,
+compare the actual child developer instructions with the installed TOML, and
+check runtime model and effort against role settings and effective defaults.
+An agent's self-description is insufficient; mark unavailable evidence as
+unverified. Record the host version and tested client entrypoint, such as CLI
+or desktop. Report loading separately from task probes blocked by tool or
+environment errors; a successful spawn alone does not prove exact loading or
+task execution. Keep private traces local and publish only sanitized results.
+
 Shared research inspected on 2026-10-17 supports these boundaries:
 
 - [Custom agents](https://learn.chatgpt.com/docs/agent-configuration/subagents#custom-agents)
