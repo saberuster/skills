@@ -32,9 +32,10 @@ Planned next minor release: `0.2.0`.
   procedure with bug fix, feature, and refactoring playbooks and shared
   validation and delivery references. Preserves evidence, authorization,
   signing, PR, and latest-head CI contracts, including scanned output roots.
-  The old source in `saberuster/agent-skills` remains until Fern publication
-  and consumer access; installed copies are unchanged. Client discovery is
-  not yet verified.
+  Fern is published and accessible from this repository; installed copies need
+  an explicit switch through `maintain-skills`. Its pinned Codex and Claude Code
+  [discovery jobs](https://github.com/saberuster/skills/actions/runs/39066063246)
+  passed; live setup and actual agent behavior require separate checks.
 - Synthetic Fern workflow and delivery cases, including ten selected smoke
   fixtures for scope, steering, stale evidence, coupled work, evidence reuse,
   pending Git operations, and actual bug fix, feature, and refactoring work.

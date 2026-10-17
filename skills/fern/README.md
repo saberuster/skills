@@ -49,14 +49,15 @@ that separate preparation lifecycle.
 
 See the [Fern cases](../../examples/fern.md) for behavioral expectations.
 Static checks, isolated agent trials, client discovery, and live installation
-provide separate evidence. Fern client discovery remains unverified.
+provide separate evidence. Fern's pinned Codex and Claude Code
+[discovery jobs](https://github.com/saberuster/skills/actions/runs/39066063246)
+passed. Those results do not establish live setup or actual agent behavior.
 
 Fern absorbs Implement's authorized implementation and delivery contract;
 there is no separate Implement package or forwarding skill in this collection.
-The old working source in `saberuster/agent-skills` is retained until Fern is
-published and consumer-accessible. Existing installations keep their current
-source until an explicit switch through `maintain-skills`; use `$fern` after
-switching to the replacement.
+Fern is published and accessible from this repository. Existing installations
+keep their current source until an explicit switch through `maintain-skills`;
+use `$fern` after switching to the replacement.
 
 `setup-fern` maintains the personal environment baseline. Its complete package
 includes the six custom agent TOMLs formerly stored in the repository's root

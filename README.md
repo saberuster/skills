@@ -33,11 +33,13 @@ and decisions. Discovery for `commit`, `reflect`, and the relocated
 `talk-it-through` remains unverified; earlier results do not establish discovery
 from these sources.
 
-The Fern package has no client discovery results yet. Its source changes do
-not update installed copies. It absorbs the former Implement procedure;
-the old working source in `saberuster/agent-skills` remains until the Fern
-replacement is published and consumer-accessible. Switch installed sources
-and the invocation from `$implement` to `$fern` explicitly.
+Fern is published in this repository and replaces the former Implement
+procedure. Its pinned Codex and Claude Code
+[discovery jobs](https://github.com/saberuster/skills/actions/runs/39066063246)
+passed; discovery does not establish live setup or actual agent behavior.
+Source changes do not update installed copies. Switch installed sources
+through `maintain-skills` and the invocation from `$implement` to `$fern`
+explicitly.
 
 [Setup Fern](skills/fern/setup-fern/SKILL.md) composes the personal Codex
 environment: all skills in `fern` and `meta`, individually selected external
