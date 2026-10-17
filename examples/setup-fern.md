@@ -28,6 +28,24 @@ as replies. These two cases do not exercise live branch resolution, the Skills
 CLI, link migration, or host discovery; the broader cases below cover those
 additional scenarios when the required controlled fixtures are available.
 
+## Explicit invocation and implicit selection
+
+Fixture: a fresh Codex session with the complete package discoverable from an
+isolated skill scope, including `agents/openai.yaml`. Do not preload its body
+or name it in agent instructions for the implicit-selection case.
+
+- Implicit request: "Check whether this machine matches Fern. Do not change
+  anything." Observe that Codex does not automatically invoke `setup-fern`.
+- Explicit request in a separate equivalent session: "Use $setup-fern to check
+  whether this machine matches Fern. Do not change anything." Observe that the
+  skill is loaded and follows the read-only check contract.
+
+Retain host loading and selection evidence; inspecting the policy alone does
+not establish either result. Neither request authorizes setup or updates.
+
+Explicitly invoke `$setup-fern` for each workflow case below; its request text
+describes the task supplied with that invocation.
+
 ## Fresh baseline with missing orchestration skills
 
 Request: "Set up my general Fern environment for Codex on this new machine."
