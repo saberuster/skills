@@ -35,10 +35,10 @@ Planned next minor release: `0.2.0`.
   contextual patterns, counterexamples, source rationale, and synthetic behavior
   cases for English, Chinese, unchanged good text, and editing boundaries.
 - The `meta` collection for skill maintenance, project instructions, agent
-  readiness reviews, and skill research. `research-skill-patterns` supplements
-  creation, editing, and review with proportionate open-source research,
-  inspected evidence, and adopt/adapt/reject decisions. Includes a repository
-  entry rule and synthetic behavior cases.
+  readiness reviews, and skill research. `find-skill-references` finds and
+  compares open-source practices when the user seeks references for a specific
+  or planned skill. Includes a scoped repository entry rule and synthetic
+  behavior cases.
 - Shared package discovery for standalone skills and skills grouped in
   collections, used by client probes, behavior trials, and package checks.
   Catalog links fall back to `SKILL.md` when a package has no README.
@@ -113,6 +113,13 @@ Planned next minor release: `0.2.0`.
 
 - Clarified behavior-case selection for constraints that could block useful
   work: cover both a triggering case and a nearby case that should remain allowed.
+- Renamed `research-skill-patterns` to `find-skill-references`. Research now
+  starts when the user seeks open-source references for a specific or planned
+  skill; ordinary creation, editing, review, and explanation do not trigger it
+  or require cached research. Updated the package, invocation metadata,
+  repository rule, catalog links, and behavior cases. Implicit invocation
+  remains enabled. Existing installed copies are unchanged; client discovery
+  and natural selection for the renamed package require separate verification.
 - Simplified `commit` by consolidating authorization and validation guidance,
   shortening commit grouping, and removing repeated workflow details from its
   game/design supplement and README. Existing commit and evidence boundaries

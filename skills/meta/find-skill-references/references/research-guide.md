@@ -7,10 +7,10 @@ authorization, evidence status, reporting, and persistence requirements.
 
 ## Choose evidence that answers the question
 
-Start from a concrete local uncertainty. A skill about database migrations
-needs relevant migration implementations or tests as well as instruction
-patterns. A trigger-only edit may need selection examples without a new domain
-survey. Look for reusable mechanisms rather than matching names alone.
+Start from the user's reference question. For a database-migration skill,
+relevant migration implementations or tests can answer domain questions.
+For a question about skill triggers, selection examples may suffice without
+a domain survey. Look for reusable mechanisms rather than matching names alone.
 
 Evaluate candidates on these dimensions:
 
@@ -41,8 +41,10 @@ every skill have a README.
 
 Similarly, descriptions can emphasize trigger conditions or include a brief
 purpose. Choose wording for the host's discovery model and the local task.
-Use nearby positive and negative requests to observe actual selection; a
-preferred upstream style alone cannot establish that selection improved.
+Use nearby positive and negative requests to observe actual selection; requests
+for open-source references should select this skill, while ordinary skill
+creation, editing, review, or explanation should not. A preferred upstream
+style alone cannot establish that selection improved.
 
 ## Record evidence and decisions
 

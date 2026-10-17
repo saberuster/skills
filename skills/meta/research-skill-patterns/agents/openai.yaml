@@ -1,6 +1,0 @@
-interface:
-  display_name: "Research Skill Patterns"
-  short_description: "Ground skill changes in open-source examples"
-  default_prompt: "Use $research-skill-patterns to research open-source examples for this skill task and explain the design decisions."
-policy:
-  allow_implicit_invocation: true

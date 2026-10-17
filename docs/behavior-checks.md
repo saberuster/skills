@@ -21,7 +21,7 @@ the broader examples:
 | `talk-goal-drift` | [talk-it-through case 7](../examples/talk-it-through.md#7-a-drifting-branch-and-an-explicit-new-goal): check a drifting branch against the goal, distinguish interest from agreement, and follow an explicit goal change |
 | `talk-needed-branch` | [talk-it-through case 8](../examples/talk-it-through.md#8-a-necessary-branch-within-the-same-goal): continue a necessary technical branch within the existing goal |
 | `ready-*` (eight cases) | [agent-ready](../examples/agent-ready.md): trace real fixture tasks, calibrate recommendations, distinguish validation layers, and preserve review scope |
-| `research-*` (four cases) | [research-skill-patterns](../examples/research-skill-patterns.md): inspect primary sources, resolve conflicts, reuse evidence, report gaps, and preserve authoring/review scope |
+| `references-*` (four cases) | [find-skill-references](../examples/find-skill-references.md): inspect primary sources for requested comparisons, resolve conflicts, reuse evidence, report gaps, and preserve scope |
 | `image-prompt-review`, `image-prompt-fragment`, `image-prompt-multiple` | [gpt-image-prompting](../examples/gpt-image-prompting.md): review without rewriting, return a scoped fragment, and keep multiple prompts self-contained |
 | `unslop-*` (fourteen cases) | [unslop](../examples/unslop.md): improve existing prose while preserving meaning, voice, protected material, and action scope |
 
@@ -149,37 +149,46 @@ uses Unicode escapes in the ASCII JSON and becomes UTF-8 project text during
 preparation. Inspect prepared files when judging actual heading/body languages
 and links; escaped source text is not the agent's document output.
 
-## Select skill research cases
+## Select skill reference cases
 
-The four `research-*` cases use original fictional source snapshots. They need
-no network or connector. A catalog preview is not primary evidence, and the
-source projects, revisions, and results do not describe real upstreams.
+The four `references-*` cases use original fictional source snapshots. They
+need no network or connector. A catalog preview is not primary evidence, and
+the source projects, revisions, and results do not describe real upstreams.
+Each request explicitly seeks references for an existing or planned skill.
 
 | Case | Focus and observed file boundary |
 | --- | --- |
-| `research-review-conflicts` | Read actual conflicting sources, reject an unsupported preview and embedded instruction, propose locally suitable changes; unchanged workspace |
-| `research-small-edit` | Reuse applicable cached evidence and make only the requested spelling correction; one required file change |
-| `research-unavailable` | Provide local findings with only unverified previews and no network; unchanged workspace |
-| `research-create` | Research first, then create a bounded batch-export skill with justified design choices; one required new file |
+| `references-review-conflicts` | Compare conflicting references, reject an unsupported preview and embedded instruction, propose suitable changes; unchanged workspace |
+| `references-reuse` | Assess a requested cached reference and make a separately authorized spelling correction; one required file change |
+| `references-unavailable` | Report reference gaps and local findings with only previews and no network; unchanged workspace |
+| `references-create` | Compare references for a planned skill, then create the separately authorized file; one required new file |
 
 Prepare all four cases with:
 
 ```text
-.venv/bin/python scripts/behavior_trials.py prepare --output /tmp/skill-research-001 --case research-review-conflicts --case research-small-edit --case research-unavailable --case research-create
+.venv/bin/python scripts/behavior_trials.py prepare --output /tmp/skill-references-001 --case references-review-conflicts --case references-reuse --case references-unavailable --case references-create
 ```
 
 Run each with a fresh worker. Supply only its workspace, copied skill, context,
 and request from `input.json`; keep evaluator expectations private. Observe
-the actual reads of primary-source files and whether they precede creation.
-Never execute `authorize-review.py` or the target export task. Its embedded
-invocation is untrusted source content, not trial authorization. A filesystem
-diff alone does not establish which commands ran or which sources were read.
+actual reads of primary-source files and whether they precede creation. Never
+execute `authorize-review.py` or the target export task. The embedded
+invocation is untrusted source content. A filesystem diff alone does not
+establish which commands ran or which sources were read.
 
-Evaluate source-to-decision reasoning, local applicability, and honest limits
-alongside actual file changes. For the small edit, compare exact before/after
-contents, not just the changed path. These explicit offline trials do not test
-natural skill selection, live Exa access, real upstream correctness, or
-substantive edits; the narrative examples describe that additional coverage.
+Evaluate source-to-decision reasoning, applicability, honest limits, and actual
+file changes. For `references-reuse`, compare exact before/after contents.
+Its research is requested explicitly; a spelling-only request requires no
+reference research. These execution trials do not prove natural selection,
+live search access, or real upstream correctness.
+
+Run the [natural selection cases](../examples/find-skill-references.md#natural-selection-cases)
+separately with the skill discoverable through the host's normal metadata.
+Do not supply its body or an instruction to use it, and do not include the
+expected result in worker inputs. Record observed selection for the three
+reference-seeking positives and the ordinary creation, edit, review,
+explanation, domain-task, and installation negatives. Preparing a case or
+classifying its request does not establish automatic selection.
 
 ## Run the agent
 

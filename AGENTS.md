@@ -14,11 +14,11 @@ conventions.
   and improvement; each leaf remains an independent package.
   The personal Fern environment composition entrypoint and its supporting
   Codex resources belong in `skills/fern/setup-fern/`.
-- When creating, reviewing, or editing skill content, apply
-  [research-skill-patterns](skills/meta/research-skill-patterns/SKILL.md).
-  Use its proportional source research or evidence reuse, and report the
-  decisions and evidence limits. Share one research pass across collaborating
-  authoring and review workflows; reading reference skills does not recurse.
+- When the user seeks open-source references for a specific or planned skill,
+  apply [find-skill-references](skills/meta/find-skill-references/SKILL.md).
+  Ordinary skill creation, editing, review, or explanation does not require
+  research or prior research evidence. Share one research pass across
+  collaborating workflows when research is requested.
 - Preserve task scope, authorization boundaries, conditions, and exceptions.
   Explain intentional behavior changes and update the relevant synthetic cases
   in `examples/`. Reviewing or editing a skill does not mean performing its
