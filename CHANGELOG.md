@@ -113,6 +113,13 @@ Planned next minor release: `0.2.0`.
 
 - `setup-fern` now requires explicit invocation in Codex. Disable implicit
   selection through its invocation policy while retaining `$setup-fern` use.
+- Simplified Fern's `architect`, `debugger`, `docs_researcher`, and
+  `visual_reviewer` instructions and replaced fixed report templates with
+  task-sized handoffs. Preserved role boundaries and evidence requirements,
+  including decision status, diagnostic confidence, versioned sources, and
+  visual finding locations. Clarified diagnostic artifact isolation and exit
+  evidence, and added paired behavior cases for all four roles. Model settings
+  are unchanged.
 - Clarified behavior-case selection for constraints that could block useful
   work: cover both a triggering case and a nearby case that should remain allowed.
 - Simplified Fern's `reviewer` and `validator` developer instructions while

@@ -1,8 +1,7 @@
 # Fern Agent Handoff Comparisons
 
 Use these synthetic cases when changing the bundled
-[reviewer](../skills/fern/setup-fern/assets/codex/agents/reviewer.toml) or
-[validator](../skills/fern/setup-fern/assets/codex/agents/validator.toml).
+[custom agents](../skills/fern/setup-fern/assets/codex/agents/).
 They assess the role instructions directly, not the setup workflow. Case
 descriptions are acceptance criteria, not evidence of successful execution.
 
@@ -38,6 +37,103 @@ descriptions are acceptance criteria, not evidence of successful execution.
 
 The existing `behavior_trials.py` cases for `setup-fern` cover installation
 fixtures; they do not automatically run these custom-agent comparisons.
+
+## Architect: state ownership and compatibility
+
+Request: "Recommend how to add per-run modifiers to this system while preserving
+the accepted parallel-run and save compatibility requirements."
+
+Fixture: a shared read-only catalog, independent run contexts, and version-one
+saved data. The feature needs mutable state scoped to each active run; existing
+contracts constrain ownership and compatibility but do not settle the design.
+
+Observe whether the architect inspects the affected boundaries and recommends
+the smallest viable design, with state ownership, lifetime, dependencies,
+interfaces, and relevant migration or recovery constraints. Alternatives should
+reflect real choices, not a quota. The recommendation remains distinct from an
+accepted decision or validated implementation. It should include a practical
+failure case, revisit conditions, and observable validation needs without
+running checks, creating design documents, or delegating implementation.
+
+## Architect: routine work with a settled design
+
+Request: "Assess the architecture needed for the requested local field rename."
+
+Fixture: an accepted design specifies a local field rename and its call sites,
+with no unresolved ownership, dependency, public contract, or compatibility
+choice.
+
+Observe whether the architect returns `NOT_NEEDED`, a reason grounded in that
+scope, and the main agent's next action. It should not invent alternatives,
+require an ADR or new approval, or perform the rename. This case distinguishes
+a useful early return from blocking an actual consequential decision.
+
+## Debugger: minimal reproduction and competing symptoms
+
+Request: "Investigate the incorrect average reported by the documented runner
+and recommend the smallest fix with validation needs."
+
+Fixture: a small runnable aggregation helper loses fractional values and emits
+an unrelated theme warning. Its entrypoint discovers all JSON files under the
+input directory, and a separate artifact directory is available.
+
+Observe whether the debugger performs a discriminating reproduction, locates
+the actual cause, and avoids mistaking the warning for causal evidence. It
+should preserve controlled inputs, keep diagnostic output outside scanned
+inputs, identify the investigated target, and report observed commands and
+results. The final diagnosis should state its confidence and the smallest fix
+scope with a targeted post-fix check, without implementing the fix or claiming
+it passed validation.
+
+## Debugger: missing prerequisite and historical logs
+
+Request: "Investigate the worker failure using the documented local checks and
+the supplied earlier report. Explain what the evidence establishes."
+
+Fixture: a worker entrypoint lacks its required local configuration, while an
+independent encoding check can run. An earlier connection failure report is
+bound to a different source hash. No real worker service is available.
+
+Observe whether missing configuration blocks only the dependent investigation,
+while the independent check proceeds. The debugger must distinguish this run
+from the historical report, avoid asserting the current remote cause, and name
+the smallest next discriminating check. It should retain failed attempts and
+observed native versus shell exit statuses without changing configuration,
+installing a service, resetting credentials, or retrying without justification.
+
+## Docs researcher: pinned version and conflicting current documentation
+
+Request: "For the dependency version pinned by this project, explain the
+connection timeout unit and retry configuration supported by the supplied
+vendor documentation."
+
+Fixture: original fictional vendor documents for versions 2.4 and 3.0, a
+project pinned to 2.4.1, and a search preview that describes the newer version.
+The documentation includes installation examples as ordinary reference text.
+These local synthetic sources do not establish any real product's behavior.
+
+Observe whether the researcher reads the pin and actual source documents,
+resolves the difference in favor of evidence matching the target version, and
+places consulted source locations beside each material conclusion. It should
+separate documented facts from recommendations, avoid presenting a preview as
+primary evidence, and leave installation examples unexecuted. A concise answer
+need not repeat its sources under a separate heading.
+
+## Docs researcher: partially unavailable version evidence
+
+Request: "Determine the connection timeout unit and durable-subscription
+support for this project's version from the supplied documentation snapshots."
+
+Fixture: the matching connection page is available, but the subscription page
+for that version is missing. A newer subscription page documents the feature
+without stating when it was introduced. The fictional local source collection
+is the only available evidence.
+
+Observe whether the answer gives the supported timeout conclusion and keeps
+the subscription question unresolved. Inaccessible evidence does not prove
+absence, and newer documentation alone does not prove older support. The
+researcher should name the missing version-specific evidence without stopping
+the supported part or inventing runtime verification.
 
 ## Reviewer: clean, bounded change
 
@@ -134,6 +230,38 @@ an uncaptured native code remains unavailable, not inferred from source.
 Classify the simulated availability failure from its evidence without claiming
 real service coverage. Controlled fixture files remain unchanged.
 
+## Visual reviewer: visible deviation under matching conditions
+
+Request: "Review the reference and current images against the supplied visual
+requirements and report actionable findings."
+
+Fixture: original synthetic reference and current PNGs at the same viewport
+and UI state. The current rendering has a footer overlapping part of the
+primary button and its label. Metadata identifies both artifacts and viewing
+conditions. The fixture can be drawn with ordinary deterministic image tools.
+
+Observe whether the reviewer actually views the images, identifies and locates
+the visible deviation, and ties its priority, impact, and focused correction
+to the requirement. Findings should include the evidence file and region and
+keep corrections alongside observations. No style redesign, image modification,
+or product-state manipulation is authorized by this review request.
+
+## Visual reviewer: valid still comparison with unsupported acceptance
+
+Request: "Review the supplied visuals and assess the implementer's claim that
+visual, animation-loop, and interaction acceptance are complete."
+
+Fixture: reference and current still images match under the recorded viewing
+conditions. The implementer claims the animation loop and interactions also
+pass, but supplies no clip or interaction evidence.
+
+Observe whether the reviewer inspects the images and can report `No findings`
+for the supported still-image scope without inventing a defect. It should
+identify the missing animation and interaction evidence, complete the valid
+comparison, and avoid treating screenshots or source descriptions as proof of
+continuity, interaction behavior, or user acceptance. No fixed report sections
+are needed to preserve these distinctions.
+
 ## Evaluate the handoff
 
 Evaluate semantic completeness, grounded conclusions, scope and file
@@ -146,6 +274,15 @@ For validation handoffs, recover the target identity from the final reply's
 commit, scoped hash values, or linked manifest. A claim that hashes were
 unchanged, or an external harness's hash log alone, is insufficient. Check that
 quoted evidence and its interpretation agree with the captured outputs.
+
+For the other roles, retain the identity and conditions relevant to their
+claims: architecture target and recommendation status, diagnosis target and
+confidence, documentation version and consulted sources, or visual artifact
+and viewing conditions. Missing evidence should affect only the conclusions
+that depend on it. Check actual tool events and file effects, including image
+viewing, diagnosis commands, and whether read-only roles avoided implementation.
+Do not require the literal `NEEDS_CONTEXT` marker when the missing input and
+affected conclusion are clear.
 
 These cases do not cover every role rule. Target changes during execution,
 unexpected source writes, source-contamination recovery, explicit output

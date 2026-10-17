@@ -28,7 +28,7 @@ as replies. These two cases do not exercise live branch resolution, the Skills
 CLI, link migration, or host discovery; the broader cases below cover those
 additional scenarios when the required controlled fixtures are available.
 
-For changes to the bundled review and validation role instructions, use the
+For changes to the bundled custom-agent instructions, use the
 [agent handoff comparison cases](fern-agent-handoffs.md). These exercise the
 role instructions directly, separately from setup, installation, and host
 discovery.
