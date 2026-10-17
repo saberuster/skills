@@ -1,0 +1,7 @@
+interface:
+  display_name: "Godot Build and Diagnostics"
+  short_description: "Run Godot through guarded args, logs, and result checks"
+  default_prompt: "Use $godot-build-and-diagnostics to choose the lowest-cost Godot validation path and run automated Godot commands through the guarded argument and project-local log contract."
+
+policy:
+  allow_implicit_invocation: true

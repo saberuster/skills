@@ -1,0 +1,7 @@
+interface:
+  display_name: "Godot Scripting"
+  short_description: "Write, diagnose, and review Godot GDScript and C# code"
+  default_prompt: "Use $godot-scripting to write or review Godot scripts and load only the references required by the active language and task."
+
+policy:
+  allow_implicit_invocation: true

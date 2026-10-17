@@ -1,0 +1,7 @@
+interface:
+  display_name: "Godot Scene and Resource Authoring"
+  short_description: "Create and validate Godot scenes, Resources, and assets"
+  default_prompt: "Use $godot-scene-and-resource-authoring to create or modify Godot scenes and Resources, then validate serialization and import results."
+
+policy:
+  allow_implicit_invocation: true

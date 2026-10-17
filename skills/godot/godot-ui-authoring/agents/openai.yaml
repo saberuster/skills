@@ -1,0 +1,6 @@
+interface:
+  display_name: "Godot UI Authoring"
+  short_description: "Design Godot UI themes, components, and showcase scenes"
+  default_prompt: "Use $godot-ui-authoring to design or refine Godot UI layouts, native control states, and reusable components within the requested scope."
+policy:
+  allow_implicit_invocation: true
