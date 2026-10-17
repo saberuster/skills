@@ -15,7 +15,7 @@ the broader examples:
 | `reflect-*` (seven cases) | [reflect](../examples/reflect.md): stop when no durable candidate exists, preserve proposal defaults, route knowledge, apply authorized updates without duplication, preserve unresolved obligations, handle an unavailable skill author, and check stale knowledge during recall |
 | `agents-*` (ten cases) | [maintain-agents-md](../examples/maintain-agents-md.md): discover coverage and effective sources, review commands, preserve policy, apply language preferences, and respect edit scope |
 | `skills-local-edits` | [maintain-skills](../examples/maintain-skills.md): identify and preserve local edits before an update |
-| `fern-resource-merge`, `fern-read-only` | [setup-fern](../examples/setup-fern.md): apply and repeat isolated Codex resource merges, or report offline differences without mutation |
+| `fern-resource-merge`, `fern-read-only`, `fern-fresh-user-instructions`, `fern-legacy-instructions-migrate`, `fern-legacy-instructions-edited` | [setup-fern](../examples/setup-fern.md): apply complete user rules, preserve existing instructions, repeat resource merges, compare read-only, and distinguish owned legacy migration from local edits |
 | `docs-schema` | [technical-writing](../examples/technical-writing.md): apply a scoped schema correction while preserving accepted content |
 | `talk-acceptance` | [talk-it-through](../examples/talk-it-through.md): advance after local acceptance and stop when asked |
 | `talk-goal-drift` | [talk-it-through case 7](../examples/talk-it-through.md#7-a-drifting-branch-and-an-explicit-new-goal): check a drifting branch against the goal, distinguish interest from agreement, and follow an explicit goal change |
@@ -90,6 +90,31 @@ Preparation refuses to overwrite an existing run. Each case directory contains:
 - `manifest.json`: preparation time, source revision and hashes, case and
   fixture hash, and initial workspace hashes.
 - `before/`: the original workspace for inspecting changes.
+
+## Select Fern setup cases
+
+Select the five `fern-*` cases by exact ID from the table above. They use an
+isolated `codex-home/`, the complete copied `setup-fern` package and a synthetic
+frozen source SHA. Network, installers, real user-profile access and model
+spawns are prohibited. The complete instruction asset includes initiative,
+user precedence, writing style, delegation, built-in explorer model and
+reasoning defaults, and testing rules; assess the full content as well as
+markers and receipt hashes.
+
+Deliver the two `fern-resource-merge` turns separately in the same session,
+retaining the first application before the repeat. For
+`fern-fresh-user-instructions`, check creation in the effective Codex home and
+the `instructions:user-rules` receipt. Compare
+`fern-legacy-instructions-migrate` with `fern-legacy-instructions-edited`: the
+former allows replacing an exactly owned historical block, while the latter
+requires all fixture files to remain unchanged. Retain actual reads and writes
+to establish that the old receipt is removed only after new-block readback in
+the successful case. The read-only case also requires an unchanged workspace.
+
+These fixtures do not prove actual Codex instruction loading, explorer model
+availability or spawning, live source resolution, or skill installation. Use
+the [setup examples](../examples/setup-fern.md) for the additional narrative
+cases and keep those unexecuted expectations separate from recorded runs.
 
 ## Select reflection cases
 

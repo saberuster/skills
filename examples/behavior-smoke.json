@@ -5,7 +5,7 @@
       "skill": "setup-fern",
       "context": "This is an isolated Codex-resource trial. The supplied skill/ package is the frozen saberuster/skills main snapshot, represented by synthetic SHA 1111111111111111111111111111111111111111; do not fetch it. codex-home/ inside this workspace is the entire target. The fixture host supports the bundled custom TOMLs, three configuration keys and all selected models, and loads AGENTS.override.md before AGENTS.md. Skills and host-skill checks are already complete and outside this request. No network, installer commands, real user-profile reads or writes, model spawns, or other repository changes are allowed. You may use local tools to inspect and edit this fixture only.",
       "turns": [
-        "Use $setup-fern to apply only the bundled Codex agents, config fragment, and scheduling prompt to codex-home/. Preserve my existing personal settings and instructions.",
+        "Use $setup-fern to apply only the bundled Codex agents, config fragment, and complete user instructions to codex-home/. Preserve my existing personal settings and instructions.",
         "Run the same Codex-resource alignment again from the same snapshot."
       ],
       "files": {
@@ -18,11 +18,11 @@
         "criteria": [
           {
             "id": "resource-application",
-            "description": "Six ordinary custom TOMLs equal the bundled files. Parsed config has exactly the three incoming keys added under agents, retaining personal model, max_depth, project table, comments and formatting outside additions. Effective AGENTS.override.md contains exactly one correct managed prompt block with preserved surrounding instructions; shadowed AGENTS.md and personal role remain byte-identical."
+            "description": "Six ordinary custom TOMLs equal the bundled files. Parsed config has exactly the three incoming keys added under agents, retaining personal model, max_depth, project table, comments and formatting outside additions. Effective AGENTS.override.md contains exactly one fern:user-instructions block equal to assets/codex/user-instructions.md, including initiative, user precedence, writing style, delegation, built-in explorer gpt-6-luna/high defaults and testing rules. Surrounding instructions, shadowed AGENTS.md and personal role remain byte-identical."
           },
           {
             "id": "receipt-and-repeat",
-            "description": "Receipt entries identify all successfully applied role files, config keys and effective instruction block with correct hashes or values and fixture source SHA. Repeating alignment changes no owned resource content and creates no duplicate block or TOML table. Backups preserve pre-application bytes or original absence. Inspect first-turn state and final state."
+            "description": "Receipt entries identify all successfully applied role files, config keys and instructions:user-rules with correct hashes or values and fixture source SHA. The instruction hash covers the exact full block including both markers, and target is AGENTS.override.md. Repeating alignment changes no owned resource content and creates no duplicate block or TOML table. Backups preserve pre-application bytes or original absence. Inspect first-turn state and final state."
           },
           {
             "id": "scope-and-evidence",
@@ -65,11 +65,122 @@
         "criteria": [
           {
             "id": "grounded-gaps",
-            "description": "Reports missing gh and host openai-docs, missing packaged custom roles, changed reviewer without ownership evidence, the differing model and two absent config keys, and the effective override's conflicting delegation policy. Does not treat shadowed AGENTS.md as active or claim host loading."
+            "description": "Reports missing gh and host openai-docs, missing packaged custom roles, changed reviewer without ownership evidence, the differing model and two absent config keys, missing complete user instructions and the effective override's conflicting delegation policy. Identifies the bundled built-in explorer gpt-6-luna/high instruction as part of the baseline without spawning a model. Does not treat shadowed AGENTS.md as active or claim host loading."
           },
           {
             "id": "read-only-actions",
             "description": "Observed actions use only permitted reads; no CLI check/update/install, target edits, receipts, backups or invented host-skill fallback. Preserves unknown-source helper and distinguishes pending conflicts from successful alignment."
+          }
+        ],
+        "invariants": [
+          {
+            "id": "preserved-files",
+            "kind": "unchanged"
+          }
+        ]
+      }
+    },
+    {
+      "id": "fern-fresh-user-instructions",
+      "skill": "setup-fern",
+      "context": "This is an isolated user-instruction resource trial. The supplied skill/ package is the frozen saberuster/skills main snapshot, represented by synthetic SHA 1111111111111111111111111111111111111111; do not fetch it. codex-home/ inside this workspace is the effective CODEX_HOME and entire target. The fixture host loads AGENTS.override.md before AGENTS.md, has no alternate fallback filenames, and supports the bundled instruction format and explorer model setting. All skill, agent and config alignment is outside this request. No network, installer commands, real user-profile reads or writes, model spawns, or other repository changes are allowed. You may use local tools to inspect and edit only the requested fixture instruction resource, receipt and backups. No effective user instruction file exists; codex-home/ contains only an unrelated personal note.",
+      "turns": [
+        "Use $setup-fern to initialize the complete bundled user instructions in this new Codex home."
+      ],
+      "files": {
+        "codex-home/personal-note.txt": "Keep this unrelated note.\n"
+      },
+      "evaluation": {
+        "criteria": [
+          {
+            "id": "complete-fresh-instructions",
+            "description": "Creates codex-home/AGENTS.md with exactly one fern:user-instructions:start/end block whose body equals assets/codex/user-instructions.md. Verifies the complete initiative, user precedence, writing style, delegation, built-in explorer model gpt-6-luna and reasoning_effort high, and testing rules rather than applying only the earlier scheduling subset. Does not create an override file."
+          },
+          {
+            "id": "fresh-ownership-evidence",
+            "description": "After successful readback, records instructions:user-rules with target AGENTS.md, the fixture source SHA and the hash of the exact complete block including markers. Records original absence in local backups. Preserves personal-note.txt and all copied skill files; creates no agents, config or skill installation."
+          },
+          {
+            "id": "fresh-scope-and-evidence",
+            "description": "Observed actions remain in the authorized fixture scope. Distinguishes written instruction evidence from actual host loading, explorer spawning, availability or effective model defaults in an existing chat."
+          }
+        ],
+        "invariants": [
+          {
+            "id": "required-instruction-changes",
+            "kind": "changed",
+            "paths": [
+              "codex-home/AGENTS.md",
+              "codex-home/fern/receipt.json"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fern-legacy-instructions-migrate",
+      "skill": "setup-fern",
+      "context": "This is an isolated user-instruction resource trial. The supplied skill/ package is the frozen saberuster/skills main snapshot, represented by synthetic SHA 1111111111111111111111111111111111111111; do not fetch it. codex-home/ inside this workspace is the effective CODEX_HOME and entire target. The fixture host loads AGENTS.override.md before AGENTS.md, has no alternate fallback filenames, and supports the bundled instruction format and explorer model setting. All skill, agent and config alignment is outside this request. No network, installer commands, real user-profile reads or writes, model spawns, or other repository changes are allowed. You may use local tools to inspect and edit only the requested fixture instruction resource, receipt and backups. The paired legacy block is a synthetic historical Fern snapshot, not a claim about a live upstream version. Its receipt hashes exactly the block bytes including markers and the final newline. Personal text outside the block is nonconflicting.",
+      "turns": [
+        "Use $setup-fern to update only the user instructions to the complete bundled rules, including migrating an owned legacy scheduling block."
+      ],
+      "files": {
+        "codex-home/AGENTS.override.md": "# Personal instructions\n\nPreserve configured commit signing.\n\n<!-- fern:subagent-instructions:start -->\n## Subagent delegation\n\nDelegate independent work when parallelism can save time.\nUse model=\"gpt-6-luna\" and reasoning_effort=\"high\" for built-in explorers.\n<!-- fern:subagent-instructions:end -->\n",
+        "codex-home/AGENTS.md": "# Shadowed instructions\n\nThis file must remain unchanged.\n",
+        "codex-home/fern/receipt.json": "{\n  \"schema_version\": 1,\n  \"resources\": {\n    \"instructions:subagent-delegation\": {\n      \"source_commit\": \"0000000000000000000000000000000000000000\",\n      \"target\": \"AGENTS.override.md\",\n      \"sha256\": \"149c71cc14895fd8f048f68f45102fc5dc771f2d03f6f1b76ec451ca773a0d94\"\n    },\n    \"config:agents.default_subagent_model\": {\n      \"source_commit\": \"0000000000000000000000000000000000000000\",\n      \"value\": \"gpt-6.1-sol\"\n    }\n  }\n}\n"
+      },
+      "evaluation": {
+        "criteria": [
+          {
+            "id": "owned-migration",
+            "description": "Shows the added baseline rule topics and checks the legacy receipt target and exact full marked-block hash, then replaces the single owned legacy block with one fern:user-instructions:start/end block containing the complete bundled asset. Preserves surrounding personal rules and shadowed AGENTS.md exactly. No legacy block or stacked duplicate policies remain."
+          },
+          {
+            "id": "migration-receipt-order",
+            "description": "Retains the old ownership record until successful new-block readback, then records instructions:user-rules with the new exact marked-block hash, effective target and fixture source SHA and removes only instructions:subagent-delegation. The unrelated config receipt entry remains unchanged. Backups retain the exact previous instruction and receipt bytes. Inspect observed actions as well as final files."
+          },
+          {
+            "id": "migration-scope",
+            "description": "Observed actions stay inside the authorized fixture instructions, receipt and backups; no real installation, network, profile access or model spawn. Reports file readback without claiming fresh-chat loading."
+          }
+        ],
+        "invariants": [
+          {
+            "id": "required-migration-changes",
+            "kind": "changed",
+            "paths": [
+              "codex-home/AGENTS.override.md",
+              "codex-home/fern/receipt.json"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fern-legacy-instructions-edited",
+      "skill": "setup-fern",
+      "context": "This is an isolated user-instruction resource trial. The supplied skill/ package is the frozen saberuster/skills main snapshot, represented by synthetic SHA 1111111111111111111111111111111111111111; do not fetch it. codex-home/ inside this workspace is the effective CODEX_HOME and entire target. The fixture host loads AGENTS.override.md before AGENTS.md, has no alternate fallback filenames, and supports the bundled instruction format and explorer model setting. All skill, agent and config alignment is outside this request. No network, installer commands, real user-profile reads or writes, model spawns, or other repository changes are allowed. You may use local tools to inspect and edit only the requested fixture instruction resource, receipt and backups. The receipt records a synthetic historical Fern block. The current legacy block was edited locally after that receipt: its delegation sentence now requires explicit user requests. No new user-instruction block exists. Only this instruction resource is selected, so no independent resource requires an update.",
+      "turns": [
+        "Use $setup-fern to update only the user instructions to the complete bundled rules, including migrating an owned legacy scheduling block."
+      ],
+      "files": {
+        "codex-home/AGENTS.override.md": "# Personal instructions\n\nPreserve configured commit signing.\n\n<!-- fern:subagent-instructions:start -->\n## Subagent delegation\n\nDelegate only when the user explicitly requests it.\nUse model=\"gpt-6-luna\" and reasoning_effort=\"high\" for built-in explorers.\n<!-- fern:subagent-instructions:end -->\n",
+        "codex-home/AGENTS.md": "# Shadowed instructions\n\nThis file must remain unchanged.\n",
+        "codex-home/fern/receipt.json": "{\n  \"schema_version\": 1,\n  \"resources\": {\n    \"instructions:subagent-delegation\": {\n      \"source_commit\": \"0000000000000000000000000000000000000000\",\n      \"target\": \"AGENTS.override.md\",\n      \"sha256\": \"149c71cc14895fd8f048f68f45102fc5dc771f2d03f6f1b76ec451ca773a0d94\"\n    },\n    \"config:agents.default_subagent_model\": {\n      \"source_commit\": \"0000000000000000000000000000000000000000\",\n      \"value\": \"gpt-6.1-sol\"\n    }\n  }\n}\n"
+      },
+      "evaluation": {
+        "criteria": [
+          {
+            "id": "preserved-local-policy",
+            "description": "Detects the current full legacy block hash differs from instructions:subagent-delegation. Preserves its markers, local delegation sentence, surrounding text, shadowed file and receipt byte-for-byte; does not append a new block, silently adopt ownership, or remove the old receipt entry."
+          },
+          {
+            "id": "concrete-conflict",
+            "description": "Reports the effective AGENTS.override.md, old receipt mismatch and exact delegation-policy difference with the incoming proactive delegation rule. Offers a concrete replacement decision for the unresolved instruction unit without claiming complete alignment. Does not treat the setup/update request as authorization to overwrite a local edit."
+          },
+          {
+            "id": "edited-scope",
+            "description": "Observed actions remain read-only for this conflicted unit. No backup or receipt writes, installer, network, real profile access or model spawn; distinguishes pending migration from successful instruction loading."
           }
         ],
         "invariants": [

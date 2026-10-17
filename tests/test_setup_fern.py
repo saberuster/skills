@@ -70,13 +70,13 @@ class SetupFernTests(unittest.TestCase):
             {path.suffix for path in (ASSETS / "agents").iterdir()}, {".toml"}
         )
 
-    def test_delegation_fragment_can_be_embedded_in_a_managed_block(self):
-        prompt = (ASSETS / "subagent-instructions.md").read_text(encoding="utf-8")
+    def test_user_instructions_can_be_embedded_in_a_managed_block(self):
+        prompt = (ASSETS / "user-instructions.md").read_text(encoding="utf-8")
         tokens = MarkdownIt().parse(prompt)
         self.assertTrue(prompt.strip())
-        self.assertEqual(
-            [token.tag for token in tokens if token.type == "heading_open"], ["h2"]
-        )
+        headings = [token.tag for token in tokens if token.type == "heading_open"]
+        self.assertEqual(headings[0], "h1")
+        self.assertTrue(all(tag == "h2" for tag in headings[1:]))
         self.assertFalse(
             any(token.type in {"html_block", "html_inline"} for token in tokens),
             "The instruction asset must not contain deployment block markers",
@@ -97,7 +97,7 @@ class SetupFernTests(unittest.TestCase):
                     "references/baseline.md",
                     "references/codex-installation.md",
                     "assets/codex/config.fragment.toml",
-                    "assets/codex/subagent-instructions.md",
+                    "assets/codex/user-instructions.md",
                     *(f"assets/codex/agents/{role}.toml" for role in sorted(ROLES)),
                 ):
                     with self.subTest(resource=relative):

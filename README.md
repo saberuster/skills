@@ -29,7 +29,8 @@ from these sources.
 
 [Setup Fern](skills/fern/setup-fern/SKILL.md) composes the personal Codex
 environment: all skills in `fern` and `meta`, individually selected external
-skills, six custom agents, selected config values, and subagent instructions.
+skills, six custom agents, selected config values, and complete personal user
+instructions, including subagent scheduling and explorer model selection.
 It delegates skill installation to `maintain-skills` and offers read-only
 comparison. Other collections are selected by project need. The package's
 Codex resources are applied only by an authorized setup or update.
