@@ -87,6 +87,21 @@ See also the [Claude SDK skill documentation](https://code.claude.com/docs/en/ag
 
 ## Local checks
 
+### Fern environment resources
+
+The [Fern resource tests](../tests/test_setup_fern.py) parse custom agent TOMLs
+and the selected config fragment, check the prompt's embedding shape, and
+stage the complete package in an isolated profile. Run them with:
+
+```text
+python -m unittest discover -s tests -p test_setup_fern.py -v
+```
+
+These are source and packaging checks. They do not apply a real Codex config,
+install skills, or establish runtime loading. Use the
+[Fern behavior cases](../examples/setup-fern.md) for isolated application,
+conflicts, read-only comparison, and partial-failure assessment.
+
 ### Blender regressions
 
 The [Blender collection](../skills/blender/README.md) includes pure-data component

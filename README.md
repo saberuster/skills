@@ -24,6 +24,13 @@ language editing, and [reflect](skills/fern/reflect/README.md), migrated from
 `learn-from-session`. Discovery for `commit` and `reflect` remains unverified;
 their predecessors' results do not establish discovery for the renamed packages.
 
+[Setup Fern](skills/fern/setup-fern/SKILL.md) composes the personal Codex
+environment: all skills in `fern` and `meta`, individually selected external
+skills, six custom agents, selected config values, and subagent instructions.
+It delegates skill installation to `maintain-skills` and offers read-only
+comparison. Other collections are selected by project need. The package's
+Codex resources are applied only by an authorized setup or update.
+
 [Image generation](skills/image-generation/README.md) groups the three GPT Image
 prompting skills.
 
@@ -72,6 +79,7 @@ the coverage limits.
 | [reference-scene](skills/blender/reference-scene/SKILL.md) | &#9989; | &#9989; |
 | [reflect](skills/fern/reflect/README.md) | &#9989; | &#9989; |
 | [research-skill-patterns](skills/meta/research-skill-patterns/README.md) | &#9989; | &#9989; |
+| [setup-fern](skills/fern/setup-fern/SKILL.md) | &#9989; | &#9989; |
 | [setup-godot-skills](skills/godot/setup-godot-skills/SKILL.md) | &mdash; | &mdash; |
 | [talk-it-through](skills/thinking/talk-it-through/README.md) | &#9989; | &#9989; |
 | [technical-writing](skills/fern/technical-writing/SKILL.md) | &#9989; | &#9989; |
@@ -80,8 +88,8 @@ the coverage limits.
 &#9989; discovery passed; &#10060; discovery failed; &mdash; unknown.
 Channel: `pinned`. Versions:
 Codex `codex-cli 0.161.0`; Claude Code `2.1.292 (Claude Code)`.
-Tested source commit: `ce268e5d9bd8a1dc7cc4f774c2d9442e13326117`.
-Evidence: [CI run](https://github.com/saberuster/skills/actions/runs/39011721750).
+Tested source commit: `a259f1a4beb4b0f0c08aea8d795ea1bf3df57650`.
+Evidence: [CI run](https://github.com/saberuster/skills/actions/runs/39013485355).
 
 <!-- agent-support:end -->
 
