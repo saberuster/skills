@@ -111,6 +111,8 @@ Planned next minor release: `0.2.0`.
 
 ### Changed
 
+- `setup-fern` now requires explicit invocation in Codex. Disable implicit
+  selection through its invocation policy while retaining `$setup-fern` use.
 - Clarified behavior-case selection for constraints that could block useful
   work: cover both a triggering case and a nearby case that should remain allowed.
 - Simplified Fern's `reviewer` and `validator` developer instructions while
