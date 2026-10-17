@@ -67,11 +67,11 @@ the coverage limits.
 | [brief-to-image-prompt](skills/image-generation/brief-to-image-prompt/README.md) | &#9989; | &#9989; |
 | [character-rig](skills/blender/character-rig/SKILL.md) | &#9989; | &#9989; |
 | [commit](skills/fern/commit/README.md) | &#9989; | &#9989; |
-| [godot-best-practices](skills/godot/godot-best-practices/SKILL.md) | &mdash; | &mdash; |
-| [godot-build-and-diagnostics](skills/godot/godot-build-and-diagnostics/SKILL.md) | &mdash; | &mdash; |
-| [godot-scene-and-resource-authoring](skills/godot/godot-scene-and-resource-authoring/SKILL.md) | &mdash; | &mdash; |
-| [godot-scripting](skills/godot/godot-scripting/SKILL.md) | &mdash; | &mdash; |
-| [godot-ui-authoring](skills/godot/godot-ui-authoring/SKILL.md) | &mdash; | &mdash; |
+| [godot-best-practices](skills/godot/godot-best-practices/SKILL.md) | &#9989; | &#9989; |
+| [godot-build-and-diagnostics](skills/godot/godot-build-and-diagnostics/SKILL.md) | &#9989; | &#9989; |
+| [godot-scene-and-resource-authoring](skills/godot/godot-scene-and-resource-authoring/SKILL.md) | &#9989; | &#9989; |
+| [godot-scripting](skills/godot/godot-scripting/SKILL.md) | &#9989; | &#9989; |
+| [godot-ui-authoring](skills/godot/godot-ui-authoring/SKILL.md) | &#9989; | &#9989; |
 | [gpt-image-prompting](skills/image-generation/gpt-image-prompting/README.md) | &#9989; | &#9989; |
 | [image-to-prompt](skills/image-generation/image-to-prompt/README.md) | &#9989; | &#9989; |
 | [maintain-agents-md](skills/meta/maintain-agents-md/README.md) | &#9989; | &#9989; |
@@ -80,7 +80,7 @@ the coverage limits.
 | [reflect](skills/fern/reflect/README.md) | &#9989; | &#9989; |
 | [research-skill-patterns](skills/meta/research-skill-patterns/README.md) | &#9989; | &#9989; |
 | [setup-fern](skills/fern/setup-fern/SKILL.md) | &#9989; | &#9989; |
-| [setup-godot-skills](skills/godot/setup-godot-skills/SKILL.md) | &mdash; | &mdash; |
+| [setup-godot-skills](skills/godot/setup-godot-skills/SKILL.md) | &#9989; | &#9989; |
 | [talk-it-through](skills/thinking/talk-it-through/README.md) | &#9989; | &#9989; |
 | [technical-writing](skills/fern/technical-writing/SKILL.md) | &#9989; | &#9989; |
 | [unslop](skills/fern/unslop/SKILL.md) | &#9989; | &#9989; |
@@ -88,8 +88,8 @@ the coverage limits.
 &#9989; discovery passed; &#10060; discovery failed; &mdash; unknown.
 Channel: `pinned`. Versions:
 Codex `codex-cli 0.161.0`; Claude Code `2.1.292 (Claude Code)`.
-Tested source commit: `a259f1a4beb4b0f0c08aea8d795ea1bf3df57650`.
-Evidence: [CI run](https://github.com/saberuster/skills/actions/runs/39013485355).
+Tested source commit: `afe25c8b8009b846ec41699b5e0fbbc7b171d808`.
+Evidence: [CI run](https://github.com/saberuster/skills/actions/runs/39021367543).
 
 <!-- agent-support:end -->
 
