@@ -5,7 +5,7 @@ Focused standalone agent skills by saberuster, licensed under the
 skills, reflect on a session, write technical documentation, review project
 readiness for agent work, and work through ideas and decisions, or compose
 structured GPT Image prompts from briefs and reference images, and prepare
-Conventional Commits.
+Conventional Commits, and model, reconstruct, and repair assets in Blender.
 
 [meta](skills/meta/README.md) groups skills for maintaining skills and project
 instructions, reviewing project readiness for agent work, and grounding skill
@@ -26,6 +26,12 @@ their predecessors' results do not establish discovery for the renamed packages.
 [Image generation](skills/image-generation/README.md) groups the three GPT Image
 prompting skills.
 
+[Blender](skills/blender/README.md) groups `blender-low-poly`, `character-rig`,
+and `reference-scene`, migrated from `saberuster/agent-skills` with their
+supporting resources and regression tests. Blender operations require a Blender
+installation or a connected Blender tool. Client discovery from this repository
+remains unverified.
+
 [Thinking](skills/thinking/README.md) groups skills for exploring ideas,
 clarifying questions, and working through decisions. It includes
 `talk-it-through`; client discovery from its relocated source remains unverified.
@@ -42,12 +48,15 @@ the coverage limits.
 | Skill | Codex | Claude Code |
 | --- | --- | --- |
 | [agent-ready](skills/meta/agent-ready/README.md) | &#9989; | &#9989; |
+| [blender-low-poly](skills/blender/blender-low-poly/SKILL.md) | &mdash; | &mdash; |
 | [brief-to-image-prompt](skills/image-generation/brief-to-image-prompt/README.md) | &#9989; | &#9989; |
+| [character-rig](skills/blender/character-rig/SKILL.md) | &mdash; | &mdash; |
 | [commit](skills/fern/commit/README.md) | &#9989; | &#9989; |
 | [gpt-image-prompting](skills/image-generation/gpt-image-prompting/README.md) | &#9989; | &#9989; |
 | [image-to-prompt](skills/image-generation/image-to-prompt/README.md) | &#9989; | &#9989; |
 | [maintain-agents-md](skills/meta/maintain-agents-md/README.md) | &#9989; | &#9989; |
 | [maintain-skills](skills/meta/maintain-skills/README.md) | &#9989; | &#9989; |
+| [reference-scene](skills/blender/reference-scene/SKILL.md) | &mdash; | &mdash; |
 | [reflect](skills/fern/reflect/README.md) | &#9989; | &#9989; |
 | [research-skill-patterns](skills/meta/research-skill-patterns/README.md) | &#9989; | &#9989; |
 | [talk-it-through](skills/thinking/talk-it-through/README.md) | &#9989; | &#9989; |

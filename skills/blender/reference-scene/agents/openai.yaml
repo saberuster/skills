@@ -1,0 +1,6 @@
+interface:
+  display_name: "Reference Scene"
+  short_description: "Reconstruct editable scenes from visual references"
+  default_prompt: "Use $reference-scene to reconstruct the reference as an editable scene and review its proportions, structure, and multiple viewing angles."
+policy:
+  allow_implicit_invocation: true

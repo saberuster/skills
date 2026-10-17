@@ -1,0 +1,789 @@
+{
+  "research_date": "2026-10-16",
+  "timezone": "Asia/Shanghai",
+  "workstreams": 4,
+  "search_calls": 22,
+  "search_results_requested": 170,
+  "unique_source_urls": 51,
+  "unique_hosts": 26,
+  "substantive_text_sources": 48,
+  "overview_only": 2,
+  "metadata_only": 1,
+  "method": "Exa English and Chinese searches, with a supplementary Japanese written source. Search result slots are not unique pages and are not equivalent to reading. Selected relevant text was fetched live in this run; not every linked video, figure or full long document was inspected.",
+  "sources": [
+    {
+      "id": "SH01",
+      "title": "Bevel Modifier \u2014 Blender Manual",
+      "url": "https://docs.blender.org/manual/en/latest/modeling/modifiers/generate/bevel.html",
+      "domain": "docs.blender.org",
+      "language": "en",
+      "kind": "official_manual",
+      "read_status": "fetched_full_relevant_page",
+      "claims": [
+        "Bevel is a nondestructive alternative to the edit-mode operation; segments add edge loops.",
+        "Angle, weight, and vertex-group limits allow selective bevel placement instead of beveling every edge.",
+        "Clamp Overlap limits intersecting bevels. Harden Normals preserves adjacent flat shading while modifying bevel-face normals."
+      ],
+      "version_caveats": "Fetched latest page identifies itself as Blender 5.2 LTS; a search result for the same URL said 5.1. Verify installed Blender and its versioned manual. Attribute names and custom normal behavior are version-sensitive."
+    },
+    {
+      "id": "SH02",
+      "title": "Smooth By Angle Modifier \u2014 Blender Manual",
+      "url": "https://docs.blender.org/manual/en/latest/modeling/modifiers/normals/smooth_by_angle.html",
+      "domain": "docs.blender.org",
+      "language": "en",
+      "kind": "official_manual",
+      "read_status": "fetched_full_relevant_page",
+      "claims": [
+        "This bundled Geometry Nodes asset sets edge sharpness from neighboring face angles.",
+        "The Angle input controls what counts as smooth; Ignore Sharpness can override manually marked sharp edges.",
+        "Choose smoothing deliberately; flat shading and edge-angle smoothing are different treatments."
+      ],
+      "version_caveats": "Page identifies as 5.2 LTS. Do not assume old Auto Smooth mesh-property APIs or UI locations. Check available operator/asset in the actual version."
+    },
+    {
+      "id": "SH03",
+      "title": "Decimate Modifier \u2014 Blender Manual",
+      "url": "https://docs.blender.org/manual/en/latest/modeling/modifiers/generate/decimate.html",
+      "domain": "docs.blender.org",
+      "language": "en",
+      "kind": "official_manual",
+      "read_status": "fetched_full_relevant_page",
+      "claims": [
+        "An already economical mesh usually does not benefit from Decimate; dense sculpted or subdivided meshes can.",
+        "Collapse progressively merges vertices; ratio is calculated using triangle counts.",
+        "Un-Subdivide suits regular subdivision-derived grids. Planar simplifies largely flat forms and offers material, normal, seam, sharp, and UV delimiters."
+      ],
+      "version_caveats": "Page identifies as 5.2 LTS. Its Angle Limit wording appears counterintuitive; do not repeat the higher/lower inequality without runtime verification. Preserve boundaries and inspect the result."
+    },
+    {
+      "id": "SH04",
+      "title": "Clean Up \u2014 Blender Manual",
+      "url": "https://docs.blender.org/manual/en/latest/modeling/meshes/editing/mesh/cleanup.html",
+      "domain": "docs.blender.org",
+      "language": "en",
+      "kind": "official_manual",
+      "read_status": "fetched_full_relevant_page",
+      "claims": [
+        "Delete Loose removes disconnected loose geometry. Degenerate Dissolve collapses short connected edges.",
+        "Merge by Distance merges nearby selected vertices, with a threshold that can also destroy intentional gaps.",
+        "Make Planar Faces and Split Non-Planar Faces address different problems; cleanup must match the defect instead of applying every operation blindly."
+      ],
+      "version_caveats": "Page identifies as 5.2 LTS. Names/options should be checked in installed version; thresholds must be relative to asset dimensions."
+    },
+    {
+      "id": "SH05",
+      "title": "Mesh Structure \u2014 Blender Manual",
+      "url": "https://docs.blender.org/manual/en/latest/modeling/meshes/structure.html",
+      "domain": "docs.blender.org",
+      "language": "en",
+      "kind": "official_manual",
+      "read_status": "fetched_full_relevant_page",
+      "claims": [
+        "Triangles are planar; quads are useful for deformation and subdivision.",
+        "Flat and smooth shading change how normals are interpreted, without adding silhouette geometry.",
+        "Useful edge flow follows contours and deformation; more loops belong where bending needs them."
+      ],
+      "version_caveats": "Page identifies as 5.2 LTS. Custom/free-normal storage and importer claims are version-specific and are not promoted to universal skill rules."
+    },
+    {
+      "id": "SH06",
+      "title": "Remeshing \u2014 Blender Manual",
+      "url": "https://docs.blender.org/manual/en/latest/modeling/meshes/retopology.html",
+      "domain": "docs.blender.org",
+      "language": "en",
+      "kind": "official_manual",
+      "read_status": "fetched_full_relevant_page",
+      "claims": [
+        "Voxel remeshing is useful for sculpt preparation, messy intersections, and approximate stand-ins.",
+        "Automatic remeshing is not a reliable source of final deformation topology.",
+        "Use manual retopology when topology must follow animation flow; don't voxel-remesh an otherwise healthy mesh merely to lower its count."
+      ],
+      "version_caveats": "Page identifies as 5.2 LTS. Preserve-attribute and quad-remesh options may differ by release; validate actual functionality."
+    },
+    {
+      "id": "SH07",
+      "title": "\u6324\u51fa\u9762 \u2014 Blender \u624b\u518c",
+      "url": "https://docs.blender.org/manual/zh-hans/latest/modeling/meshes/editing/face/extrude_faces.html",
+      "domain": "docs.blender.org",
+      "language": "zh-Hans/en",
+      "kind": "official_manual",
+      "read_status": "fetched_full_relevant_page",
+      "claims": [
+        "Extrusion creates border faces and then transforms the selected region.",
+        "Canceling the movement does not remove newly created extrusion geometry, so an aborted transform can leave duplicates.",
+        "Use explicit axes and inspect face orientation after extrusion."
+      ],
+      "version_caveats": "Fetched Chinese latest page identifies as 5.2 LTS and includes untranslated English. Search discovered a dev page; fetched latest instead. UI/operator options are version-sensitive."
+    },
+    {
+      "id": "SH08",
+      "title": "Mirror Modifier \u2014 Blender Manual",
+      "url": "https://docs.blender.org/manual/en/latest/modeling/modifiers/generate/mirror.html",
+      "domain": "docs.blender.org",
+      "language": "en",
+      "kind": "official_manual",
+      "read_status": "fetched_full_relevant_page",
+      "claims": [
+        "Mirror uses local axes through the object origin, or the transform of an explicit mirror object.",
+        "Clipping constrains seam vertices; Merge joins corresponding vertices within the merge threshold.",
+        "A correct mirror plane and seam are necessary; keeping the modifier preserves editability."
+      ],
+      "version_caveats": "Page identifies as 5.2 LTS. Use verified mirror origin/axes and safe scale-aware thresholds; don't confuse adding a modifier with applying it destructively."
+    },
+    {
+      "id": "SH09",
+      "title": "Low-Poly 3D Assets in Blender Tutorial \u2014 Zenva/GameDev Academy",
+      "url": "https://gamedevacademy.org/blender-tutorial/",
+      "domain": "gamedevacademy.org",
+      "language": "en",
+      "kind": "original_course_written_lesson_and_transcript",
+      "read_status": "fetched_partial_18000_characters_relevant_written_lessons_read",
+      "claims": [
+        "Primitive parameters control segment density at creation time.",
+        "Orthographic views, numeric transforms, and snapping support proportion and alignment checks.",
+        "Simple forms can be assembled from a small vocabulary of primitives before adding complexity."
+      ],
+      "version_caveats": "Originally 2019; page updated 2024. Old UI, mixed transcript versions, and deliberately customized keyboard shortcuts are not current defaults. No claim of viewing embedded videos."
+    },
+    {
+      "id": "SH10",
+      "title": "Creating a game sprite: Box Modelling the basic outline \u2014 Mike/GameFromScratch",
+      "url": "https://gamefromscratch.com/creating-a-game-sprite-modelling-in-blender-part-2-box-modelling-the-basic-outline/",
+      "domain": "gamefromscratch.com",
+      "language": "en",
+      "kind": "original_written_step_by_step_tutorial",
+      "read_status": "fetched_full_relevant_page",
+      "claims": [
+        "A mirrored primitive can be shaped with extrusion, loop insertion, and vertex adjustments against top and side references.",
+        "Adding detail later is easier than removing poorly planned complexity.",
+        "Quads and coherent loops improve editability; the final mesh still needs predictable triangulation."
+      ],
+      "version_caveats": "2013 tutorial. Retain modeling reasoning, not obsolete shortcuts, interface positions, or exact commands; its wording sometimes conflates adding and applying a modifier."
+    },
+    {
+      "id": "SH11",
+      "title": "Beginner's Overview of 3D Game Asset Creation \u2014 Chunck Trafagander/CG Cookie",
+      "url": "https://cgcookie.com/posts/beginner-s-overview-of-3d-game-asset-creation",
+      "domain": "cgcookie.com",
+      "language": "en",
+      "kind": "original_practitioner_written_article",
+      "read_status": "fetched_full_relevant_page",
+      "claims": [
+        "Use references or a sketch so geometry is not built solely from an untested mental image.",
+        "When reducing a high-poly source, prioritize silhouette-affecting detail; excessive reduction can cause bake artifacts.",
+        "The appropriate stages depend on the asset; one high-to-low pipeline is not mandatory for all work."
+      ],
+      "version_caveats": "2024 article; software/product recommendations were not adopted. Post-bake geometry changes are not generalized as safe because triangulation/tangent/bake consistency must be checked."
+    },
+    {
+      "id": "SH12",
+      "title": "\u30ed\u30fc\u30dd\u30ea\u3067\u7d20\u4f53\u3092\u4f5c\u308d\u3046\uff01\u4f5c\u308b\u3068\u304d\u306e\u30b3\u30c4\u3068\u306f\uff1f \u2014 CGbox",
+      "url": "https://cgbox.jp/2021/11/04/blender-lowpoly-modeling/",
+      "domain": "cgbox.jp",
+      "language": "ja",
+      "kind": "original_written_practical_tutorial",
+      "read_status": "fetched_full_relevant_page",
+      "claims": [
+        "Runtime economy and intentionally faceted visual style are distinct meanings of low poly.",
+        "Each vertex has strong silhouette impact; keep a distant overall view during modeling.",
+        "Add joints and complexity according to actual use; simplify hands and concealed forms when the design permits."
+      ],
+      "version_caveats": "Blender 2.9 tutorial, originally 2021 and updated 2023. Arbitrary ring-count rules and the broad claim that all game meshes are low-poly were rejected; no claim of viewing video."
+    },
+    {
+      "id": "A01",
+      "title": "Creating a Low Poly Medieval House in Blender: Part 1",
+      "url": "https://cgi.tutsplus.com/creating-a-low-poly-medieval-house-in-blender-part-1--cms-24002t",
+      "domain": "cgi.tutsplus.com",
+      "language": "en",
+      "kind": "author-written tutorial; Karan Shah",
+      "read_status": "substantial text read: house, roof, balcony, timber sections; extraction capped at 18,000 chars",
+      "claims": [
+        "Begin from a box, extrude storeys, merge paired top vertices into a roof ridge, then form eaves and roof thickness.",
+        "Repeat timber pieces by duplication and rotation; locate the origin at the building base.",
+        "Remove faces enclosed inside the building when they cannot be seen and the downstream use permits open geometry."
+      ],
+      "version_caveats": "2015 tutorial uses Blender 2.7-era right-click selection, Background Images and old shortcuts. Reuse geometric intent only; do not copy UI sequences. Hidden-face removal is conditional, not suitable for every export or use."
+    },
+    {
+      "id": "A02",
+      "title": "Create a Low Poly Camaro in Blender: Part 1",
+      "url": "https://design.tutsplus.com/tutorials/create-a-low-poly-camaro-in-blender-part-1--cms-21730",
+      "domain": "design.tutsplus.com",
+      "language": "en",
+      "kind": "author-written tutorial; Karan Shah",
+      "read_status": "full extracted modeling text read",
+      "claims": [
+        "Build the side profile first with loops at wheel-arch boundaries, wheel centers, door boundaries and upper arch height; remove wheel-center vertices and shape the arches.",
+        "Extrude toward the center, remove center faces and mirror with clipping; repeatedly reconcile side, front and top views.",
+        "Keep wheels separate as low-sided cylinders and choose their segment count from the required contour rather than adding radial detail everywhere."
+      ],
+      "version_caveats": "2014 Blender 2.7-era UI and shortcuts; the tutorial's 14-sided wheels are an example, not a universal budget. Some prose has shortcut inaccuracies."
+    },
+    {
+      "id": "A03",
+      "title": "How I made my Shelby GT350R model using Blender",
+      "url": "https://www.lmhpoly.com/blog/how-i-made-my-shelby-gt350r-model-using-blender",
+      "domain": "lmhpoly.com",
+      "language": "en",
+      "kind": "artist project breakdown; LMH Poly",
+      "read_status": "full extracted text read",
+      "claims": [
+        "Use a cube at real vehicle dimensions to scale and align orthographic blueprints.",
+        "Supplement blueprints with photographs of the same vehicle variant because blueprints alone do not establish all forms.",
+        "Create the major connected body surfaces before small trim, wheels and handles; test the asset in the target engine."
+      ],
+      "version_caveats": "2016 reflective project diary. Its later subdivision/PBR and Unity 5 stages are not a prescription for a faceted low-poly asset."
+    },
+    {
+      "id": "A04",
+      "title": "Making Metal Structures",
+      "url": "https://blend.beehiiv.com/p/metal-structures",
+      "domain": "blend.beehiiv.com",
+      "language": "en",
+      "kind": "author tutorial; Samuel Sullins",
+      "read_status": "full extracted text read",
+      "claims": [
+        "Form an L-shaped angle-iron section from a narrow plane and an extruded edge; add thickness with Solidify.",
+        "Assemble repeatable structural units from these bars, then duplicate the units to form larger frames.",
+        "Add custom bracing only after the broad structure reads coherently."
+      ],
+      "version_caveats": "2024 tutorial aimed at metal realism. Only model the L cross-section and wall thickness when the expected view resolves them; a rectangular prism may suffice for distant stylized beams."
+    },
+    {
+      "id": "A05",
+      "title": "Behind the Scenes: Dark Fantasy Kit \u2013 Part II",
+      "url": "https://runemarkstudio.com/3d/diary_2_dark_fantasy_pack/",
+      "domain": "runemarkstudio.com",
+      "language": "en",
+      "kind": "first-party asset production breakdown; Dotti Heged\u00fcs",
+      "read_status": "full extracted article text read",
+      "claims": [
+        "Prototype an entire modular family in rough shapes and flat material colors, and test scale and modular assembly in the engine before detailing.",
+        "Use box modeling for primary forms and beveled curves for curved forms; reuse Mirror and Array where repetition is deliberate.",
+        "Very small baked ornaments caused repeated cleanup work; the author shifted such detail toward alpha-generated normals."
+      ],
+      "version_caveats": "2018 high/low PBR workflow. Old Auto Smooth, material packing and engine references need current validation. Microdetail baking is optional for graphic low-poly styles."
+    },
+    {
+      "id": "A06",
+      "title": "Procedural low poly trees",
+      "url": "https://lflo.dev/projects/low-poly-tree-blender.html",
+      "domain": "lflo.dev",
+      "language": "en",
+      "kind": "author procedural-modeling article",
+      "read_status": "full extracted text read",
+      "claims": [
+        "Generate a branching edge skeleton by turning new branches relative to the parent direction and shrinking lengths by recursion depth.",
+        "Vary branch direction and whether branching occurs; use per-vertex radii with Skin to give the skeleton thickness.",
+        "Place low-poly foliage volumes at branch ends rather than modeling individual leaves."
+      ],
+      "version_caveats": "2022 conceptual implementation. Randomization should be seeded and bounded for repeatable art direction; that restriction is synthesis, not a documented author setting."
+    },
+    {
+      "id": "A07",
+      "title": "Complete 3D Game Character Creation Guide (From Blender to Godot)",
+      "url": "https://codernunk.com/tutorials/complete-3d-character-guide/",
+      "domain": "codernunk.com",
+      "language": "en",
+      "kind": "first-party character tutorial; CoderNunk",
+      "read_status": "read reference setup/head sections and targeted knees, shoulders, elbows/hands sections; did not claim whole 105k-character article reviewed; also hair construction, bangs, main hair, and clothing/shirt sections",
+      "claims": [
+        "Align front/side references to shared body landmarks and real scale; inspect perspective as well as orthographic views.",
+        "For an expressive face, establish mouth and eye loops first, add their side-view depth, then connect the surrounding head.",
+        "At bending joints, allocate geometry to the outside form and simplify the compressed inside; the tutorial uses inset, knife cuts and edge dissolution."
+      ],
+      "version_caveats": "Written for Blender 4.0+/Godot 4.2+. Subdivision, anime facial detail, addons and toon shading are optional and may conflict with a compact faceted style. Avoid treating its style or vertex counts as universal."
+    },
+    {
+      "id": "A08",
+      "title": "Blender\u2014lowpoly\u98ce\u683c\u5316\u6848\u4f8b\u4e4b\u8fdb\u9636\u7bc7\u2014\u6797\u4e2d\u7eb8\u9e64\u2014\u7b2c\u4e09\u8282\u8bfe\uff1a\u6811\u6728\u3001\u77f3\u5934\u6a21\u578b\u5236\u4f5c\u56fe\u6587\u6559\u7a0b",
+      "url": "https://huke88.com/baike/a58857/",
+      "domain": "huke88.com",
+      "language": "zh-CN",
+      "kind": "course provider's written lesson recap",
+      "read_status": "full written lesson read; embedded video not watched",
+      "claims": [
+        "Conifers can combine a low-sided trunk with layered conical crowns, varying each layer in size and outline.",
+        "Broadleaf trees can combine several chunky crown masses of different sizes.",
+        "The rock example uses a generator followed by decimation. Treat this as a candidate route, not a substitute for deliberate final shape design."
+      ],
+      "version_caveats": "The tutorial explicitly uses Blender 3.2.1; verify add-on availability separately. It describes M as grouping, so confirm the actual command in the installed version. Only page text was read, not the paid video."
+    },
+    {
+      "id": "A09",
+      "title": "Optimizing topology for a game Character",
+      "url": "https://www.diva-portal.org/smash/get/diva2:1218697/FULLTEXT01.pdf",
+      "domain": "diva-portal.org",
+      "language": "en",
+      "kind": "original bachelor thesis; M\u00e5ns M\u00e4kinen, 2018",
+      "read_status": "read theory, method, results and partial discussion from first 18,000 extracted chars; figures not visually inspected",
+      "claims": [
+        "The author's controlled comparison found inside knee/elbow collapse with one edge arrangement and better retained form with a different arrangement.",
+        "Test topology by posing it; a clean rest-pose mesh is insufficient evidence of deformation quality.",
+        "The author identifies weight painting, rig structure, limited body-type coverage and absent extreme shoulder poses as limitations."
+      ],
+      "version_caveats": "2018 small case study, not a universal anatomical theorem. Do not attribute all deformation errors to topology: joint position, weights and twist bones also matter."
+    },
+    {
+      "id": "A10",
+      "title": "Animated Low Poly Characters",
+      "url": "https://www.theseus.fi/server/api/core/bitstreams/188f6621-ac9a-43b7-b8b5-cb067c00c972/content",
+      "domain": "theseus.fi",
+      "language": "en",
+      "kind": "original bachelor thesis; Valtteri Iisakki Jolma, 2014",
+      "read_status": "read introduction, visual style, polycount, topology and initial rig section from 18,000 extracted chars; figures not visually inspected",
+      "claims": [
+        "Cylinder circumference constrains connected body topology; determine limb cross-sections deliberately.",
+        "Extra joint geometry can preserve form with a modest triangle cost, while bone pivot placement changes the same mesh's deformation.",
+        "The chosen diagonal in a deformed quad can materially change low-poly shoulder appearance; examine final triangulation under pose."
+      ],
+      "version_caveats": "2014 hardware, texture and bone budgets are obsolete and excluded. Strong claims against subdivision are style-specific, not general modeling rules."
+    },
+    {
+      "id": "A11",
+      "title": "Skin Modifier \u2014 Blender 5.2 LTS Manual",
+      "url": "https://docs.blender.org/manual/en/latest/modeling/modifiers/generate/skin.html",
+      "domain": "docs.blender.org",
+      "language": "en",
+      "kind": "official documentation",
+      "read_status": "full extracted text read",
+      "claims": [
+        "Skin produces a surface from an edge/vertex skeleton and per-vertex radii; original faces are ignored.",
+        "Branch intersections can overlap; Branch Smoothing relaxes them while also shrinking the result.",
+        "Skin's Symmetry preserves topology symmetry but does not duplicate geometry; use Mirror above Skin when a mirrored skeleton is required."
+      ],
+      "version_caveats": "Live /latest page identified itself as Blender 5.2 LTS when fetched on 2026-10-16 Asia/Shanghai. Must validate installed Blender version. This is a manual label, not independent release-status evidence."
+    },
+    {
+      "id": "A12",
+      "title": "Proportional Editing \u2014 Blender 5.2 LTS Manual",
+      "url": "https://docs.blender.org/manual/en/latest/editors/3dview/controls/proportional_editing.html",
+      "domain": "docs.blender.org",
+      "language": "en",
+      "kind": "official documentation",
+      "read_status": "full extracted text read",
+      "claims": [
+        "Proportional Editing transforms nearby unselected elements with adjustable radius and falloff.",
+        "Connected Only follows mesh connectivity, preventing nearby disconnected fingers or pieces from moving together.",
+        "Projected from View ignores depth; the manual's landscape example uses a triangulated grid with proportional height edits."
+      ],
+      "version_caveats": "Live /latest page identified itself as Blender 5.2 LTS when fetched on 2026-10-16 Asia/Shanghai. Prefer installed-version documentation before scripting."
+    },
+    {
+      "id": "A13",
+      "title": "How to model a low-poly dog in Blender 3.0 on iPad",
+      "url": "https://astropad.com/blog/how-to-model-a-low-poly-dog-in-blender-3-0/",
+      "domain": "astropad.com",
+      "language": "en",
+      "kind": "first-party worked tutorial by tool provider",
+      "read_status": "full extracted tutorial text read",
+      "claims": [
+        "Shape the abdomen from a half-cube with Mirror, extend neck/head/haunches in side view, then adjust widths from another view.",
+        "Extrude legs from belly faces and add loops where contour or joints demand changes; correct their stance from the front.",
+        "Ears and tail can be tapered through successive extrusions, with the tip merged after the broad silhouette is correct."
+      ],
+      "version_caveats": "Blender 3.0 and Astropad-specific UI. Several axis/left-right descriptions are inconsistent; preserve geometric construction rather than literal controls. A tiny intentional ear recess should not become an accidental open boundary."
+    },
+    {
+      "id": "A14",
+      "title": "Low-Poly Forest Environment \u2013 Free Blender Tutorial & File",
+      "url": "https://dunkingdoggames.com/low-poly-forest-environment-in-blender/",
+      "domain": "dunkingdoggames.com",
+      "language": "en",
+      "kind": "first-party project page; overview",
+      "read_status": "overview text read; linked blend/video not inspected",
+      "claims": [
+        "The page describes a scene blockout using a displaced ground plane, cylinder trunks, cone/sphere canopies and scaled icosahedron rocks."
+      ],
+      "version_caveats": "Excluded from core rules: generic counts, mandatory apply-all-modifiers, aggressive UV minimization and small-detail advice lack sufficient context. Do not claim its video or file was studied."
+    },
+    {
+      "id": "A15",
+      "title": "Build-a-bird Tutorial",
+      "url": "https://www.autonomoussoup.com/single-post/build-a-bird-tutorial",
+      "domain": "autonomoussoup.com",
+      "language": "en",
+      "kind": "author tutorial landing page",
+      "read_status": "brief written outline read; videos not watched",
+      "claims": [
+        "The outline starts with cube extrusion blockout and later includes mirroring, rigging and weight-paint troubleshooting."
+      ],
+      "version_caveats": "Not sufficient evidence for detailed topology steps; excluded from core recipes."
+    },
+    {
+      "id": "A16",
+      "title": "Building a Stylized Low-poly Modular Diorama for the first time",
+      "url": "https://www.artstation.com/blogs/niklasfrogner/Bl66/building-a-stylized-low-poly-modular-diorama-for-the-first-time",
+      "domain": "artstation.com",
+      "language": "en",
+      "kind": "artist article",
+      "read_status": "metadata only; body not returned",
+      "claims": [],
+      "version_caveats": "Not used as evidence."
+    },
+    {
+      "id": "P01",
+      "title": "Blender Manual \u2014 glTF 2.0",
+      "url": "https://docs.blender.org/manual/en/latest/addons/scene_gltf2.html",
+      "domain": "docs.blender.org",
+      "language": "en",
+      "kind": "official documentation",
+      "read_status": "fetched; mesh/material/export sections read",
+      "claims": [
+        "glTF export triangulates quads and n-gons. UV and normal discontinuities can increase exported vertex count.",
+        "The exporter recognizes selected Blender material-node arrangements; it does not serialize arbitrary shader graphs.",
+        "Export evaluated modifier results and inspect attribute/material settings. Current documentation includes shared accessors."
+      ],
+      "version_caveats": [
+        "Page identifies itself as 5.2 LTS; this does not establish release status. Pin documentation to installed Blender.",
+        "Alpha-mode detection, node sockets, exporter options, extensions and material-color handling are version-sensitive."
+      ]
+    },
+    {
+      "id": "P02",
+      "title": "Godot \u2014 Model export considerations",
+      "url": "https://docs.godotengine.org/en/stable/tutorials/assets_pipeline/importing_3d_scenes/model_export_considerations.html",
+      "domain": "docs.godotengine.org",
+      "language": "en",
+      "kind": "official documentation",
+      "read_status": "fetched and read",
+      "claims": [
+        "Godot cameras look toward -Z; oriented models conventionally face +Z. Blender model front maps from -Y.",
+        "Control triangulation in the authoring tool before export. Validate transforms and rest pose.",
+        "Lighting should be judged in the target engine because engines render it differently."
+      ],
+      "version_caveats": [
+        "Fetched stable page identifies Godot 4.7. Verify against project's installed version and conventions.",
+        "Do not blindly apply all transforms to an existing rig."
+      ]
+    },
+    {
+      "id": "P03",
+      "title": "Godot \u2014 Available 3D formats",
+      "url": "https://docs.godotengine.org/en/stable/tutorials/assets_pipeline/importing_3d_scenes/available_formats.html",
+      "domain": "docs.godotengine.org",
+      "language": "en",
+      "kind": "official documentation",
+      "read_status": "fetched and read",
+      "claims": [
+        "Godot recommends glTF; .blend import invokes installed Blender's glTF exporter.",
+        "Explicit glTF export removes the Blender installation dependency from consumers; .blend supports rapid local iteration.",
+        "Check material culling intentionally. Existing legacy FBX import configuration can persist across Godot upgrades."
+      ],
+      "version_caveats": [
+        "Options and requirements are current-page claims, not assumptions for every installed release.",
+        "Do not repeat old claims that all FBX import requires external FBX2glTF; newer import paths use ufbx."
+      ]
+    },
+    {
+      "id": "P04",
+      "title": "Godot \u2014 Optimizing 3D performance",
+      "url": "https://docs.godotengine.org/en/latest/tutorials/performance/optimizing_3d_performance.html",
+      "domain": "docs.godotengine.org",
+      "language": "en",
+      "kind": "official documentation",
+      "read_status": "fetched and read",
+      "claims": [
+        "Costs include culling, transparency, lighting, skinning and draw submission, not just triangles.",
+        "Repeated meshes/materials can benefit from instancing. Spatial grouping still matters for culling.",
+        "Use LOD and visibility ranges according to the scene rather than universally reducing every mesh."
+      ],
+      "version_caveats": [
+        "latest explicitly warns it is unstable. Forward+-specific automatic instancing is renderer-sensitive."
+      ]
+    },
+    {
+      "id": "P05",
+      "title": "Godot \u2014 GPU optimization",
+      "url": "https://docs.godotengine.org/en/latest/tutorials/performance/gpu_optimization.html",
+      "domain": "docs.godotengine.org",
+      "language": "en",
+      "kind": "official documentation",
+      "read_status": "fetched and read",
+      "claims": [
+        "Reuse materials and shaders; atlas use can reduce texture/state changes.",
+        "Combining meshes trades fewer submissions against worse per-object culling.",
+        "Measure frame time on target hardware; transparent overlap, fragment work and shadows may dominate a low-poly scene."
+      ],
+      "version_caveats": [
+        "latest is unstable. Some broad mobile statements are dated; avoid carrying them into a general rule.",
+        "No universal triangle or draw-call budget follows from this page."
+      ]
+    },
+    {
+      "id": "P06",
+      "title": "Godot \u2014 Mesh level of detail (LOD)",
+      "url": "https://docs.godotengine.org/en/latest/tutorials/3d/mesh_lod.html",
+      "domain": "docs.godotengine.org",
+      "language": "en",
+      "kind": "official documentation",
+      "read_status": "fetched and read",
+      "claims": [
+        "Imported scene meshes can receive automatic LOD using meshoptimizer; selection is screen-space dependent.",
+        "Compare LOD on/off in wireframe and frame-time views; disable problematic meshes or author manual alternatives.",
+        "A MultiMesh group shares LOD selection and culling bounds, so geographically distant groups should be separated."
+      ],
+      "version_caveats": [
+        "latest is unstable. Default import settings, property names and thresholds must be verified in the target version.",
+        "Low-poly faceted assets may need artistic silhouette checks beyond an automatic geometric metric."
+      ]
+    },
+    {
+      "id": "P07",
+      "title": "Godot \u2014 Import configuration",
+      "url": "https://docs.godotengine.org/en/stable/tutorials/assets_pipeline/importing_3d_scenes/import_configuration.html",
+      "domain": "docs.godotengine.org",
+      "language": "en",
+      "kind": "official documentation",
+      "read_status": "fetched and read",
+      "claims": [
+        "Tangents are needed for tangent-space normal/height features; unnecessary attributes can be omitted after confirming material needs.",
+        "UV2 lightmap generation is a distinct import setting from surface-color UVs.",
+        "Inherited scenes and import settings support repeatable reimport workflows without editing generated resources."
+      ],
+      "version_caveats": [
+        "Fetched stable page identifies 4.7; Blender-specific importer options are version-sensitive.",
+        "Do not prescribe all import switches globally; branch by actual asset features."
+      ]
+    },
+    {
+      "id": "P08",
+      "title": "Godot \u2014 Advanced Import Settings",
+      "url": "https://docs.godotengine.org/en/latest/tutorials/assets_pipeline/importing_3d_scenes/advanced_import_settings.html",
+      "domain": "docs.godotengine.org",
+      "language": "en",
+      "kind": "official documentation",
+      "read_status": "fetched and read",
+      "claims": [
+        "Use primitive or appropriate convex collision for moving bodies; triangle-mesh collision is for static bodies.",
+        "Extracted external materials survive reimport; renaming source materials can break those associations.",
+        "Per-mesh LOD/normal-merge settings can resolve specific imported artifacts."
+      ],
+      "version_caveats": [
+        "latest is unstable. Verify exact inspector controls and supported physics shapes in the selected engine backend/version."
+      ]
+    },
+    {
+      "id": "P09",
+      "title": "Khronos glTF Tutorial \u2014 Meshes",
+      "url": "https://github.khronos.org/glTF-Tutorials/gltfTutorial/gltfTutorial_009_Meshes.html",
+      "domain": "github.khronos.org",
+      "language": "en",
+      "kind": "official tutorial",
+      "read_status": "fetched and read",
+      "claims": [
+        "Each mesh primitive connects vertex attributes, optional indices and a material.",
+        "An index identifies the complete aligned attribute entry, rather than only a geometric position.",
+        "Nodes can share a mesh resource, allowing transform variation without duplicating authored geometry."
+      ],
+      "version_caveats": [
+        "This explains glTF 2.0 structure; it is not a guarantee about any engine's batching implementation."
+      ]
+    },
+    {
+      "id": "P10",
+      "title": "Khronos glTF 2.0 Specification",
+      "url": "https://registry.khronos.org/glTF/specs/2.0/glTF-2.0.html",
+      "domain": "registry.khronos.org",
+      "language": "en",
+      "kind": "normative specification",
+      "read_status": "fetched twice; coordinate, mesh and material sections read",
+      "claims": [
+        "glTF uses meters and a right-handed Y-up system with asset front +Z.",
+        "Primitives correspond to GPU draw data; splitting allows material assignments, but final render-pass draw count is engine-dependent.",
+        "Base-color textures use sRGB transfer while metallic/roughness and normal data are linear. COLOR_0 multiplies base color."
+      ],
+      "version_caveats": [
+        "Retrieved document header identifies specification 2.0.1 dated 2021-10-11. It is authoritative for this snapshot; do not label it the latest revision.",
+        "Extensions and renderer behavior require separate verification."
+      ]
+    },
+    {
+      "id": "P11",
+      "title": "\u300a\u4e00\u5398\u7c73\u65f6\u5149\u300b\u5f00\u53d1\u65e5\u5fd7(2) \u2014 \u8c03\u8272\u677f",
+      "url": "https://www.gcores.com/articles/200589",
+      "domain": "www.gcores.com",
+      "language": "zh-CN",
+      "kind": "first-person developer case study",
+      "read_status": "fetched and read",
+      "claims": [
+        "The developer maps model UV regions into a small palette and changes palette colors in Godot.",
+        "Palette coordinates can encode semantic color roles for engine-side recoloring.",
+        "This is a practical style/pipeline example, not a universal performance benchmark."
+      ],
+      "version_caveats": [
+        "Published 2025-06-18. Author explicitly distinguishes their rounded flat-color style from faceted low-poly.",
+        "The author's one-material-one-drawcall shorthand is not adopted as an exact invariant."
+      ]
+    },
+    {
+      "id": "P12",
+      "title": "Hubs \u2014 Using the Blender glTF Exporter",
+      "url": "https://docs.hubsfoundation.org/creators-using-the-blender-gltf-exporter",
+      "domain": "docs.hubsfoundation.org",
+      "language": "en",
+      "kind": "platform-owner workflow documentation",
+      "read_status": "fetched and read; version-sensitive recipes excluded",
+      "claims": [
+        "Export troubleshooting should check scale, placement, selected export scope and target-platform material support."
+      ],
+      "version_caveats": [
+        "Multiple animation/modifier/unlit recipes describe older exporter behavior. Use only generic diagnostic principles; prefer current Blender manual for implementation.",
+        "Hubs-specific Draco and unlit recommendations are not Godot rules."
+      ]
+    },
+    {
+      "id": "P13",
+      "title": "Blender Manual \u2014 UV Operators",
+      "url": "https://docs.blender.org/manual/en/latest/modeling/meshes/editing/uv.html",
+      "domain": "docs.blender.org",
+      "language": "en",
+      "kind": "official documentation",
+      "read_status": "fetched and read",
+      "claims": [
+        "Choose projection/unwrap methods by shape; Smart UV's lower angle limit generates more islands.",
+        "Margin meaning depends on method. Fraction mode relates directly to UV bounds; 1/1024 gives one pixel around an island at 1024 square resolution.",
+        "Lightmap layout and surface-paint layout have different requirements."
+      ],
+      "version_caveats": [
+        "Fetched page identifies 5.2 LTS. Unwrap methods and labels vary by Blender release.",
+        "Do not prescribe a universal 0.008 or 0.01 margin without texture/mipmap requirements."
+      ]
+    },
+    {
+      "id": "P14",
+      "title": "Blender Manual \u2014 Triangulate Modifier",
+      "url": "https://docs.blender.org/manual/en/latest/modeling/modifiers/generate/triangulate.html",
+      "domain": "docs.blender.org",
+      "language": "en",
+      "kind": "official documentation",
+      "read_status": "fetched and read",
+      "claims": [
+        "Triangulate offers controlled quad diagonals and n-gon tessellation.",
+        "An export-copy modifier can lock the diagonal used by the engine while retaining an editable authoring mesh."
+      ],
+      "version_caveats": [
+        "Fetched page identifies 5.2 LTS. The page no longer lists the old Keep Normals option; inspect installed RNA/UI rather than assuming old recipes."
+      ]
+    },
+    {
+      "id": "PY01",
+      "title": "Mesh API",
+      "url": "https://docs.blender.org/api/current/bpy.types.Mesh.html",
+      "domain": "docs.blender.org",
+      "language": "en",
+      "kind": "official documentation",
+      "read_status": "fetched relevant text; extraction capped at 6,500\u20137,500 characters per page",
+      "claims": [
+        "Mesh storage, loops, corner normals and geometry access; validate newly generated input rather than assuming from_pydata rejects invalid faces."
+      ],
+      "version_caveats": "Dated snapshot; match the installed Blender version. current/latest and release pages can change."
+    },
+    {
+      "id": "PY02",
+      "title": "Modes and Mesh Access",
+      "url": "https://docs.blender.org/api/current/info_gotchas_meshes.html",
+      "domain": "docs.blender.org",
+      "language": "en",
+      "kind": "official documentation",
+      "read_status": "fetched relevant text; extraction capped at 6,500\u20137,500 characters per page",
+      "claims": [
+        "Object Mode data can be stale during Edit Mode; choose the appropriate Mesh or BMesh route."
+      ],
+      "version_caveats": "Dated snapshot; match the installed Blender version. current/latest and release pages can change."
+    },
+    {
+      "id": "PY03",
+      "title": "Dependency graph API",
+      "url": "https://docs.blender.org/api/current/bpy.types.Depsgraph.html",
+      "domain": "docs.blender.org",
+      "language": "en",
+      "kind": "official documentation",
+      "read_status": "fetched relevant text; extraction capped at 6,500\u20137,500 characters per page",
+      "claims": [
+        "Evaluated objects include modifier results; temporary to_mesh data must be released and cannot become persistent scene data."
+      ],
+      "version_caveats": "Dated snapshot; match the installed Blender version. current/latest and release pages can change."
+    },
+    {
+      "id": "PY04",
+      "title": "BMesh Module",
+      "url": "https://docs.blender.org/api/current/bmesh.html",
+      "domain": "docs.blender.org",
+      "language": "en",
+      "kind": "official documentation",
+      "read_status": "fetched relevant text; extraction capped at 6,500\u20137,500 characters per page",
+      "claims": [
+        "Distinguish owned BMesh from borrowed Edit Mode BMesh; flush changes and free only owned data."
+      ],
+      "version_caveats": "Dated snapshot; match the installed Blender version. current/latest and release pages can change."
+    },
+    {
+      "id": "PY05",
+      "title": "Using Operators",
+      "url": "https://docs.blender.org/api/current/info_gotchas_operators.html",
+      "domain": "docs.blender.org",
+      "language": "en",
+      "kind": "official documentation",
+      "read_status": "fetched relevant text; extraction capped at 6,500\u20137,500 characters per page",
+      "claims": [
+        "Operator poll failures depend on context; direct data operations can be more suitable for batch tasks."
+      ],
+      "version_caveats": "Dated snapshot; match the installed Blender version. current/latest and release pages can change."
+    },
+    {
+      "id": "PY06",
+      "title": "Context API",
+      "url": "https://docs.blender.org/api/current/bpy.types.Context.html?highlight=temp_override",
+      "domain": "docs.blender.org",
+      "language": "en",
+      "kind": "official documentation",
+      "read_status": "fetched relevant text; extraction capped at 6,500\u20137,500 characters per page",
+      "claims": [
+        "Temporary overrides require consistent window/area/region relationships; dependency-graph updates invalidate evaluated references."
+      ],
+      "version_caveats": "Dated snapshot; match the installed Blender version. current/latest and release pages can change."
+    },
+    {
+      "id": "PY07",
+      "title": "Blender 4.1 Python API release notes",
+      "url": "https://developer.blender.org/docs/release_notes/4.1/python_api/",
+      "domain": "developer.blender.org",
+      "language": "en",
+      "kind": "official documentation",
+      "read_status": "fetched relevant text; extraction capped at 6,500\u20137,500 characters per page",
+      "claims": [
+        "The 4.1 release removed legacy auto-smooth and split-normal calculation properties; modern code must use the supported sharp/smooth and corner-normal system."
+      ],
+      "version_caveats": "Dated snapshot; match the installed Blender version. current/latest and release pages can change."
+    },
+    {
+      "id": "PY08",
+      "title": "Blender Download",
+      "url": "https://www.blender.org/download/",
+      "domain": "www.blender.org",
+      "language": "en",
+      "kind": "official documentation",
+      "read_status": "fetched relevant text; extraction capped at 6,500\u20137,500 characters per page",
+      "claims": [
+        "Retrieved 2026-10-16: stable download listed Blender 5.2.2 LTS, released 2026-09-15; 5.3 was upcoming."
+      ],
+      "version_caveats": "Dated snapshot; match the installed Blender version. current/latest and release pages can change."
+    },
+    {
+      "id": "PY09",
+      "title": "Blender 5.2 LTS releases",
+      "url": "https://www.blender.org/releases/5-2/",
+      "domain": "www.blender.org",
+      "language": "en",
+      "kind": "official documentation",
+      "read_status": "fetched relevant text; extraction capped at 6,500\u20137,500 characters per page",
+      "claims": [
+        "Retrieved 2026-10-16: 5.2 LTS initial release July 14, 2026; current listed patch 5.2.2 on September 15, 2026."
+      ],
+      "version_caveats": "Dated snapshot; match the installed Blender version. current/latest and release pages can change."
+    }
+  ]
+}
