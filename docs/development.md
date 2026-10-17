@@ -1,7 +1,9 @@
 # Development and validation
 
 Use the [development environment](../README.md#development) from the repository
-root. See [AGENTS.md](../AGENTS.md) for maintenance instructions.
+root. See [AGENTS.md](../AGENTS.md) for maintenance instructions. The
+[validation layers](validation.md) define repository-wide selection, local
+Docker execution, CI triggers, result states and coverage limits.
 
 ## Agent support CI
 
@@ -20,7 +22,7 @@ every interface.
 | Validate package | Metadata, Markdown, local links, text hygiene, and checker regression tests |
 | Codex discovery | `skills/list` returns each copied skill with its expected name, description, path, enabled state, and no load errors |
 | Claude Code discovery | SDK initialization lists each copied skill's name and description as an available command |
-| Model behavior | Not run by CI; execute selected cases with the [behavior check guide](behavior-checks.md) |
+| Model behavior | Separate affected/full workflows run explicitly requested synthetic agent cases; discovery itself sends no model prompt |
 
 Pushes, pull requests, and manual runs check pinned clients. A weekly run also
 checks the latest published Codex package and Claude SDK with its bundled CLI;
@@ -75,8 +77,8 @@ apply `agents/openai.yaml`; in particular, the explicit-only Codex policy for
 `maintain-skills` is not enforced by that file in Claude Code. The
 `reflect` skill-editing workflow still requires an available
 `skill-creator`; discovery does not test this dependency or the Skills CLI used
-by `maintain-skills`. No model decisions, domain tools, or installation/update
-operations are exercised.
+by `maintain-skills`. These discovery probes exercise no model decisions,
+domain tools, or installation/update operations.
 
 The probes use the official
 [Codex app-server protocol](https://developers.openai.com/codex/app-server)
@@ -87,20 +89,30 @@ See also the [Claude SDK skill documentation](https://code.claude.com/docs/en/ag
 
 ## Local checks
 
-### Fern environment resources
+### Setup Fern validation
 
-The [Fern resource tests](../tests/test_setup_fern.py) parse custom agent TOMLs
-and the selected config fragment, check the prompt's embedding shape, and
-stage the complete package in an isolated profile. Run them with:
+Use the repository-wide [validation layers](validation.md) on a user machine
+through Docker, or through repository CI. Fern is included in the same planner
+as the other collections. For a focused local installation check:
 
 ```text
-python -m unittest discover -s tests -p test_setup_fern.py -v
+python scripts/run_validation.py --layer affected --check fern-install --output /tmp/fern-install-001
 ```
 
-These are source and packaging checks. They do not apply a real Codex config,
-install skills, or establish runtime loading. Use the
-[Fern behavior cases](../examples/setup-fern.md) for isolated application,
-conflicts, read-only comparison, and partial-failure assessment.
+Use a new absolute output directory outside the checkout and real client
+profiles. On Windows, substitute a writable absolute temporary path. The
+legacy `scripts/run_fern_validation.py` launcher remains available for existing
+Fern-specific calls; the unified launcher is the maintained selection entry.
+
+The installation probe tests real Skills CLI installation from resolved public
+snapshots, copied package bytes and source provenance, and fresh Codex user
+skill discovery. Its repeat verification is read-only. It does not install the
+unpublished candidate or test a second mutating installation. Parsing bundled
+agent TOMLs, checking config and embedding instructions do not establish native
+custom-agent loading. See the
+[behavior procedure](behavior-checks.md#run-setup-fern-in-docker) for actual
+model runs and the [Fern cases](../examples/setup-fern.md) for the remaining
+manual scenarios.
 
 ### Blender regressions
 
@@ -117,8 +129,11 @@ python -m unittest discover -s tests -p test_low_poly_blender_integration.py -v
 For the two integration suites, set `BLENDER` to the full path of an existing
 Blender executable. They create temporary fixtures outside the repository and
 launch independent background processes; they do not use an open editor session.
-Without that executable, unittest reports explicit skips. CI discovers these
-tests but does not configure Blender, so CI does not establish engine coverage.
+Without that executable, direct unittest discovery reports explicit skips.
+The layered Docker runtime supplies Blender for the separate `blender` check;
+a requested engine check fails if its executable is unavailable. Layer 1
+excludes both real-engine modules rather than counting their skips as engine
+coverage. A passing background run still does not validate an editor session.
 
 The suites cover component geometry, example scene construction, scene auditing,
 and the low-poly audit's read-only behavior and JSON output. FBX transfer tests
@@ -142,10 +157,12 @@ exercise log boundaries, argument handling, output collection, error reporting,
 timeouts, process cleanup, and concurrency. No Godot installation is required.
 Unreal and MCP regressions remain in `saberuster/agent-skills`.
 
-The package workflow discovers this suite with the other tests. Missing
-PowerShell, platform-specific cases, and unavailable symlink privileges produce
-explicit skips; report them separately from passing cases. Windows and Linux
-results are distinct. These fixtures do not establish real Godot execution,
+Layer 1 includes this suite and supplies PowerShell in Docker. Missing
+PowerShell cannot silently satisfy that required check. Direct unittest runs
+can still skip missing prerequisites, platform-specific cases or unavailable
+symlink privileges; report those gaps separately. Windows-only branches remain
+uncovered by a Linux container, and Windows and Linux evidence are distinct.
+These fixtures do not establish real Godot execution,
 scene or asset correctness, UI behavior, or client discovery.
 
 ### Static checks and client probes
@@ -177,6 +194,10 @@ to install them.
 
 ## Run client discovery locally
 
+Prefer the Docker `codex-discovery` and `claude-discovery` checks in the
+[validation layers](validation.md) for user-machine validation. The following
+direct commands are debugging entrypoints for the probes themselves.
+
 Use `.venv/bin/python` on macOS/Linux, or `.venv\Scripts\python.exe` on
 Windows, from the repository root. Codex must be available on `PATH`;
 `--codex` can select a specific executable. The
@@ -196,11 +217,11 @@ Codex can locate user skills through the OS home directory despite temporary
 does not establish a skill compatibility failure. Claude initialization and
 the static checks can run on Windows.
 
-The existing package workflow runs the static checks on Ubuntu, while the agent
-support workflow runs these separate discovery probes.
-Neither evaluates model decisions. Run selected
-[behavioral cases](behavior-checks.md) separately in an isolated project and
-compare actions and resulting files with their documented expectations.
+The deterministic PR workflow runs layer 1, while the agent support workflow
+records prompt-free discovery for layers 2 and 3. Actual agent behavior uses the
+separate runtime/full workflow paths in the [validation guide](validation.md).
+For manually delivered [behavioral cases](behavior-checks.md), retain actions
+and resulting files as well as evaluator assessments.
 
 Claude discovery errors include the exception type and failure stage. The CLI
 version probe has a 15-second timeout; initialization has a 60-second timeout.

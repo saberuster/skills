@@ -1,0 +1,175 @@
+name: Layer 2 - Affected runtime and agent checks
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, labeled]
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      base:
+        description: Optional Git base revision; blank selects all packages
+        type: string
+        default: ''
+      behavior:
+        description: Run affected real-model cases (requires API key and model)
+        type: boolean
+        default: false
+      model:
+        description: Model, or configure AGENT_TEST_MODEL repository variable
+        type: string
+        default: ''
+
+permissions:
+  contents: read
+
+concurrency:
+  group: validation-runtime-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  plan:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    outputs:
+      runtime: ${{ steps.plan.outputs.runtime }}
+      has_runtime: ${{ steps.plan.outputs.has_runtime }}
+      behavior: ${{ steps.plan.outputs.behavior }}
+      has_behavior: ${{ steps.plan.outputs.has_behavior }}
+      windows: ${{ steps.plan.outputs.windows }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.11'
+      - name: Select checks from changed source paths
+        id: plan
+        env:
+          BASE: ${{ inputs.base || github.event.pull_request.base.sha || github.event.before }}
+        run: |
+          args=(--layer affected --plan-only --output "$RUNNER_TEMP/validation-plan")
+          if [ -n "$BASE" ] && [[ ! "$BASE" =~ ^0+$ ]]; then
+            args+=(--base "$BASE")
+          fi
+          python scripts/run_validation.py "${args[@]}"
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          plan = json.loads((Path(os.environ['RUNNER_TEMP']) / 'validation-plan/plan.json').read_text())
+          runtime = [{'check': item['check']} for item in plan['checks']
+                     if item['check'] in {'blender', 'fern-install'}]
+          behavior = plan['behavior_matrix']
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as output:
+              for key, value in [('runtime', runtime), ('behavior', behavior)]:
+                  output.write(f'{key}={json.dumps(value)}\n')
+                  output.write(f'has_{key}={str(bool(value)).lower()}\n')
+              windows = any(item['scope'] == 'godot' for item in plan['manual_evidence'])
+              output.write('windows=' + str(windows).lower() + '\n')
+          with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as output:
+              output.write('## Affected validation plan\n\n')
+              output.write(f"Selected skills: {', '.join(plan['selected_skills']) or 'none'}\n\n")
+              output.write('Pinned discovery runs in the client-discovery workflow. Model cases run only on explicit manual request or a trusted same-repository PR labeled `run-agent-evals`. Unselected model jobs are **not run**, not passed.\n\n')
+              output.write('Skills without cases: ' + ', '.join(plan['behavior_coverage']['skills_without_cases']) + '\n')
+              for item in plan['manual_evidence']:
+                  output.write(f"\n- Manual / not run: {item['reason']}\n")
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: always()
+        with:
+          name: affected-validation-plan
+          path: ${{ runner.temp }}/validation-plan
+          if-no-files-found: error
+
+  windows:
+    name: Affected Windows helpers
+    needs: plan
+    if: needs.plan.outputs.windows == 'true'
+    uses: ./.github/workflows/validation-windows.yml
+
+  runtime:
+    name: Affected - ${{ matrix.check }}
+    needs: plan
+    if: needs.plan.outputs.has_runtime == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        include: ${{ fromJSON(needs.plan.outputs.runtime) }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.11'
+      - name: Run selected runtime check
+        env:
+          CHECK: ${{ matrix.check }}
+        run: python scripts/run_validation.py --layer affected --check "$CHECK" --output "$RUNNER_TEMP/runtime-evidence"
+      - name: Summarize runtime evidence
+        if: always()
+        run: |
+          if [ -f "$RUNNER_TEMP/runtime-evidence/summary.md" ]; then
+            cat "$RUNNER_TEMP/runtime-evidence/summary.md" >> "$GITHUB_STEP_SUMMARY"
+          fi
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: always()
+        with:
+          name: affected-${{ matrix.check }}
+          path: ${{ runner.temp }}/runtime-evidence
+          if-no-files-found: error
+
+  behavior:
+    name: Affected agent - ${{ matrix.skill }}
+    needs: plan
+    if: >-
+      needs.plan.outputs.has_behavior == 'true' &&
+      ((github.event_name == 'workflow_dispatch' && inputs.behavior) ||
+       (github.event_name == 'pull_request' &&
+        github.event.pull_request.head.repo.full_name == github.repository &&
+        contains(github.event.pull_request.labels.*.name, 'run-agent-evals')))
+    runs-on: ubuntu-24.04
+    timeout-minutes: 300
+    strategy:
+      fail-fast: false
+      max-parallel: 2
+      matrix:
+        include: ${{ fromJSON(needs.plan.outputs.behavior) }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.11'
+      - name: Run exact affected cases using real Codex
+        env:
+          CODEX_API_KEY: ${{ secrets.CODEX_API_KEY }}
+          MODEL: ${{ inputs.model || vars.AGENT_TEST_MODEL }}
+          CASES: ${{ toJSON(matrix.cases) }}
+        run: |
+          python - <<'PY'
+          import json, os, subprocess, sys
+          args = [sys.executable, 'scripts/run_validation.py', '--layer', 'affected',
+                  '--check', 'agent-behavior', '--run-agent', '--model', os.environ['MODEL'],
+                  '--output', os.path.join(os.environ['RUNNER_TEMP'], 'behavior-evidence')]
+          for case in json.loads(os.environ['CASES']):
+              args += ['--case', case]
+          raise SystemExit(subprocess.call(args))
+          PY
+      - name: Summarize model evidence
+        if: always()
+        run: |
+          if [ -f "$RUNNER_TEMP/behavior-evidence/summary.md" ]; then
+            cat "$RUNNER_TEMP/behavior-evidence/summary.md" >> "$GITHUB_STEP_SUMMARY"
+          fi
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: always()
+        with:
+          name: affected-agent-${{ matrix.skill }}
+          path: ${{ runner.temp }}/behavior-evidence
+          if-no-files-found: error

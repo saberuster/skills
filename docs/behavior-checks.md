@@ -3,6 +3,8 @@
 Use a fresh agent and an isolated fixture to exercise selected skill behavior.
 These checks complement static tests and client discovery. They do not prove
 automatic selection, another client's behavior, or a real installation workflow.
+The repository-wide [validation layers](validation.md) define when to run
+these cases, how Docker and CI select them, and how to report unexecuted cases.
 
 When a new behavioral constraint could block useful work, include both a case
 that should trigger it and a nearby case that should remain allowed.
@@ -15,7 +17,7 @@ the broader examples:
 | `reflect-*` (seven cases) | [reflect](../examples/reflect.md): stop when no durable candidate exists, preserve proposal defaults, route knowledge, apply authorized updates without duplication, preserve unresolved obligations, handle an unavailable skill author, and check stale knowledge during recall |
 | `agents-*` (ten cases) | [maintain-agents-md](../examples/maintain-agents-md.md): discover coverage and effective sources, review commands, preserve policy, apply language preferences, and respect edit scope |
 | `skills-local-edits` | [maintain-skills](../examples/maintain-skills.md): identify and preserve local edits before an update |
-| `fern-*` (eight cases) | [setup-fern](../examples/setup-fern.md): apply complete user rules, repeat resource merges, compare read-only, migrate owned legacy blocks, and verify persisted instruction receipts in fresh sessions |
+| `setup-fern` cases (eleven) | [setup-fern](../examples/setup-fern.md): apply complete user rules, repeat resource merges, compare read-only, verify persisted receipts, exercise mixed ownership and interrupted recovery, and retry after a real fixture permission failure |
 | `docs-schema` | [technical-writing](../examples/technical-writing.md): apply a scoped schema correction while preserving accepted content |
 | `talk-acceptance` | [talk-it-through](../examples/talk-it-through.md): advance after local acceptance and stop when asked |
 | `talk-goal-drift` | [talk-it-through case 7](../examples/talk-it-through.md#7-a-drifting-branch-and-an-explicit-new-goal): check a drifting branch against the goal, distinguish interest from agreement, and follow an explicit goal change |
@@ -70,6 +72,65 @@ accept equivalent successful rewrites. Inspect the transcript for semantic
 drift, protected text, voice, and actions: unchanged hashes do not prove that
 no command ran, and a required file change does not prove a good edit.
 
+## Run agent cases in Docker
+
+Use the [unified validation launcher](validation.md) for any eligible case from
+any collection. Run locally through Docker; repository automation uses the
+runtime and full CI workflows. From the repository root:
+
+```text
+python scripts/run_validation.py --layer affected --base origin/main --output /tmp/skills-agent-001 --run-agent --model YOUR_ACCESSIBLE_MODEL
+```
+
+Supply `CODEX_API_KEY` in the launching environment, or the local
+`OPENAI_API_KEY` alias, and a model accessible to that credential. These are
+real model calls. No model runs unless `--run-agent` is explicit. A planned
+case left unrequested is `not_run` and leaves overall coverage partial; a
+requested model run without its prerequisite fails.
+
+Repeat `--case` for exact case IDs to narrow a run. The full layer without
+case selection plans every eligible smoke case, including skills outside
+Fern. The planner reports skills without executable cases as coverage gaps.
+Use `--plan-only` to inspect selection without Docker or model calls. See the
+[validation guide](validation.md#request-actual-agent-execution) for CI opt-in,
+credentials, isolation and evidence rules. Generic explicit skill delivery is
+not a natural-selection test.
+
+The worker and evaluator run as separate users in a disposable container.
+Each case starts a fresh worker, while later requests resume only that case's
+session. The worker receives the copied skill and fixture inputs; evaluator
+criteria, source examples and baseline evidence remain inaccessible. For
+`reflect-stale-recall`, the worker instead receives only its ordinary task and
+project context. Preserve that negative control when using another runner.
+
+Keep case manifests, actual transcripts and tool events, intermediate
+snapshots, assessments and recorded results. Filesystem invariants and a
+separate evaluator both contribute to the result. Evaluator agreement does
+not replace independently checking actions, preservation, ordering and outputs.
+The manual delivery procedure below remains useful for cases requiring tools
+or host behavior beyond the automated executor.
+
+## Run Setup Fern in Docker
+
+Setup Fern uses the same layered launcher. For two selected fixture cases:
+
+```text
+python scripts/run_validation.py --layer affected --check agent-behavior --case fern-resource-merge --case fern-read-only --output /tmp/fern-behavior-001 --run-agent --model YOUR_ACCESSIBLE_MODEL
+```
+
+Use the full layer with `--run-agent` for all eligible repository cases, or
+repeat `--case` for the exact Fern case IDs below. Existing calls to
+`python scripts/run_fern_validation.py --suite behavior` remain compatible and
+select Fern cases only. Choose a fresh absolute output directory outside the
+checkout and real client profiles; on Windows use a writable absolute path.
+
+The permission-retry case creates a real Linux permission denial, then repairs
+fixture permissions before the separately delivered retry request. Retain
+actual tool output and per-turn file statistics to check the denied attempt
+and unchanged completed units. Preconstructed interruption fixtures do not
+kill a live process. These cases do not establish native custom-agent spawning
+or instruction loading, Windows junction migration, or live crash recovery.
+
 ## Prepare
 
 From the repository root, use the development environment described in the
@@ -93,12 +154,12 @@ Preparation refuses to overwrite an existing run. Each case directory contains:
 
 ## Select Fern setup cases
 
-Select the eight `fern-*` cases by exact ID from the table below. They use
+Select the eleven setup case IDs from the table below. They use
 isolated fixture Codex homes, the complete copied `setup-fern` package and a
-synthetic frozen source SHA. Network, installers, real user-profile access and
-model spawns are prohibited. The complete instruction asset includes initiative,
-user precedence, writing style, delegation, built-in explorer model and
-reasoning defaults, and testing rules; assess the full content as well as
+synthetic frozen source SHA. Workers may not use network, installers, real
+user-profile access or model spawns. The complete instruction asset includes
+initiative, user precedence, writing style, delegation, built-in explorer model
+and reasoning defaults, and testing rules. Assess the full content as well as
 markers and receipt hashes.
 
 | Case | Focus |
@@ -111,6 +172,9 @@ markers and receipt hashes.
 | `fern-persisted-receipts-update` | Fresh reader of canonical, following-LF and following-CRLF current-marker receipts |
 | `fern-persisted-receipts-edited` | Internal whitespace, line-ending edits and target mismatch preserved |
 | `fern-persisted-receipts-read-only` | Current and legacy historical receipt checks without canonicalization |
+| `fern-mixed-resource-update` | Independent owned updates alongside edited and unknown agent/config units |
+| `fern-interrupted-resource-recovery` | Adopt an already-written value and restore only unchanged applied agents |
+| `fern-permission-retry` | Preserve a failed config unit, then retry it after actual fixture permissions are repaired |
 
 Deliver the two `fern-resource-merge` turns separately in the same session,
 retaining the first application before the repeat. For
@@ -148,6 +212,16 @@ and compare all target and receipt bytes afterward. Report this executed
 handoff separately from synthetic prior-run compatibility and from actual host
 loading. Neither fixture preparation nor a first executor's success claim is
 evidence that a later executor read and accepted its receipt.
+
+Run the mixed-resource and interrupted-recovery cases with fresh workers and
+no earlier replies. Their agent files, receipts and journal are synthetic raw
+artifacts. Compare selected file hashes and parsed config values independently;
+retain actual actions to assess validation and receipt ordering. The recovery
+case supplies a previously written config file and a later edit to an applied
+agent; it does not actually interrupt a live process. The harness automatically
+checks required changes, while evaluator criteria cover preservation of
+conflicting units, original backups, unrelated content and per-unit receipts.
+Neither fixture defines a new installer or standard journal format.
 
 These fixtures do not prove actual Codex instruction loading, explorer model
 availability or spawning, live source resolution, or skill installation. Use

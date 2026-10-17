@@ -11,13 +11,42 @@ Text review and fixture assertions do not prove a host loaded the package or
 that the agent made the expected decisions. Record actual execution evidence
 and untested expectations separately.
 
-Eight selected cases are executable through the existing smoke harness:
+Eleven selected Fern cases are available through the repository-wide
+[validation layers](../docs/validation.md). On a user machine, use Python
+3.11+, Git and a running Docker daemon, with `CODEX_API_KEY` set in the
+launching environment (`OPENAI_API_KEY` is also accepted locally). For two
+selected cases, choose an accessible model explicitly:
 
 ```text
-python scripts/behavior_trials.py prepare --output /tmp/fern-behavior-001 --case fern-resource-merge --case fern-read-only --case fern-fresh-user-instructions --case fern-legacy-instructions-migrate --case fern-legacy-instructions-edited --case fern-persisted-receipts-update --case fern-persisted-receipts-edited --case fern-persisted-receipts-read-only
+python scripts/run_validation.py --layer affected --check agent-behavior --case fern-resource-merge --case fern-read-only --output /tmp/fern-behavior-001 --run-agent --model YOUR_ACCESSIBLE_MODEL
 ```
 
-Use a writable temporary path outside the repository and the real user profile.
+Use a new absolute writable temporary path outside the repository and real
+user profile; replace `/tmp/...` on Windows. Repeat `--case` with exact IDs from
+the [case table](../docs/behavior-checks.md#select-fern-setup-cases) to select
+other Fern cases. The legacy `scripts/run_fern_validation.py --suite behavior`
+entrypoint remains compatible and selects all eleven Fern cases when no case
+is specified; the unified full layer selects cases across all skills.
+
+Repository testing uses the
+[runtime workflow](../.github/workflows/validation-runtime.yml) and
+[full workflow](../.github/workflows/validation-full.yml), alongside the
+independent deterministic PR and client-support checks. Actual agent execution
+is opt-in and needs the `CODEX_API_KEY` repository secret plus a model input or
+`AGENT_TEST_MODEL` variable. A requested run fails if its key or model is
+missing; an unrequested model path remains not run with partial coverage.
+Workflow configuration is not hosted execution evidence.
+
+The launcher copies public source into Docker without mounting the host home
+or checkout. It retains worker/evaluator tool events, replies, per-turn
+snapshots and assessments, including available failure evidence. Each case
+starts a fresh worker; multi-turn requests resume that session. The independent
+evaluator has read-only evidence access; its criteria are hidden from workers.
+See the [Docker procedure](../docs/behavior-checks.md#run-setup-fern-in-docker)
+for evidence inspection and the
+[suite guide](../docs/development.md#setup-fern-validation) for installation and
+discovery boundaries.
+
 The resource case supplies a supported fixture host and resolved snapshot,
 applies only Codex resources, and repeats the request in the same agent session.
 Capture the first application before delivering its second turn. The read-only
@@ -31,8 +60,11 @@ verification, strict byte comparisons and read-only preservation. Give
 fresh workers only `input.json` context, the copied skill, and their workspace;
 keep evaluator criteria private. Inspect actions and before/after files as well
 as replies. These cases do not exercise live branch resolution, the Skills
-CLI, link migration, or host discovery; the broader cases below cover those
-additional scenarios when the required controlled fixtures are available.
+CLI, link migration, or host discovery. The separate installation suite checks
+real Skills CLI mechanics and Codex user discovery against public snapshots;
+it does not validate a model's installation choices or unpublished candidate
+instructions. The broader cases below cover additional scenarios when their
+required controlled fixtures are available.
 
 For changes to the bundled custom-agent instructions, use the
 [agent handoff comparison cases](fern-agent-handoffs.md). These exercise the
@@ -183,6 +215,60 @@ not require a hash or source-revision rewrite. Report the producing snapshot
 and actual receipt encoding. This handoff supplements the synthetic fixtures
 and same-session repeat; it does not prove host instruction loading or behavior
 on an actual user profile.
+
+## Mixed agent and config ownership
+
+The executable `fern-mixed-resource-update` case selects three agent files and
+the three bundled config keys. A historical architect file and concurrency
+value match their receipts; reviewer and the default model differ from their
+recorded values; validator and the reasoning-effort key exist without ownership
+records. The fixture includes personal configuration, comments, an unrelated
+agent and an unrelated instruction receipt.
+
+Observe independent updates to exactly owned units while local edits and
+unknown units remain pending. Verify exact agent hashes, parsed config values,
+backups, unrelated content and per-unit receipt revisions. An update request
+does not authorize replacing the conflicting files or keys. Inspect actual
+reads and writes to establish validation before receipt updates; a final
+receipt by itself does not establish operation order.
+
+## Interrupted resource recovery and later edits
+
+The executable `fern-interrupted-resource-recovery` case contains two isolated
+homes and a synthetic run journal. In `home-resume/`, the concurrency config
+file already contains the prepared incoming value, while its receipt still
+records the previous value. Exact previous and prepared files remain in the
+run backups. In `home-restore/`, two agent files were recorded as successfully
+applied; one still matches that applied hash and the other has a later personal
+comment. Both retain exact previous backups and the previous receipt.
+
+The request authorizes resuming the first update and restoring the two selected
+agent files. Observe readback and adoption of the already-written config value
+without replaying alignment. Restore the unchanged agent from its exact backup
+and reconcile only that receipt entry. Preserve the later-edited agent and its
+existing receipt entry, report its pending restoration, and retain all original
+backups. This tests recovery decisions from preconstructed persisted artifacts;
+it does not demonstrate killing a live setup process or an automatic journal
+format. The copied incoming agent bodies belong to this fixture snapshot;
+maintain their journal and receipt hashes together when refreshing the fixture.
+
+## Permission failure and scoped retry
+
+The executable `fern-permission-retry` case authorizes bundled agents and
+selected config values in a synthetic home. Docker assigns the config file
+and its parent to a different OS user with read-only permissions, while the
+agent directory remains writable. The worker must encounter an actual
+permission denial, leave failed config units without success receipts and
+report successful agent applications separately.
+
+Before delivering the second request in the same worker session, the runner
+repairs those fixture permissions. The request then authorizes retrying only
+the unfinished config application. Compare the intermediate and final file
+statistics, raw bytes, receipts and backup records: already applied agents and
+their backups must remain unchanged. Retain the actual tool error and retry
+actions. The administrator's permission repair is fixture setup, not an agent
+success. This Linux case does not cover Windows ACLs, junctions or live process
+interruption.
 
 ## Linked agents and unknown ownership
 
