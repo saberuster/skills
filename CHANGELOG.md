@@ -111,6 +111,8 @@ Planned next minor release: `0.2.0`.
 
 ### Changed
 
+- Clarified behavior-case selection for constraints that could block useful
+  work: cover both a triggering case and a nearby case that should remain allowed.
 - Simplified `commit` by consolidating authorization and validation guidance,
   shortening commit grouping, and removing repeated workflow details from its
   game/design supplement and README. Existing commit and evidence boundaries

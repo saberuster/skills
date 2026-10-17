@@ -4,6 +4,9 @@ Use a fresh agent and an isolated fixture to exercise selected skill behavior.
 These checks complement static tests and client discovery. They do not prove
 automatic selection, another client's behavior, or a real installation workflow.
 
+When a new behavioral constraint could block useful work, include both a case
+that should trigger it and a nearby case that should remain allowed.
+
 The [smoke cases](../examples/behavior-smoke.json) cover selected workflows from
 the broader examples:
 
