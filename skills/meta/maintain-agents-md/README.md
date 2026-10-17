@@ -24,13 +24,8 @@ chain, while keeping every obligation. Reviews flag files at risk of the host's
 loading size limit and note sibling instruction files for other hosts, such as
 `CLAUDE.md`, that import, link, or diverge from `AGENTS.md`.
 
-Document titles and headings at every level default to English unless the user
-explicitly chooses another heading language. Body text follows the user's
-choice, otherwise the maintained documentation relevant to the target scope.
-If that evidence is absent or conflicting, the agent asks before writing the
-affected prose. English headings can accompany Chinese or other-language body
-text. Narrow edits preserve unrelated headings and prose; authorized heading
-renames include reference checks.
+The [language rules](SKILL.md#language) govern heading and body language,
+user overrides, ambiguous evidence, and scoped edits with link repair.
 
 The skill cannot recover missing conversation history or guarantee that another
 host loads instruction files with Codex's precedence rules. It does not manage

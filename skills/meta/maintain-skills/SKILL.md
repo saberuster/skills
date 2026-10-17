@@ -43,9 +43,9 @@ For `list`, `add`, and `remove`, omit `-g` for project scope or add it for user
 scope; only these commands accept `--agent`. For `update`, use `-p` (project)
 or `-g` (user); omit `<name>` only for a requested update of the whole scope.
 
-In Skills CLI 1.7.0, `add --list` rejects `--json`; inspect source offerings
-without that flag. This rejected combination can exit zero while reporting
-`status: failed`, so check the reported result as well as the process exit code.
+Before inspecting source offerings with `add --list`, read the
+[source-listing compatibility notes](references/cli-edge-cases.md#source-listing)
+for flag and result-handling limits.
 
 Pass multiple names or agents only when requested and supported. Preserve an
 explicit copy-versus-link preference using the CLI's supported install option.
@@ -100,19 +100,13 @@ packages still needed by other agents. Treat plugin-owned skills and
 host-bundled system skills as outside this standalone workflow.
 
 If the CLI cannot honor the requested scope, explain the limitation. Direct
-directory removal is permitted only when the user explicitly authorized that
-exact path, the available CLI's behavior is verified to leave it behind, and
-no other agent depends on that directory. A skill name or agent-only request
-does not by itself authorize this fallback. Honor any CLI-only constraint.
-
-Before direct removal, verify the resolved absolute target is the intended
-installation, with no symlink, junction, or other reparse point redirecting
-its ancestors, the target, or descendants. Delete only that directory; do not
-remove other same-name copies or sever another agent's links. If these
-conditions cannot be established, preserve it and report the unresolved scope.
-Use supported CLI operations to reconcile source records only when they
-preserve other installations. Keep shared or uncertain records and report any
-stale entries that remain; do not invent a registry-repair operation.
+removal requires explicit authorization for the exact path, verified CLI
+behavior that leaves it behind, no dependent agents, and link-free ancestors,
+target, and descendants. A name or agent-only request does not authorize this
+fallback; honor CLI-only constraints. If any condition is unresolved, preserve
+the directory and report the gap. Before this fallback or reconciling records
+after removal, read the
+[removal procedure](references/cli-edge-cases.md#direct-directory-removal).
 
 ## Verify and report
 

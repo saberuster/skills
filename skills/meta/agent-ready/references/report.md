@@ -23,7 +23,7 @@ Explain the main constraint on completing the selected tasks, or say no
 material bottleneck was demonstrated. Name concrete strengths worth preserving.
 Briefly account for all eight dimensions, grouping supported ones when useful;
 mark unknown or inapplicable dimensions with reasons. Avoid generic maturity
-scores, percentages, or an exhaustive table of speculative defects.
+scores, percentages, rankings by file count, or a quota of findings.
 
 ## Priority findings
 
@@ -61,6 +61,7 @@ trigger, such as a second concurrent runtime or a new persistence boundary.
 State dependencies between steps without inventing an implementation program.
 
 List unverified areas, environment limitations, and what is not worth changing
-now, with reasons. If no improvement is warranted, say so explicitly rather
-than manufacturing low-priority refactors. Keep recommendations within the
-review scope and leave implementation to a separately authorized task.
+now, with reasons. If no improvement is warranted, state "no material changes
+recommended" with the sampled tasks and limits. End with actionable next steps
+or an evidence-backed decision to keep the current design. Keep recommendations
+within the review scope and leave implementation to a separately authorized task.

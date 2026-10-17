@@ -95,6 +95,11 @@ Planned next minor release: `0.2.0`.
   `research-skill-patterns`. Updated catalog links and installation source paths;
   skill names and invocation policies are unchanged. Existing installations are
   unchanged; discovery of the relocated packages remains unverified.
+- Simplified the meta skills by consolidating research guidance, loading
+  CLI compatibility and direct-removal details only when needed, centralizing
+  the agent-readiness report contract, and linking language rules from the
+  AGENTS.md skill's README. Existing evidence, authorization, and report
+  requirements are preserved.
 - Simplified `reflect` into four stages with an early return for no supported
   candidates and conditional loading of routing branches. Consolidated repeated
   rules while preserving independent review, authoring dependencies, write
