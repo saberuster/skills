@@ -9,7 +9,7 @@ The package targets Codex's local skill format. The
 [agent support workflow](../.github/workflows/agent-support.yml) checks real CLI
 discovery for Codex and Claude Code in temporary projects. It checks packages at
 `skills/<name>/` and `skills/<collection>/<name>/`, including `fern`,
-`image-generation`, `blender`, `godot`, `meta`, and `thinking`. Each package
+`image-generation`, `blender`, `godot`, and `meta`. Each package
 is copied into an isolated client directory under its own skill name;
 collection directories are not installed as skills.
 This is not a claim of successful task execution or automatic selection in

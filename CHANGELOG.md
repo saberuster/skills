@@ -115,7 +115,7 @@ Planned next minor release: `0.2.0`.
   shortening commit grouping, and removing repeated workflow details from its
   game/design supplement and README. Existing commit and evidence boundaries
   are preserved.
-- Moved `talk-it-through` into `skills/thinking/talk-it-through` and added the
+- Moved `talk-it-through` into `skills/fern/talk-it-through` and removed the
   `thinking` collection. Updated catalog links; the skill name, instructions,
   and invocation policy are unchanged. Existing installations are unchanged;
   client discovery from the relocated source remains unverified.
