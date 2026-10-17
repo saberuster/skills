@@ -9,9 +9,9 @@ The package targets Codex's local skill format. The
 [agent support workflow](../.github/workflows/agent-support.yml) checks real CLI
 discovery for Codex and Claude Code in temporary projects. It checks packages at
 `skills/<name>/` and `skills/<collection>/<name>/`, including `fern`,
-`image-generation`, `blender`, `meta`, and `thinking`. Each package is copied
-into an isolated client directory under its own skill name; collection
-directories are not installed as skills.
+`image-generation`, `blender`, `godot`, `meta`, and `thinking`. Each package
+is copied into an isolated client directory under its own skill name;
+collection directories are not installed as skills.
 This is not a claim of successful task execution or automatic selection in
 every interface.
 
@@ -110,6 +110,28 @@ and the low-poly audit's read-only behavior and JSON output. FBX transfer tests
 remain in `saberuster/agent-skills` with its Unreal plugin. These checks do not
 establish reference fidelity, visual quality, character deformation quality,
 Unreal import, or game-runtime correctness.
+
+### Godot helper regressions
+
+The [Godot collection](../skills/godot/README.md) includes isolated regression
+tests for its PowerShell runner and log preflight. From the repository root,
+use the isolated Python environment:
+
+```text
+python -m unittest discover -s tests -p test_godot_build_regressions.py -v
+```
+
+The suite requires PowerShell 7.2+ on `PATH`, or an explicit executable in
+`PWSH`. Fixtures create temporary Git projects and fake Godot processes to
+exercise log boundaries, argument handling, output collection, error reporting,
+timeouts, process cleanup, and concurrency. No Godot installation is required.
+Unreal and MCP regressions remain in `saberuster/agent-skills`.
+
+The package workflow discovers this suite with the other tests. Missing
+PowerShell, platform-specific cases, and unavailable symlink privileges produce
+explicit skips; report them separately from passing cases. Windows and Linux
+results are distinct. These fixtures do not establish real Godot execution,
+scene or asset correctness, UI behavior, or client discovery.
 
 ### Static checks and client probes
 

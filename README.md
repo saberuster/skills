@@ -5,7 +5,8 @@ Focused standalone agent skills by saberuster, licensed under the
 skills, reflect on a session, write technical documentation, review project
 readiness for agent work, and work through ideas and decisions, or compose
 structured GPT Image prompts from briefs and reference images, and prepare
-Conventional Commits, and model, reconstruct, and repair assets in Blender.
+Conventional Commits, model, reconstruct, and repair assets in Blender, and
+develop and diagnose Godot projects.
 
 [meta](skills/meta/README.md) groups skills for maintaining skills and project
 instructions, reviewing project readiness for agent work, and grounding skill
@@ -36,6 +37,13 @@ remains unverified.
 clarifying questions, and working through decisions. It includes
 `talk-it-through`; client discovery from its relocated source remains unverified.
 
+[Godot](skills/godot/README.md) groups `setup-godot-skills` and the five former
+`godot-dev` skills from `saberuster/agent-skills`, including their references,
+build helpers, and isolated regressions. Each skill is independently installable.
+The setup skill keeps its existing curated selection; grouping these packages
+does not add the other five skills to that selection. Client discovery from the
+relocated sources remains unverified.
+
 ## Available skills
 
 Open the linked README or skill instructions for its purpose and requirements.
@@ -52,6 +60,11 @@ the coverage limits.
 | [brief-to-image-prompt](skills/image-generation/brief-to-image-prompt/README.md) | &#9989; | &#9989; |
 | [character-rig](skills/blender/character-rig/SKILL.md) | &#9989; | &#9989; |
 | [commit](skills/fern/commit/README.md) | &#9989; | &#9989; |
+| [godot-best-practices](skills/godot/godot-best-practices/SKILL.md) | &mdash; | &mdash; |
+| [godot-build-and-diagnostics](skills/godot/godot-build-and-diagnostics/SKILL.md) | &mdash; | &mdash; |
+| [godot-scene-and-resource-authoring](skills/godot/godot-scene-and-resource-authoring/SKILL.md) | &mdash; | &mdash; |
+| [godot-scripting](skills/godot/godot-scripting/SKILL.md) | &mdash; | &mdash; |
+| [godot-ui-authoring](skills/godot/godot-ui-authoring/SKILL.md) | &mdash; | &mdash; |
 | [gpt-image-prompting](skills/image-generation/gpt-image-prompting/README.md) | &#9989; | &#9989; |
 | [image-to-prompt](skills/image-generation/image-to-prompt/README.md) | &#9989; | &#9989; |
 | [maintain-agents-md](skills/meta/maintain-agents-md/README.md) | &#9989; | &#9989; |
@@ -59,6 +72,7 @@ the coverage limits.
 | [reference-scene](skills/blender/reference-scene/SKILL.md) | &#9989; | &#9989; |
 | [reflect](skills/fern/reflect/README.md) | &#9989; | &#9989; |
 | [research-skill-patterns](skills/meta/research-skill-patterns/README.md) | &#9989; | &#9989; |
+| [setup-godot-skills](skills/godot/setup-godot-skills/SKILL.md) | &mdash; | &mdash; |
 | [talk-it-through](skills/thinking/talk-it-through/README.md) | &#9989; | &#9989; |
 | [technical-writing](skills/fern/technical-writing/SKILL.md) | &#9989; | &#9989; |
 | [unslop](skills/fern/unslop/SKILL.md) | &#9989; | &#9989; |

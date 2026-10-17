@@ -1,0 +1,6 @@
+interface:
+  display_name: "Setup Godot Skills"
+  short_description: "Install and refresh curated Godot project skills"
+  default_prompt: "Use $setup-godot-skills to install missing applicable skills and update existing ones for this Godot repository, preserving conflicts for my decision."
+policy:
+  allow_implicit_invocation: true

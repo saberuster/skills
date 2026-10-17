@@ -6,6 +6,12 @@ Planned next minor release: `0.2.0`.
 
 ### Added
 
+- The `godot` collection, migrated from `saberuster/agent-skills`: the standalone
+  `setup-godot-skills` package and all five former `godot-dev` plugin skills,
+  including metadata, references, build scripts, and Godot helper regressions.
+  Skill names, workflows, and the setup skill's curated selection are preserved.
+  Packages now install individually; existing installed copies are unchanged.
+  Client discovery from these sources and real Godot execution remain unverified.
 - The `blender` collection, migrated from `saberuster/agent-skills` with
   `blender-low-poly`, `character-rig`, and `reference-scene`, their metadata,
   references, scripts, component regressions, and background Blender tests.

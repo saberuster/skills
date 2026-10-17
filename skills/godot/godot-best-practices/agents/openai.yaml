@@ -1,0 +1,7 @@
+interface:
+  display_name: "Godot Project Grounding"
+  short_description: "Ground Godot projects and coordinate focused workflows"
+  default_prompt: "Use $godot-best-practices to establish the project and version baseline, then route the task to the relevant focused Godot workflow skill."
+
+policy:
+  allow_implicit_invocation: true
