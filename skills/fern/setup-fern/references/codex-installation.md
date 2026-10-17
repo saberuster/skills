@@ -131,7 +131,7 @@ and new marker pairs require resolution; do not guess a range.
 Earlier versions used `fern:subagent-instructions:start/end` and the receipt
 key `instructions:subagent-delegation`. During an authorized setup or update,
 show the added rule topics before expanding this baseline. Check the legacy
-target and exact block bytes, including markers, against that receipt. A
+target and block bytes using the [receipt rules](#receipt-and-recovery). A
 matching block can be replaced in place with the complete new block, provided
 surrounding rules do not conflict or duplicate the incoming rules. Keep the
 surrounding content unchanged and back up the file before replacement.
@@ -163,18 +163,32 @@ Use a small versioned JSON receipt for Codex resources. For example:
     "instructions:user-rules": {
       "source_commit": "<resolved source SHA>",
       "target": "AGENTS.override.md",
-      "sha256": "<hash of applied block bytes including markers>"
+      "sha256": "<hash from start marker through end marker, inclusive>"
     }
   }
 }
 ```
 
 Each successful agent file and config key gets its own entry. Store the
-effective instruction target relative to Codex home. Use SHA-256 of the exact
-applied bytes for file and block ownership; compare parsed values for config
-keys. Keep skills and CLI lock records out of this receipt. A run with failures
-can legitimately contain resources from several source commits. Never replace
-all per-item revisions with the newest downloaded revision.
+effective instruction target relative to Codex home. Use SHA-256 of exact file
+bytes for agent files and compare parsed values for config keys.
+
+For instruction blocks, compute SHA-256 from the opening `<` of the start
+marker through the closing `>` of the end marker, inclusive. Exclude any
+following line ending; it remains surrounding content during replacement.
+Do not normalize internal whitespace or line endings.
+
+For existing receipts using either instruction marker generation, verify the
+recorded target and compare only the exact marked range and, if present, that
+range plus its immediately following single LF or CRLF. Do not trim or accept
+other byte differences. A matching existing receipt does not itself require a
+rewrite. Record the canonical range only after an authorized successful write
+and readback, or an exact-match recovery adoption under the rules below.
+Read-only checks must not change receipts.
+
+Keep skills and CLI lock records out of this receipt. A run with failures can
+legitimately contain resources from several source commits. Never replace all
+per-item revisions with the newest downloaded revision.
 
 If a crash occurs between a file write and receipt update, re-read the target
 and compare it with the prepared incoming value and backup before resuming.

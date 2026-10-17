@@ -15,7 +15,7 @@ the broader examples:
 | `reflect-*` (seven cases) | [reflect](../examples/reflect.md): stop when no durable candidate exists, preserve proposal defaults, route knowledge, apply authorized updates without duplication, preserve unresolved obligations, handle an unavailable skill author, and check stale knowledge during recall |
 | `agents-*` (ten cases) | [maintain-agents-md](../examples/maintain-agents-md.md): discover coverage and effective sources, review commands, preserve policy, apply language preferences, and respect edit scope |
 | `skills-local-edits` | [maintain-skills](../examples/maintain-skills.md): identify and preserve local edits before an update |
-| `fern-resource-merge`, `fern-read-only`, `fern-fresh-user-instructions`, `fern-legacy-instructions-migrate`, `fern-legacy-instructions-edited` | [setup-fern](../examples/setup-fern.md): apply complete user rules, preserve existing instructions, repeat resource merges, compare read-only, and distinguish owned legacy migration from local edits |
+| `fern-*` (eight cases) | [setup-fern](../examples/setup-fern.md): apply complete user rules, repeat resource merges, compare read-only, migrate owned legacy blocks, and verify persisted instruction receipts in fresh sessions |
 | `docs-schema` | [technical-writing](../examples/technical-writing.md): apply a scoped schema correction while preserving accepted content |
 | `talk-acceptance` | [talk-it-through](../examples/talk-it-through.md): advance after local acceptance and stop when asked |
 | `talk-goal-drift` | [talk-it-through case 7](../examples/talk-it-through.md#7-a-drifting-branch-and-an-explicit-new-goal): check a drifting branch against the goal, distinguish interest from agreement, and follow an explicit goal change |
@@ -93,13 +93,24 @@ Preparation refuses to overwrite an existing run. Each case directory contains:
 
 ## Select Fern setup cases
 
-Select the five `fern-*` cases by exact ID from the table above. They use an
-isolated `codex-home/`, the complete copied `setup-fern` package and a synthetic
-frozen source SHA. Network, installers, real user-profile access and model
-spawns are prohibited. The complete instruction asset includes initiative,
+Select the eight `fern-*` cases by exact ID from the table below. They use
+isolated fixture Codex homes, the complete copied `setup-fern` package and a
+synthetic frozen source SHA. Network, installers, real user-profile access and
+model spawns are prohibited. The complete instruction asset includes initiative,
 user precedence, writing style, delegation, built-in explorer model and
 reasoning defaults, and testing rules; assess the full content as well as
 markers and receipt hashes.
+
+| Case | Focus |
+| --- | --- |
+| `fern-resource-merge` | Codex resources and repeat in the same session |
+| `fern-read-only` | Inventory gaps and conflicts without writes |
+| `fern-fresh-user-instructions` | Complete rules and a canonical receipt in a new home |
+| `fern-legacy-instructions-migrate` | Owned legacy block and historical receipt including LF |
+| `fern-legacy-instructions-edited` | Locally edited legacy policy preserved |
+| `fern-persisted-receipts-update` | Fresh reader of canonical, following-LF and following-CRLF current-marker receipts |
+| `fern-persisted-receipts-edited` | Internal whitespace, line-ending edits and target mismatch preserved |
+| `fern-persisted-receipts-read-only` | Current and legacy historical receipt checks without canonicalization |
 
 Deliver the two `fern-resource-merge` turns separately in the same session,
 retaining the first application before the repeat. For
@@ -110,6 +121,33 @@ former allows replacing an exactly owned historical block, while the latter
 requires all fixture files to remain unchanged. Retain actual reads and writes
 to establish that the old receipt is removed only after new-block readback in
 the successful case. The read-only case also requires an unchanged workspace.
+
+For every newly recorded instruction receipt, independently hash the raw
+bytes from the start marker's opening `<` through the end marker's closing
+`>` inclusive. Exclude any following LF or CRLF and preserve internal bytes.
+Check the recorded target and source SHA as well as the digest. Compatibility
+reads may test only that exact range and, when present in the file, the range
+plus its single immediately following LF or CRLF. An internal edit or target
+mismatch must remain unresolved. A compatible historical receipt for an already
+aligned block does not require rewriting its hash or source revision.
+
+Run each persisted-receipt case with a fresh worker. Its prior-run blocks and
+receipts are synthetic fixture files, not observed output from another agent.
+They exercise consumer decisions independently of same-session memory. The
+update case uses short historical bodies to avoid duplicating the current
+asset; verified ownership does not mean those bodies are already aligned.
+The read-only case must retain its historical hashes and legacy receipt key.
+Inspect actions as well as final files to distinguish validation from an
+unauthorized normalization write.
+
+For an actual cross-session handoff, follow the
+[producer-to-consumer procedure](../examples/setup-fern.md#persisted-instruction-receipts-in-a-fresh-session)
+using retained artifacts from an authorized fixture run and a new isolated
+home. Keep the producing snapshot and raw bytes, use a fresh check-only worker,
+and compare all target and receipt bytes afterward. Report this executed
+handoff separately from synthetic prior-run compatibility and from actual host
+loading. Neither fixture preparation nor a first executor's success claim is
+evidence that a later executor read and accepted its receipt.
 
 These fixtures do not prove actual Codex instruction loading, explorer model
 availability or spawning, live source resolution, or skill installation. Use

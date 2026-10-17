@@ -11,10 +11,10 @@ Text review and fixture assertions do not prove a host loaded the package or
 that the agent made the expected decisions. Record actual execution evidence
 and untested expectations separately.
 
-Five selected cases are executable through the existing smoke harness:
+Eight selected cases are executable through the existing smoke harness:
 
 ```text
-python scripts/behavior_trials.py prepare --output /tmp/fern-behavior-001 --case fern-resource-merge --case fern-read-only --case fern-fresh-user-instructions --case fern-legacy-instructions-migrate --case fern-legacy-instructions-edited
+python scripts/behavior_trials.py prepare --output /tmp/fern-behavior-001 --case fern-resource-merge --case fern-read-only --case fern-fresh-user-instructions --case fern-legacy-instructions-migrate --case fern-legacy-instructions-edited --case fern-persisted-receipts-update --case fern-persisted-receipts-edited --case fern-persisted-receipts-read-only
 ```
 
 Use a writable temporary path outside the repository and the real user profile.
@@ -25,7 +25,9 @@ case supplies an offline inventory with missing and conflicting items. The fresh
 instruction case creates the complete user rules in a home without an effective
 instruction file. The two legacy cases compare successful receipt-backed
 migration with preservation of a locally edited block. Their historical blocks
-and receipt hashes are synthetic. Give
+and receipt hashes are synthetic. The three persisted-receipt cases start fresh
+workers with synthetic prior-run files and receipts to exercise ownership
+verification, strict byte comparisons and read-only preservation. Give
 fresh workers only `input.json` context, the copied skill, and their workspace;
 keep evaluator criteria private. Inspect actions and before/after files as well
 as replies. These cases do not exercise live branch resolution, the Skills
@@ -114,8 +116,8 @@ including migrating an owned legacy scheduling block."
 Fixture: one effective `AGENTS.override.md` with personal rules and a paired
 `fern:subagent-instructions:start/end` block. Its
 `instructions:subagent-delegation` receipt entry records the target and SHA-256
-of the exact full marked block. An unrelated config receipt entry and a
-shadowed `AGENTS.md` also exist. The runnable
+of the exact full marked block, historically including its following LF.
+An unrelated config receipt entry and a shadowed `AGENTS.md` also exist. The runnable
 `fern-legacy-instructions-migrate` case supplies a synthetic historical block
 matching its recorded hash.
 
@@ -124,8 +126,11 @@ the legacy block with the complete `fern:user-instructions:start/end` block.
 The agent should show the added rule topics before expanding the baseline.
 Check exact surrounding bytes and shadowed-file preservation. After successful
 readback, the receipt should add `instructions:user-rules` and remove the old
-instruction key, preserving unrelated entries. Retain backups and observed
-write/readback actions; final content alone does not establish operation order.
+instruction key, preserving unrelated entries. New hashes span the raw bytes
+from the opening `<` of the start marker through the closing `>` of the end
+marker, excluding its following line ending and preserving internal bytes.
+Retain backups and observed write/readback actions; final content alone does
+not establish operation order.
 
 The nearby `fern-legacy-instructions-edited` case changes the legacy delegation
 sentence without updating its receipt. Observe that the agent preserves all
@@ -135,6 +140,49 @@ receipt should be added for that unresolved unit. Unknown ownership,
 overlapping policies outside the block, both marker generations together, and
 malformed pairs likewise require preservation and concrete resolution; these
 additional variants remain narrative coverage until separately executed.
+
+## Persisted instruction receipts in a fresh session
+
+Request: "Update only the user instructions in the selected fixture homes to
+the complete bundled rules. Preserve personal text and unrelated receipts."
+
+The `fern-persisted-receipts-update` case starts a fresh worker with three
+synthetic homes. Each contains the same short historical current-marker block,
+but its recorded SHA-256 covers either the exact marked range, that range plus
+the immediately following LF, or that range plus the immediately following
+CRLF. The existing legacy migration case covers the earlier marker generation
+with a following LF. These are persisted ownership fixtures, not records of an
+observed earlier executor or claims that the historical body is current.
+
+Observe that ownership validation checks the recorded target and raw bytes.
+All three authorized updates should install the complete current asset, retain
+personal and unrelated receipt content, and record the canonical marked range
+only after successful application and readback. Preserve the old receipt and
+instruction bytes in backups. The canonical fixture tests a valid historical
+ownership record; its short body still needs an update.
+
+The `fern-persisted-receipts-edited` case supplies nearby negative fixtures:
+a space added inside a block, internal LF bytes changed to CRLF, and a receipt
+naming a different target. Observe preservation of all files with concrete
+pending differences. Compatibility with one following line ending does not
+permit trimming, internal line-ending normalization, or a wrong target.
+
+The `fern-persisted-receipts-read-only` case supplies a current-marker receipt
+including a following CRLF and a legacy-marker receipt including a following
+LF. The worker should recognize historical ownership and report the missing
+current rule content while leaving all bytes unchanged. Checking compatibility
+must not canonicalize the receipt, migrate markers, or create backups.
+
+For actual producer-to-consumer evidence, retain an authorized fixture run's
+instruction and receipt artifacts and copy their exact bytes into a new
+isolated home. Start a fresh worker with the selected skill snapshot and an
+ordinary check-only request; provide no earlier replies or hash hints. Verify
+alignment against that snapshot and byte-identical targets and receipts after
+the check. A compatible historical receipt for an already aligned block does
+not require a hash or source-revision rewrite. Report the producing snapshot
+and actual receipt encoding. This handoff supplements the synthetic fixtures
+and same-session repeat; it does not prove host instruction loading or behavior
+on an actual user profile.
 
 ## Linked agents and unknown ownership
 
