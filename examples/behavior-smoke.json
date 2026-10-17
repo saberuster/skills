@@ -1,6 +1,86 @@
 {
   "cases": [
     {
+      "id": "fern-resource-merge",
+      "skill": "setup-fern",
+      "context": "This is an isolated Codex-resource trial. The supplied skill/ package is the frozen saberuster/skills main snapshot, represented by synthetic SHA 1111111111111111111111111111111111111111; do not fetch it. codex-home/ inside this workspace is the entire target. The fixture host supports the bundled custom TOMLs, three configuration keys and all selected models, and loads AGENTS.override.md before AGENTS.md. Skills and host-skill checks are already complete and outside this request. No network, installer commands, real user-profile reads or writes, model spawns, or other repository changes are allowed. You may use local tools to inspect and edit this fixture only.",
+      "turns": [
+        "Use $setup-fern to apply only the bundled Codex agents, config fragment, and scheduling prompt to codex-home/. Preserve my existing personal settings and instructions.",
+        "Run the same Codex-resource alignment again from the same snapshot."
+      ],
+      "files": {
+        "codex-home/config.toml": "# Personal configuration\nmodel = \"personal-model\"\n\n[agents]\n# Keep this limit\nmax_depth = 2\n\n[projects.demo]\ntrust_level = \"trusted\"\n",
+        "codex-home/AGENTS.override.md": "# Personal instructions\n\nPreserve configured commit signing.\n",
+        "codex-home/AGENTS.md": "# Shadowed instructions\n\nThis file must remain unchanged.\n",
+        "codex-home/agents/personal.toml": "name = \"personal\"\ndescription = \"Personal role\"\ndeveloper_instructions = \"Keep user notes organized.\"\n"
+      },
+      "evaluation": {
+        "criteria": [
+          {
+            "id": "resource-application",
+            "description": "Six ordinary custom TOMLs equal the bundled files. Parsed config has exactly the three incoming keys added under agents, retaining personal model, max_depth, project table, comments and formatting outside additions. Effective AGENTS.override.md contains exactly one correct managed prompt block with preserved surrounding instructions; shadowed AGENTS.md and personal role remain byte-identical."
+          },
+          {
+            "id": "receipt-and-repeat",
+            "description": "Receipt entries identify all successfully applied role files, config keys and effective instruction block with correct hashes or values and fixture source SHA. Repeating alignment changes no owned resource content and creates no duplicate block or TOML table. Backups preserve pre-application bytes or original absence. Inspect first-turn state and final state."
+          },
+          {
+            "id": "scope-and-evidence",
+            "description": "Observed actions stay inside fixture and requested Codex resources. No installer, network, real profile change or claimed fresh-host loading. Reports actual application and limits separately."
+          }
+        ],
+        "invariants": [
+          {
+            "id": "required-resource-changes",
+            "kind": "changed",
+            "paths": [
+              "codex-home/config.toml",
+              "codex-home/AGENTS.override.md",
+              "codex-home/fern/receipt.json",
+              "codex-home/agents/architect.toml",
+              "codex-home/agents/debugger.toml",
+              "codex-home/agents/docs_researcher.toml",
+              "codex-home/agents/reviewer.toml",
+              "codex-home/agents/validator.toml",
+              "codex-home/agents/visual_reviewer.toml"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fern-read-only",
+      "skill": "setup-fern",
+      "context": "This is an offline isolated comparison trial. The supplied skill/ package is the frozen own-source snapshot represented by synthetic SHA 1111111111111111111111111111111111111111; no branch resolution or fetching is needed. codex-home/ is the only target. Skill inventory: fern and meta are current, gh is missing, an unknown-source personal-helper remains installed. Host exposes skill-creator, lacks openai-docs, supports custom TOMLs and the selected config keys/models, and loads AGENTS.override.md before AGENTS.md. Its installed Skills CLI check command aliases a mutating update; read-only list is unavailable. Use supplied inventory and local file reads. No network, CLI invocation, model spawn, real user-profile access or writes are allowed.",
+      "turns": [
+        "Use $setup-fern to check how this environment differs from Fern. Do not change anything."
+      ],
+      "files": {
+        "codex-home/config.toml": "[agents]\ndefault_subagent_model = \"personal-model\"\n",
+        "codex-home/AGENTS.override.md": "# Personal instructions\n\nDelegate only when explicitly requested.\n",
+        "codex-home/AGENTS.md": "# Shadowed instructions\n\nUse the Fern defaults.\n",
+        "codex-home/agents/reviewer.toml": "name = \"reviewer\"\ndescription = \"Personal reviewer\"\ndeveloper_instructions = \"Review only the explicitly selected files.\"\n"
+      },
+      "evaluation": {
+        "criteria": [
+          {
+            "id": "grounded-gaps",
+            "description": "Reports missing gh and host openai-docs, missing packaged custom roles, changed reviewer without ownership evidence, the differing model and two absent config keys, and the effective override's conflicting delegation policy. Does not treat shadowed AGENTS.md as active or claim host loading."
+          },
+          {
+            "id": "read-only-actions",
+            "description": "Observed actions use only permitted reads; no CLI check/update/install, target edits, receipts, backups or invented host-skill fallback. Preserves unknown-source helper and distinguishes pending conflicts from successful alignment."
+          }
+        ],
+        "invariants": [
+          {
+            "id": "preserved-files",
+            "kind": "unchanged"
+          }
+        ]
+      }
+    },
+    {
       "id": "reflect-empty",
       "skill": "reflect",
       "context": "Synthetic current-session transcript: the user says, 'The preview is open while I inspect the export screen.' The assistant replies, 'Clear names usually make code easier to read.' The user says, 'The inspection is still in progress.' There are no other session records, accepted decisions, explicit stable preferences, corrections, or verified reusable outcomes. No other chats or workspaces are in scope.",

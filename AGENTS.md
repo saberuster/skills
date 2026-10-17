@@ -9,9 +9,11 @@ conventions.
   `skills/<collection>/<name>/`. Keep `SKILL.md`, `agents/openai.yaml`,
   and any required resources consistent; keep packages self-contained. Add
   resources only when the skill needs them, not to fill a template.
-- Place new skills for maintaining skills or agents in `skills/meta/`.
+- Place general skills for maintaining skills or agents in `skills/meta/`.
   The collection covers their instructions, configuration, lifecycle, review,
   and improvement; each leaf remains an independent package.
+  The personal Fern environment composition entrypoint and its supporting
+  Codex resources belong in `skills/fern/setup-fern/`.
 - When creating, reviewing, or editing skill content, apply
   [research-skill-patterns](skills/meta/research-skill-patterns/SKILL.md).
   Use its proportional source research or evidence reuse, and report the

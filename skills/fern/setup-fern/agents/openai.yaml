@@ -1,0 +1,7 @@
+interface:
+  display_name: "Setup Fern"
+  short_description: "Align a curated Fern environment for Codex"
+  default_prompt: "Use $setup-fern to align this Codex environment with my curated Fern baseline."
+
+policy:
+  allow_implicit_invocation: true

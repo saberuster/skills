@@ -12,6 +12,7 @@ the broader examples:
 | `reflect-*` (seven cases) | [reflect](../examples/reflect.md): stop when no durable candidate exists, preserve proposal defaults, route knowledge, apply authorized updates without duplication, preserve unresolved obligations, handle an unavailable skill author, and check stale knowledge during recall |
 | `agents-*` (ten cases) | [maintain-agents-md](../examples/maintain-agents-md.md): discover coverage and effective sources, review commands, preserve policy, apply language preferences, and respect edit scope |
 | `skills-local-edits` | [maintain-skills](../examples/maintain-skills.md): identify and preserve local edits before an update |
+| `fern-resource-merge`, `fern-read-only` | [setup-fern](../examples/setup-fern.md): apply and repeat isolated Codex resource merges, or report offline differences without mutation |
 | `docs-schema` | [technical-writing](../examples/technical-writing.md): apply a scoped schema correction while preserving accepted content |
 | `talk-acceptance` | [talk-it-through](../examples/talk-it-through.md): advance after local acceptance and stop when asked |
 | `ready-*` (eight cases) | [agent-ready](../examples/agent-ready.md): trace real fixture tasks, calibrate recommendations, distinguish validation layers, and preserve review scope |
