@@ -13,9 +13,17 @@ Planned next minor release: `0.2.0`.
   follow this repository's conventions. Unreal transfer tests remain with their
   plugin in `agent-skills`. Existing installations are unchanged, and client
   discovery from these relocated sources remains unverified.
+- `setup-fern` for the curated personal Codex environment: directory-selected
+  Fern and meta skills, optional project collections, branch-following `gh`,
+  and host checks for `skill-creator` and `openai-docs`. Includes selected
+  config values, subagent scheduling instructions, conflict-aware resource
+  application, and synthetic acceptance cases. Skill installation reuses
+  `maintain-skills`; source maintenance does not apply changes to the host.
 - Six standalone Codex custom agents copied from `saberuster/agent-skills`
-  into `agents/`: `architect`, `debugger`, `docs_researcher`, `reviewer`,
-  `validator`, and `visual_reviewer`.
+  and relocated from root `agents/` into
+  `skills/fern/setup-fern/assets/codex/agents/`: `architect`, `debugger`,
+  `docs_researcher`, `reviewer`, `validator`, and `visual_reviewer`. Role
+  definitions are preserved and travel with the complete Fern setup package.
 - `unslop` in `skills/fern` for focused prose revision and review, preserving
   meaning, claim strength, exact content, and the writer's voice. Includes
   contextual patterns, counterexamples, source rationale, and synthetic behavior

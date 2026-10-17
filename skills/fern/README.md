@@ -16,6 +16,9 @@ the task requires it.
 
 ## Skills
 
+- [Setup Fern](setup-fern/SKILL.md): align a curated Codex environment with
+  the mandatory Fern and meta collections, selected external skills, custom
+  agents, configuration, and subagent instructions.
 - [Commit](commit/README.md): draft or review Conventional Commit messages and
   create scoped Git commits when requested.
 - [Technical Writing](technical-writing/SKILL.md): create, revise,
@@ -27,6 +30,16 @@ the task requires it.
   updates according to the user's authorization.
 
 ## Status
+
+`setup-fern` maintains the personal environment baseline. Its complete package
+includes the six custom agent TOMLs formerly stored in the repository's root
+`agents/` directory. Its [baseline](setup-fern/references/baseline.md) selects
+the two mandatory collections, `gh`, and host capability checks; other
+collections remain optional. See its
+[installation contract](setup-fern/references/codex-installation.md) and
+[synthetic cases](../../examples/setup-fern.md) before exercising setup.
+Source changes do not update existing installations. Live setup and
+fresh-session loading of its Codex resources remain separate checks.
 
 Skills are maintained individually in this collection. `commit` was migrated
 from `git-commit`, `technical-writing` from `technical-docs`, and `reflect`
