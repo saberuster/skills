@@ -247,8 +247,8 @@ class FernInstallTests(unittest.TestCase):
                         self.fail("Unsafe target was accepted")
             target = self.root / "new-home"
             with disposable_home(target) as (owned, home):
-                self.assertEqual(owned, target)
-                self.assertTrue(home.is_relative_to(target))
+                self.assertEqual(owned, target.resolve())
+                self.assertTrue(home.is_relative_to(target.resolve()))
                 self.assertTrue(home.is_dir())
             self.assertFalse(target.exists())
 

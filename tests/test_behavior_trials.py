@@ -105,7 +105,7 @@ class BehaviorTrialsTests(unittest.TestCase):
         manifest = trials.read_json(trial / "manifest.json")
         self.assertEqual(
             Path(manifest["source_path"]),
-            self.source / "skills/fern/technical-writing",
+            (self.source / "skills/fern/technical-writing").resolve(),
         )
         self.assertIn("references/detail.txt", manifest["source_hashes"])
         self.assertEqual(

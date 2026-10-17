@@ -48,7 +48,7 @@ class LauncherTests(unittest.TestCase):
                     root,
                     {"OPENAI_API_KEY": "fake"},
                 ),
-                output,
+                output.resolve(),
             )
 
     def test_context_excludes_credentials_caches_and_git_state(self):
