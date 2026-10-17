@@ -1,6 +1,6 @@
 ---
 name: setup-fern
-description: Set up, update, or check a curated personal Fern environment for Codex. Use to align Fern and meta skills, selected external skills, custom agents, configuration, and subagent instructions on a new or existing machine.
+description: Set up, update, or check a curated personal Fern environment for Codex. Use to align Fern and meta skills, selected external skills, custom agents, configuration, and complete user instructions on a new or existing machine.
 ---
 
 # Setup Fern
@@ -63,8 +63,12 @@ backups, merges, receipts, and recovery. The owned resources are:
   selected Codex home; no config registration or source checkout is required.
 - [Config fragment](assets/codex/config.fragment.toml): merge only its three
   selected keys; preserve all unrelated values, tables, and comments.
-- [Subagent instructions](assets/codex/subagent-instructions.md): maintain one
-  Fern block in the effective user instruction file, respecting overrides.
+- [User instructions](assets/codex/user-instructions.md): apply the complete
+  personal rule baseline, including initiative, instruction precedence,
+  writing style, subagent delegation, explorer model selection, and testing.
+  Create the default user file on a new environment; maintain one Fern block
+  in the effective file on existing environments, respecting overrides and
+  the documented migration from the former subagent-only block.
 
 Compare current values to the last successfully applied baseline. Do not
 overwrite local changes, adopt unknown files silently, or write through a
@@ -79,7 +83,9 @@ new instructions take effect in a fresh session, not midway through this run.
 ## Verify and report
 
 Read back installed skill files and CLI provenance, custom agent TOML, merged
-config, the effective instruction block, and successful receipt entries.
+config, the complete effective instruction block, and successful receipt
+entries. Confirm the built-in `explorer` rule retains `gpt-6-luna` with `high`
+reasoning and the context-mode guidance needed for explicit model overrides.
 Report added, refreshed, unchanged, conflicted, missing-host, and failed items
 with source branch and resolved revision. After a partial failure, inspect
 actual state and retry only unfinished items; do not claim a whole-run rollback.

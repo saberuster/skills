@@ -111,6 +111,12 @@ Planned next minor release: `0.2.0`.
 
 ### Changed
 
+- `setup-fern` now carries the complete personal user instruction baseline:
+  initiative, instruction precedence, writing style, subagent delegation,
+  built-in explorer model selection (`gpt-6-luna`, `high`), and testing rules.
+  Fresh environments receive the full rules in their user instruction file;
+  existing environments preserve personal edits and migrate the former
+  subagent-only block after checking ownership and overlapping rules.
 - Clarified optional Fern custom-agent loading checks using native role spawns,
   correlated parent and child records, and actual instructions and settings.
   Added synthetic cases separating loading from blocked task probes and

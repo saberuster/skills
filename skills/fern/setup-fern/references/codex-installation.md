@@ -2,7 +2,7 @@
 
 Apply the resources in `assets/codex/` from the same immutable snapshot used
 for Fern skills. This procedure covers custom agents, selected configuration,
-and a managed instruction block. `maintain-skills` owns installed skill files
+and a complete managed user instruction block. `maintain-skills` owns skill files
 and their provenance.
 
 ## Establish targets and ownership
@@ -15,7 +15,7 @@ these targets before preparing changes:
 | --- | --- | --- |
 | `assets/codex/agents/*.toml` | `<CODEX_HOME>/agents/<name>.toml` | One selected file |
 | `assets/codex/config.fragment.toml` | `<CODEX_HOME>/config.toml` | Three selected `[agents]` keys |
-| `assets/codex/subagent-instructions.md` | Effective user instruction file | One marked block |
+| `assets/codex/user-instructions.md` | Effective user instruction file | One complete marked rule block |
 | Application receipt | `<CODEX_HOME>/fern/receipt.json` | Codex resource evidence only |
 
 Inspect ancestor paths, targets, and relevant descendants for symlinks,
@@ -95,24 +95,54 @@ effective settings of an existing chat.
 Identify the user instruction file Codex actually loads. In the user directory,
 `AGENTS.override.md` takes precedence over `AGENTS.md`; also inspect the host's
 configured fallback filenames and document loading behavior. Do not update a
-shadowed `AGENTS.md` and report the prompt as active. Create the documented
-default file only when no effective user file exists.
+shadowed `AGENTS.md` and report the rules as active. When no effective user
+file exists, create `<CODEX_HOME>/AGENTS.md` with the complete bundled baseline
+inside the markers below; use a different default only if the host documents
+one. The selected Codex home need not be the default home directory.
 
-Use these exact block markers around the bundled prompt:
+The [user instruction asset](../assets/codex/user-instructions.md) carries the
+maintained personal rules for initiative, instruction precedence, writing,
+subagent delegation, and testing, plus Fern's role guidance. Install all of it,
+including the built-in `explorer` model `gpt-6-luna`, reasoning effort `high`,
+and fresh or limited-history context guidance for explicit model overrides.
+Use the asset from the resolved source snapshot; do not require access to the
+author's original machine or recapture the destination's rules as the baseline.
+Future baseline changes belong in this asset through source maintenance.
+
+Use these exact block markers around the complete asset:
 
 ```markdown
-<!-- fern:subagent-instructions:start -->
-<contents of assets/codex/subagent-instructions.md>
-<!-- fern:subagent-instructions:end -->
+<!-- fern:user-instructions:start -->
+<contents of assets/codex/user-instructions.md>
+<!-- fern:user-instructions:end -->
 ```
 
-Require zero or one well-formed marker pair. With no pair, inspect existing
-delegation instructions for conflicting or duplicate policies before adding
-the block. With one pair, apply ownership checks to its contents and replace
-only that block. Multiple, reversed, or unmatched markers require resolution;
-do not guess a range. Preserve all surrounding user instructions. If an old
-unmarked delegation section overlaps, show the exact proposed adoption or
-replacement instead of silently removing it or stacking contradictory rules.
+Require zero or one well-formed pair, accounting for the legacy markers below.
+With no pair, inspect existing rules across all baseline topics for conflicts
+or duplication before adding the block. With one current pair, apply ownership
+checks and replace only that block. Preserve all surrounding user instructions.
+For overlapping unmarked rules, show the exact proposed adoption or merge and
+resolve the conflict before changing that content; do not silently delete it
+or stack duplicate policies. Multiple, reversed, unmatched, or coexisting old
+and new marker pairs require resolution; do not guess a range.
+
+#### Migrate the former subagent block
+
+Earlier versions used `fern:subagent-instructions:start/end` and the receipt
+key `instructions:subagent-delegation`. During an authorized setup or update,
+show the added rule topics before expanding this baseline. Check the legacy
+target and exact block bytes, including markers, against that receipt. A
+matching block can be replaced in place with the complete new block, provided
+surrounding rules do not conflict or duplicate the incoming rules. Keep the
+surrounding content unchanged and back up the file before replacement.
+
+An edited legacy block, an unknown baseline, or overlapping surrounding rules
+needs a concrete conflict decision before replacement. Preserve the legacy
+block and receipt while that decision is pending; continue independent work.
+Do not append a second Fern block to bypass the conflict. After the new block
+is successfully written and read back, record `instructions:user-rules` and
+remove the superseded `instructions:subagent-delegation` entry. On failure,
+retain the previous receipt and inspect the actual file before retrying.
 
 ## Receipt and recovery
 
@@ -130,7 +160,7 @@ Use a small versioned JSON receipt for Codex resources. For example:
       "source_commit": "<resolved source SHA>",
       "value": "gpt-6.1-sol"
     },
-    "instructions:subagent-delegation": {
+    "instructions:user-rules": {
       "source_commit": "<resolved source SHA>",
       "target": "AGENTS.override.md",
       "sha256": "<hash of applied block bytes including markers>"

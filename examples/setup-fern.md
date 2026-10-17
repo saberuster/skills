@@ -11,20 +11,24 @@ Text review and fixture assertions do not prove a host loaded the package or
 that the agent made the expected decisions. Record actual execution evidence
 and untested expectations separately.
 
-Two selected cases are executable through the existing smoke harness:
+Five selected cases are executable through the existing smoke harness:
 
 ```text
-python scripts/behavior_trials.py prepare --output /tmp/fern-behavior-001 --case fern-resource-merge --case fern-read-only
+python scripts/behavior_trials.py prepare --output /tmp/fern-behavior-001 --case fern-resource-merge --case fern-read-only --case fern-fresh-user-instructions --case fern-legacy-instructions-migrate --case fern-legacy-instructions-edited
 ```
 
 Use a writable temporary path outside the repository and the real user profile.
 The resource case supplies a supported fixture host and resolved snapshot,
 applies only Codex resources, and repeats the request in the same agent session.
 Capture the first application before delivering its second turn. The read-only
-case supplies an offline inventory with missing and conflicting items. Give
+case supplies an offline inventory with missing and conflicting items. The fresh
+instruction case creates the complete user rules in a home without an effective
+instruction file. The two legacy cases compare successful receipt-backed
+migration with preservation of a locally edited block. Their historical blocks
+and receipt hashes are synthetic. Give
 fresh workers only `input.json` context, the copied skill, and their workspace;
 keep evaluator criteria private. Inspect actions and before/after files as well
-as replies. These two cases do not exercise live branch resolution, the Skills
+as replies. These cases do not exercise live branch resolution, the Skills
 CLI, link migration, or host discovery; the broader cases below cover those
 additional scenarios when the required controlled fixtures are available.
 
@@ -63,7 +67,11 @@ both required host skills. The CLI supports copied Codex user installations.
 Observe that the agent resolves `main` and `trunk` once each, reads the Meta
 maintenance protocol from the selected snapshot, discovers all required leaf
 packages, and installs those packages plus only external `gh`. It should apply
-the six agent assets, the three config values, and the managed prompt block.
+the six agent assets, the three config values, and the complete managed user
+instruction block from `assets/codex/user-instructions.md`. In the effective
+Codex home, create `AGENTS.md` when no user instruction file exists. Verify
+initiative, user precedence, writing style, subagent scheduling, built-in
+explorer `model="gpt-6-luna"` and `reasoning_effort="high"`, and testing rules.
 Confirm the specialty and unrelated external leaf remain absent. Check CLI
 provenance separately from the Codex resource receipt. A host-discovery claim
 requires a separate fresh-chat observation.
@@ -93,8 +101,40 @@ surrounding personal rules; `AGENTS.md` also exists.
 Observe that safe values and the owned block can update while the local config
 edit is preserved and reported. Parse the resulting TOML to reject duplicate
 tables. Compare unrelated content and surrounding rules byte-for-byte where
-unchanged. The prompt target must be `AGENTS.override.md`. Receipt updates must
+unchanged. The instruction target must be `AGENTS.override.md`, with exactly
+one `fern:user-instructions:start/end` pair and a matching
+`instructions:user-rules` receipt entry. Receipt updates must
 describe actual successful units, leaving the conflicted value's prior record.
+
+## Legacy instruction migration and local edits
+
+Request: "Update only the user instructions to the complete bundled rules,
+including migrating an owned legacy scheduling block."
+
+Fixture: one effective `AGENTS.override.md` with personal rules and a paired
+`fern:subagent-instructions:start/end` block. Its
+`instructions:subagent-delegation` receipt entry records the target and SHA-256
+of the exact full marked block. An unrelated config receipt entry and a
+shadowed `AGENTS.md` also exist. The runnable
+`fern-legacy-instructions-migrate` case supplies a synthetic historical block
+matching its recorded hash.
+
+Observe that an authorized update verifies ownership before replacing only
+the legacy block with the complete `fern:user-instructions:start/end` block.
+The agent should show the added rule topics before expanding the baseline.
+Check exact surrounding bytes and shadowed-file preservation. After successful
+readback, the receipt should add `instructions:user-rules` and remove the old
+instruction key, preserving unrelated entries. Retain backups and observed
+write/readback actions; final content alone does not establish operation order.
+
+The nearby `fern-legacy-instructions-edited` case changes the legacy delegation
+sentence without updating its receipt. Observe that the agent preserves all
+files, reports the exact local policy difference and receipt mismatch, and
+presents a concrete pending replacement decision. No instruction block or
+receipt should be added for that unresolved unit. Unknown ownership,
+overlapping policies outside the block, both marker generations together, and
+malformed pairs likewise require preservation and concrete resolution; these
+additional variants remain narrative coverage until separately executed.
 
 ## Linked agents and unknown ownership
 

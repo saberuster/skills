@@ -89,6 +89,13 @@ The [Codex installation procedure](codex-installation.md) covers the separate
 agent, configuration, and instruction resources. Skill installation success,
 resource readback, and discovery in a fresh Codex chat are separate evidence.
 
+The [complete user instruction baseline](../assets/codex/user-instructions.md)
+travels with the package. It preserves the personal rules for initiative,
+instruction precedence, writing, subagent delegation, and testing, including
+the built-in explorer's `gpt-6-luna` / `high` override. New environments receive
+all these rules, without access to the author's machine. Existing environments
+use the installation procedure's ownership checks and legacy-block migration.
+
 ## Source evidence
 
 These observations reuse the shared research inspected on 2026-10-17. The
