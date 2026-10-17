@@ -794,6 +794,41 @@
       }
     },
     {
+      "id": "talk-goal-drift",
+      "skill": "talk-it-through",
+      "context": "This is a fictional game project. Our goal is to decide the smallest playable prototype for a two-week effort: three friends should be able to finish one ten-minute session. Progress may reset between sessions. This prototype tests core gameplay; cross-game reuse and multiple storage backends are not requirements. Discussion has moved from retrying a level to saving progress, then versioning save data. No implementation choices have been made or goal changes agreed. Discuss only; do not create files, run project tools, or access the network.",
+      "turns": [
+        "Use $talk-it-through. What would a reusable save-plugin interface look like, including migration hooks?",
+        "That plugin idea sounds interesting. Could it also swap storage backends at runtime?",
+        "Let's change the goal: pause the playable prototype. I now want to explore reusable persistence tooling for several future games, without the two-week deadline. Help me compare the useful boundaries for that tool.",
+        "Summarize where we are and stop here."
+      ],
+      "evaluation": {
+        "criteria": [
+          {"id": "goal-relevance", "description": "Before a local decision in turns 1-2, relates the branch to the prototype goal and recommends returning or parking unjustified framework depth. A brief technical answer is allowed; do not require refusing the question, repeatedly restating the goal, or forcing confirmation."},
+          {"id": "interest-not-reframe", "description": "After turn 2, does not treat interest in the plugin or a follow-up question as an agreed replacement goal or accepted implementation choice, and does not expand into an unbounded framework design."},
+          {"id": "explicit-reframe", "description": "After turn 3, adopts the explicit tooling goal and compares relevant boundaries, preserving prior work as context without continuing to impose the prototype deadline or demanding permission to change goals again."},
+          {"id": "wrap-up", "description": "After turn 4, summarizes the revised goal and distinguishes open proposals from accepted choices, then stops without another demanded answer or implementation."}
+        ],
+        "invariants": [{"id": "discussion-only", "kind": "unchanged"}]
+      }
+    },
+    {
+      "id": "talk-needed-branch",
+      "skill": "talk-it-through",
+      "context": "This is a fictional game prototype. Cross-game reuse and multiple storage backends are not requirements. Discuss only; do not create files, run project tools, or access the network.",
+      "turns": [
+        "Use $talk-it-through. Our two-week prototype is meant to test whether players can resume an interrupted ten-minute session. We initially planned an in-memory checkpoint, but the test protocol requires closing and reopening the game. What persistence decisions do we need to resolve for that test?"
+      ],
+      "evaluation": {
+        "criteria": [
+          {"id": "necessary-expansion", "description": "Recognizes that durable state is needed for the existing restart test and helps resolve bounded state or recovery decisions; does not park this branch merely because it adds work or demand a goal change."},
+          {"id": "bounded-scope", "description": "Keeps discussion tied to the prototype test without inventing a reusable framework requirement or treating proposed persistence choices as already accepted."}
+        ],
+        "invariants": [{"id": "discussion-only", "kind": "unchanged"}]
+      }
+    },
+    {
       "id": "ready-tiny",
       "skill": "agent-ready",
       "context": "Review project/ only. This is a synthetic snapshot, not a Git checkout; its revision identifier is ready-tiny-v1. Stage: small maintained command-line utility. Python 3.11+ and the standard library are available. Inspect commands before execution. Read-only local commands are allowed; dependency installation, network services, and persistent writes are not. Use python -B or PYTHONDONTWRITEBYTECODE=1 to prevent bytecode artifacts. Any scratch work must use a temporary directory outside the workspace. Do not inspect parent directories for project evidence.",

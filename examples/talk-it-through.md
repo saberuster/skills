@@ -116,6 +116,61 @@ continue only if asked does not advance the unfinished discussion. The agent
 should not expand into an exhaustive checklist or create files. After the final
 follow-up, it should summarize and defer without demanding another answer.
 
+## 7. A drifting branch and an explicit new goal
+
+Context:
+
+> Our goal is to decide the smallest playable prototype for a two-week effort:
+> three friends should be able to finish one ten-minute session. Progress may
+> reset between sessions. This prototype tests core gameplay; cross-game reuse
+> and multiple storage backends are not requirements. Discussion has moved from
+> retrying a level to saving progress, then versioning save data. No
+> implementation choices have been made or goal changes agreed.
+
+Request:
+
+> What would a reusable save-plugin interface look like, including migration
+> hooks?
+
+Follow-up 1:
+
+> That plugin idea sounds interesting. Could it also swap storage backends at
+> runtime?
+
+Follow-up 2:
+
+> Let's change the goal: pause the playable prototype. I now want to explore
+> reusable persistence tooling for several future games, without the two-week
+> deadline. Help me compare the useful boundaries for that tool.
+
+Follow-up 3:
+
+> Summarize where we are and stop here.
+
+Deliver turns separately. Before any local decision, observe whether the agent
+notices that a reusable framework may not help the prototype goal, briefly
+explains the connection, and recommends returning or parking the branch. A short
+technical answer is compatible with that check; refusing the question or forcing
+a goal-confirmation ritual is not required. Interest alone must not become a new
+goal or an accepted implementation choice. After the explicit goal change, the
+agent should explore the new tooling goal without repeatedly pulling back to the
+prototype deadline. Finally, summarize the revised goal and open choices, then
+stop. Do not require fixed wording, a recap every turn, or file creation.
+
+## 8. A necessary branch within the same goal
+
+Request:
+
+> Our two-week prototype is meant to test whether players can resume an
+> interrupted ten-minute session. We initially planned an in-memory checkpoint,
+> but the test protocol requires closing and reopening the game. What persistence
+> decisions do we need to resolve for that test?
+
+Observe whether the agent recognizes that persistence serves the existing goal
+and helps resolve the minimum state and recovery decisions. It should not park
+the branch merely because it adds work, demand a goal change, or expand into a
+general reusable framework. Keep the trial discussion-only.
+
 ## Routing checks
 
 Evaluate selection separately using the skill's invocation policy:

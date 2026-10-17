@@ -28,6 +28,9 @@ the task requires it.
 - [reflect](reflect/README.md): extract durable knowledge from the current
   session, reconcile it with existing sources, and propose or apply scoped
   updates according to the user's authorization.
+- [Talk It Through](talk-it-through/README.md): develop ideas, compare
+  alternatives, and clarify trade-offs through focused discussion while the user
+  keeps consequential choices.
 
 ## Status
 
@@ -44,7 +47,9 @@ fresh-session loading of its Codex resources remain separate checks.
 Skills are maintained individually in this collection. `commit` was migrated
 from `git-commit`, `technical-writing` from `technical-docs`, and `reflect`
 from `learn-from-session`;
-`unslop` handles focused language editing.
+`unslop` handles focused language editing. `talk-it-through` was moved from
+the `thinking` collection.
 Existing installations are unchanged; select the new source path and name
 when installing or migrating a skill. Discovery under `commit` and `reflect`
-has not been verified. Plugin packaging and installation are not configured yet.
+and from the relocated `talk-it-through` source has not been verified. Plugin
+packaging and installation are not configured yet.

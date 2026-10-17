@@ -20,9 +20,12 @@ complex tasks with the simplest effective methods. It includes
 [Commit](skills/fern/commit/README.md), migrated from `git-commit`,
 [Technical Writing](skills/fern/technical-writing/SKILL.md), migrated
 from `technical-docs`, [Unslop](skills/fern/unslop/SKILL.md) for focused
-language editing, and [reflect](skills/fern/reflect/README.md), migrated from
-`learn-from-session`. Discovery for `commit` and `reflect` remains unverified;
-their predecessors' results do not establish discovery for the renamed packages.
+language editing, [reflect](skills/fern/reflect/README.md), migrated from
+`learn-from-session`, and
+[Talk It Through](skills/fern/talk-it-through/README.md) for exploring ideas
+and decisions. Discovery for `commit`, `reflect`, and the relocated
+`talk-it-through` remains unverified; earlier results do not establish discovery
+from these sources.
 
 [Setup Fern](skills/fern/setup-fern/SKILL.md) composes the personal Codex
 environment: all skills in `fern` and `meta`, individually selected external
@@ -39,10 +42,6 @@ and `reference-scene`, migrated from `saberuster/agent-skills` with their
 supporting resources and regression tests. Blender operations require a Blender
 installation or a connected Blender tool. Client discovery from this repository
 remains unverified.
-
-[Thinking](skills/thinking/README.md) groups skills for exploring ideas,
-clarifying questions, and working through decisions. It includes
-`talk-it-through`; client discovery from its relocated source remains unverified.
 
 [Godot](skills/godot/README.md) groups `setup-godot-skills` and the five former
 `godot-dev` skills from `saberuster/agent-skills`, including their references,
@@ -81,7 +80,7 @@ the coverage limits.
 | [research-skill-patterns](skills/meta/research-skill-patterns/README.md) | &#9989; | &#9989; |
 | [setup-fern](skills/fern/setup-fern/SKILL.md) | &#9989; | &#9989; |
 | [setup-godot-skills](skills/godot/setup-godot-skills/SKILL.md) | &#9989; | &#9989; |
-| [talk-it-through](skills/thinking/talk-it-through/README.md) | &#9989; | &#9989; |
+| [talk-it-through](skills/fern/talk-it-through/README.md) | &#9989; | &#9989; |
 | [technical-writing](skills/fern/technical-writing/SKILL.md) | &#9989; | &#9989; |
 | [unslop](skills/fern/unslop/SKILL.md) | &#9989; | &#9989; |
 

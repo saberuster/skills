@@ -15,6 +15,8 @@ the broader examples:
 | `fern-resource-merge`, `fern-read-only` | [setup-fern](../examples/setup-fern.md): apply and repeat isolated Codex resource merges, or report offline differences without mutation |
 | `docs-schema` | [technical-writing](../examples/technical-writing.md): apply a scoped schema correction while preserving accepted content |
 | `talk-acceptance` | [talk-it-through](../examples/talk-it-through.md): advance after local acceptance and stop when asked |
+| `talk-goal-drift` | [talk-it-through case 7](../examples/talk-it-through.md#7-a-drifting-branch-and-an-explicit-new-goal): check a drifting branch against the goal, distinguish interest from agreement, and follow an explicit goal change |
+| `talk-needed-branch` | [talk-it-through case 8](../examples/talk-it-through.md#8-a-necessary-branch-within-the-same-goal): continue a necessary technical branch within the existing goal |
 | `ready-*` (eight cases) | [agent-ready](../examples/agent-ready.md): trace real fixture tasks, calibrate recommendations, distinguish validation layers, and preserve review scope |
 | `research-*` (four cases) | [research-skill-patterns](../examples/research-skill-patterns.md): inspect primary sources, resolve conflicts, reuse evidence, report gaps, and preserve authoring/review scope |
 | `image-prompt-review`, `image-prompt-fragment`, `image-prompt-multiple` | [gpt-image-prompting](../examples/gpt-image-prompting.md): review without rewriting, return a scoped fragment, and keep multiple prompts self-contained |
@@ -183,8 +185,9 @@ first request from `input.json`, except for the ordinary-task
 `reflect-stale-recall` delivery described above. Allow only the fixture
 operations requested by that
 case. Keep `evaluator.json`, `manifest.json`, and `before/` out of its context.
-For `talk-acceptance`, deliver each subsequent request only after receiving the
-previous actual reply, keeping the same session. Do not add hints to continue.
+For `talk-acceptance` and `talk-goal-drift`, deliver each subsequent request only
+after receiving the previous actual reply, keeping the same session. Do not add
+hints to continue, notice drift, or change goals.
 
 For `agents-*`, honor each case's edit and execution boundary. All
 command-review
