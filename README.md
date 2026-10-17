@@ -7,11 +7,12 @@ readiness for agent work, and work through ideas and decisions, or compose
 structured GPT Image prompts from briefs and reference images, and prepare
 Conventional Commits.
 
-[meta-skills](skills/meta-skills/README.md) groups skills for maintaining
-skills and agents. Its first member,
-[Research Skill Patterns](skills/meta-skills/research-skill-patterns/README.md),
-grounds skill creation, editing, and review in inspected open-source examples.
-The support workflow checks its discovery alongside the existing skills.
+[meta](skills/meta/README.md) groups skills for maintaining skills and project
+instructions, reviewing project readiness for agent work, and grounding skill
+creation, editing, and review in inspected open-source examples. It includes
+`maintain-skills`, `maintain-agents-md`, `agent-ready`, and
+`research-skill-patterns`. Client discovery for the relocated packages remains
+unverified.
 
 [fern](skills/fern/README.md) groups personal workflows for accomplishing
 complex tasks with the simplest effective methods. It includes
@@ -39,15 +40,15 @@ the coverage limits.
 
 | Skill | Codex | Claude Code |
 | --- | --- | --- |
-| [agent-ready](skills/agent-ready/README.md) | &#9989; | &#9989; |
+| [agent-ready](skills/meta/agent-ready/README.md) | &mdash; | &mdash; |
 | [brief-to-image-prompt](skills/image-generation/brief-to-image-prompt/README.md) | &#9989; | &#9989; |
 | [git-commit](skills/git-commit/README.md) | &#9989; | &#9989; |
 | [gpt-image-prompting](skills/image-generation/gpt-image-prompting/README.md) | &#9989; | &#9989; |
 | [image-to-prompt](skills/image-generation/image-to-prompt/README.md) | &#9989; | &#9989; |
-| [maintain-agents-md](skills/maintain-agents-md/README.md) | &#9989; | &#9989; |
-| [maintain-skills](skills/maintain-skills/README.md) | &#9989; | &#9989; |
+| [maintain-agents-md](skills/meta/maintain-agents-md/README.md) | &mdash; | &mdash; |
+| [maintain-skills](skills/meta/maintain-skills/README.md) | &mdash; | &mdash; |
 | [reflect](skills/fern/reflect/README.md) | &#9989; | &#9989; |
-| [research-skill-patterns](skills/meta-skills/research-skill-patterns/README.md) | &#9989; | &#9989; |
+| [research-skill-patterns](skills/meta/research-skill-patterns/README.md) | &mdash; | &mdash; |
 | [talk-it-through](skills/thinking/talk-it-through/README.md) | &#9989; | &#9989; |
 | [technical-writing](skills/fern/technical-writing/SKILL.md) | &#9989; | &#9989; |
 | [unslop](skills/fern/unslop/SKILL.md) | &#9989; | &#9989; |

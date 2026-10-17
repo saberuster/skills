@@ -40,6 +40,9 @@ beyond the authorized target scope requires additional authority.
 
 ## Installation and updates
 
+The source package is `skills/meta/maintain-agents-md/` in `saberuster/skills`.
+Install this leaf directory; `meta` is a collection, not an installable skill.
+
 Give your agent an explicit request using the shared
 [installation and update protocol][installation]. Replace
 `<revision>` with an existing release tag or full commit SHA containing this
@@ -52,9 +55,10 @@ select Codex project scope. For Claude Code, replace `Codex` with
 
 ```text
 Install only maintain-agents-md from https://github.com/saberuster/skills
-at <revision> for Codex in project <project-root>. Follow the repository's
-docs/installation.md protocol. Preserve existing skills and report the resolved
-commit, destination, and checks performed.
+at <revision>, using source skills/meta/maintain-agents-md/, for Codex in project
+<project-root>. Follow the repository's docs/installation.md protocol.
+Preserve existing skills and report the resolved commit, destination, and
+checks performed.
 ```
 
 **Update:**
@@ -62,8 +66,9 @@ commit, destination, and checks performed.
 ```text
 Update only the existing maintain-agents-md installation in Codex project
 <project-root> from https://github.com/saberuster/skills to <revision>.
-Follow the repository's docs/installation.md protocol. Compare against its
-recorded source revision and preserve local edits; ask me to resolve conflicts.
+Use source skills/meta/maintain-agents-md/ and follow the repository's
+docs/installation.md protocol. Compare against its recorded source revision
+and preserve local edits; ask me to resolve conflicts.
 ```
 
 ## Usage
