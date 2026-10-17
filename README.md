@@ -66,7 +66,7 @@ the coverage limits.
 | [reference-scene](skills/blender/reference-scene/SKILL.md) | &#9989; | &#9989; |
 | [reflect](skills/fern/reflect/README.md) | &#9989; | &#9989; |
 | [research-skill-patterns](skills/meta/research-skill-patterns/README.md) | &#9989; | &#9989; |
-| [setup-fern](skills/fern/setup-fern/SKILL.md) | &mdash; | &mdash; |
+| [setup-fern](skills/fern/setup-fern/SKILL.md) | &#9989; | &#9989; |
 | [talk-it-through](skills/thinking/talk-it-through/README.md) | &#9989; | &#9989; |
 | [technical-writing](skills/fern/technical-writing/SKILL.md) | &#9989; | &#9989; |
 | [unslop](skills/fern/unslop/SKILL.md) | &#9989; | &#9989; |
@@ -74,8 +74,8 @@ the coverage limits.
 &#9989; discovery passed; &#10060; discovery failed; &mdash; unknown.
 Channel: `pinned`. Versions:
 Codex `codex-cli 0.161.0`; Claude Code `2.1.292 (Claude Code)`.
-Tested source commit: `ce268e5d9bd8a1dc7cc4f774c2d9442e13326117`.
-Evidence: [CI run](https://github.com/saberuster/skills/actions/runs/39011721750).
+Tested source commit: `a259f1a4beb4b0f0c08aea8d795ea1bf3df57650`.
+Evidence: [CI run](https://github.com/saberuster/skills/actions/runs/39013485355).
 
 <!-- agent-support:end -->
 
