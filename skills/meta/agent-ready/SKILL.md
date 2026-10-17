@@ -75,15 +75,7 @@ and commands are clear. Preserve working simplicity.
 
 ## Report and stop
 
-Use the [report structure](references/report.md) for scope, strengths,
-bottlenecks, a few prioritized findings, staged advice, and verification limits.
-Give each finding its task, evidence, impact, minimum improvement, cost and
-migration risk, acceptance method, priority, and independent evidence confidence.
-Keep urgency separate from certainty; route serious but uncertain concerns to a
-small verification step before prescribing structural change.
-
-Do not assign percentage readiness scores, rank projects by file count, or fill
-a findings quota. State "no material changes recommended" when supported, with
-the sampled tasks and limits. Include what is unverified and what is not worth
-changing. End with actionable next steps or an evidence-backed decision to keep
-the current design; do not implement the recommendations by default.
+Follow the [report structure](references/report.md) for required finding fields,
+coverage, and next steps. Keep urgency separate from certainty; route serious
+but uncertain concerns to a small verification step before prescribing a
+structural change. Keep the default review-only boundary.

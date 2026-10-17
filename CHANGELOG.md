@@ -6,15 +6,18 @@ Planned next minor release: `0.2.0`.
 
 ### Added
 
+- Six standalone Codex custom agents copied from `saberuster/agent-skills`
+  into `agents/`: `architect`, `debugger`, `docs_researcher`, `reviewer`,
+  `validator`, and `visual_reviewer`.
 - `unslop` in `skills/fern` for focused prose revision and review, preserving
   meaning, claim strength, exact content, and the writer's voice. Includes
   contextual patterns, counterexamples, source rationale, and synthetic behavior
   cases for English, Chinese, unchanged good text, and editing boundaries.
-- The `meta-skills` collection for skills that maintain skills or agents, with
-  `research-skill-patterns` as its first member. The new skill supplements
+- The `meta` collection for skill maintenance, project instructions, agent
+  readiness reviews, and skill research. `research-skill-patterns` supplements
   creation, editing, and review with proportionate open-source research,
   inspected evidence, and adopt/adapt/reject decisions. Includes a repository
-  entry rule and synthetic behavior cases; existing skill paths are unchanged.
+  entry rule and synthetic behavior cases.
 - Shared package discovery for standalone skills and skills grouped in
   collections, used by client probes, behavior trials, and package checks.
   Catalog links fall back to `SKILL.md` when a package has no README.
@@ -87,6 +90,16 @@ Planned next minor release: `0.2.0`.
   `thinking` collection. Updated catalog links; the skill name, instructions,
   and invocation policy are unchanged. Existing installations are unchanged;
   client discovery from the relocated source remains unverified.
+- Renamed `skills/meta-skills` to `skills/meta` and moved `maintain-skills`,
+  `maintain-agents-md`, and `agent-ready` into it alongside
+  `research-skill-patterns`. Updated catalog links and installation source paths;
+  skill names and invocation policies are unchanged. Existing installations are
+  unchanged; discovery of the relocated packages remains unverified.
+- Simplified the meta skills by consolidating research guidance, loading
+  CLI compatibility and direct-removal details only when needed, centralizing
+  the agent-readiness report contract, and linking language rules from the
+  AGENTS.md skill's README. Existing evidence, authorization, and report
+  requirements are preserved.
 - Simplified `reflect` into four stages with an early return for no supported
   candidates and conditional loading of routing branches. Consolidated repeated
   rules while preserving independent review, authoring dependencies, write

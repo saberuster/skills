@@ -32,8 +32,8 @@ establish automatic invocation on every host.
 
 ## Installation and updates
 
-The source package is `skills/meta-skills/research-skill-patterns/` in
-`saberuster/skills`. Install this leaf directory; `meta-skills` is a collection,
+The source package is `skills/meta/research-skill-patterns/` in
+`saberuster/skills`. Install this leaf directory; `meta` is a collection,
 not an installable skill. The skill's name remains `research-skill-patterns`.
 All required resources are inside the leaf package.
 
@@ -46,7 +46,7 @@ replace `Codex` with `Claude Code`; specify user scope if that is intended.
 
 ```text
 Install only research-skill-patterns from https://github.com/saberuster/skills
-at <revision>, using source skills/meta-skills/research-skill-patterns/,
+at <revision>, using source skills/meta/research-skill-patterns/,
 for Codex in project <project-root>. Follow docs/installation.md in that
 repository. Preserve existing skills and report the resolved commit,
 destination, and checks performed.
@@ -57,7 +57,7 @@ destination, and checks performed.
 ```text
 Update only the existing research-skill-patterns installation in Codex project
 <project-root> from https://github.com/saberuster/skills to <revision>.
-Use source skills/meta-skills/research-skill-patterns/ and follow that
+Use source skills/meta/research-skill-patterns/ and follow that
 repository's docs/installation.md protocol. Compare against the recorded
 revision and preserve local edits; ask me to resolve conflicts.
 ```

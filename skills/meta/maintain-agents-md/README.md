@@ -24,13 +24,8 @@ chain, while keeping every obligation. Reviews flag files at risk of the host's
 loading size limit and note sibling instruction files for other hosts, such as
 `CLAUDE.md`, that import, link, or diverge from `AGENTS.md`.
 
-Document titles and headings at every level default to English unless the user
-explicitly chooses another heading language. Body text follows the user's
-choice, otherwise the maintained documentation relevant to the target scope.
-If that evidence is absent or conflicting, the agent asks before writing the
-affected prose. English headings can accompany Chinese or other-language body
-text. Narrow edits preserve unrelated headings and prose; authorized heading
-renames include reference checks.
+The [language rules](SKILL.md#language) govern heading and body language,
+user overrides, ambiguous evidence, and scoped edits with link repair.
 
 The skill cannot recover missing conversation history or guarantee that another
 host loads instruction files with Codex's precedence rules. It does not manage
@@ -39,6 +34,9 @@ commits, installation, or edits to user-level instruction copies. Moving content
 beyond the authorized target scope requires additional authority.
 
 ## Installation and updates
+
+The source package is `skills/meta/maintain-agents-md/` in `saberuster/skills`.
+Install this leaf directory; `meta` is a collection, not an installable skill.
 
 Give your agent an explicit request using the shared
 [installation and update protocol][installation]. Replace
@@ -52,9 +50,10 @@ select Codex project scope. For Claude Code, replace `Codex` with
 
 ```text
 Install only maintain-agents-md from https://github.com/saberuster/skills
-at <revision> for Codex in project <project-root>. Follow the repository's
-docs/installation.md protocol. Preserve existing skills and report the resolved
-commit, destination, and checks performed.
+at <revision>, using source skills/meta/maintain-agents-md/, for Codex in project
+<project-root>. Follow the repository's docs/installation.md protocol.
+Preserve existing skills and report the resolved commit, destination, and
+checks performed.
 ```
 
 **Update:**
@@ -62,8 +61,9 @@ commit, destination, and checks performed.
 ```text
 Update only the existing maintain-agents-md installation in Codex project
 <project-root> from https://github.com/saberuster/skills to <revision>.
-Follow the repository's docs/installation.md protocol. Compare against its
-recorded source revision and preserve local edits; ask me to resolve conflicts.
+Use source skills/meta/maintain-agents-md/ and follow the repository's
+docs/installation.md protocol. Compare against its recorded source revision
+and preserve local edits; ask me to resolve conflicts.
 ```
 
 ## Usage
