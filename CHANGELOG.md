@@ -113,6 +113,12 @@ Planned next minor release: `0.2.0`.
 
 - Clarified behavior-case selection for constraints that could block useful
   work: cover both a triggering case and a nearby case that should remain allowed.
+- Simplified Fern's `reviewer` and `validator` developer instructions while
+  preserving role boundaries, evidence requirements, validation statuses, and
+  failure classifications. Replaced fixed report sections and global
+  final-report blocking verdicts with task-sized handoffs and specific unmet
+  acceptance criteria. Added paired behavior-comparison cases; existing
+  installations and model settings are unchanged.
 - Renamed `research-skill-patterns` to `find-skill-references`. Research now
   starts when the user seeks open-source references for a specific or planned
   skill; ordinary creation, editing, review, and explanation do not trigger it

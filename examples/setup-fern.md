@@ -28,6 +28,11 @@ as replies. These two cases do not exercise live branch resolution, the Skills
 CLI, link migration, or host discovery; the broader cases below cover those
 additional scenarios when the required controlled fixtures are available.
 
+For changes to the bundled review and validation role instructions, use the
+[agent handoff comparison cases](fern-agent-handoffs.md). These exercise the
+role instructions directly, separately from setup, installation, and host
+discovery.
+
 ## Fresh baseline with missing orchestration skills
 
 Request: "Set up my general Fern environment for Codex on this new machine."
