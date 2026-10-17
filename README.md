@@ -41,15 +41,15 @@ the coverage limits.
 
 | Skill | Codex | Claude Code |
 | --- | --- | --- |
-| [agent-ready](skills/meta/agent-ready/README.md) | &mdash; | &mdash; |
+| [agent-ready](skills/meta/agent-ready/README.md) | &#9989; | &#9989; |
 | [brief-to-image-prompt](skills/image-generation/brief-to-image-prompt/README.md) | &#9989; | &#9989; |
-| [commit](skills/fern/commit/README.md) | &mdash; | &mdash; |
+| [commit](skills/fern/commit/README.md) | &#9989; | &#9989; |
 | [gpt-image-prompting](skills/image-generation/gpt-image-prompting/README.md) | &#9989; | &#9989; |
 | [image-to-prompt](skills/image-generation/image-to-prompt/README.md) | &#9989; | &#9989; |
-| [maintain-agents-md](skills/meta/maintain-agents-md/README.md) | &mdash; | &mdash; |
-| [maintain-skills](skills/meta/maintain-skills/README.md) | &mdash; | &mdash; |
+| [maintain-agents-md](skills/meta/maintain-agents-md/README.md) | &#9989; | &#9989; |
+| [maintain-skills](skills/meta/maintain-skills/README.md) | &#9989; | &#9989; |
 | [reflect](skills/fern/reflect/README.md) | &#9989; | &#9989; |
-| [research-skill-patterns](skills/meta/research-skill-patterns/README.md) | &mdash; | &mdash; |
+| [research-skill-patterns](skills/meta/research-skill-patterns/README.md) | &#9989; | &#9989; |
 | [talk-it-through](skills/thinking/talk-it-through/README.md) | &#9989; | &#9989; |
 | [technical-writing](skills/fern/technical-writing/SKILL.md) | &#9989; | &#9989; |
 | [unslop](skills/fern/unslop/SKILL.md) | &#9989; | &#9989; |
@@ -57,8 +57,8 @@ the coverage limits.
 &#9989; discovery passed; &#10060; discovery failed; &mdash; unknown.
 Channel: `pinned`. Versions:
 Codex `codex-cli 0.161.0`; Claude Code `2.1.292 (Claude Code)`.
-Tested source commit: `389317b5161fc3a00d6cd7fea9e7f13a69b129cf`.
-Evidence: [CI run](https://github.com/saberuster/skills/actions/runs/38963411239).
+Tested source commit: `51d27b6a4e57daf46bb8b7d8b8e6cce930b909ef`.
+Evidence: [CI run](https://github.com/saberuster/skills/actions/runs/39009402059).
 
 <!-- agent-support:end -->
 
