@@ -6,6 +6,13 @@ Planned next minor release: `0.2.0`.
 
 ### Added
 
+- The `blender` collection, migrated from `saberuster/agent-skills` with
+  `blender-low-poly`, `character-rig`, and `reference-scene`, their metadata,
+  references, scripts, component regressions, and background Blender tests.
+  Skill names and workflows are preserved; package text and Python formatting
+  follow this repository's conventions. Unreal transfer tests remain with their
+  plugin in `agent-skills`. Existing installations are unchanged, and client
+  discovery from these relocated sources remains unverified.
 - Six standalone Codex custom agents copied from `saberuster/agent-skills`
   into `agents/`: `architect`, `debugger`, `docs_researcher`, `reviewer`,
   `validator`, and `visual_reviewer`.

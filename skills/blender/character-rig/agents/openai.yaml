@@ -1,0 +1,6 @@
+interface:
+  display_name: "Character Rig"
+  short_description: "Diagnose and repair character rig deformation"
+  default_prompt: "Use $character-rig to inspect this character's binding, reproduce deformation issues with pose tests, and verify any requested local repairs."
+policy:
+  allow_implicit_invocation: true

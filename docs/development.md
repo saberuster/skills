@@ -9,9 +9,9 @@ The package targets Codex's local skill format. The
 [agent support workflow](../.github/workflows/agent-support.yml) checks real CLI
 discovery for Codex and Claude Code in temporary projects. It checks packages at
 `skills/<name>/` and `skills/<collection>/<name>/`, including `fern`,
-`image-generation`, `meta`, and `thinking`. Each package is copied into an
-isolated client directory under its own skill name; collection directories are
-not installed as skills.
+`image-generation`, `blender`, `meta`, and `thinking`. Each package is copied
+into an isolated client directory under its own skill name; collection
+directories are not installed as skills.
 This is not a claim of successful task execution or automatic selection in
 every interface.
 
@@ -86,6 +86,32 @@ and the Claude SDK's prompt-free `ClaudeSDKClient.connect()` and
 See also the [Claude SDK skill documentation](https://code.claude.com/docs/en/agent-sdk/skills).
 
 ## Local checks
+
+### Blender regressions
+
+The [Blender collection](../skills/blender/README.md) includes pure-data component
+tests and optional background Blender tests. From the repository root, use the
+isolated Python environment:
+
+```text
+python -m unittest discover -s tests -p test_scene_components.py -v
+python -m unittest discover -s tests -p test_scene_blender_integration.py -v
+python -m unittest discover -s tests -p test_low_poly_blender_integration.py -v
+```
+
+For the two integration suites, set `BLENDER` to the full path of an existing
+Blender executable. They create temporary fixtures outside the repository and
+launch independent background processes; they do not use an open editor session.
+Without that executable, unittest reports explicit skips. CI discovers these
+tests but does not configure Blender, so CI does not establish engine coverage.
+
+The suites cover component geometry, example scene construction, scene auditing,
+and the low-poly audit's read-only behavior and JSON output. FBX transfer tests
+remain in `saberuster/agent-skills` with its Unreal plugin. These checks do not
+establish reference fidelity, visual quality, character deformation quality,
+Unreal import, or game-runtime correctness.
+
+### Static checks and client probes
 
 Run the commands in [Development](../README.md#development) first. The same
 pinned dependencies and checks are used locally and by CI.

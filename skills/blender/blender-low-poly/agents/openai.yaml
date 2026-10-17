@@ -1,0 +1,7 @@
+interface:
+  display_name: "Blender Low-Poly Modeling"
+  short_description: "Build and verify stylized low-poly game assets"
+  default_prompt: "Use $blender-low-poly to model and validate a low-poly game asset in Blender."
+
+policy:
+  allow_implicit_invocation: true
