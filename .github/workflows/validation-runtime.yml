@@ -36,7 +36,6 @@ jobs:
       has_runtime: ${{ steps.plan.outputs.has_runtime }}
       behavior: ${{ steps.plan.outputs.behavior }}
       has_behavior: ${{ steps.plan.outputs.has_behavior }}
-      windows: ${{ steps.plan.outputs.windows }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -66,8 +65,6 @@ jobs:
               for key, value in [('runtime', runtime), ('behavior', behavior)]:
                   output.write(f'{key}={json.dumps(value)}\n')
                   output.write(f'has_{key}={str(bool(value)).lower()}\n')
-              windows = any(item['scope'] == 'godot' for item in plan['manual_evidence'])
-              output.write('windows=' + str(windows).lower() + '\n')
           with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as output:
               output.write('## Affected validation plan\n\n')
               output.write(f"Selected skills: {', '.join(plan['selected_skills']) or 'none'}\n\n")
@@ -82,12 +79,6 @@ jobs:
           name: affected-validation-plan
           path: ${{ runner.temp }}/validation-plan
           if-no-files-found: error
-
-  windows:
-    name: Affected Windows helpers
-    needs: plan
-    if: needs.plan.outputs.windows == 'true'
-    uses: ./.github/workflows/validation-windows.yml
 
   runtime:
     name: Affected - ${{ matrix.check }}

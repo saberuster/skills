@@ -10,10 +10,10 @@ from pathlib import Path
 
 from markdown_it import MarkdownIt
 
-try:
-    from scripts.skill_packages import skill_packages
-except ModuleNotFoundError:
+if __package__ in {None, ""}:
     from skill_packages import skill_packages
+else:
+    from .skill_packages import skill_packages
 
 ROOT = Path(__file__).resolve().parents[1]
 SPEC = ROOT / "examples/behavior-smoke.json"

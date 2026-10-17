@@ -18,6 +18,7 @@ the broader examples:
 | `agents-*` (ten cases) | [maintain-agents-md](../examples/maintain-agents-md.md): discover coverage and effective sources, review commands, preserve policy, apply language preferences, and respect edit scope |
 | `skills-local-edits` | [maintain-skills](../examples/maintain-skills.md): identify and preserve local edits before an update |
 | `setup-fern` cases (eleven) | [setup-fern](../examples/setup-fern.md): apply complete user rules, repeat resource merges, compare read-only, verify persisted receipts, exercise mixed ownership and interrupted recovery, and retry after a real fixture permission failure |
+| `fern-workflow-*` (ten cases) | [fern](../examples/fern.md): review scope, local edits, accepted decisions, stale evidence, coupled work, evidence handoff, pending Git decisions, and actual bug fix, feature, and refactoring work |
 | `docs-schema` | [technical-writing](../examples/technical-writing.md): apply a scoped schema correction while preserving accepted content |
 | `talk-acceptance` | [talk-it-through](../examples/talk-it-through.md): advance after local acceptance and stop when asked |
 | `talk-goal-drift` | [talk-it-through case 7](../examples/talk-it-through.md#7-a-drifting-branch-and-an-explicit-new-goal): check a drifting branch against the goal, distinguish interest from agreement, and follow an explicit goal change |
@@ -151,6 +152,46 @@ Preparation refuses to overwrite an existing run. Each case directory contains:
 - `manifest.json`: preparation time, source revision and hashes, case and
   fixture hash, and initial workspace hashes.
 - `before/`: the original workspace for inspecting changes.
+
+## Select Fern workflow cases
+
+Select the exact IDs `fern-workflow-review`, `fern-workflow-local-edit`,
+`fern-workflow-steering`, `fern-workflow-stale-evidence`,
+`fern-workflow-coupled-plan`, `fern-workflow-evidence-reuse`,
+`fern-workflow-pending-commit`, `fern-workflow-bug-fix`,
+`fern-workflow-feature`, and `fern-workflow-refactoring`. Each copies the
+complete Fern package, including playbooks and shared references. These cases
+do not exercise environment setup or installation. Missing optional skills
+and roles are intentional inputs in the local-edit and steering cases.
+
+Deliver the steering turns separately in the same fresh session. Retain an
+intermediate file snapshot to verify first-turn preservation and second-turn
+application. Inspect saved JSON values as well as the harness invariants.
+The evidence and pending-process cases use synthetic retained records; they
+exercise decisions, not actual test execution, Git signing, publication, or CI.
+
+The three development cases exercise Fern directly without a separate
+implementation skill. Give each fresh worker its input context, request, and
+copied package. Inspect actual reads to confirm the relevant playbook was used,
+and retain commands, exit statuses, counts, changes, and before/after evidence.
+The fixtures permit Python with `-B` and stdlib `unittest` for project checks;
+no Git, network, installation, other agents, caches, or additional artifacts.
+Run checks from each case's workspace, for example:
+
+```text
+python -B -m unittest discover -s . -p test_retries.py -v
+python -B -m unittest discover -s . -p test_shipping.py -v
+python -B -m unittest discover -s . -p test_invoice.py -v
+```
+
+Use only the command matching that fixture and the available interpreter.
+The bug baseline must fail on the reported regression before the fix and pass
+afterward without changing tests. The feature case starts with passing old
+checks and needs actual tests of the new behavior and compatibility. The
+refactor requires passing before/after checks and a real reduction of
+duplication, preserving the intentional edge behavior. File invariants alone
+do not prove these outcomes. Explicit invocation trials do not establish
+automatic selection or host discovery.
 
 ## Select Fern setup cases
 

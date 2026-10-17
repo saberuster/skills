@@ -9,6 +9,10 @@ permissions:
   contents: read
 
 jobs:
+  windows:
+    name: Native Windows regressions
+    uses: ./.github/workflows/validation-windows.yml
+
   validate:
     runs-on: ubuntu-24.04
     timeout-minutes: 45

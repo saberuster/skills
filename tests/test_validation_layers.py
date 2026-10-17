@@ -137,6 +137,8 @@ class LayerPlanTests(unittest.TestCase):
 class LayerRunnerTests(unittest.TestCase):
     def test_documented_script_entrypoint_works_from_outside_the_checkout(self):
         with tempfile.TemporaryDirectory() as temporary:
+            environment = os.environ.copy()
+            environment.pop("PYTHONPATH", None)
             result = subprocess.run(
                 [
                     sys.executable,
@@ -144,6 +146,7 @@ class LayerRunnerTests(unittest.TestCase):
                     "--help",
                 ],
                 cwd=temporary,
+                env=environment,
                 capture_output=True,
                 text=True,
                 timeout=30,

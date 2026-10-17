@@ -16,6 +16,9 @@ the task requires it.
 
 ## Skills
 
+- [Fern](fern/SKILL.md): choose the simplest effective workflow, coordinate
+  available skills and agents, implement and validate changes, and complete
+  authorized Git, PR, and CI delivery in the current chat.
 - [Setup Fern](setup-fern/SKILL.md): align a curated Codex environment with
   the mandatory Fern and meta collections, selected external skills, custom
   agents, configuration, and subagent instructions.
@@ -33,6 +36,27 @@ the task requires it.
   keeps consequential choices.
 
 ## Status
+
+`fern` is the explicitly invoked working entrypoint. It selects methods and
+retains task responsibility, implementation, validation, and delivery in the
+current main agent. Its [bug fix](fern/playbooks/bug-fix.md),
+[feature](fern/playbooks/feature.md), and
+[refactoring](fern/playbooks/refactoring.md) playbooks describe different
+change goals and evidence. Shared validation and delivery rules live in
+references. Specialist skills and agents remain independently usable. Missing
+optional capabilities do not start environment installation. `setup-fern` owns
+that separate preparation lifecycle.
+
+See the [Fern cases](../../examples/fern.md) for behavioral expectations.
+Static checks, isolated agent trials, client discovery, and live installation
+provide separate evidence. Fern client discovery remains unverified.
+
+Fern absorbs Implement's authorized implementation and delivery contract;
+there is no separate Implement package or forwarding skill in this collection.
+The old working source in `saberuster/agent-skills` is retained until Fern is
+published and consumer-accessible. Existing installations keep their current
+source until an explicit switch through `maintain-skills`; use `$fern` after
+switching to the replacement.
 
 `setup-fern` maintains the personal environment baseline. Its complete package
 includes the six custom agent TOMLs formerly stored in the repository's root

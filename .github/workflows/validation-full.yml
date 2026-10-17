@@ -25,7 +25,7 @@ concurrency:
 
 jobs:
   windows:
-    name: Full Windows helpers
+    name: Full native Windows regressions
     uses: ./.github/workflows/validation-windows.yml
 
   extended:

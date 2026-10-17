@@ -1,15 +1,16 @@
-name: Windows helper regression
+name: Native Windows regression
 
 on:
   workflow_call:
+  workflow_dispatch:
 
 permissions:
   contents: read
 
 jobs:
-  godot-helpers:
+  regressions:
     runs-on: windows-2025
-    timeout-minutes: 20
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -18,41 +19,25 @@ jobs:
         with:
           python-version: '3.11'
       - run: python -m pip install -r requirements-dev.txt
-      - name: Run native Windows helper fixtures including junction protection
+      - name: Run all native Windows deterministic fixtures
         shell: pwsh
         run: |
           $env:PWSH = (Get-Command pwsh).Source
-          @'
-          import json, os, unittest
-          from pathlib import Path
-          from scripts.validation_ci import cases, unittest_report
-          output = Path(os.environ['RUNNER_TEMP']) / 'windows-helpers'
-          output.mkdir()
-          discovered = unittest.TestLoader().discover('tests', pattern='test_godot_build_regressions.py')
-          posix = 'test_godot_build_regressions.GodotBuildRegressionTests.test_output_collection_failure_preserves_native_exit_and_evidence'
-          selected = [test for test in cases(discovered) if test.id() != posix]
-          junction = 'test_godot_build_regressions.GodotBuildRegressionTests.test_godot_rejects_windows_junction'
-          if junction not in {test.id() for test in selected}:
-              raise SystemExit('The native Windows junction regression is missing')
-          suite = unittest.TestSuite(selected)
-          with (output / 'unittest.log').open('w', encoding='utf-8') as log:
-              report = unittest_report(suite, 'windows', stream=log)
-          if report['skipped']:
-              report['status'] = 'failed'
-          report.update(source_revision=os.environ['GITHUB_SHA'],
-                        platform_exclusions=[{'id': posix, 'reason': 'POSIX-only inherited-pipe fixture runs in Linux Docker'}],
-                        limits='Fake Godot processes; no real Godot editor or model execution; POSIX pipe fixture excluded and recorded separately')
-          (output / 'summary.json').write_text(json.dumps(report, indent=2) + '\n')
-          with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as summary:
-              summary.write(f"## Windows Godot helper regressions: {report['status']}\n\n")
-              summary.write(f"Tests: {report['testsRun']}; counts: {report['counts']}\n\n")
-              summary.write(report['limits'] + '\n')
-          raise SystemExit(report['status'] != 'passed')
-          '@ | python -
-          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python -m scripts.windows_ci --output "$env:RUNNER_TEMP/windows-regression"
+          exit $LASTEXITCODE
+      - name: Summarize native Windows evidence
+        if: always()
+        shell: pwsh
+        run: |
+          $summary = Join-Path $env:RUNNER_TEMP 'windows-regression/summary.md'
+          if (Test-Path -LiteralPath $summary) {
+            Get-Content -LiteralPath $summary | Add-Content -LiteralPath $env:GITHUB_STEP_SUMMARY
+          } else {
+            'Native Windows regression did not produce a report; validation is not verified.' | Add-Content -LiteralPath $env:GITHUB_STEP_SUMMARY
+          }
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         if: always()
         with:
-          name: windows-helper-evidence
-          path: ${{ runner.temp }}/windows-helpers
+          name: windows-regression-evidence
+          path: ${{ runner.temp }}/windows-regression
           if-no-files-found: error
