@@ -1,4 +1,4 @@
-name: Validate agent support
+name: Layer 2 and 3 - Client discovery
 
 on:
   push:
@@ -21,7 +21,7 @@ concurrency:
 
 jobs:
   discovery:
-    name: ${{ matrix.agent }} (${{ matrix.channel }})
+    name: Discovery - ${{ matrix.agent }} (${{ matrix.channel }})
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     strategy:

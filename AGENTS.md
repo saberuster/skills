@@ -29,36 +29,29 @@ conventions.
 
 ## Validate changes
 
-Use the isolated development environment and interpreter paths in the README.
-Install the pinned `requirements-dev.txt`; use the same Ruff version as CI.
-Use Node.js 22 or later; CI uses Node.js 24. From the repository root, install
-the pinned Node.js development dependencies and check Markdown:
+Use the repository-wide [validation layers](docs/validation.md): deterministic
+PR checks, affected runtime/agent checks and full scheduled/manual/release
+checks. On a user machine, use `scripts/run_validation.py` through Docker;
+repository automation uses the checked-in CI workflows. Inspect the affected
+plan and select checks for changed scripts, skill packages and shared resources.
+Keep skills without executable cases and host-only procedures as explicit gaps.
+A no-model run must report planned agent cases as not run; skipped and
+unrequested checks do not establish complete layer coverage.
 
-```text
-npm ci
-npm run lint:md
-```
+Actual behavior changes require relevant isolated agent trials and retained
+replies, actions, file outcomes and assessments. Use the
+[behavior check guide](docs/behavior-checks.md) for special case boundaries and
+manual procedures. Synthetic replies in harness tests do not establish agent
+behavior. Keep package checks, public-snapshot installation, client discovery,
+model outcomes, real engines and human acceptance as separate evidence.
 
-From the repository root, run these with that environment's Python:
-
-```text
-python -m ruff check .
-python -m ruff format --check .
-python -m unittest discover -s tests -v
-```
-
-Ruff rules live in `ruff.toml`; use `python -m ruff format .` to apply
-formatting.
-Markdown rules live in `.markdownlint-cli2.jsonc`. Use `npm run lint:md:fix`
-only for fixes supported by markdownlint; it is not a full Markdown formatter
-and does not guarantee automatic line wrapping for every violation.
-The existing tests validate skill frontmatter and interface metadata, local
-Markdown links, and text hygiene. They do not validate agent decisions. For
-behavior changes, exercise relevant cases from `examples/` in an isolated
-project and report actual outcomes and coverage. Use the
-[behavior check guide](docs/behavior-checks.md) to prepare selected smoke cases
-and retain actual replies, file changes, and assessments. Distinguish local
-checks from host discovery, behavior tests, and hosted CI results.
+For focused implementation debugging, use the isolated development environment
+and pinned dependencies in the README. Ruff rules live in `ruff.toml`;
+Markdown rules live in `.markdownlint-cli2.jsonc`. Supported lint fixes do not
+guarantee complete automatic formatting. Direct unittest discovery may skip
+unavailable engine or platform paths; inspect and report them explicitly.
+Changing validation scripts, fixtures, test selection or prerequisites requires
+updating their layer mapping, affected checks and relevant CI/documentation.
 
 ## Keep contributions public-safe
 

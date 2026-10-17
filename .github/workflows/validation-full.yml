@@ -1,0 +1,153 @@
+name: Layer 3 - Scheduled and release validation
+
+on:
+  schedule:
+    - cron: '43 2 * * 1'
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      behavior:
+        description: Run all synthetic model cases (requires API key and model)
+        type: boolean
+        default: false
+      model:
+        description: Model, or configure AGENT_TEST_MODEL repository variable
+        type: string
+        default: ''
+
+permissions:
+  contents: read
+
+concurrency:
+  group: validation-full-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  windows:
+    name: Full Windows helpers
+    uses: ./.github/workflows/validation-windows.yml
+
+  extended:
+    name: Full - ${{ matrix.check }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        check: [checks, codex-discovery, claude-discovery, fern-install, blender]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.11'
+      - name: Run broad checks including latest discovery clients
+        env:
+          CHECK: ${{ matrix.check }}
+        run: python scripts/run_validation.py --layer full --check "$CHECK" --output "$RUNNER_TEMP/full-evidence"
+      - name: Summarize full evidence
+        if: always()
+        run: |
+          if [ -f "$RUNNER_TEMP/full-evidence/summary.md" ]; then
+            cat "$RUNNER_TEMP/full-evidence/summary.md" >> "$GITHUB_STEP_SUMMARY"
+          fi
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: always()
+        with:
+          name: full-${{ matrix.check }}
+          path: ${{ runner.temp }}/full-evidence
+          if-no-files-found: error
+
+  plan-model:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    outputs:
+      matrix: ${{ steps.plan.outputs.matrix }}
+      enabled: ${{ steps.plan.outputs.enabled }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.11'
+      - name: Record model coverage and opt-in status
+        id: plan
+        env:
+          ENABLED: ${{ (github.event_name == 'workflow_dispatch' && inputs.behavior) || (github.event_name != 'workflow_dispatch' && vars.AGENT_EVAL_ENABLED == 'true') }}
+        run: |
+          python scripts/run_validation.py --layer full --plan-only --output "$RUNNER_TEMP/full-plan"
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          root = Path(os.environ['RUNNER_TEMP']) / 'full-plan'
+          plan = json.loads((root / 'plan.json').read_text())
+          enabled = os.environ['ENABLED'] == 'true'
+          state = {'status': 'planned' if enabled else 'not_run',
+                   'reason': 'Model evaluation enabled' if enabled else 'No model evaluation opt-in',
+                   'skills_without_cases': plan['behavior_coverage']['skills_without_cases'],
+                   'manual_evidence': plan['manual_evidence']}
+          (root / 'model-status.json').write_text(json.dumps(state, indent=2) + '\n')
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as output:
+              output.write('matrix=' + json.dumps(plan['behavior_matrix']) + '\n')
+              output.write('enabled=' + str(enabled).lower() + '\n')
+          with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as output:
+              output.write(f"## Full model evaluation: {state['status']}\n\n{state['reason']}. A plan is not a passed trial.\n\n")
+              output.write('Skills without cases: ' + ', '.join(state['skills_without_cases']) + '\n')
+              for item in state['manual_evidence']:
+                  output.write(f"\n- Manual / not run: {item['reason']}\n")
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: always()
+        with:
+          name: full-validation-plan
+          path: ${{ runner.temp }}/full-plan
+          if-no-files-found: error
+
+  behavior:
+    name: Full agent - ${{ matrix.skill }}
+    needs: plan-model
+    if: needs.plan-model.outputs.enabled == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 300
+    strategy:
+      fail-fast: false
+      max-parallel: 2
+      matrix:
+        include: ${{ fromJSON(needs.plan-model.outputs.matrix) }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.11'
+      - name: Run all cases for this skill
+        env:
+          CODEX_API_KEY: ${{ secrets.CODEX_API_KEY }}
+          MODEL: ${{ inputs.model || vars.AGENT_TEST_MODEL }}
+          CASES: ${{ toJSON(matrix.cases) }}
+        run: |
+          python - <<'PY'
+          import json, os, subprocess, sys
+          args = [sys.executable, 'scripts/run_validation.py', '--layer', 'full',
+                  '--check', 'agent-behavior', '--run-agent', '--model', os.environ['MODEL'],
+                  '--output', os.path.join(os.environ['RUNNER_TEMP'], 'behavior-evidence')]
+          for case in json.loads(os.environ['CASES']):
+              args += ['--case', case]
+          raise SystemExit(subprocess.call(args))
+          PY
+      - name: Summarize model evidence
+        if: always()
+        run: |
+          if [ -f "$RUNNER_TEMP/behavior-evidence/summary.md" ]; then
+            cat "$RUNNER_TEMP/behavior-evidence/summary.md" >> "$GITHUB_STEP_SUMMARY"
+          fi
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: always()
+        with:
+          name: full-agent-${{ matrix.skill }}
+          path: ${{ runner.temp }}/behavior-evidence
+          if-no-files-found: error

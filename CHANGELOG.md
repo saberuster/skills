@@ -6,6 +6,27 @@ Planned next minor release: `0.2.0`.
 
 ### Added
 
+- Repository-wide validation layers with a unified local Docker launcher,
+  deterministic PR checks, affected runtime and agent checks, and full
+  scheduled/manual/release coverage. Includes every existing test module,
+  client discovery, public-snapshot installation, real background Blender
+  integration and eligible synthetic agent cases across skill collections.
+  Reports missing prerequisites, skipped paths, unrequested model runs and
+  manual coverage gaps separately; retains the README discovery table.
+- Docker-based Setup Fern validation with a host standard-library launcher,
+  isolated checks, real scripted Skills CLI installation and Codex discovery,
+  and optional actual worker/evaluator model sessions for eleven setup cases.
+  Retains failure evidence and adds a real Linux permission-denial/retry case.
+  The repository-wide runtime/full workflows select these checks alongside
+  other collections, with explicit model selection and credentials for agent
+  behavior runs.
+  These entrypoints do not establish native role loading, Windows junction
+  migration, live interruption recovery, or a hosted CI pass.
+- Two offline `setup-fern` behavior cases for mixed agent/config ownership and
+  recovery from an already-written file with a stale receipt. Include scoped
+  restoration that preserves later edits, exact backups and per-unit records.
+  Preconstructed interruption artifacts do not prove live crash recovery,
+  skill installation or host loading; actual trial outcomes remain separate.
 - The `godot` collection, migrated from `saberuster/agent-skills`: the standalone
   `setup-godot-skills` package and all five former `godot-dev` plugin skills,
   including metadata, references, build scripts, and Godot helper regressions.

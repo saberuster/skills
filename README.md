@@ -109,16 +109,26 @@ covers destinations, source tracking, and preserving local edits.
 
 ## Validation and compatibility
 
-CI checks every skill with Codex and Claude Code in isolated temporary projects,
-without sending model prompts. The table shows the latest matching results for
-the pinned clients. A default-branch push, including a merged PR, reruns the
-checks and refreshes the table with a bot commit; branch and PR runs publish
-previews. Weekly runs also check the latest published clients separately.
+The agent support CI checks every skill with Codex and Claude Code in isolated
+temporary projects without sending model prompts. The table shows the latest
+matching discovery results for the pinned clients. A default-branch push,
+including a merged PR, reruns those checks and refreshes the table with a bot
+commit; branch and PR runs publish previews. Weekly runs also check the latest
+published clients separately.
 
 Discovery does not validate task behavior, external tools, installation, or
 invocation-policy parity. Each skill's documentation explains its dependencies
 and limits. See [Development and validation](docs/development.md) for CI failure
 handling, evidence rules, client versions, and local discovery commands.
+
+All repository validation uses three
+[layers](docs/validation.md): deterministic PR checks, affected runtime and
+agent checks, and full scheduled/manual/release checks. On a user machine,
+run the unified Docker launcher; repository automation uses CI. Real agent
+execution is explicit and retains traces, file assertions and independent
+assessments. A no-model run reports planned behavior as not run. Skills without
+executable cases and native/manual acceptance remain visible coverage gaps.
+Workflow configuration does not establish a hosted pass.
 
 ## Development
 
@@ -132,18 +142,21 @@ npm ci
 ```
 
 On Windows, replace `.venv/bin/python` with `.venv\Scripts\python.exe` in all
-commands. Activation is not required. Run the static checks:
+commands. Activation is not required. These environments support editing and
+focused script debugging. Run user-machine validation through Docker:
 
 ```text
-.venv/bin/python -m ruff check .
-.venv/bin/python -m ruff format --check .
-.venv/bin/python -m unittest discover -s tests -v
-npm run lint:md
+python scripts/run_validation.py --layer pr --output /tmp/skills-pr-001
 ```
 
+Use a fresh absolute output path outside the checkout and real client profiles;
+on Windows, substitute a writable temporary path. See the
+[validation guide](docs/validation.md) for prerequisites, affected/full layers,
+check selection, actual agent execution and CI triggers.
+
 Follow [AGENTS.md](AGENTS.md) for contribution rules. The
-[validation guide](docs/development.md) explains formatting and discovery
-checks. [Synthetic cases](examples/) describe behavioral expectations to
+[development guide](docs/development.md) explains formatting and discovery
+implementation. [Synthetic cases](examples/) describe behavioral expectations to
 exercise separately with the [behavior check guide](docs/behavior-checks.md);
 passing static checks does not validate agent decisions.
 

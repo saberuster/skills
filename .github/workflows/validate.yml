@@ -1,4 +1,4 @@
-name: Validate package
+name: Layer 1 - Required deterministic checks
 
 on:
   push:
@@ -11,18 +11,28 @@ permissions:
 jobs:
   validate:
     runs-on: ubuntu-24.04
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
       - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: '3.11'
-      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+      - name: Run all deterministic checks in Docker
+        run: python scripts/run_validation.py --layer pr --output "$RUNNER_TEMP/validation-pr"
+      - name: Summarize executed checks and platform exclusions
+        if: always()
+        run: |
+          if [ -f "$RUNNER_TEMP/validation-pr/summary.md" ]; then
+            cat "$RUNNER_TEMP/validation-pr/summary.md" >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo 'Layer 1 did not produce a report; validation is not verified.' >> "$GITHUB_STEP_SUMMARY"
+          fi
+      - name: Upload deterministic evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
-          node-version: '24'
-          cache: npm
-      - run: npm ci
-      - run: npm run lint:md
-      - run: python -m pip install -r requirements-dev.txt
-      - run: python -m ruff check .
-      - run: python -m ruff format --check .
-      - run: python -m unittest discover -s tests -v
+          name: validation-pr
+          path: ${{ runner.temp }}/validation-pr
+          if-no-files-found: error
