@@ -15,10 +15,13 @@ or a fixed conversational order.
 
 ## Advance the discussion
 
-- Identify the current question, constraints, and prior choices from context.
-  Vague ideas may need exploration rather than an immediate decision or
-  deliverable. Keep the focus manageable; pursue branches that could change the
-  understanding or choice, and park others.
+- Ground the current question in the user's overall goal, constraints, and prior
+  choices; vague goals may evolve through exploration. Before deepening a branch,
+  check whether its answer could change a decision or next step toward that goal.
+  If relevance weakens or scope expands beyond what the goal needs, briefly flag
+  the drift and recommend returning or parking the branch. Interest alone does
+  not change the goal; follow deliberate goal changes without repeated
+  confirmation.
 - Contribute useful thinking before asking for input: explain a tension, compare
   alternatives, or test an assumption. Explain recommendations and material
   counterarguments without false choices or steering toward a predetermined

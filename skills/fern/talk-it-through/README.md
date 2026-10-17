@@ -67,8 +67,9 @@ Accepting one recommendation advances the discussion to the remaining material
 questions. Ask to wrap up or defer when you want a stopping point.
 
 The [acceptance cases][examples] cover creative exploration,
-architecture trade-offs, evidence gaps, changed goals, continued discussion,
-and explicit closure. They describe expected behavior, not successful runs.
+architecture trade-offs, evidence gaps, goal drift and deliberate reframing,
+continued discussion, and explicit closure. They describe expected behavior,
+not successful runs.
 
 [Back to the skill catalog][catalog].
 

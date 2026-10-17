@@ -115,6 +115,10 @@ Planned next minor release: `0.2.0`.
   shortening commit grouping, and removing repeated workflow details from its
   game/design supplement and README. Existing commit and evidence boundaries
   are preserved.
+- Added a goal-relevance check to `talk-it-through` before deepening discussion
+  branches, preserving deliberate goal changes and necessary scope extensions.
+  Added runnable cases for multi-turn drift, explicit reframing, and a necessary
+  technical branch within the same goal.
 - Condensed `talk-it-through` into three sections covering discussion, shared
   understanding, and continuation or closure. Preserved meaningful questions,
   local-decision follow-through, explicit stopping, and authorization boundaries.
