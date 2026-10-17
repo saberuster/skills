@@ -87,8 +87,8 @@ the coverage limits.
 &#9989; discovery passed; &#10060; discovery failed; &mdash; unknown.
 Channel: `pinned`. Versions:
 Codex `codex-cli 0.161.0`; Claude Code `2.1.292 (Claude Code)`.
-Tested source commit: `afe25c8b8009b846ec41699b5e0fbbc7b171d808`.
-Evidence: [CI run](https://github.com/saberuster/skills/actions/runs/39021367543).
+Tested source commit: `5d1d75556a4da04f74731d95be9a7c9f91685567`.
+Evidence: [CI run](https://github.com/saberuster/skills/actions/runs/39026761146).
 
 <!-- agent-support:end -->
 
