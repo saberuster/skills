@@ -6,6 +6,9 @@ Planned next minor release: `0.2.0`.
 
 ### Added
 
+- Six standalone Codex custom agents copied from `saberuster/agent-skills`
+  into `agents/`: `architect`, `debugger`, `docs_researcher`, `reviewer`,
+  `validator`, and `visual_reviewer`.
 - `unslop` in `skills/fern` for focused prose revision and review, preserving
   meaning, claim strength, exact content, and the writer's voice. Includes
   contextual patterns, counterexamples, source rationale, and synthetic behavior
