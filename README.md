@@ -66,7 +66,7 @@ the coverage limits.
 | [brief-to-image-prompt](skills/image-generation/brief-to-image-prompt/README.md) | &#9989; | &#9989; |
 | [character-rig](skills/blender/character-rig/SKILL.md) | &#9989; | &#9989; |
 | [commit](skills/fern/commit/README.md) | &#9989; | &#9989; |
-| [find-skill-references](skills/meta/find-skill-references/README.md) | &mdash; | &mdash; |
+| [find-skill-references](skills/meta/find-skill-references/README.md) | &#9989; | &#9989; |
 | [godot-best-practices](skills/godot/godot-best-practices/SKILL.md) | &#9989; | &#9989; |
 | [godot-build-and-diagnostics](skills/godot/godot-build-and-diagnostics/SKILL.md) | &#9989; | &#9989; |
 | [godot-scene-and-resource-authoring](skills/godot/godot-scene-and-resource-authoring/SKILL.md) | &#9989; | &#9989; |
@@ -87,8 +87,8 @@ the coverage limits.
 &#9989; discovery passed; &#10060; discovery failed; &mdash; unknown.
 Channel: `pinned`. Versions:
 Codex `codex-cli 0.161.0`; Claude Code `2.1.292 (Claude Code)`.
-Tested source commit: `d2460fba78968e68a5b0f20946eb00c502a87748`.
-Evidence: [CI run](https://github.com/saberuster/skills/actions/runs/39027937330).
+Tested source commit: `e3a76c57125e8abb7dcf13837555233c6c7d5598`.
+Evidence: [CI run](https://github.com/saberuster/skills/actions/runs/39035176704).
 
 <!-- agent-support:end -->
 
