@@ -9,11 +9,11 @@ Conventional Commits, model, reconstruct, and repair assets in Blender, and
 develop and diagnose Godot projects.
 
 [meta](skills/meta/README.md) groups skills for maintaining skills and project
-instructions, reviewing project readiness for agent work, and grounding skill
-creation, editing, and review in inspected open-source examples. It includes
+instructions, reviewing project readiness for agent work, and finding
+open-source references for a specific or planned skill on request. It includes
 `maintain-skills`, `maintain-agents-md`, `agent-ready`, and
-`research-skill-patterns`. Client discovery for the relocated packages remains
-unverified.
+`find-skill-references`. Client discovery for the renamed and relocated
+packages remains unverified.
 
 [fern](skills/fern/README.md) groups personal workflows for accomplishing
 complex tasks with the simplest effective methods. It includes
@@ -66,6 +66,7 @@ the coverage limits.
 | [brief-to-image-prompt](skills/image-generation/brief-to-image-prompt/README.md) | &#9989; | &#9989; |
 | [character-rig](skills/blender/character-rig/SKILL.md) | &#9989; | &#9989; |
 | [commit](skills/fern/commit/README.md) | &#9989; | &#9989; |
+| [find-skill-references](skills/meta/find-skill-references/README.md) | &#9989; | &#9989; |
 | [godot-best-practices](skills/godot/godot-best-practices/SKILL.md) | &#9989; | &#9989; |
 | [godot-build-and-diagnostics](skills/godot/godot-build-and-diagnostics/SKILL.md) | &#9989; | &#9989; |
 | [godot-scene-and-resource-authoring](skills/godot/godot-scene-and-resource-authoring/SKILL.md) | &#9989; | &#9989; |
@@ -77,7 +78,6 @@ the coverage limits.
 | [maintain-skills](skills/meta/maintain-skills/README.md) | &#9989; | &#9989; |
 | [reference-scene](skills/blender/reference-scene/SKILL.md) | &#9989; | &#9989; |
 | [reflect](skills/fern/reflect/README.md) | &#9989; | &#9989; |
-| [research-skill-patterns](skills/meta/research-skill-patterns/README.md) | &#9989; | &#9989; |
 | [setup-fern](skills/fern/setup-fern/SKILL.md) | &#9989; | &#9989; |
 | [setup-godot-skills](skills/godot/setup-godot-skills/SKILL.md) | &#9989; | &#9989; |
 | [talk-it-through](skills/fern/talk-it-through/README.md) | &#9989; | &#9989; |
@@ -87,8 +87,8 @@ the coverage limits.
 &#9989; discovery passed; &#10060; discovery failed; &mdash; unknown.
 Channel: `pinned`. Versions:
 Codex `codex-cli 0.161.0`; Claude Code `2.1.292 (Claude Code)`.
-Tested source commit: `d2460fba78968e68a5b0f20946eb00c502a87748`.
-Evidence: [CI run](https://github.com/saberuster/skills/actions/runs/39027937330).
+Tested source commit: `e3a76c57125e8abb7dcf13837555233c6c7d5598`.
+Evidence: [CI run](https://github.com/saberuster/skills/actions/runs/39035176704).
 
 <!-- agent-support:end -->
 

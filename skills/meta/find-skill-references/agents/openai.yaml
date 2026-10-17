@@ -1,0 +1,6 @@
+interface:
+  display_name: "Find Skill References"
+  short_description: "Find open-source references for a skill"
+  default_prompt: "Use $find-skill-references to find and compare open-source practices for the specified skill and explain what can be reused or adapted."
+policy:
+  allow_implicit_invocation: true

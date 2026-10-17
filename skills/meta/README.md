@@ -1,7 +1,7 @@
 # Meta
 
 Skills for maintaining skills and project instructions, reviewing project
-readiness for agent work, and improving skill workflows through research.
+readiness for agent work, and finding open-source skill references on request.
 
 ## Skills
 
@@ -11,9 +11,9 @@ readiness for agent work, and improving skill workflows through research.
   revise durable project instructions.
 - [Agent Ready](agent-ready/README.md): review how reliably agents can locate,
   change, run, and verify a project.
-- [Research Skill Patterns](research-skill-patterns/README.md): inspect relevant
-  open-source examples and explain what to adopt, adapt, or reject when creating,
-  editing, or reviewing a skill.
+- [Find Skill References](find-skill-references/README.md): find and compare
+  open-source practices when the user seeks references for a specific or
+  planned skill.
 
 ## Package layout
 
@@ -23,6 +23,7 @@ the selected leaf package, retaining its leaf name as the skill identifier.
 
 The source paths for `maintain-skills`, `maintain-agents-md`, and `agent-ready`
 are now under `skills/meta/`. The former `meta-skills` collection is named `meta`,
-including its existing `research-skill-patterns` package. Skill identifiers are
-unchanged. This source reorganization does not update existing installations or
-their recorded sources.
+including the package now named `find-skill-references` (formerly
+`research-skill-patterns`). The other skill identifiers are unchanged. Source
+reorganization and renaming do not update existing installations or their
+recorded sources.
