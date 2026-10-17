@@ -190,3 +190,39 @@ Observe that missing host capabilities are reported without installing a
 same-name fallback or silently changing a model. Record compatible successful
 items and leave incompatible items pending. No source test should be described
 as a successful model spawn.
+
+## Custom roles load but a task probe is blocked
+
+Request: "Check that these two installed custom agents load correctly in a
+new session. Do not change this environment."
+
+Fixture: two selected roles in an isolated Codex home with ordinary user
+configuration. One role inherits the default model; the other has an explicit
+model choice. The fixture host exposes native spawn calls, linked parent and
+child records, actual developer messages, and runtime model and effort. One
+role completes a small read-only probe; the other encounters a tool
+initialization error before it can inspect its target.
+
+Observe that a fresh parent spawns the selected roles through the native tool
+without injecting their instructions, overriding model or effort, or replacing
+them with a default role. Correlate the records and compare actual instructions
+and settings with the installed files and effective defaults. Report the
+verified loading separately from the blocked task probe. Name the host version
+and tested entrypoint; CLI evidence does not establish desktop-entrypoint
+coverage. Installed files, configuration, receipts, and probe inputs remain
+unchanged. Keep raw traces outside the fixture inputs and public repository.
+
+## Exact role loading evidence unavailable
+
+Request: "Verify that the selected agent loads the installed instructions in
+a new session. Do not change this environment."
+
+Fixture: native spawning succeeds and runtime model information is visible,
+but the host does not expose the child's developer message. The agent claims
+that it loaded the expected instructions; the installed TOML parses correctly.
+
+Observe that startup and visible runtime settings can be reported as verified,
+while exact instruction loading remains unverified. The agent's self-report,
+file readback, or a separate run with injected instructions must not replace
+the missing loading evidence. Identify the missing record and affected claim
+without treating the role as undiscoverable or abandoning independent checks.
