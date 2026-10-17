@@ -21,6 +21,10 @@ Planned next minor release: `0.2.0`.
 - An initial `fern` README recording the personal workflow plugin project's
   inspiration from pstack and Fern, and its goal of accomplishing complex tasks
   with the simplest effective methods.
+- Moved `git-commit` into `skills/fern/commit` and renamed it to `commit`
+  (Commit), preserving its commit workflow and game/design guidance. Updated
+  metadata, catalog links, usage, and behavioral cases. Existing installations
+  are unchanged; client discovery under the new name remains unverified.
 - Moved `technical-docs` into `skills/fern/technical-writing` and renamed
   it to `technical-writing` (Technical Writing), preserving its documentation
   workflow and supporting references. Updated usage, behavioral cases, and
@@ -83,6 +87,10 @@ Planned next minor release: `0.2.0`.
 
 ### Changed
 
+- Simplified `commit` by consolidating authorization and validation guidance,
+  shortening commit grouping, and removing repeated workflow details from its
+  game/design supplement and README. Existing commit and evidence boundaries
+  are preserved.
 - Moved `talk-it-through` into `skills/thinking/talk-it-through` and added the
   `thinking` collection. Updated catalog links; the skill name, instructions,
   and invocation policy are unchanged. Existing installations are unchanged;

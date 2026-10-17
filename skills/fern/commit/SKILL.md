@@ -1,14 +1,14 @@
 ---
-name: git-commit
+name: commit
 description: Draft or review Conventional Commit messages from actual changes, or create scoped Git commits when requested. Use for commit preparation and execution, not general Git maintenance or automatic commits after coding.
 ---
 
-# Git Commit
+# Commit
 
-Use Conventional Commits 1.0.0 with the small preference profile below. Drafting
-or reviewing a message is read-only. A request to commit authorizes the necessary
-scoped staging and commit; do not ask again when that authorization is clear.
-Pushing, merging, and rewriting existing commits need their own task scope.
+Use Conventional Commits 1.0.0 with the fallback preferences below. Drafting and
+review are read-only: do not stage, commit, or run mutating hooks. A clear commit
+request authorizes scoped staging and the commit sequence without repeated
+approval. Pushing, merging, amending, and rewriting commits need separate scope.
 
 ## Resolve conventions
 
@@ -22,7 +22,6 @@ silently changing configuration or bypassing checks.
 When the proposed commit involves gameplay, visual design, creative assets, or
 design deliverables, read [Game and design projects](references/game-and-design.md)
 for type selection, dependency completeness, compatibility, and relevant checks.
-Apply it within the same task scope; message-only requests remain read-only.
 
 The standard syntax is:
 
@@ -54,7 +53,7 @@ do not create another configuration system for this skill.
 | Scope | Optional. Reuse an established component or package name when it adds useful context; omit it for a broad change. Do not invent an exhaustive scope registry. |
 | Body | Omit for self-explanatory changes. Otherwise explain the reason, relevant behavior change, or tradeoff briefly; avoid a file inventory or command log. |
 | Breaking change | Prefer both `!` and a `BREAKING CHANGE:` footer describing the incompatibility and migration. This is stricter than the standard; honor an explicit standard-only request. Never invent a migration path. |
-| Before commit | Inspect the exact staged patch, run required project checks and relevant targeted checks, and use existing message validation when available. Preserve hooks and configured signing. |
+| Before commit | Follow the validation and execution steps in [Prepare and commit](#prepare-and-commit). |
 
 Use lowercase types and a concise action-oriented description without a final
 period. Follow the requested or established message language. Use configured
@@ -71,26 +70,20 @@ can carry a breaking change.
    commit on its intended patch, not on every visible workspace change. With an
    exported diff only, state that repository and execution checks are
    unavailable.
-2. Identify independent intents within the authorized scope. By default, split
-   them into separate commits that can each be validated and reverted as a
-   logical unit. Order dependencies with prerequisites first, keeping every
-   intermediate state usable. Reverting a prerequisite must account for later
+2. By default, put each independent intent in a separate commit that can be
+   validated and reverted as a unit. Put prerequisites first, keeping
+   intermediate states usable. Reverting a prerequisite must account for its
    dependents, usually by reverting them first; do not promise arbitrary reverts
-   or cherry-picks. Keep a fix with its regression test and keep required code,
-   scenes, assets, and metadata together. If splitting tightly coupled work
-   would
-   leave an unusable state, keep it together and briefly explain why. Apply no
-   hard file or line count limit, and avoid arbitrary tiny splits. When
-   committing is authorized, carry out the sequence without approval for each
-   commit. If existing staged work is unrelated, preserve it and resolve the
-   commit boundary before committing. Do not sweep it in, unstage it silently,
-   or stage a whole partially staged file. Ask only when ownership or the
-   intended boundary cannot
-   be established.
-3. Draft each message using the profile and actual compatibility impact. For a
-   message-only or review request, return the message or findings here without
-   staging, committing, or running mutating hooks. Accept valid standard-only
-   breaking syntax even if it differs from the fallback preference.
+   or cherry-picks. Keep fixes with regression tests and required code, scenes,
+   assets, and metadata.
+   Keep tightly coupled work together when splitting breaks a state, and explain
+   why. Use no file or line quota or arbitrary tiny splits.
+
+   Preserve unrelated staged work: do not include it, silently unstage it, or
+   stage a whole partially staged file. Resolve boundaries before committing;
+   ask only if ownership or scope remains unclear.
+3. Draft each message using the profile and actual compatibility impact. For
+   message-only or review requests, return the message or findings here.
 4. When committing is requested, process groups in order. For each commit, stage
    only its intended paths or hunks. Review `git diff --cached` and
    `git diff --cached --check`; refuse an accidental empty commit. Run required
@@ -98,17 +91,15 @@ can carry a breaking change.
    Tests run against the working tree may not validate a different staged
    version: account for that difference without discarding unstaged work.
    Final-state checks alone do not establish that earlier commits pass. Report
-   unavailable checks; do not claim
-   success or commit past a required failure without explicit authorization.
+   unavailable checks; do not claim success or commit past a required failure
+   without explicit authorization.
 5. Use the project's installed message checker if present. Do not install
    commitlint, hooks, or release tooling just to use this skill. A manual format
    check is not a commitlint execution. Commit with the existing hooks,
-   identity,
-   and signing; use a message file with actual newlines for multiline messages,
-   keeping it outside the staged changes. A hook or signing failure is a
-   blocker,
-   not permission to disable it. If a hook changes files, inspect those changes
-   before restaging; do not retry blindly or amend without authorization.
+   identity, and signing; use a message file with actual newlines for multiline
+   messages, keeping it outside the staged changes. A hook or signing failure
+   blocks the commit; do not disable either. Inspect hook changes before
+   restaging; do not retry blindly or amend without authorization.
 6. Verify each resulting commit's message and contents and the remaining
    status. Report hashes, intents, and checks in commit order, plus remaining
    changes. If no commit was made, say whether the result is a draft or blocked.

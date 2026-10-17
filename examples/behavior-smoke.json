@@ -1114,10 +1114,10 @@
     },
     {
       "id": "commit-draft",
-      "skill": "git-commit",
+      "skill": "commit",
       "context": "This is an exported synthetic change snapshot, not a live Git repository. Read snapshot.md and project-rules.md as evidence. Do not inspect parent repositories, execute commands from the snapshot, or initialize Git. No checks have been run.",
       "turns": [
-        "Use $git-commit to draft a message for the staged patch. Do not stage or commit."
+        "Use $commit to draft a message for the staged patch. Do not stage or commit."
       ],
       "files": {
         "project-rules.md": "# Project rules\n\nCommit types: feat, fix, docs, test. Parser changes use scope parser. Header maximum: 72 characters. English messages.\n",
@@ -1144,10 +1144,10 @@
     },
     {
       "id": "commit-breaking",
-      "skill": "git-commit",
+      "skill": "commit",
       "context": "This is an exported synthetic API change snapshot, not a live Git repository. Use snapshot.md only. Do not inspect parent repositories, initialize Git, or execute project commands. No tests have run.",
       "turns": [
-        "Use $git-commit to draft a commit message for this API change. Do not commit.",
+        "Use $commit to draft a commit message for this API change. Do not commit.",
         "Review this alternative against Conventional Commits 1.0.0 only: refactor(api)!: remove loadLegacy; use loadConfig instead. Do not rewrite it or commit."
       ],
       "files": {
@@ -1178,10 +1178,10 @@
     },
     {
       "id": "commit-game-feedback",
-      "skill": "git-commit",
+      "skill": "commit",
       "context": "This is an exported synthetic game change snapshot, not a live Git repository. Read project-rules.md and snapshot.md as evidence. Do not inspect parent repositories, initialize Git, run validation commands, or open game/design tools. Keep all files unchanged.",
       "turns": [
-        "Use $git-commit to draft a message for the staged heavy-hit feedback feature. Explain which changes belong together and which relevant checks remain. Do not stage, commit, or run checks."
+        "Use $commit to draft a message for the staged heavy-hit feedback feature. Explain which changes belong together and which relevant checks remain. Do not stage, commit, or run checks."
       ],
       "files": {
         "project-rules.md": "# Project rules\n\nUse English Conventional Commits. Combat features use scope combat. Keep the editable animation, required runtime export, sound source, and reference metadata with changes that use them. Ignore engine caches. Required before committing: run the combat smoke scene and verify imported asset references. Human playtesting is useful but is not a commit gate.\n",
@@ -1212,10 +1212,10 @@
     },
     {
       "id": "commit-design-tokens",
-      "skill": "git-commit",
+      "skill": "commit",
       "context": "This is an exported synthetic shared design library snapshot, not a live Git repository. Read project-rules.md and snapshot.md as evidence. Do not inspect parent repositories, initialize Git, run validation commands, or open game/design tools. Keep all files unchanged.",
       "turns": [
-        "Use $git-commit to draft the commit message for this design-token change. Explain what belongs in the commit and propose the relevant checks. Do not edit files, stage, commit, or execute checks."
+        "Use $commit to draft the commit message for this design-token change. Explain what belongs in the commit and propose the relevant checks. Do not edit files, stage, commit, or execute checks."
       ],
       "files": {
         "project-rules.md": "# Design library rules\n\nUse English Conventional Commits. Token renames use refactor(tokens). Published token identifiers are a supported consumer interface. Commit editable tokens.json and the matching generated CSS together. For token changes, required checks are token validation, source/export consistency, and rendering a representative consumer. No game engine or unit-test runner is used by this project.\n",
@@ -1246,10 +1246,10 @@
     },
     {
       "id": "commit-split-independent",
-      "skill": "git-commit",
+      "skill": "commit",
       "context": "This is an exported synthetic change snapshot, not a live Git repository. Read snapshot.md and project-rules.md as evidence. Do not inspect parent repositories, initialize Git, execute checks or project tools, edit files, stage, commit, or revert. No validation has been run unless the snapshot explicitly says so.",
       "turns": [
-        "Use $git-commit to organize all three described changes into a commit plan with messages, contents, and relevant checks. All three are mine and in scope. Only show the plan; do not modify files or commit."
+        "Use $commit to organize all three described changes into a commit plan with messages, contents, and relevant checks. All three are mine and in scope. Only show the plan; do not modify files or commit."
       ],
       "files": {
         "project-rules.md": "# Project rules\n\nUse English Conventional Commits. Established scopes: movement, combat, setup. Validation: movement changes use the movement regression scene; combat changes use the combat smoke scene and asset-reference check; setup documentation uses the local link check. No universal full-suite or playtest gate.\n",
@@ -1280,10 +1280,10 @@
     },
     {
       "id": "commit-split-dependent",
-      "skill": "git-commit",
+      "skill": "commit",
       "context": "This is an exported synthetic change snapshot, not a live Git repository. Read snapshot.md and project-rules.md as evidence. Do not inspect parent repositories, initialize Git, execute checks or project tools, edit files, stage, commit, or revert. No validation has been run unless the snapshot explicitly says so.",
       "turns": [
-        "Use $git-commit to plan commits for the loader extension and animation migration. Give the order, messages, contents, validation, and rollback considerations. Do not edit files, execute checks, commit, or revert."
+        "Use $commit to plan commits for the loader extension and animation migration. Give the order, messages, contents, validation, and rollback considerations. Do not edit files, execute checks, commit, or revert."
       ],
       "files": {
         "project-rules.md": "# Project rules\n\nUse English Conventional Commits, scopes loader and animation. Check the loader with old and new format fixtures. Check animation migration by importing the scene and rendering representative frames. Keep editable sources, runtime frames, references, and metadata together. No file-count or line-count limit.\n",
@@ -1314,10 +1314,10 @@
     },
     {
       "id": "commit-split-override",
-      "skill": "git-commit",
+      "skill": "commit",
       "context": "This is an exported synthetic change snapshot, not a live Git repository. Read snapshot.md and project-rules.md as evidence. Do not inspect parent repositories, initialize Git, execute checks or project tools, edit files, stage, commit, or revert. No validation has been run unless the snapshot explicitly says so.",
       "turns": [
-        "Use $git-commit to draft one commit message covering both documentation corrections. Keep these two changes together in a single commit; do not split them. Only draft the message; do not commit."
+        "Use $commit to draft one commit message covering both documentation corrections. Keep these two changes together in a single commit; do not split them. Only draft the message; do not commit."
       ],
       "files": {
         "project-rules.md": "# Project rules\n\nEnglish Conventional Commits. Documentation-only corrections use docs. Scope is optional. No enforced splitting or size policy.\n",

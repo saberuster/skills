@@ -15,11 +15,12 @@ The support workflow checks its discovery alongside the existing skills.
 
 [fern](skills/fern/README.md) groups personal workflows for accomplishing
 complex tasks with the simplest effective methods. It includes
+[Commit](skills/fern/commit/README.md), migrated from `git-commit`,
 [Technical Writing](skills/fern/technical-writing/SKILL.md), migrated
 from `technical-docs`, [Unslop](skills/fern/unslop/SKILL.md) for focused
 language editing, and [reflect](skills/fern/reflect/README.md), migrated from
-`learn-from-session`. Discovery for `reflect` remains unverified; its
-predecessor's results do not establish discovery for the renamed package.
+`learn-from-session`. Discovery for `commit` and `reflect` remains unverified;
+their predecessors' results do not establish discovery for the renamed packages.
 
 [Image generation](skills/image-generation/README.md) groups the three GPT Image
 prompting skills.
@@ -41,7 +42,7 @@ the coverage limits.
 | --- | --- | --- |
 | [agent-ready](skills/agent-ready/README.md) | &#9989; | &#9989; |
 | [brief-to-image-prompt](skills/image-generation/brief-to-image-prompt/README.md) | &#9989; | &#9989; |
-| [git-commit](skills/git-commit/README.md) | &#9989; | &#9989; |
+| [commit](skills/fern/commit/README.md) | &mdash; | &mdash; |
 | [gpt-image-prompting](skills/image-generation/gpt-image-prompting/README.md) | &#9989; | &#9989; |
 | [image-to-prompt](skills/image-generation/image-to-prompt/README.md) | &#9989; | &#9989; |
 | [maintain-agents-md](skills/maintain-agents-md/README.md) | &#9989; | &#9989; |

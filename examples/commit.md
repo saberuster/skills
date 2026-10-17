@@ -1,4 +1,4 @@
-# Git commit acceptance cases
+# Commit acceptance cases
 
 Use synthetic changes in isolated projects. The seven named snapshot cases
 below run through the [behavior guide](../docs/behavior-checks.md) and

@@ -22,7 +22,7 @@ the broader examples:
 The `commit-draft`, `commit-breaking`, `commit-game-feedback`,
 `commit-design-tokens`, `commit-split-independent`,
 `commit-split-dependent`, and `commit-split-override` cases cover
-[git-commit](../examples/git-commit.md) using exported change snapshots.
+[commit](../examples/commit.md) using exported change snapshots.
 Deliver the two `commit-breaking` turns separately. These are read-only
 message trials; they do not validate Git staging, hooks, signing, or real
 commit execution. The game and design cases also exercise conditional
@@ -230,8 +230,8 @@ filesystem checks observe only that workspace, not the rest of the host.
 
 ## Live Git trials
 
-Use this maintainer procedure when validating actual `git-commit` execution,
-such as the [split execution case](../examples/git-commit.md#live-split-execution-and-intermediate-versions).
+Use this maintainer procedure when validating actual `commit` execution,
+such as the [split execution case](../examples/commit.md#live-split-execution-and-intermediate-versions).
 It is not a requirement for ordinary commits. The snapshot helper above does
 not create or verify live Git fixtures; retain these trial artifacts separately.
 
