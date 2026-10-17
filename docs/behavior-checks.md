@@ -21,7 +21,7 @@ the broader examples:
 | `talk-goal-drift` | [talk-it-through case 7](../examples/talk-it-through.md#7-a-drifting-branch-and-an-explicit-new-goal): check a drifting branch against the goal, distinguish interest from agreement, and follow an explicit goal change |
 | `talk-needed-branch` | [talk-it-through case 8](../examples/talk-it-through.md#8-a-necessary-branch-within-the-same-goal): continue a necessary technical branch within the existing goal |
 | `ready-*` (eight cases) | [agent-ready](../examples/agent-ready.md): trace real fixture tasks, calibrate recommendations, distinguish validation layers, and preserve review scope |
-| `references-*` (four cases) | [find-skill-references](../examples/find-skill-references.md): inspect primary sources for requested comparisons, resolve conflicts, reuse evidence, report gaps, and preserve scope |
+| `references-*` (five cases) | [find-skill-references](../examples/find-skill-references.md): inspect primary sources for requested comparisons, verify each cited file, resolve conflicts, reuse evidence, report gaps, and preserve scope |
 | `image-prompt-review`, `image-prompt-fragment`, `image-prompt-multiple` | [gpt-image-prompting](../examples/gpt-image-prompting.md): review without rewriting, return a scoped fragment, and keep multiple prompts self-contained |
 | `unslop-*` (fourteen cases) | [unslop](../examples/unslop.md): improve existing prose while preserving meaning, voice, protected material, and action scope |
 
@@ -151,9 +151,10 @@ and links; escaped source text is not the agent's document output.
 
 ## Select skill reference cases
 
-The four `references-*` cases use original fictional source snapshots. They
+The five `references-*` cases use original fictional source snapshots. They
 need no network or connector. A catalog preview is not primary evidence, and
-the source projects, revisions, and results do not describe real upstreams.
+the source snapshots, revisions, and results do not describe real upstreams.
+Any real upstream links are discovery-only and supply no primary content.
 Each request explicitly seeks references for an existing or planned skill.
 
 | Case | Focus and observed file boundary |
@@ -161,12 +162,13 @@ Each request explicitly seeks references for an existing or planned skill.
 | `references-review-conflicts` | Compare conflicting references, reject an unsupported preview and embedded instruction, propose suitable changes; unchanged workspace |
 | `references-reuse` | Assess a requested cached reference and make a separately authorized spelling correction; one required file change |
 | `references-unavailable` | Report reference gaps and local findings with only previews and no network; unchanged workspace |
+| `references-verification-gate` | Verify a read primary file while keeping unavailable sibling-file and familiar-library claims unverified; unchanged workspace |
 | `references-create` | Compare references for a planned skill, then create the separately authorized file; one required new file |
 
-Prepare all four cases with:
+Prepare all five cases with:
 
 ```text
-.venv/bin/python scripts/behavior_trials.py prepare --output /tmp/skill-references-001 --case references-review-conflicts --case references-reuse --case references-unavailable --case references-create
+.venv/bin/python scripts/behavior_trials.py prepare --output /tmp/skill-references-001 --case references-review-conflicts --case references-reuse --case references-unavailable --case references-verification-gate --case references-create
 ```
 
 Run each with a fresh worker. Supply only its workspace, copied skill, context,
@@ -181,6 +183,17 @@ file changes. For `references-reuse`, compare exact before/after contents.
 Its research is requested explicitly; a spelling-only request requires no
 reference research. These execution trials do not prove natural selection,
 live search access, or real upstream correctness.
+
+For `references-verification-gate`, match every evidence citation, including
+unlabeled upstream claims, to the exact text returned by a successful read. A worker
+claim, attempted read, link, summary, or read of a sibling file is insufficient.
+Retain the returned text as evidence. The case permits grounded verification of
+the readable Maple snapshot while requiring honest limits for unavailable
+files; it does not exercise live retrieval of CPython.
+
+Include delegated source reads in the retained evidence. If a runner omits
+subagent traces, missing reads are unverified, not proven absent; rerun with
+complete task traces or a confirmed single-agent run.
 
 Run the [natural selection cases](../examples/find-skill-references.md#natural-selection-cases)
 separately with the skill discoverable through the host's normal metadata.

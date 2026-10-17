@@ -113,6 +113,10 @@ Planned next minor release: `0.2.0`.
 
 - `setup-fern` now requires explicit invocation in Codex. Disable implicit
   selection through its invocation policy while retaining `$setup-fern` use.
+- Require each verified `find-skill-references` claim to match supporting content
+  actually read from its cited primary file in the current task. Label unread
+  citations as unverified and cached inspections as prior evidence; add a paired
+  source-access regression case.
 - Simplified Fern's `architect`, `debugger`, `docs_researcher`, and
   `visual_reviewer` instructions and replaced fixed report templates with
   task-sized handoffs. Preserved role boundaries and evidence requirements,

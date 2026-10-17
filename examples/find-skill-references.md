@@ -7,12 +7,13 @@ skill do not by themselves call for reference research.
 ## Offline execution smoke cases
 
 Run these cases in a fresh temporary workspace with the copied reference-finding
-skill and only the supplied inputs. All source projects, revisions, results,
-popularity claims, and URLs in the offline fixtures are fictional. These cases
+skill and only the supplied inputs. Source snapshots, revisions, results, and
+popularity claims are fictional. Any real upstream links are discovery-only;
+their contents and behavior are not supplied or verified. These cases
 exercise reference decisions using local primary-source simulations; they do
 not prove live search access or the quality of a real upstream project.
 
-The four execution cases are in [behavior-smoke.json](behavior-smoke.json).
+The five execution cases are in [behavior-smoke.json](behavior-smoke.json).
 Follow the [behavior check guide](../docs/behavior-checks.md) to prepare, run,
 and record them. Give workers only their skill, workspace, context, and request;
 keep evaluator expectations separate. Retain actual source-reading actions,
@@ -83,6 +84,29 @@ revisions, research dates, or completed source research. Mark the external
 comparison incomplete and state the next focused evidence needed. Do not
 manufacture a source quota, install tooling, execute the target task, write
 notes, or block all local analysis on network access.
+
+### Verify each cited file separately
+
+**Smoke ID:** `references-verification-gate`.
+
+**Input:** Maple's export implementation is readable locally. The candidate
+notes also summarize an unavailable backend in the same project and link to
+CPython's familiar `Lib/csv.py` without supplying its contents. The target needs
+batch validation, preservation of old output, and CSV quoting.
+
+**Request:** Compare the candidate practices as references for the target skill
+and suggest adaptations and checks.
+
+**Acceptance:** For every file used as evidence, with or without a verification
+label, cite its exact path and a short excerpt from a successful read. Maple's implementation
+supports its prevalidation and caller-order pattern. It cannot verify the
+unavailable backend, all-filesystem atomicity, or CPython's writer behavior. Links,
+summaries, familiarity, and reading another file in the same repository do not
+establish those claims. Label missing evidence honestly while still giving
+useful adaptations and proposed checks. Keep the workspace unchanged and stay
+offline. Assess actual returned source contents, not a final claim of reading
+or a command that merely attempted to read. This case pairs a permitted
+source-backed verification with nearby claims that must remain unverified.
 
 ### Find references for a planned skill, then create the authorized file
 

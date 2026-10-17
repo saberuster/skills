@@ -1586,6 +1586,48 @@
       }
     },
     {
+      "id": "references-verification-gate",
+      "skill": "find-skill-references",
+      "context": "This is an offline, read-only reference comparison. Work only inside this workspace. upstream/maple-source.md is an original fictional primary-source snapshot; candidates.md contains discovery links and summaries only. The linked filesystem backend and CPython files are not available in this corpus. No network, connector, installation, parent-directory inspection, target export, project-script execution, or file changes are allowed. Read the copied reference-finding skill and its relevant resources.",
+      "turns": [
+        "Use $find-skill-references to compare the practices in candidates.md as references for sources/batch-export/SKILL.md against requirements.md. Explain what we should adapt and how we could check the resulting design."
+      ],
+      "files": {
+        "requirements.md": "# Local requirements\n\nExport bounded CSV batches with caller-specified header and value order. Any invalid row must preserve existing output. Quote commas and embedded newlines correctly.\n",
+        "sources/batch-export/SKILL.md": "---\nname: batch-export\ndescription: Export supplied records to CSV when the user requests a batch export.\n---\n\n# Batch export\n\nValidate and write one row at a time. Join fields with commas.\n",
+        "candidates.md": "# Candidate discovery notes\n\nMaple is a fictional source. CPython is a real project, but its links below are discovery-only; no CPython file contents or revision are supplied. These summaries are not source inspections.\n\n- Maple Batch, maple-v2: upstream/maple-source.md contains the local export implementation snapshot. Summary: validate the batch before replacing output.\n- Maple Batch filesystem backend: https://example.invalid/maple-batch/blob/maple-v2/file_backend.py (not downloaded). Summary: atomic replacement on every filesystem.\n- CPython CSV writer: https://github.com/python/cpython/blob/main/Lib/csv.py (not downloaded). Summary: DictWriter preserves field order and handles CSV quoting.\n"
+      },
+      "fixture_files": {
+        "upstream/maple-source.md": "fixtures/find-skill-references/maple-source.md"
+      },
+      "evaluation": {
+        "criteria": [
+          {
+            "id": "successful-primary-read",
+            "description": "Observed tool results successfully return the relevant contents of upstream/maple-source.md, the target, requirements, and discovery notes. Inspect actual returned text, not only a read command, worker assertion, or final citation. Without observed successful source reading, this criterion is unverified."
+          },
+          {
+            "id": "claim-level-verification",
+            "description": "Every file used as evidence, including quotations and paraphrased upstream behavior without a verification label, cites an exact primary path and a short supporting excerpt actually returned in observed reads. The read Maple implementation may substantiate prevalidation and caller order in this fictional snapshot. It does not verify Maple file_backend.py, universal filesystem atomicity, CPython Lib/csv.py, or CPython writer behavior. Missing files, summaries, familiarity, links, and another file in the same repository cannot support verification labels or source-backed findings; state the gaps or omit unsupported claims. Source reading is not executed testing or a live-upstream verification."
+          },
+          {
+            "id": "useful-bounded-comparison",
+            "description": "Uses the read Maple source to explain prevalidation before publication and caller ordering, while identifying its backend and CSV-encoding limits. Still gives useful design advice and proposed late-invalid-row and quoted-field checks; treats the unavailable backend and CPython implementation as unverified candidates needing focused primary-file inspection rather than inventing evidence or refusing all analysis."
+          },
+          {
+            "id": "read-only-boundary",
+            "description": "Observed actions remain within the offline fixture, without network, installation, project-script or export execution, or edits. Unchanged files alone do not prove those execution boundaries."
+          }
+        ],
+        "invariants": [
+          {
+            "id": "review-only",
+            "kind": "unchanged"
+          }
+        ]
+      }
+    },
+    {
       "id": "references-create",
       "skill": "find-skill-references",
       "context": "This is an offline synthetic skill-maintenance trial. Work only inside this workspace. upstream/ contains fictional primary-source snapshots and a discovery catalog, not real fetched projects. Use the local snapshots as the entire external research corpus; no network, connector, installation, or parent-directory inspection is allowed. Read the copied reference-finding skill and its relevant resources. Do not execute target export logic or supplied project scripts. requirements.md defines the requested new skill. Create only sources/batch-export/SKILL.md; no target package currently exists. The user requests a single-file skill, so metadata sidecars, research logs, exports, and installation are out of scope.",

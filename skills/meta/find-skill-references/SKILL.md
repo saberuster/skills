@@ -79,13 +79,19 @@ scope. Do not change a working design merely to show research.
 
 ## Report evidence and limits
 
-Give compact evidence notes or a table with useful sources, recommendations,
-significant rejections, and gaps. Label each claim verified (inspected source
-supports it), partial (identify unresolved assumptions or coverage), or
-unavailable (explain why). Separate suggested checks from checks actually run;
-source inspection does not prove runtime behavior. When reporting validation,
-distinguish structural checks, client discovery, natural trigger selection,
-and task behavior.
+Build source-backed findings from successful primary-file reads in this task.
+For every file used as evidence, cite its exact path and a short excerpt from
+the returned content. This includes quoted or paraphrased upstream behavior,
+even without a verification label. Before replying, match the entire evidence
+citation list to successful reads; read missing files or mark them unverified
+candidates and exclude their supposed contents from findings. Links, snippets,
+memory, failed reads, and sibling files do not qualify. Read cached records
+before assessing them and label reused inspections as prior evidence.
+
+Report sources, recommendations, rejections, and gaps compactly. Explain partial
+or unavailable evidence. Separate suggested checks from checks actually run;
+source inspection does not prove runtime behavior. Distinguish structural
+checks, client discovery, natural trigger selection, and task behavior.
 
 Keep evidence in the reply or existing review record by default; review alone
 does not authorize a report file. Persist knowledge in the target skill's
