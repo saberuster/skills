@@ -115,8 +115,11 @@ Planned next minor release: `0.2.0`.
   shortening commit grouping, and removing repeated workflow details from its
   game/design supplement and README. Existing commit and evidence boundaries
   are preserved.
+- Condensed `talk-it-through` into three sections covering discussion, shared
+  understanding, and continuation or closure. Preserved meaningful questions,
+  local-decision follow-through, explicit stopping, and authorization boundaries.
 - Moved `talk-it-through` into `skills/fern/talk-it-through` and removed the
-  `thinking` collection. Updated catalog links; the skill name, instructions,
+  `thinking` collection. Updated catalog links; the skill name
   and invocation policy are unchanged. Existing installations are unchanged;
   client discovery from the relocated source remains unverified.
 - Renamed `skills/meta-skills` to `skills/meta` and moved `maintain-skills`,
