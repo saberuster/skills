@@ -1,0 +1,7 @@
+interface:
+  display_name: "Fern"
+  short_description: "Coordinate, implement, verify, and deliver project work"
+  default_prompt: "Use $fern to choose the simplest effective workflow and carry this task through the delivery endpoint I authorize."
+
+policy:
+  allow_implicit_invocation: false

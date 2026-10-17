@@ -17,6 +17,12 @@ packages remains unverified.
 
 [fern](skills/fern/README.md) groups personal workflows for accomplishing
 complex tasks with the simplest effective methods. It includes
+[Fern](skills/fern/fern/SKILL.md) as an explicitly invoked entry for task
+coordination and current-chat development through the authorized endpoint.
+Fern owns implementation, validation, Git/PR/CI delivery, and final judgment
+in the current main agent. Its bug fix, feature, and refactoring playbooks
+provide task-specific methods with shared validation and delivery references.
+The collection also includes
 [Commit](skills/fern/commit/README.md), migrated from `git-commit`,
 [Technical Writing](skills/fern/technical-writing/SKILL.md), migrated
 from `technical-docs`, [Unslop](skills/fern/unslop/SKILL.md) for focused
@@ -26,6 +32,12 @@ language editing, [reflect](skills/fern/reflect/README.md), migrated from
 and decisions. Discovery for `commit`, `reflect`, and the relocated
 `talk-it-through` remains unverified; earlier results do not establish discovery
 from these sources.
+
+The Fern package has no client discovery results yet. Its source changes do
+not update installed copies. It absorbs the former Implement procedure;
+the old working source in `saberuster/agent-skills` remains until the Fern
+replacement is published and consumer-accessible. Switch installed sources
+and the invocation from `$implement` to `$fern` explicitly.
 
 [Setup Fern](skills/fern/setup-fern/SKILL.md) composes the personal Codex
 environment: all skills in `fern` and `meta`, individually selected external
@@ -128,6 +140,8 @@ run the unified Docker launcher; repository automation uses CI. Real agent
 execution is explicit and retains traces, file assertions and independent
 assessments. A no-model run reports planned behavior as not run. Skills without
 executable cases and native/manual acceptance remain visible coverage gaps.
+PR and full CI also run all non-engine regressions on a fresh Windows runner,
+with explicit POSIX/Linux exclusions and required junction/symlink checks.
 Workflow configuration does not establish a hosted pass.
 
 ## Development

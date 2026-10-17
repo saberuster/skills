@@ -9,7 +9,7 @@ workflow. Use [development.md](development.md) for implementation details and
 
 | Layer | Trigger | Checks | Evidence boundary |
 | --- | --- | --- | --- |
-| `pr` | Every pull request and push | All deterministic package, metadata, text, helper, planner, launcher, discovery-protocol, installer and behavior-harness regressions; Ruff and Markdown lint | No model requests or real engine runs; mock clients and synthetic replies test the validation tools |
+| `pr` | Every pull request and push | Linux Docker checks plus native Windows regressions across all non-engine modules; Ruff and Markdown lint run in Linux | No model requests or real engine runs; mock clients and synthetic replies test the validation tools |
 | `affected` | Changes affecting runtime or behavior; manual selection | Relevant pinned-client discovery, Fern snapshot installation, background Blender integration and selected agent cases; the PR layer runs independently | Only executed checks and cases supply runtime or model evidence |
 | `full` | Weekly, manual, and release validation | The PR checks, all implemented runtime checks, pinned and latest-client discovery, and every eligible agent case when requested | The broadest automated coverage; remaining manual scenarios and missing cases stay explicit |
 
@@ -59,11 +59,11 @@ For repository automation, use the checked-in GitHub Actions workflows:
 
 | Workflow | Role |
 | --- | --- |
-| [validate.yml](../.github/workflows/validate.yml) | Required deterministic `pr` checks on pushes and PRs |
+| [validate.yml](../.github/workflows/validate.yml) | Required Linux Docker and native Windows deterministic checks on pushes, PRs and manual runs |
 | [validation-runtime.yml](../.github/workflows/validation-runtime.yml) | `affected` runtime checks and explicitly enabled agent behavior |
 | [validation-full.yml](../.github/workflows/validation-full.yml) | Scheduled, manual and release `full` validation |
 | [agent-support.yml](../.github/workflows/agent-support.yml) | Prompt-free client discovery and the generated README support table |
-| [validation-windows.yml](../.github/workflows/validation-windows.yml) | Native Windows Godot helper regressions, including junction protection; called for affected Godot changes and full validation |
+| [validation-windows.yml](../.github/workflows/validation-windows.yml) | All non-engine Windows regressions; reused by PR/full validation and available for a standalone manual run |
 
 The agent-support workflow retains its report and README publication format.
 Pinned discovery supplies layer 2 evidence; latest-client discovery supplies
@@ -105,6 +105,39 @@ tests belong to `checks`; their names do not make them engine integration.
 Standalone `python -m unittest discover -s tests -v` remains useful for
 debugging, but can skip unavailable Blender or platform paths. Its green exit
 alone does not establish the layered plan's runtime coverage.
+
+## Native Windows CI
+
+The [Windows runner](../scripts/windows_ci.py) discovers the same non-engine
+test modules as the Linux `checks` suite, including future modules. It covers
+package and link hygiene, Windows paths, PowerShell helpers, mocked client
+protocols, installation helpers, planners, launchers and the behavior harness.
+The PR workflow always requests this job; it is not conditional on Godot
+changes. The affected workflow relies on that independent PR check. Full
+validation also calls it, and the reusable workflow supports manual dispatch.
+
+The job uses `windows-2025`, Python 3.11, Git, PowerShell 7.2+ and the pinned
+`requirements-dev.txt` dependencies. It runs from the checkout root:
+
+```powershell
+python -m scripts.windows_ci --output "$env:RUNNER_TEMP/windows-regression"
+```
+
+The output must be a new directory outside the checkout. Exact POSIX/Linux
+test IDs are excluded before execution and recorded with reasons; they run
+in Linux Docker. Windows junction and symlink regressions must be present
+and execute. Any remaining skip, missing required case, import error, failed
+assertion or empty selection fails the Windows job. The two real Blender
+modules stay in the separate engine check. No engine, live client discovery,
+installation into a user profile or model call runs in this Windows suite.
+
+The job uploads the test log and structured summary, including selected
+modules, platform exclusions, counts, source revision and runtime versions.
+The hosted image is Windows Server and normally runs as administrator; this
+does not establish Windows 11 desktop behavior or ordinary-user permissions.
+Those remain separate acceptance procedures. Local Docker results do not
+replace this hosted Windows evidence, and configuring the job is not proof
+that it has run successfully.
 
 ## Request actual agent execution
 
@@ -176,10 +209,10 @@ repository-wide selection.
 A requested check whose prerequisite is absent fails instead of silently
 becoming a successful empty run. Platform-specific skips still identify
 uncovered platform paths. Linux Docker reports the Windows junction test as
-skipped; the separate Windows CI job runs that helper suite and rejects all
-unexpected skips. It selects out the precise POSIX inherited-pipe case before
-execution and records that exclusion; Linux runs that case. Its evidence does
-not erase the Linux skip record.
+skipped; the separate Windows CI job runs all non-engine modules and rejects
+every runtime skip. It records exact POSIX/Linux case exclusions before
+execution; Linux runs those cases. Its evidence does not erase the Linux skip
+record.
 A no-model run keeps planned agent cases `not_run`;
 report that partial coverage even when its deterministic and runtime checks
 pass. The outer summary distinguishes `passed`, `failed`, `partial` and

@@ -5,6 +5,24 @@ root. See [AGENTS.md](../AGENTS.md) for maintenance instructions. The
 [validation layers](validation.md) define repository-wide selection, local
 Docker execution, CI triggers, result states and coverage limits.
 
+## Python validation entrypoints
+
+The public launcher supports `python scripts/run_validation.py` and
+`python -m scripts.run_validation` from the repository root. Direct script
+execution imports sibling helpers; package execution uses relative imports.
+The Docker unittest subprocess uses `python -m scripts.validation_ci`, so the
+repository root remains importable when discovered tests import `scripts`.
+No global `PYTHONPATH` configuration is required.
+
+Python places the script directory on `sys.path` for `python scripts/file.py`,
+but places the current directory there for `python -m scripts.file`.
+Test discovery adds the tests directory, not the repository root. Consequently,
+changing only a subprocess working directory cannot repair a missing package
+root. Imports must also distinguish script and package execution explicitly:
+an unrelated installed `scripts` namespace can raise `ImportError`, which a
+`ModuleNotFoundError` fallback does not catch. See the
+[Python command-line reference](https://docs.python.org/3/using/cmdline.html#interface-options).
+
 ## Agent support CI
 
 The package targets Codex's local skill format. The
@@ -161,7 +179,11 @@ Layer 1 includes this suite and supplies PowerShell in Docker. Missing
 PowerShell cannot silently satisfy that required check. Direct unittest runs
 can still skip missing prerequisites, platform-specific cases or unavailable
 symlink privileges; report those gaps separately. Windows-only branches remain
-uncovered by a Linux container, and Windows and Linux evidence are distinct.
+uncovered by a Linux container. The
+[native Windows CI](validation.md#native-windows-ci) runs this module alongside
+all other non-engine regressions, requires junction
+and symlink execution, and records the exact POSIX/Linux exclusions.
+Windows and Linux evidence are distinct.
 These fixtures do not establish real Godot execution,
 scene or asset correctness, UI behavior, or client discovery.
 

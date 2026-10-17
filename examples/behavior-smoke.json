@@ -723,17 +723,30 @@
       "id": "agents-review",
       "skill": "maintain-agents-md",
       "context": "Review the synthetic project instructions in this workspace. The root and docs/ files are the complete supplied instruction sources.",
-      "turns": ["Use $maintain-agents-md to review and suggest improvements to these AGENTS.md files. Do not edit files."],
+      "turns": [
+        "Use $maintain-agents-md to review and suggest improvements to these AGENTS.md files. Do not edit files."
+      ],
       "files": {
         "AGENTS.md": "# Project instructions\n\n- Run `python -m unittest discover -s tests` before submitting code changes.\n- Before submitting code changes, run `python -m unittest discover -s tests`.\n- Documentation-only changes need a local link check instead of unit tests.\n",
         "docs/AGENTS.md": "# Documentation instructions\n\n- Use sentence case for headings in this directory.\n"
       },
       "evaluation": {
         "criteria": [
-          {"id": "duplicate-finding", "description": "Reports the equivalent duplicate with location, evidence, consequence, and focused recommendation."},
-          {"id": "exception-scope", "description": "Preserves the documentation-only exception and nested instruction scope in the recommendation; reports review without edits."}
+          {
+            "id": "duplicate-finding",
+            "description": "Reports the equivalent duplicate with location, evidence, consequence, and focused recommendation."
+          },
+          {
+            "id": "exception-scope",
+            "description": "Preserves the documentation-only exception and nested instruction scope in the recommendation; reports review without edits."
+          }
         ],
-        "invariants": [{"id": "preserved-files", "kind": "unchanged"}]
+        "invariants": [
+          {
+            "id": "preserved-files",
+            "kind": "unchanged"
+          }
+        ]
       }
     },
     {
@@ -1113,7 +1126,9 @@
       "id": "skills-local-edits",
       "skill": "maintain-skills",
       "context": "All installations, baseline records, and sources are synthetic files inside this workspace. Replace every npx skills invocation with python mock_skills.py. Only this mock CLI is available and authorized; never invoke real npx, use a real user profile, or fetch remote sources. Read its implementation if needed. The recorded baseline is baseline/format-report/ and baseline.json; the installed copy is project/.agents/skills/format-report/. source/format-report/ contains the updated upstream package. evidence/commands.jsonl is the designated command log.",
-      "turns": ["Use $maintain-skills to update the project-level format-report skill for Codex from its recorded source. Preserve local edits and unrelated skills."],
+      "turns": [
+        "Use $maintain-skills to update the project-level format-report skill for Codex from its recorded source. Preserve local edits and unrelated skills."
+      ],
       "files": {
         "baseline/format-report/SKILL.md": "---\nname: format-report\ndescription: Format reports.\n---\n\n# Format report\n\nUse the standard headings.\n",
         "baseline/format-report/references/format.md": "# Format\n\nUse Overview and Actions.\n",
@@ -1124,16 +1139,37 @@
         "source/format-report/references/format.md": "# Format\n\nUse Overview, Evidence, and Actions.\n",
         "records.json": "{\"format-report\": {\"source\": \"./source/format-report\", \"agents\": [\"codex\"], \"method\": \"copy\", \"scope\": \"project\", \"baseline\": \"baseline.json\"}}\n"
       },
-      "fixture_files": {"mock_skills.py": "fixtures/mock_skills.py"},
+      "fixture_files": {
+        "mock_skills.py": "fixtures/mock_skills.py"
+      },
       "evaluation": {
         "criteria": [
-          {"id": "baseline-inspection", "description": "Reads the mock CLI capabilities and inventory and compares actual installed package bytes against the recorded baseline."},
-          {"id": "local-conflict", "description": "Identifies the concrete local Risks addition, preserves it, explains the update conflict, and asks for a concrete resolution instead of overwriting."},
-          {"id": "truthful-limit", "description": "Reports update as pending/skipped due to local edits, without claiming update success or implying the unknown-source package was updated."}
+          {
+            "id": "baseline-inspection",
+            "description": "Reads the mock CLI capabilities and inventory and compares actual installed package bytes against the recorded baseline."
+          },
+          {
+            "id": "local-conflict",
+            "description": "Identifies the concrete local Risks addition, preserves it, explains the update conflict, and asks for a concrete resolution instead of overwriting."
+          },
+          {
+            "id": "truthful-limit",
+            "description": "Reports update as pending/skipped due to local edits, without claiming update success or implying the unknown-source package was updated."
+          }
         ],
         "invariants": [
-          {"id": "preserved-packages", "kind": "only_changes", "paths": ["evidence/commands.jsonl"]},
-          {"id": "no-mutation", "kind": "no_mutation_commands", "path": "evidence/commands.jsonl"}
+          {
+            "id": "preserved-packages",
+            "kind": "only_changes",
+            "paths": [
+              "evidence/commands.jsonl"
+            ]
+          },
+          {
+            "id": "no-mutation",
+            "kind": "no_mutation_commands",
+            "path": "evidence/commands.jsonl"
+          }
         ]
       }
     },
@@ -1141,20 +1177,45 @@
       "id": "docs-schema",
       "skill": "technical-writing",
       "context": "The applicable local configuration schema is schema/jobs.json. docs/jobs.md is the requested maintained document. No runtime evidence is supplied.",
-      "turns": ["Use $technical-writing to correct only the configuration section of docs/jobs.md. Document retry_limit from the supplied schema and preserve all other content."],
+      "turns": [
+        "Use $technical-writing to correct only the configuration section of docs/jobs.md. Document retry_limit from the supplied schema and preserve all other content."
+      ],
       "files": {
         "schema/jobs.json": "{\"type\":\"object\",\"properties\":{\"retry_limit\":{\"type\":\"integer\",\"default\":3,\"minimum\":0}}}\n",
         "docs/jobs.md": "# Jobs\n\n## Configuration\n\nretry_limit defaults to 5 and permits negative integers.\n\n## Cancellation guarantee\n\nAccepted JOB-1: cancelling a pending job emits exactly one Cancelled event. Repetition emits no additional event.\n\n## Historical design\n\nThe initial queue design used polling. This historical rationale is retained for migration readers.\n"
       },
       "evaluation": {
         "criteria": [
-          {"id": "schema-correction", "description": "Actually corrects retry_limit to integer, default 3, minimum 0, grounded in the supplied schema."},
-          {"id": "bounded-report", "description": "Reports applicable document checks honestly without a new approval gate or claims of unrelated application/runtime tests."}
+          {
+            "id": "schema-correction",
+            "description": "Actually corrects retry_limit to integer, default 3, minimum 0, grounded in the supplied schema."
+          },
+          {
+            "id": "bounded-report",
+            "description": "Reports applicable document checks honestly without a new approval gate or claims of unrelated application/runtime tests."
+          }
         ],
         "invariants": [
-          {"id": "scope", "kind": "only_changes", "paths": ["docs/jobs.md"]},
-          {"id": "actual-edit", "kind": "changed", "paths": ["docs/jobs.md"]},
-          {"id": "outside-configuration", "kind": "outside_section_unchanged", "path": "docs/jobs.md", "heading": "## Configuration"}
+          {
+            "id": "scope",
+            "kind": "only_changes",
+            "paths": [
+              "docs/jobs.md"
+            ]
+          },
+          {
+            "id": "actual-edit",
+            "kind": "changed",
+            "paths": [
+              "docs/jobs.md"
+            ]
+          },
+          {
+            "id": "outside-configuration",
+            "kind": "outside_section_unchanged",
+            "path": "docs/jobs.md",
+            "heading": "## Configuration"
+          }
         ]
       }
     },
@@ -1170,11 +1231,25 @@
       ],
       "evaluation": {
         "criteria": [
-          {"id": "advance-after-first", "description": "After turn 2, preserves the accepted current-client default and explicit target, then advances a material open issue with reasoning and a focused question or authorized factual check."},
-          {"id": "advance-after-second", "description": "After turn 3, preserves standalone/repository/conflict choices and advances a material still-open issue rather than merely recapping or offering to continue."},
-          {"id": "wrap-up", "description": "After turn 4, summarizes settled decisions and defers remaining issues without another demanded answer or implementation."}
+          {
+            "id": "advance-after-first",
+            "description": "After turn 2, preserves the accepted current-client default and explicit target, then advances a material open issue with reasoning and a focused question or authorized factual check."
+          },
+          {
+            "id": "advance-after-second",
+            "description": "After turn 3, preserves standalone/repository/conflict choices and advances a material still-open issue rather than merely recapping or offering to continue."
+          },
+          {
+            "id": "wrap-up",
+            "description": "After turn 4, summarizes settled decisions and defers remaining issues without another demanded answer or implementation."
+          }
         ],
-        "invariants": [{"id": "discussion-only", "kind": "unchanged"}]
+        "invariants": [
+          {
+            "id": "discussion-only",
+            "kind": "unchanged"
+          }
+        ]
       }
     },
     {
@@ -1189,12 +1264,29 @@
       ],
       "evaluation": {
         "criteria": [
-          {"id": "goal-relevance", "description": "Before a local decision in turns 1-2, relates the branch to the prototype goal and recommends returning or parking unjustified framework depth. A brief technical answer is allowed; do not require refusing the question, repeatedly restating the goal, or forcing confirmation."},
-          {"id": "interest-not-reframe", "description": "After turn 2, does not treat interest in the plugin or a follow-up question as an agreed replacement goal or accepted implementation choice, and does not expand into an unbounded framework design."},
-          {"id": "explicit-reframe", "description": "After turn 3, adopts the explicit tooling goal and compares relevant boundaries, preserving prior work as context without continuing to impose the prototype deadline or demanding permission to change goals again."},
-          {"id": "wrap-up", "description": "After turn 4, summarizes the revised goal and distinguishes open proposals from accepted choices, then stops without another demanded answer or implementation."}
+          {
+            "id": "goal-relevance",
+            "description": "Before a local decision in turns 1-2, relates the branch to the prototype goal and recommends returning or parking unjustified framework depth. A brief technical answer is allowed; do not require refusing the question, repeatedly restating the goal, or forcing confirmation."
+          },
+          {
+            "id": "interest-not-reframe",
+            "description": "After turn 2, does not treat interest in the plugin or a follow-up question as an agreed replacement goal or accepted implementation choice, and does not expand into an unbounded framework design."
+          },
+          {
+            "id": "explicit-reframe",
+            "description": "After turn 3, adopts the explicit tooling goal and compares relevant boundaries, preserving prior work as context without continuing to impose the prototype deadline or demanding permission to change goals again."
+          },
+          {
+            "id": "wrap-up",
+            "description": "After turn 4, summarizes the revised goal and distinguishes open proposals from accepted choices, then stops without another demanded answer or implementation."
+          }
         ],
-        "invariants": [{"id": "discussion-only", "kind": "unchanged"}]
+        "invariants": [
+          {
+            "id": "discussion-only",
+            "kind": "unchanged"
+          }
+        ]
       }
     },
     {
@@ -1206,10 +1298,21 @@
       ],
       "evaluation": {
         "criteria": [
-          {"id": "necessary-expansion", "description": "Recognizes that durable state is needed for the existing restart test and helps resolve bounded state or recovery decisions; does not park this branch merely because it adds work or demand a goal change."},
-          {"id": "bounded-scope", "description": "Keeps discussion tied to the prototype test without inventing a reusable framework requirement or treating proposed persistence choices as already accepted."}
+          {
+            "id": "necessary-expansion",
+            "description": "Recognizes that durable state is needed for the existing restart test and helps resolve bounded state or recovery decisions; does not park this branch merely because it adds work or demand a goal change."
+          },
+          {
+            "id": "bounded-scope",
+            "description": "Keeps discussion tied to the prototype test without inventing a reusable framework requirement or treating proposed persistence choices as already accepted."
+          }
         ],
-        "invariants": [{"id": "discussion-only", "kind": "unchanged"}]
+        "invariants": [
+          {
+            "id": "discussion-only",
+            "kind": "unchanged"
+          }
+        ]
       }
     },
     {
@@ -2475,6 +2578,372 @@
           {
             "id": "preserved-files",
             "kind": "unchanged"
+          }
+        ]
+      }
+    },
+    {
+      "id": "fern-workflow-review",
+      "skill": "fern",
+      "context": "Offline source review. Only the supplied fern package is available; no other skills or custom roles are available. Read local fixture files only. Do not execute project code, use the network, spawn agents, or change files.",
+      "turns": [
+        "Use $fern to review retry.py against contract.md. Explain any defect and propose a correction; do not modify files."
+      ],
+      "files": {
+        "retry.py": "def retries(value):\n    return min(value, 3)\n",
+        "contract.md": "# Retry contract\n\nReturn an integer between 0 and 3 inclusive for every integer input.\n"
+      },
+      "evaluation": {
+        "criteria": [
+          {
+            "id": "grounded-review",
+            "description": "Identifies that negative input remains negative, ties it to the supplied contract, and proposes a bounded correction. Distinguishes source inspection from runtime verification."
+          },
+          {
+            "id": "review-boundary",
+            "description": "Performs review without fixes, installs, agent spawns, or project execution; absence of a reviewer does not prevent useful review. Does not claim independent review or runtime success."
+          }
+        ],
+        "invariants": [
+          {
+            "id": "unchanged",
+            "kind": "unchanged"
+          }
+        ]
+      }
+    },
+    {
+      "id": "fern-workflow-local-edit",
+      "skill": "fern",
+      "context": "Offline isolated configuration edit. Only the supplied fern package is available; no other skills or custom roles are available. You may inspect and edit fixture files and read back the result. No network, installation, agent spawn, project execution, Git operations, or other file writes are allowed.",
+      "turns": [
+        "Use $fern to change only retry_timeout_seconds in settings.json from 30 to 45 seconds. Keep all other settings and notes.txt unchanged. Verify the saved value and do not commit."
+      ],
+      "files": {
+        "settings.json": "{\n  \"retry_timeout_seconds\": 30,\n  \"max_attempts\": 3\n}\n",
+        "notes.txt": "Unrelated sentinel: preserve exactly.\n"
+      },
+      "evaluation": {
+        "criteria": [
+          {
+            "id": "actual-edit",
+            "description": "Changes the requested setting to 45 and reads the saved value, preserving max_attempts and the unrelated sentinel. A proposal alone is insufficient."
+          },
+          {
+            "id": "proportional-work",
+            "description": "Completes the authorized edit with available methods; no repeated approval, skill installation, invented skill invocation, plan file, test harness, or publishing."
+          }
+        ],
+        "invariants": [
+          {
+            "id": "only-setting",
+            "kind": "only_changes",
+            "paths": [
+              "settings.json"
+            ]
+          },
+          {
+            "id": "required-edit",
+            "kind": "changed",
+            "paths": [
+              "settings.json"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fern-workflow-steering",
+      "skill": "fern",
+      "context": "Offline isolated task with only the supplied fern package available. Read context.md and settings.json. No network, installation, agent spawn, project execution, Git operations, or new files. Apply file edits only if the current user turn requests them. Deliver the turns separately.",
+      "turns": [
+        "Use $fern to compare keeping the timeout at 30 seconds with raising it to 45. Give a recommendation and keep files unchanged.",
+        "Use 45 seconds. Apply that decision locally and verify the saved setting. Do not commit or publish."
+      ],
+      "files": {
+        "settings.json": "{\n  \"retry_timeout_seconds\": 30,\n  \"max_attempts\": 3\n}\n",
+        "notes.txt": "Unrelated sentinel: preserve exactly.\n",
+        "context.md": "# Observed workload\n\nValid operations can take 40 seconds. Keep max_attempts at 3.\n"
+      },
+      "evaluation": {
+        "criteria": [
+          {
+            "id": "first-turn",
+            "description": "First response compares the two values against the supplied workload, recommends a justified choice, and leaves files unchanged. Inspect the first-turn snapshot and actual actions."
+          },
+          {
+            "id": "accepted-decision",
+            "description": "Second turn applies 45 and verifies the saved value without another approval or replanning. Keeps max_attempts, context, and sentinel unchanged and retains the local-only endpoint."
+          }
+        ],
+        "invariants": [
+          {
+            "id": "only-setting",
+            "kind": "only_changes",
+            "paths": [
+              "settings.json"
+            ]
+          },
+          {
+            "id": "required-edit",
+            "kind": "changed",
+            "paths": [
+              "settings.json"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fern-workflow-stale-evidence",
+      "skill": "fern",
+      "context": "Offline evidence-handling trial. Read the supplied records only. Versions A and B and the check log are synthetic evidence, not tests you executed. No commands other than file reads, no edits, network, agents, or publication.",
+      "turns": [
+        "Use $fern to tell me whether version B is ready for local review with the required validation complete. Use the supplied records only."
+      ],
+      "files": {
+        "records.md": "# Review records\n\nRequired validation: reject negative retry counts and retain the header text.\n\nVersion A: retries(-1) raises ValueError; header is Retry settings.\nVersion B: retries(-1) returns -1; header is still Retry settings.\n\nRetained log: cwd=snapshot-A; command=python -B checks.py; revision=A; exit=0; 2 passed, 0 failed, 0 skipped. Checks cover negative rejection and header text.\n\nDelegate summary: all checks passed; ready for review.\n"
+      },
+      "evaluation": {
+        "criteria": [
+          {
+            "id": "target-match",
+            "description": "Identifies that the successful run covers A, not changed negative-input behavior in B. Reports required validation for B as incomplete, and identifies the visible contract mismatch without pretending to rerun."
+          },
+          {
+            "id": "evidence-limits",
+            "description": "Retains the earlier result and recognizes unchanged header evidence can remain useful. Does not turn the delegate summary into current full-validation success."
+          }
+        ],
+        "invariants": [
+          {
+            "id": "unchanged",
+            "kind": "unchanged"
+          }
+        ]
+      }
+    },
+    {
+      "id": "fern-workflow-coupled-plan",
+      "skill": "fern",
+      "context": "Offline planning exercise. The supplied architecture.md is the entire project context. No edits, tool execution beyond reads, network, installations, or agent spawns. Return only a proposed work split.",
+      "turns": [
+        "Use $fern to propose how to split this API change between workers. Identify dependencies and verification ownership."
+      ],
+      "files": {
+        "architecture.md": "# API change\n\nChoose a replacement for the shared amount field in schema.json. server.py reads it. generated/client.py is produced from schema.json. web.py and desktop.py use generated/client.py. Code generation writes the same generated directory. All test workers share one fixed-port service. The new representation is not decided yet.\n"
+      },
+      "evaluation": {
+        "criteria": [
+          {
+            "id": "dependency-plan",
+            "description": "Settles or sequences the shared contract before dependent callers, assigns generated output ownership, and accounts for the shared runtime resource. Distinct file paths alone are not treated as sufficient independence."
+          },
+          {
+            "id": "main-ownership",
+            "description": "Reserves integrated checks and final judgment for the current main agent; provides a practical bounded plan without executing or creating another coordinator/state system."
+          }
+        ],
+        "invariants": [
+          {
+            "id": "unchanged",
+            "kind": "unchanged"
+          }
+        ]
+      }
+    },
+    {
+      "id": "fern-workflow-evidence-reuse",
+      "skill": "fern",
+      "context": "Offline synthetic handoff. Implementation and validation have already completed. The supplied records state the target match and are the only evidence; do not run tests, Git, or destructive operations. No network, agents, publishing, or file edits. Evidence handling is being exercised, not real test execution.",
+      "turns": [
+        "Use $fern to prepare this completed change for local review. Reuse the supplied accessible evidence; the authorized endpoint is local review."
+      ],
+      "files": {
+        "handoff.md": "# Evidence\n\nTarget revision: 1111111111111111111111111111111111111111.\nThe task diff and complete dependency set still match snapshot/; the current working tree also contains unrelated changes that are outside this snapshot.\nEvidence files: snapshot/change.txt and logs/check.txt, accessible to the receiver.\n",
+        "snapshot/change.txt": "Task-owned change at revision 1111111111111111111111111111111111111111.\n",
+        "logs/check.txt": "Synthetic retained output\ncwd: snapshot/\ncommand: python -B checks.py\nenvironment: offline fixture, Python 3.11\nrevision: 1111111111111111111111111111111111111111\nexit: 0\n12 passed, 0 failed, 0 skipped\nCoverage: complete task dependency set only; unrelated combined-tree changes were not checked.\n"
+      },
+      "evaluation": {
+        "criteria": [
+          {
+            "id": "usable-handoff",
+            "description": "Provides the tested revision, snapshot and log locations, command, conditions, actual supplied result, and task-only coverage. Does not imply the combined tree was validated."
+          },
+          {
+            "id": "reuse-and-scope",
+            "description": "Reuses retained evidence without rerunning, inventing a new report, claiming this session executed tests, or publishing."
+          }
+        ],
+        "invariants": [
+          {
+            "id": "unchanged",
+            "kind": "unchanged"
+          }
+        ]
+      }
+    },
+    {
+      "id": "fern-workflow-pending-commit",
+      "skill": "fern",
+      "context": "Offline decision exercise with simulated Git process results. Do not invoke Git, run any project command, modify files, use the network, or access credentials. Describe the next safe actions from the supplied records; no real publication is authorized by this fixture.",
+      "turns": [
+        "Use $fern to assess progress and explain the next actions for the previously authorized commit and push described in records.md."
+      ],
+      "files": {
+        "records.md": "# Simulated operation\n\nThe user authorized committing and pushing the validated task change. Signing must remain enabled. Commit returned process handle 42, with no final exit status. HEAD still equals the prior commit A, and the requested change remains staged. No later process output has arrived.\n"
+      },
+      "evaluation": {
+        "criteria": [
+          {
+            "id": "pending-not-complete",
+            "description": "Treats commit as pending, says to wait or poll that process and inspect its final result and resulting commit/content before pushing. Does not infer success from the handle or old HEAD."
+          },
+          {
+            "id": "authorization-and-failure",
+            "description": "Preserves the original commit/push scope without requesting it again; does not propose a duplicate commit, premature push, disabling signing, or treating failure as success. Describes necessary checks rather than claiming execution."
+          }
+        ],
+        "invariants": [
+          {
+            "id": "unchanged",
+            "kind": "unchanged"
+          }
+        ]
+      }
+    },
+    {
+      "id": "fern-workflow-bug-fix",
+      "skill": "fern",
+      "context": "Offline isolated Python project. Read the supplied real skill/SKILL.md and the relevant task playbook before doing the work. Only Fern is available. This fixture is a non-Git source snapshot; do not inspect parent repositories or real profiles. You may inspect local fixture files, edit only the authorized project files, and run Python with -B for the supplied unittest checks and focused project checks. Use no bytecode or other cache files. No network, installations, agent spawns, Git, publication, plan/report files, or edits to the copied skill. Keep delivery local. Only retries.py may change. Preserve contract.md, test_retries.py, and notes.txt. Existing tests define the reported regression.",
+      "turns": [
+        "Use $fern to fix the negative retry count in retries.py. Restore the existing contract in contract.md and run the targeted checks here. Preserve the tests and keep delivery local."
+      ],
+      "files": {
+        "retries.py": "def retries(value):\n    return min(value, 3)\n",
+        "contract.md": "# Retry contract\n\nFor every integer input, return the count clamped to 0 through 3 inclusive.\n",
+        "test_retries.py": "import unittest\n\nfrom retries import retries\n\n\nclass RetryTests(unittest.TestCase):\n    def test_negative(self):\n        self.assertEqual(retries(-2), 0)\n\n    def test_in_range(self):\n        for value in (0, 1, 2, 3):\n            with self.subTest(value=value):\n                self.assertEqual(retries(value), value)\n\n    def test_upper_bound(self):\n        self.assertEqual(retries(9), 3)\n",
+        "notes.txt": "Unrelated task sentinel: preserve exactly.\n"
+      },
+      "evaluation": {
+        "criteria": [
+          {
+            "id": "bug-method",
+            "description": "Actually reads copied Fern instructions and bug-fix playbook, reproduces the existing negative-input failure before editing, and explains its cause against the contract. Do not accept a supplied log or source-only claim as execution."
+          },
+          {
+            "id": "restored-contract",
+            "description": "Actually fixes the implementation, runs the same existing checks afterward with all 3 tests passing, and retains commands, target, exit statuses and counts. Preserves in-range and upper-bound behavior and the local scope; does not weaken tests or defer to implement."
+          }
+        ],
+        "invariants": [
+          {
+            "id": "only-source",
+            "kind": "only_changes",
+            "paths": [
+              "retries.py"
+            ]
+          },
+          {
+            "id": "required-fix",
+            "kind": "changed",
+            "paths": [
+              "retries.py"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fern-workflow-feature",
+      "skill": "fern",
+      "context": "Offline isolated Python project. Read the supplied real skill/SKILL.md and the relevant task playbook before doing the work. Only Fern is available. This fixture is a non-Git source snapshot; do not inspect parent repositories or real profiles. You may inspect local fixture files, edit only the authorized project files, and run Python with -B for the supplied unittest checks and focused project checks. Use no bytecode or other cache files. No network, installations, agent spawns, Git, publication, plan/report files, or edits to the copied skill. Keep delivery local. Only shipping.py and test_shipping.py may change. Preserve requirements.md and notes.txt. The new behavior is specified in requirements.md; the existing tests cover standard shipping.",
+      "turns": [
+        "Use $fern to add optional expedited shipping to shipping_cost as described in requirements.md. Preserve standard shipping and add meaningful checks for the new behavior, then run the local checks."
+      ],
+      "files": {
+        "shipping.py": "def shipping_cost(units):\n    if units < 0:\n        raise ValueError(\"units must be nonnegative\")\n    return 4 if units <= 3 else 8\n",
+        "requirements.md": "# Expedited shipping\n\nshipping_cost accepts an optional expedited argument, default False.\nStandard shipping keeps its current price and negative-input rejection.\nExpedited shipping adds 5 to the standard price for the same units.\nSupported inputs are integer unit counts. Public return values stay integers.\n",
+        "test_shipping.py": "import unittest\n\nfrom shipping import shipping_cost\n\n\nclass ShippingTests(unittest.TestCase):\n    def test_zero(self):\n        self.assertEqual(shipping_cost(0), 4)\n\n    def test_lower_tier(self):\n        self.assertEqual(shipping_cost(3), 4)\n\n    def test_upper_tier(self):\n        self.assertEqual(shipping_cost(4), 8)\n\n    def test_negative(self):\n        with self.assertRaises(ValueError):\n            shipping_cost(-1)\n",
+        "notes.txt": "Unrelated task sentinel: preserve exactly.\n"
+      },
+      "evaluation": {
+        "criteria": [
+          {
+            "id": "feature-method",
+            "description": "Reads copied Fern instructions and feature playbook, inspects existing behavior and tests, and identifies the new optional behavior and compatibility boundary."
+          },
+          {
+            "id": "new-behavior",
+            "description": "Implements the optional expedited argument with the specified surcharge and default. Adds meaningful tests for expedited prices across both tiers and preservation of default/explicit standard behavior and negative rejection. Existing assertions remain effective. Tests exercise new production behavior rather than only constants or mocks."
+          },
+          {
+            "id": "verified-feature",
+            "description": "Actually runs the final expanded checks successfully and reports commands, target, exit status and scope. Reuses the local task context without installations, Git, unrelated artifacts, or another implementation skill."
+          }
+        ],
+        "invariants": [
+          {
+            "id": "only-feature-files",
+            "kind": "only_changes",
+            "paths": [
+              "shipping.py",
+              "test_shipping.py"
+            ]
+          },
+          {
+            "id": "feature-and-checks",
+            "kind": "changed",
+            "paths": [
+              "shipping.py",
+              "test_shipping.py"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fern-workflow-refactoring",
+      "skill": "fern",
+      "context": "Offline isolated Python project. Read the supplied real skill/SKILL.md and the relevant task playbook before doing the work. Only Fern is available. This fixture is a non-Git source snapshot; do not inspect parent repositories or real profiles. You may inspect local fixture files, edit only the authorized project files, and run Python with -B for the supplied unittest checks and focused project checks. Use no bytecode or other cache files. No network, installations, agent spawns, Git, publication, plan/report files, or edits to the copied skill. Keep delivery local. Only invoice.py may change. Preserve contract.md, test_invoice.py, and notes.txt. The existing output for negative quantities is intentional for this exercise; the task authorizes a structural change only.",
+      "turns": [
+        "Use $fern to remove the duplicated rate decision from invoice_total and invoice_label. Keep their public signatures and all existing outputs, including edge cases, and verify the refactor locally."
+      ],
+      "files": {
+        "invoice.py": "def invoice_total(units, discount=0):\n    rate = 2 if units < 10 else 1\n    return units * rate - discount\n\n\ndef invoice_label(units):\n    rate = 2 if units < 10 else 1\n    return f\"{units} x {rate}\"\n",
+        "contract.md": "# Invoice compatibility\n\nKeep invoice_total(units, discount=0) and invoice_label(units).\nInteger units below 10 use rate 2; units from 10 use rate 1.\nTotals subtract the discount after multiplying units by the rate.\nLabels are exactly <units> x <rate>. Preserve negative and zero behavior.\n",
+        "test_invoice.py": "import unittest\n\nfrom invoice import invoice_label, invoice_total\n\n\nclass InvoiceTests(unittest.TestCase):\n    def test_totals(self):\n        for units, expected in ((-2, -4), (0, 0), (9, 18), (10, 10), (11, 11)):\n            with self.subTest(units=units):\n                self.assertEqual(invoice_total(units), expected)\n\n    def test_discounts(self):\n        self.assertEqual(invoice_total(9, 3), 15)\n        self.assertEqual(invoice_total(10, 3), 7)\n        self.assertEqual(invoice_total(-2, 3), -7)\n\n    def test_labels(self):\n        for units, expected in ((-2, \"-2 x 2\"), (0, \"0 x 2\"), (9, \"9 x 2\"), (10, \"10 x 1\"), (11, \"11 x 1\")):\n            with self.subTest(units=units):\n                self.assertEqual(invoice_label(units), expected)\n",
+        "notes.txt": "Unrelated task sentinel: preserve exactly.\n"
+      },
+      "evaluation": {
+        "criteria": [
+          {
+            "id": "refactor-method",
+            "description": "Reads copied Fern instructions and refactoring playbook, states the structural goal and protected public behavior, and runs an actual passing baseline before editing."
+          },
+          {
+            "id": "shared-rate-owner",
+            "description": "Removes the duplicated rate decision so both public functions use one shared implementation without changing their signatures or adding unrelated features. Inspect source changes, not just passing tests."
+          },
+          {
+            "id": "equivalent-behavior",
+            "description": "Actually reruns all 3 existing tests successfully after editing, retaining negative, zero, boundary, discount, and exact label behavior. Reports commands, target, exit status and coverage accurately; tests and sentinel remain untouched."
+          }
+        ],
+        "invariants": [
+          {
+            "id": "only-implementation",
+            "kind": "only_changes",
+            "paths": [
+              "invoice.py"
+            ]
+          },
+          {
+            "id": "required-refactor",
+            "kind": "changed",
+            "paths": [
+              "invoice.py"
+            ]
           }
         ]
       }

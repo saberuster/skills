@@ -1,18 +1,14 @@
 """Harness regression checks with synthetic responses, never agent/model runs."""
 
-import importlib.util
 import json
 import shutil
 import tempfile
 import unittest
 from pathlib import Path
 
+from scripts import behavior_trials as trials
+
 ROOT = Path(__file__).resolve().parents[1]
-MODULE_SPEC = importlib.util.spec_from_file_location(
-    "behavior_trials", ROOT / "scripts/behavior_trials.py"
-)
-trials = importlib.util.module_from_spec(MODULE_SPEC)
-MODULE_SPEC.loader.exec_module(trials)
 
 
 class BehaviorTrialsTests(unittest.TestCase):
@@ -25,10 +21,9 @@ class BehaviorTrialsTests(unittest.TestCase):
         self.spec_path.parent.mkdir()
         shutil.copyfile(trials.SPEC, self.spec_path)
         shutil.copytree(ROOT / "examples/fixtures", self.spec_path.parent / "fixtures")
+        source_packages = trials.skill_packages(ROOT)
         for case in trials.read_json(self.spec_path)["cases"]:
-            package = self.source / "skills" / case["skill"]
-            if case["skill"] in {"commit", "technical-writing", "reflect"}:
-                package = self.source / "skills/fern" / case["skill"]
+            package = self.source / source_packages[case["skill"]].relative_to(ROOT)
             (package / "references").mkdir(parents=True, exist_ok=True)
             (package / "SKILL.md").write_text("Synthetic complete source\n")
             (package / "references/detail.txt").write_text("Bundled resource\n")
@@ -110,7 +105,7 @@ class BehaviorTrialsTests(unittest.TestCase):
         manifest = trials.read_json(trial / "manifest.json")
         self.assertEqual(
             Path(manifest["source_path"]),
-            self.source / "skills/fern/technical-writing",
+            (self.source / "skills/fern/technical-writing").resolve(),
         )
         self.assertIn("references/detail.txt", manifest["source_hashes"])
         self.assertEqual(

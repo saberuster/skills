@@ -6,6 +6,10 @@ Planned next minor release: `0.2.0`.
 
 ### Added
 
+- Repository-wide native Windows regressions on every PR/push and full run,
+  plus manual dispatch. Automatically includes new non-engine test modules,
+  requires junction/symlink execution, rejects unexpected skips, and records
+  exact POSIX/Linux exclusions with test and environment evidence.
 - Repository-wide validation layers with a unified local Docker launcher,
   deterministic PR checks, affected runtime and agent checks, and full
   scheduled/manual/release coverage. Includes every existing test module,
@@ -22,6 +26,20 @@ Planned next minor release: `0.2.0`.
   behavior runs.
   These entrypoints do not establish native role loading, Windows junction
   migration, live interruption recovery, or a hosted CI pass.
+- `fern` as an explicitly invoked entry for selecting workflows, coordinating
+  available skills and agents, implementing changes, and completing the user's
+  authorized task in the current main agent. It absorbs the former Implement
+  procedure with bug fix, feature, and refactoring playbooks and shared
+  validation and delivery references. Preserves evidence, authorization,
+  signing, PR, and latest-head CI contracts, including scanned output roots.
+  The old source in `saberuster/agent-skills` remains until Fern publication
+  and consumer access; installed copies are unchanged. Client discovery is
+  not yet verified.
+- Synthetic Fern workflow and delivery cases, including ten selected smoke
+  fixtures for scope, steering, stale evidence, coupled work, evidence reuse,
+  pending Git operations, and actual bug fix, feature, and refactoring work.
+  Former Implement narrative cases are retained under Fern. Actual behavior
+  trials and client discovery remain separate from these definitions.
 - Two offline `setup-fern` behavior cases for mixed agent/config ownership and
   recovery from an already-written file with a stale receipt. Include scoped
   restoration that preserves later edits, exact backups and per-unit records.
@@ -132,6 +150,10 @@ Planned next minor release: `0.2.0`.
 
 ### Changed
 
+- Validation entrypoints distinguish direct-script and package imports,
+  including environments with an unrelated installed `scripts` namespace.
+  The unittest child uses module execution to retain the repository import
+  root; subprocess regressions cover both failures without global `PYTHONPATH`.
 - Defined the exact byte range for Fern instruction receipt hashes, excluding
   the line ending after the end marker. Recognize existing receipts that
   included one immediately following LF or CRLF without normalizing internal
