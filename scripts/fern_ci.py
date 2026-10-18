@@ -4,13 +4,15 @@ import argparse
 import hashlib
 import json
 import os
+import re
+import shlex
 import shutil
 import signal
 import subprocess
 import sys
 import tempfile
 import time
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 
 if __package__ in {None, ""}:
     import behavior_trials
@@ -215,7 +217,7 @@ def stats(path):
 
 
 def permission_fixture(workspace, repair=False):
-    home = workspace / "codex-home"
+    home = workspace / "project" / ".codex"
     config = home / "config.toml"
     os.chown(home, WORKER if repair else 0, WORKER if repair else 0)
     os.chown(config, WORKER if repair else 0, WORKER if repair else 0)
@@ -223,23 +225,85 @@ def permission_fixture(workspace, repair=False):
     config.chmod(0o644 if repair else 0o444)
 
 
-def permission_assertions(turn_stats, commands):
+def permission_installer_command(command):
+    """Accept direct fixture invocation, optionally wrapped by /bin/bash -lc."""
+    try:
+        argv = shlex.split(command) if isinstance(command, str) else command
+        if not isinstance(argv, list) or not all(isinstance(arg, str) for arg in argv):
+            return False
+        if len(argv) == 3 and argv[:2] == ["/bin/bash", "-lc"]:
+            argv = shlex.split(argv[2])
+    except ValueError:
+        return False
+    if len(argv) != 4:
+        return False
+    interpreter, script, option, project = argv
+    return bool(
+        re.fullmatch(r"python(?:3(?:\.\d+)?)?", PurePosixPath(interpreter).name)
+        and script in {"skill/scripts/install.py", "./skill/scripts/install.py"}
+        and option == "--project"
+        and project in {"project", "./project"}
+    )
+
+
+def permission_assertions(turn_stats, turn_commands):
     first, second = turn_stats
-    # Only tool-returned output can supply the failure observation.
-    outputs = [
-        item.get("aggregated_output", "")
-        for item in commands
-        if item.get("type") == "command_execution"
-    ]
+
+    def installer_reports(commands):
+        reports = []
+        for item in commands:
+            if item.get("type") != "command_execution":
+                continue
+            if not permission_installer_command(item.get("command", "")):
+                continue
+            try:
+                report = json.loads(item.get("aggregated_output", ""))
+            except (ValueError, TypeError):
+                continue
+            if (
+                isinstance(report, dict)
+                and report.get("check") is False
+                and isinstance(report.get("results"), list)
+            ):
+                reports.append(report)
+        return reports
+
+    first_reports, retry_reports = map(installer_reports, turn_commands)
+    config_names = {
+        "config:agents.max_concurrent_threads_per_session",
+        "config:agents.default_subagent_model",
+        "config:agents.default_subagent_reasoning_effort",
+        "config:tools.update_plan.enabled",
+    }
     if not any(
-        "PermissionError" in output or "Permission denied" in output
-        for output in outputs
+        {
+            item.get("name")
+            for item in report["results"]
+            if item.get("status") == "failed"
+            and "Permission denied" in item.get("reason", "")
+        }
+        >= config_names
+        for report in first_reports
     ):
-        raise ValueError("No observed OS permission denial in first-turn tool output")
+        raise ValueError(
+            "No observed OS permission denial in first-turn installer output"
+        )
+    if not any(
+        {
+            item.get("name")
+            for item in report["results"]
+            if item.get("status") in {"added", "updated"}
+        }
+        >= config_names
+        for report in retry_reports
+    ):
+        raise ValueError(
+            "Retry did not observe installer application of all config keys"
+        )
     agents = {
         name: value
         for name, value in first.items()
-        if name.startswith("codex-home/agents/")
+        if name.startswith("project/.codex/agents/")
     }
     if len(agents) != 7:
         raise ValueError(
@@ -247,6 +311,11 @@ def permission_assertions(turn_stats, commands):
         )
     if any(second.get(name) != value for name, value in agents.items()):
         raise ValueError("Config retry modified an already-applied agent")
+    instructions = "project/AGENTS.md"
+    if instructions not in first or second.get(instructions) != first[instructions]:
+        raise ValueError(
+            "Config retry modified or omitted already-applied root instructions"
+        )
 
 
 def agent_environment(home):
@@ -367,7 +436,7 @@ def run_case(trial, model, timeout):
     home = Path("/runtime") / trial.name
     transcript = {"turns": []}
     turn_stats = []
-    first_commands = []
+    turn_commands = []
     session = None
     fault = trial.name == "fern-permission-retry"
     if fault:
@@ -392,14 +461,13 @@ def run_case(trial, model, timeout):
             transcript["turns"].append(
                 {"request": request, "response": response, "actions": commands}
             )
-            if number == 1:
-                first_commands = commands
+            turn_commands.append(commands)
             current_stats = stats(workspace)
             turn_stats.append(current_stats)
             write_json(trial / f"turn-{number}-stats.json", current_stats)
             shutil.copytree(workspace, trial / f"turn-{number}-workspace")
         if fault:
-            permission_assertions(turn_stats, first_commands)
+            permission_assertions(turn_stats, turn_commands)
     finally:
         write_json(trial / "actual-transcript.json", transcript)
         # Never follow worker-created links while collecting artifacts.

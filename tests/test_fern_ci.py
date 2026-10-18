@@ -2,9 +2,11 @@
 
 import json
 import os
+import shutil
 import sys
 import tempfile
 import time
+import tomllib
 import unittest
 from pathlib import Path
 from unittest.mock import patch
@@ -13,6 +15,39 @@ from scripts import fern_ci
 
 
 class FernRunnerTests(unittest.TestCase):
+    @staticmethod
+    def permission_commands():
+        names = (
+            "config:agents.max_concurrent_threads_per_session",
+            "config:agents.default_subagent_model",
+            "config:agents.default_subagent_reasoning_effort",
+            "config:tools.update_plan.enabled",
+        )
+        return [
+            [
+                {
+                    "type": "command_execution",
+                    "command": "python skill/scripts/install.py --project project",
+                    "aggregated_output": json.dumps(
+                        {
+                            "check": False,
+                            "results": [
+                                {
+                                    "name": name,
+                                    "status": "failed" if first else "added",
+                                    "reason": "[Errno 13] Permission denied"
+                                    if first
+                                    else "",
+                                }
+                                for name in names
+                            ],
+                        }
+                    ),
+                }
+            ]
+            for first in (True, False)
+        ]
+
     def test_incomplete_or_failed_turn_cannot_pass(self):
         for events in (
             [],
@@ -54,26 +89,171 @@ class FernRunnerTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "No observed OS"):
             fern_ci.permission_assertions(
                 [{}, {}],
-                [{"type": "agent_message", "aggregated_output": "PermissionError"}],
+                [
+                    [{"type": "agent_message", "aggregated_output": "PermissionError"}],
+                    [],
+                ],
             )
+
+    def test_permission_tool_text_without_installer_execution_is_rejected(self):
+        expected = "python skill/scripts/install.py --project project"
+        for command in (
+            f"echo fabricated-json # {expected}",
+            f"echo '{expected}'",
+            f"python -c \"print('{expected}')\"",
+            ["python", "-c", f"print({expected!r})"],
+            ["echo", expected],
+            f'/bin/bash -lc "echo fabricated-json # {expected}"',
+            f"/bin/bash -lc \"python -c 'print({expected!r})'\"",
+            expected + " --check",
+            expected.replace("--project project", "--project other-project"),
+            expected.replace("--project project", "--project /other/project"),
+            expected.replace("--project project", "--project ../project"),
+            expected + " # ignored",
+            expected + "; echo fabricated-json",
+            "python skill/scripts/install.py --project 'project",
+        ):
+            with self.subTest(command=command):
+                commands = self.permission_commands()
+                commands[0][0]["command"] = command
+                with self.assertRaisesRegex(ValueError, "No observed OS"):
+                    fern_ci.permission_assertions([{}, {}], commands)
+
+    def test_permission_accepts_direct_installer_argv_and_bash_wrapper(self):
+        direct = ["python", "skill/scripts/install.py", "--project", "project"]
+        for command in (
+            direct,
+            " ".join(direct),
+            "/usr/local/bin/python3.11 ./skill/scripts/install.py --project ./project",
+            ["/bin/bash", "-lc", " ".join(direct)],
+            "/bin/bash -lc 'python3 skill/scripts/install.py --project project'",
+        ):
+            with self.subTest(command=command):
+                self.assertTrue(fern_ci.permission_installer_command(command))
+
+    def test_permission_retry_must_execute_installer(self):
+        commands = self.permission_commands()
+        commands[1][0]["command"] = "python -c 'edit_config_manually()'"
+        with self.assertRaisesRegex(ValueError, "Retry did not observe installer"):
+            fern_ci.permission_assertions([{}, {}], commands)
 
     def test_permission_retry_detects_same_bytes_rewritten(self):
         first = {
-            f"codex-home/agents/role-{i}.toml": {
+            f"project/.codex/agents/role-{i}.toml": {
                 "sha256": "same",
                 "inode": i,
                 "mtime_ns": 1,
             }
             for i in range(7)
         }
+        first["project/AGENTS.md"] = {"sha256": "rules", "inode": 8, "mtime_ns": 1}
         second = {key: dict(value) for key, value in first.items()}
-        commands = [
-            {"type": "command_execution", "aggregated_output": "Permission denied"}
-        ]
+        commands = self.permission_commands()
         fern_ci.permission_assertions([first, second], commands)
-        second["codex-home/agents/role-0.toml"]["mtime_ns"] = 2
+        second["project/.codex/agents/role-0.toml"]["mtime_ns"] = 2
         with self.assertRaisesRegex(ValueError, "modified an already-applied"):
             fern_ci.permission_assertions([first, second], commands)
+
+    def test_permission_retry_detects_rewritten_root_instructions(self):
+        first = {
+            f"project/.codex/agents/role-{i}.toml": {"mtime_ns": 1} for i in range(7)
+        }
+        first["project/AGENTS.md"] = {"mtime_ns": 1}
+        second = {key: dict(value) for key, value in first.items()}
+        second["project/AGENTS.md"]["mtime_ns"] = 2
+        with self.assertRaisesRegex(ValueError, "already-applied root instructions"):
+            fern_ci.permission_assertions([first, second], self.permission_commands())
+
+    @unittest.skipUnless(
+        sys.platform == "linux"
+        and hasattr(os, "getuid")
+        and os.getuid() == 0
+        and os.environ.get("FERN_VALIDATION_CONTAINER") == "1",
+        "Disposable container root with dedicated worker UID",
+    )
+    def test_permission_installer_failure_repair_and_repeat_as_worker_uid(self):
+        definition = next(
+            case
+            for case in fern_ci.behavior_trials.read_json(fern_ci.behavior_trials.SPEC)[
+                "cases"
+            ]
+            if case["id"] == "fern-permission-retry"
+        )
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            root.chmod(0o755)
+            workspace = root / "workspace"
+            workspace.mkdir()
+            shutil.copytree(
+                fern_ci.ROOT / "skills/fern/setup-fern", workspace / "skill"
+            )
+            for name, content in definition["files"].items():
+                path = workspace / name
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_bytes(content.encode("utf-8"))
+            fern_ci.owned_tree(workspace, fern_ci.WORKER)
+            config = workspace / "project/.codex/config.toml"
+            original = config.read_bytes()
+            fern_ci.permission_fixture(workspace)
+            command = [
+                sys.executable,
+                "skill/scripts/install.py",
+                "--project",
+                "project",
+            ]
+
+            def invoke():
+                result = fern_ci.run_process(
+                    command, workspace, os.environ.copy(), 10, uid=fern_ci.WORKER
+                )
+                self.assertFalse(result["timed_out"])
+                self.assertIsNone(result["cleanup_error"])
+                self.assertEqual(result["stderr"], "")
+                report = json.loads(result["stdout"])
+                event = {
+                    "type": "command_execution",
+                    "command": command,
+                    "aggregated_output": result["stdout"],
+                }
+                return result, report, [event]
+
+            first_result, first_report, first_commands = invoke()
+            self.assertEqual(first_result["returncode"], 1)
+            self.assertEqual(config.read_bytes(), original)
+            statuses = {
+                item["name"]: item["status"] for item in first_report["results"]
+            }
+            self.assertEqual(statuses["instructions:user-rules"], "added")
+            for source in (workspace / "skill/assets/codex/agents").glob("*.toml"):
+                target = workspace / "project/.codex/agents" / source.name
+                self.assertEqual(target.read_bytes(), source.read_bytes())
+                self.assertEqual(statuses[f"agents/{source.name}"], "added")
+            first_stats = fern_ci.stats(workspace)
+            fern_ci.permission_fixture(workspace, repair=True)
+            retry_result, _, retry_commands = invoke()
+            self.assertEqual(retry_result["returncode"], 0)
+            second_stats = fern_ci.stats(workspace)
+            fern_ci.permission_assertions(
+                [first_stats, second_stats], [first_commands, retry_commands]
+            )
+            parsed = tomllib.loads(config.read_text())
+            self.assertEqual(parsed["agents"]["max_concurrent_threads_per_session"], 4)
+            self.assertEqual(parsed["agents"]["default_subagent_model"], "gpt-6.1-sol")
+            self.assertEqual(
+                parsed["agents"]["default_subagent_reasoning_effort"], "high"
+            )
+            self.assertIs(parsed["tools"]["update_plan"]["enabled"], True)
+            self.assertEqual(parsed["model"], "personal-model")
+            self.assertEqual(parsed["agents"]["max_depth"], 2)
+            repeated_result, repeated_report, _ = invoke()
+            self.assertEqual(repeated_result["returncode"], 0)
+            self.assertTrue(
+                all(
+                    item["status"] == "unchanged" for item in repeated_report["results"]
+                )
+            )
+            self.assertEqual(fern_ci.stats(workspace), second_stats)
+            self.assertFalse((workspace / "project/.codex/fern").exists())
 
     def test_missing_auth_is_an_error_before_preparation(self):
         with (

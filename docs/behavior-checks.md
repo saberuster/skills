@@ -17,7 +17,7 @@ the broader examples:
 | `reflect-*` (seven cases) | [reflect](../examples/reflect.md): stop when no durable candidate exists, preserve proposal defaults, route knowledge, apply authorized updates without duplication, preserve unresolved obligations, handle an unavailable skill author, and check stale knowledge during recall |
 | `agents-*` (ten cases) | [maintain-agents-md](../examples/maintain-agents-md.md): discover coverage and effective sources, review commands, preserve policy, apply language preferences, and respect edit scope |
 | `skills-local-edits` | [maintain-skills](../examples/maintain-skills.md): identify and preserve local edits before an update |
-| `setup-fern` cases (twelve) | [setup-fern](../examples/setup-fern.md): apply complete user rules, exercise their delegation policy, repeat resource merges with the plan tool baseline, compare read-only, verify persisted receipts, exercise mixed ownership including an owned false plan tool value and interrupted recovery, and retry after a real fixture permission failure |
+| `setup-fern` cases (eight) | [setup-fern](../examples/setup-fern.md): project setup and check, selected-field overwrite, repeat stability, complete root rules, delegation policy and permission retry |
 | `codex-config-*` (four cases) | [codex-config](../examples/codex-config.md): distinguish target-bound schema evidence from an online schema gap, apply a user-level edit under a project override, and preserve configuration when managed requirements disallow the requested value |
 | `fern-workflow-*` (ten cases) | [fern](../examples/fern.md): review scope, local edits, accepted decisions, stale evidence, coupled work, evidence handoff, pending Git decisions, and actual bug fix, feature, and refactoring work |
 | `docs-schema` | [technical-writing](../examples/technical-writing.md): apply a scoped schema correction while preserving accepted content |
@@ -222,9 +222,9 @@ checkout and real client profiles; on Windows use a writable absolute path.
 The permission-retry case creates a real Linux permission denial, then repairs
 fixture permissions before the separately delivered retry request. Retain
 actual tool output and per-turn file statistics to check the denied attempt
-and unchanged completed units. Preconstructed interruption fixtures do not
-kill a live process. These cases do not establish native custom-agent spawning
-or instruction loading, Windows junction migration, or live crash recovery.
+and unchanged completed agents/root rules. Both turns must execute the bundled
+project installer. These cases do not establish native custom-agent spawning,
+instruction loading or Windows ACL handling.
 
 ## Prepare
 
@@ -294,92 +294,60 @@ automatic selection or host discovery.
 
 ## Select Fern setup cases
 
-Select the twelve case IDs from the table below. `fern-delegation-plan` reads
-the copied user-instruction asset as effective synthetic policy and proposes
-handoffs without invoking setup. The other cases use isolated fixture Codex
-homes, the complete copied `setup-fern` package and a
-synthetic frozen source SHA. Workers may not use network, installers, real
-user-profile access or model spawns. The complete instruction asset includes
-initiative, user precedence, writing style, delegation, built-in explorer model
-and reasoning defaults, and testing rules. Assess the full content as well as
-markers and receipt hashes.
+Select the eight exact IDs below. The installed `setup-fern` package supplies
+its own assets. Targets are isolated projects with root `AGENTS.md`,
+`.codex/config.toml` and six `.codex/agents/*.toml` files. Setup needs no skill
+inventory, Git operation, network, source snapshot or target-type branch.
+Root `AGENTS.md` remains the target when an override file exists. File results
+do not establish native instruction, custom-agent or config loading.
 
 | Case | Focus |
 | --- | --- |
-| `fern-resource-merge` | Add the plan tool baseline to an existing table, preserve unrelated tool settings, and repeat in the same session |
-| `fern-read-only` | Package, provider and optional capability gaps, invocation policies, and conflicts without writes |
-| `fern-delegation-plan` | Apply the maintained user-level dispatch policy to proposed briefs, completed-agent resumption and bounded waiting; no setup or actual delegation |
-| `fern-fresh-user-instructions` | Complete rules and a canonical receipt in a new home |
-| `fern-legacy-instructions-migrate` | Owned legacy block and historical receipt including LF |
-| `fern-legacy-instructions-edited` | Locally edited legacy policy preserved |
-| `fern-persisted-receipts-update` | Fresh reader of canonical, following-LF and following-CRLF current-marker receipts |
-| `fern-persisted-receipts-edited` | Internal whitespace, line-ending edits and target mismatch preserved |
-| `fern-persisted-receipts-read-only` | Current and legacy historical receipt checks without canonicalization |
-| `fern-mixed-resource-update` | Update an owned false plan tool value and other owned units alongside edited and unknown agent/config units |
-| `fern-interrupted-resource-recovery` | Adopt an already-written value and restore only unchanged applied agents |
-| `fern-permission-retry` | Preserve a failed config unit, then retry it after actual fixture permissions are repaired |
+| `fern-project-script-setup` | Replace four differing selected config values, preserve unrelated settings, apply all resources and repeat unchanged |
+| `fern-project-script-check` | Run packaged read-only comparison without converting a difference exit into setup |
+| `fern-project-overwrite` | Replace same-name reviewer and a valid managed block directly, preserving unrelated text and legacy files |
+| `fern-resource-merge` | Preserve personal config and instructions, add the plan-tool value and repeat without duplicate tables |
+| `fern-read-only` | Report missing resources and differing selected values without writes |
+| `fern-delegation-plan` | Apply synthetic project policy to proposed briefs, completed-agent resumption and bounded waiting |
+| `fern-fresh-user-instructions` | Create complete root rules and other bundled project resources through the installer |
+| `fern-permission-retry` | Preserve a failed config write, then retry after actual fixture permissions are repaired |
 
-The [missing plan tool scenarios](../examples/setup-fern.md#native-plan-tool-unavailable)
-route to the executable `codex-config` cases below. They are separate from
-these twelve cases for the setup package.
+Primary setup, overwrite, fresh-project and merge cases must execute
+`python skill/scripts/install.py --project project`. Check cases add `--check`
+and permit local reads only. A comparison difference does not authorize setup.
+Selected config fields always take bundled values during application;
+same-name agents and well-formed current managed blocks are replaced
+directly. Preserve unrelated fields, roles and text outside the managed block.
+No ownership proof, receipt, backup or recovery mechanism is involved.
+Existing `.codex/fern/` files are ignored and preserved; setup creates no new
+bookkeeping artifacts. Malformed TOML, obsolete/malformed markers and linked
+targets must be preserved and reported as errors. Deterministic checks cover those
+failure paths separately from model decision evidence.
 
-Deliver the two `fern-resource-merge` turns separately in the same session,
-retaining the first application before the repeat. Check that
-`tools.update_plan.enabled` becomes true in its existing table, unrelated
-`tools.web_search.allowed_domains` survives, its per-key receipt is correct,
-and the repeat leaves content stable without duplicate TOML tables. In
-`fern-mixed-resource-update`, verify that the receipt-owned false plan tool
-value becomes true with a new per-unit receipt while the edited and unknown
-units retain their existing conflicts. For
-`fern-fresh-user-instructions`, check creation in the effective Codex home and
-the `instructions:user-rules` receipt. Compare
-`fern-legacy-instructions-migrate` with `fern-legacy-instructions-edited`: the
-former allows replacing an exactly owned historical block, while the latter
-requires all fixture files to remain unchanged. Retain actual reads and writes
-to establish that the old receipt is removed only after new-block readback in
-the successful case. The read-only case also requires an unchanged workspace.
+Deliver multi-turn requests separately in the same session, retaining the
+first application's state before repeat. Verify six agent copies, four config
+values and the complete marked instruction asset. Check that differing
+selected values become bundled values while personal model, agent depth,
+unrelated tool settings and comments survive. Root rules before/after the
+managed block and the override file remain unchanged. Compare bytes to reject
+duplicate TOML tables, duplicate markers or rewrites of already aligned files.
 
-For every newly recorded instruction receipt, independently hash the raw
-bytes from the start marker's opening `<` through the end marker's closing
-`>` inclusive. Exclude any following LF or CRLF and preserve internal bytes.
-Check the recorded target and source SHA as well as the digest. Compatibility
-reads may test only that exact range and, when present in the file, the range
-plus its single immediately following LF or CRLF. An internal edit or target
-mismatch must remain unresolved. A compatible historical receipt for an already
-aligned block does not require rewriting its hash or source revision.
+`fern-delegation-plan` reads policy and proposes operations without setup or
+real delegation. The permission case runs the same packaged installer in both
+turns. Initial agents and root rules succeed while all four config keys fail
+with a real OS denial and unchanged config bytes. After administrator repair,
+the installer applies all four keys without rewriting successful agents or
+root rules. Retain commands, returned installer JSON, intermediate files and
+file statistics. Manual resource edits, fabricated denial text or identical
+final bytes alone do not establish this behavior. No bookkeeping is created.
+The native worker-UID regression executes the same failure/repair/repeat path
+without a model; it does not establish an agent chose the correct commands.
 
-Run each persisted-receipt case with a fresh worker. Its prior-run blocks and
-receipts are synthetic fixture files, not observed output from another agent.
-They exercise consumer decisions independently of same-session memory. The
-update case uses short historical bodies to avoid duplicating the current
-asset; verified ownership does not mean those bodies are already aligned.
-The read-only case must retain its historical hashes and legacy receipt key.
-Inspect actions as well as final files to distinguish validation from an
-unauthorized normalization write.
-
-For an actual cross-session handoff, follow the
-[producer-to-consumer procedure](../examples/setup-fern.md#persisted-instruction-receipts-in-a-fresh-session)
-using retained artifacts from an authorized fixture run and a new isolated
-home. Keep the producing snapshot and raw bytes, use a fresh check-only worker,
-and compare all target and receipt bytes afterward. Report this executed
-handoff separately from synthetic prior-run compatibility and from actual host
-loading. Neither fixture preparation nor a first executor's success claim is
-evidence that a later executor read and accepted its receipt.
-
-Run the mixed-resource and interrupted-recovery cases with fresh workers and
-no earlier replies. Their agent files, receipts and journal are synthetic raw
-artifacts. Compare selected file hashes and parsed config values independently;
-retain actual actions to assess validation and receipt ordering. The recovery
-case supplies a previously written config file and a later edit to an applied
-agent; it does not actually interrupt a live process. The harness automatically
-checks required changes, while evaluator criteria cover preservation of
-conflicting units, original backups, unrelated content and per-unit receipts.
-Neither fixture defines a new installer or standard journal format.
-
-These fixtures do not prove actual Codex instruction loading, explorer model
-availability or spawning, live source resolution, or skill installation. Use
-the [setup examples](../examples/setup-fern.md) for the additional narrative
-cases and keep those unexecuted expectations separate from recorded runs.
+The [host acceptance examples](../examples/setup-fern.md#host-loading-and-capability-acceptance)
+cover instruction/agent loading and unavailable plan-tool diagnosis. Those
+expectations remain unverified until separately executed. Record actual
+replies, actions and file outcomes; harness fixtures and synthetic replies do
+not establish agent behavior or native loading.
 
 ## Select Codex configuration cases
 

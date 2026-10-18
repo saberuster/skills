@@ -189,7 +189,7 @@ def make_plan(layer, *, root=ROOT, base=None, cases=None, checks=None, latest=Fa
                 "scope": "native-host",
                 "skills": ["setup-fern"],
                 "status": "not_run",
-                "reason": "Native custom-agent/instruction loading and Windows migration require host evidence",
+                "reason": "Effective project config, native custom-agent/instruction loading, Windows migration and Codex Cloud publication/new-task discovery require host evidence",
             }
         )
     if "commit" in selected:

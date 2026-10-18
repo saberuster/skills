@@ -124,13 +124,16 @@ Fern-specific calls; the unified launcher is the maintained selection entry.
 
 The installation probe tests real Skills CLI installation from resolved public
 snapshots, copied package bytes and source provenance, and fresh Codex user
-skill discovery. Its repeat verification is read-only. It does not install the
-unpublished candidate or test a second mutating installation. Parsing bundled
-agent TOMLs, checking config and embedding instructions do not establish native
-custom-agent loading. See the
+skill discovery. It is separate from Setup Fern's project resource installer,
+which installs no skills. Deterministic `checks` run the bundled installer
+against disposable projects to verify config merges, agent copies, instruction
+blocks, bundled-value overrides, unrelated-content preservation and unchanged
+repeats. Linux Docker also runs the installer under the worker UID through a
+real permission denial and repaired retry; Windows excludes that POSIX case.
+Parsing TOML and checking
+files do not establish native custom-agent loading. See the
 [behavior procedure](behavior-checks.md#run-setup-fern-in-docker) for actual
-model runs and the [Fern cases](../examples/setup-fern.md) for the remaining
-manual scenarios.
+model runs and the [Fern cases](../examples/setup-fern.md) for manual scenarios.
 
 ### Blender regressions
 

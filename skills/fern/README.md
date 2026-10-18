@@ -19,9 +19,8 @@ the task requires it.
 - [Fern](fern/SKILL.md): choose the simplest effective workflow, coordinate
   available skills and agents, implement and validate changes, and complete
   authorized Git, PR, and CI delivery in the current chat.
-- [Setup Fern](setup-fern/SKILL.md): align a curated Codex environment with
-  the mandatory Fern and meta collections, selected external skills, custom
-  agents, configuration, and complete personal user instructions.
+- [Setup Fern](setup-fern/SKILL.md): apply bundled custom agents, configuration
+  and complete instructions to a Codex project.
 - [Commit](commit/README.md): draft or review Conventional Commit messages and
   create scoped Git commits when requested.
 - [Technical Writing](technical-writing/SKILL.md): create, revise,
@@ -62,22 +61,11 @@ Fern is published and accessible from this repository. Existing installations
 keep their current source until an explicit switch through `maintain-skills`;
 use `$fern` after switching to the replacement.
 
-`setup-fern` maintains the personal environment baseline. Its complete package
-includes the six custom agent TOMLs formerly stored in the repository's root
-`agents/` directory. Its [baseline](setup-fern/references/baseline.md) selects
-the two mandatory collections, `gh`, and host capability checks; other
-collections remain optional. See its
-[installation contract](setup-fern/references/codex-installation.md) and
-[synthetic cases](../../examples/setup-fern.md) before exercising setup.
-Source changes do not update existing installations. Live setup and
+`setup-fern` applies its bundled project resources through one Python installer.
+It merges `.codex/config.toml`, copies the six custom agent TOMLs into
+`.codex/agents/`, and adds the complete instruction asset to root `AGENTS.md`.
+The same command works locally and in Codex Cloud. Skill installation is
+separate. See its [usage and merge rules](setup-fern/references/installation.md)
+and [synthetic cases](../../examples/setup-fern.md).
+Source changes do not update existing installations. File application and
 fresh-session loading of its Codex resources remain separate checks.
-
-Skills are maintained individually in this collection. `commit` was migrated
-from `git-commit`, `technical-writing` from `technical-docs`, and `reflect`
-from `learn-from-session`;
-`unslop` handles focused language editing. `talk-it-through` was moved from
-the `thinking` collection.
-Existing installations are unchanged; select the new source path and name
-when installing or migrating a skill. Discovery under `commit` and `reflect`
-and from the relocated `talk-it-through` source has not been verified. Plugin
-packaging and installation are not configured yet.

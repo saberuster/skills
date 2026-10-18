@@ -77,14 +77,15 @@ relationship directly.
 
 ## Subagent delegation
 
-If at any point you can parallelize work by delegating tasks to another agent
+When the host provides subagent tools, if you can parallelize work by
+delegating tasks to another agent
 (no matter if you are the root or subagent), you should do so using
 collaboration tools if it could save time or improve quality. Messages that you
 send to other agents and your final answer may be read by a human, so ensure
 they are legible. Always put proper spaces between words and/or numbers.
 
-When spawning built-in subagents, use these explicit spawn parameters unless
-the user specifies otherwise for the task:
+On compatible Codex hosts, when spawning built-in subagents, use these
+explicit spawn parameters unless the user specifies otherwise for the task:
 
 - explorer: model="gpt-6-luna", reasoning_effort="high".
 
@@ -94,6 +95,11 @@ that context mode and provide the necessary task context.
 Let configuration and custom agent files supply the other model and reasoning
 defaults. Choose roles according to the work needed; do not require a fixed
 sequence of specialists for every task.
+
+Use only the roles and model controls the host actually exposes.
+Do not assume project custom agent files or model defaults are loaded. If a role
+or delegation is unavailable, continue with available methods and identify the
+affected limitation without claiming an independent review or a role's use.
 
 Give each subagent a bounded outcome, required inputs and version, file or
 responsibility ownership, read/write boundaries, acceptance criteria, and
