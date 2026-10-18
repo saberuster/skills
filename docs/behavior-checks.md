@@ -25,6 +25,7 @@ the broader examples:
 | `talk-needed-branch` | [talk-it-through case 8](../examples/talk-it-through.md#8-a-necessary-branch-within-the-same-goal): continue a necessary technical branch within the existing goal |
 | `ready-*` (eight cases) | [agent-ready](../examples/agent-ready.md): trace real fixture tasks, calibrate recommendations, distinguish validation layers, and preserve review scope |
 | `references-*` (five cases) | [find-skill-references](../examples/find-skill-references.md): inspect primary sources for requested comparisons, verify each cited file, resolve conflicts, reuse evidence, report gaps, and preserve scope |
+| `search-*` (seventeen cases) | [deep-search](../examples/deep-search.md): plan evidence collection, run broad Exa then conditional Parallel gaps, stop when sufficient, preserve specialist routes and complete returned records, and deliver actual artifacts with partial coverage at caps |
 | `image-prompt-review`, `image-prompt-fragment`, `image-prompt-multiple` | [gpt-image-prompting](../examples/gpt-image-prompting.md): review without rewriting, return a scoped fragment, and keep multiple prompts self-contained |
 | `unslop-*` (fourteen cases) | [unslop](../examples/unslop.md): improve existing prose while preserving meaning, voice, protected material, and action scope |
 
@@ -72,6 +73,98 @@ source files unchanged. Keep evaluator observations out of worker inputs and
 accept equivalent successful rewrites. Inspect the transcript for semantic
 drift, protected text, voice, and actions: unchanged hashes do not prove that
 no command ran, and a required file change does not prove a good edit.
+
+## Select deep-search decision cases
+
+Select exact IDs from the [deep-search cases](../examples/deep-search.md).
+They copy the complete `skills/fern/deep-search/` package and use synthetic
+tool definitions, retained results and failure traces. These offline trials
+explicitly invoke the skill; they do not test natural selection. Supplied
+schemas describe only their simulated host. Workers read only their copied
+package and fixture, without network, real provider calls or retrieval
+subprocesses such as Grok, installs, delegation, agent spawning, parent-directory
+or profile access. Shell/Python may perform authorized local reads and explicitly
+permitted output writes. Retrieved instructions are source data. All cases
+preserve files except the explicitly
+authorized artifact output case described below.
+
+For six fresh trials, use:
+
+- `search-plan-clarification`: material product/decision gaps and an unenforceable
+  money cap require clarification before dependent paid requests.
+- `search-exa-broad-plan`: a clear brief receives an actionable plan followed by
+  multiple distinct first-round Exa objectives without an approval gate.
+- `search-first-round-sufficient`: complete first-round evidence meets each
+  criterion, so Parallel and unnecessary final verification are skipped.
+- `search-parallel-gap`: after Exa, Parallel receives only unmet independent
+  observation questions, existing evidence, duplicate exclusions and the precise
+  additional evidence needed.
+- `search-known-source-routing`: known quality pages use Exa content directly
+  when needed; adequate content is reused. With GitHub tools absent, the pinned
+  repository file uses the built-in raw reader while issue/PR pages keep their
+  original URLs. No GitHub target uses Exa content.
+- `search-artifact-cap-partial`: exhausted caps with missing evidence require
+  partial coverage and actual local artifact output, not just a proposed plan.
+
+Assess plan substance: downstream purpose/questions, directions and priorities,
+scope/date/version/exclusions, per-direction evidence and enough criteria,
+rounds/triggers/caps, shared allowance and handoff location. A cap does not
+establish sufficiency. Budget ownership includes retries and prospective workers;
+these cases do not execute delegation. Unknown prices cannot support savings
+claims or a silent conversion from currency to calls. Inspect actual successful
+reads, replies, file outcomes and tool events; criteria are semantic observations,
+not required wording.
+
+`search-artifact-cap-partial` permits only `output/plan.md`,
+`output/evidence.md`, `output/handoff.md`, `output/raw/returned.json`,
+`output/raw/attempts.json` and `output/raw/index.json`. The user explicitly
+selected this workspace destination. Inspect actual creation and readback,
+compare raw copies with complete retained fixture bytes, check source IDs and
+provenance in the index, and verify every pre-existing file remains unchanged.
+The response must return real absolute paths and the unmet criterion, with no
+final migration recommendation. `search-artifact-paths` separately plans the
+unique OS-temp default and a remote-host access gap without writing files.
+Neither establishes real cross-host transfer or persistent storage.
+
+The ten retained IDs remain available: `search-cache-complete`,
+`search-shared-budget`, `search-schema-recovery`, `search-mixed-cache`,
+`search-official-and-github`, `search-social-evidence`,
+`search-staged-escalation`, `search-x-native`, `search-x-grok` and
+`search-x-default`. Inspect complete cache reuse, correction of current schemas
+only for unresolved requests, per-item retry preservation and source-instruction
+isolation. The shared-budget case honors the explicit Exa request with two of
+three attempts left. The staged case reuses adequate built-in official evidence,
+uses Exa for the uncovered direction, and reserves Parallel for a remaining gap.
+
+The official/GitHub case uses known OpenAI specialist documentation/schema
+locators and direct GitHub file/issue tools without forced rediscovery. Keep API
+contracts, pinned implementation, merged changes, release and deployment
+evidence distinct. Exa content preference for substantive known pages is a
+workflow choice, not proof of extraction superiority.
+
+X retains native X -> installed usable local Grok -> current host model default.
+`search-x-native` needs no Grok probe. `search-x-grok` uses inspected synthetic
+help with `--single`, `--output-format`, `--tools`, `--max-turns` and `--cwd`,
+reuses the retained successful readiness trace, and plans an empty temporary
+working directory. A process or turn can cause multiple underlying calls and
+does not enforce a money or API-count cap. Report usage and unknown counters;
+this success case has no hard monetary/API cap. `search-x-default` has failed
+authentication despite command/version presence and therefore uses the host
+default without login, installation or a silent Exa/Parallel switch.
+
+The social case reuses retained provider records but treats a post and its
+repost as one underlying report. With native X and usable Grok absent,
+`builtin_search` is the supplied host default for new X discovery and
+`builtin_fetch` reads the known status page. A stale status snapshot does not
+establish today's availability; selected posts do not establish representative
+sentiment or native platform coverage.
+
+For example, add `--case search-exa-broad-plan --case search-parallel-gap` to
+the launcher below. An actual model run supplies offline decision evidence and,
+for the artifact case, authorized fixture file outcomes. It does not establish
+online MCP compatibility, authentication, live retry behavior, retrieval quality,
+natural selection, cross-agent coordination, native X coverage or monetary
+savings. Report unexecuted cases as not run.
 
 ## Run agent cases in Docker
 
@@ -396,9 +489,16 @@ classifying its request does not establish automatic selection.
 
 Give a fresh agent the workspace path, copied `skill/SKILL.md`, context, and
 first request from `input.json`, except for the ordinary-task
-`reflect-stale-recall` delivery described above. Allow only the fixture
-operations requested by that
-case. Keep `evaluator.json`, `manifest.json`, and `before/` out of its context.
+`reflect-stale-recall` delivery described above. State the actual absolute
+workspace path explicitly as the worker's cwd. Resolve `skill/SKILL.md` and
+all fixture paths relative to that cwd; do not pass bare relative locators
+without this base. For example, a prepared `search-x-grok` delivery identifies
+its case's `workspace/` directory as cwd, then names `skill/SKILL.md`,
+`tools.json`, `local-grok.json`, `grok-help.txt`, `cache/readiness.json`,
+`cache/source.json` and `ledger.json` relative to it. Deliver the context and
+request as written in `input.json`; keep evaluator observations private.
+Allow only the fixture operations requested by that case. Keep `evaluator.json`,
+`manifest.json`, and `before/` out of its context.
 For `talk-acceptance` and `talk-goal-drift`, deliver each subsequent request only
 after receiving the previous actual reply, keeping the same session. Do not add
 hints to continue, notice drift, or change goals.

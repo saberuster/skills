@@ -6,6 +6,17 @@ Planned next minor release: `0.2.0`.
 
 ### Added
 
+- `deep-search` in `skills/fern/`, replacing the unpublished
+  `multi-source-search` draft. Plans search directions and sufficiency criteria,
+  uses Exa for broad discovery with specialist sources, and sends only assessed
+  gaps to Parallel. Prefers Exa content for known substantive pages; GitHub
+  uses native tools then built-in raw-file reads and excludes Exa content.
+  Preserves the native X, usable local Grok Build, then host-default fallback.
+  Delivers traceable evidence in a user-selected or unique system temporary
+  directory, distinguishing sufficient coverage from budget-limited results.
+  Uses explicit `$deep-search` invocation in Codex with implicit selection
+  disabled; downstream analysis stays with the caller. Offline cases keep
+  decision evidence separate from live search quality, billing, and discovery.
 - Repository-wide native Windows regressions on every PR/push and full run,
   plus manual dispatch. Automatically includes new non-engine test modules,
   requires junction/symlink execution, rejects unexpected skips, and records
