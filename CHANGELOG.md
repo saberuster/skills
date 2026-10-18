@@ -151,6 +151,9 @@ Planned next minor release: `0.2.0`.
 
 ### Changed
 
+- `setup-fern` distinguishes the target chat runtime from a terminal CLI when
+  diagnosing an unavailable plan tool, and checks runtime-specific configuration
+  evidence before inferring support from a feature list or online schema.
 - `setup-fern` now enables native Codex task progress with
   `tools.update_plan.enabled = true` in its maintained config fragment.
   Resource merges and receipts include this key while preserving unrelated

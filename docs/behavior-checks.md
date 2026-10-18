@@ -217,6 +217,11 @@ markers and receipt hashes.
 | `fern-interrupted-resource-recovery` | Adopt an already-written value and restore only unchanged applied agents |
 | `fern-permission-retry` | Preserve a failed config unit, then retry it after actual fixture permissions are repaired |
 
+The [missing plan tool scenarios](../examples/setup-fern.md#native-plan-tool-unavailable)
+are separate manual trials, outside these eleven executable cases. Run the
+runtime-specific and online-schema-only variants in fresh isolated sessions;
+retain their actual reads, replies, and unchanged-file evidence.
+
 Deliver the two `fern-resource-merge` turns separately in the same session,
 retaining the first application before the repeat. Check that
 `tools.update_plan.enabled` becomes true in its existing table, unrelated
