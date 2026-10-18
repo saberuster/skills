@@ -17,7 +17,7 @@ the broader examples:
 | `reflect-*` (seven cases) | [reflect](../examples/reflect.md): stop when no durable candidate exists, preserve proposal defaults, route knowledge, apply authorized updates without duplication, preserve unresolved obligations, handle an unavailable skill author, and check stale knowledge during recall |
 | `agents-*` (ten cases) | [maintain-agents-md](../examples/maintain-agents-md.md): discover coverage and effective sources, review commands, preserve policy, apply language preferences, and respect edit scope |
 | `skills-local-edits` | [maintain-skills](../examples/maintain-skills.md): identify and preserve local edits before an update |
-| `setup-fern` cases (eleven) | [setup-fern](../examples/setup-fern.md): apply complete user rules, repeat resource merges with the plan tool baseline, compare read-only, verify persisted receipts, exercise mixed ownership including an owned false plan tool value and interrupted recovery, and retry after a real fixture permission failure |
+| `setup-fern` cases (twelve) | [setup-fern](../examples/setup-fern.md): apply complete user rules, exercise their delegation policy, repeat resource merges with the plan tool baseline, compare read-only, verify persisted receipts, exercise mixed ownership including an owned false plan tool value and interrupted recovery, and retry after a real fixture permission failure |
 | `codex-config-*` (four cases) | [codex-config](../examples/codex-config.md): distinguish target-bound schema evidence from an online schema gap, apply a user-level edit under a project override, and preserve configuration when managed requirements disallow the requested value |
 | `fern-workflow-*` (ten cases) | [fern](../examples/fern.md): review scope, local edits, accepted decisions, stale evidence, coupled work, evidence handoff, pending Git decisions, and actual bug fix, feature, and refactoring work |
 | `docs-schema` | [technical-writing](../examples/technical-writing.md): apply a scoped schema correction while preserving accepted content |
@@ -263,6 +263,11 @@ intermediate file snapshot to verify first-turn preservation and second-turn
 application. Inspect saved JSON values as well as the harness invariants.
 The evidence and pending-process cases use synthetic retained records; they
 exercise decisions, not actual test execution, Git signing, publication, or CI.
+Coupled-plan exercises Fern's dependency and shared-resource coordination.
+Stale-evidence also covers known environment reuse and pilot delivery failures;
+its paths and commands are simulated inputs. Evidence-reuse remains a control
+against unnecessary validation. General dispatch policy is tested separately
+by `fern-delegation-plan`; none establishes real agent coordination.
 
 The three development cases exercise Fern directly without a separate
 implementation skill. Give each fresh worker its input context, request, and
@@ -289,8 +294,10 @@ automatic selection or host discovery.
 
 ## Select Fern setup cases
 
-Select the eleven setup case IDs from the table below. They use
-isolated fixture Codex homes, the complete copied `setup-fern` package and a
+Select the twelve case IDs from the table below. `fern-delegation-plan` reads
+the copied user-instruction asset as effective synthetic policy and proposes
+handoffs without invoking setup. The other cases use isolated fixture Codex
+homes, the complete copied `setup-fern` package and a
 synthetic frozen source SHA. Workers may not use network, installers, real
 user-profile access or model spawns. The complete instruction asset includes
 initiative, user precedence, writing style, delegation, built-in explorer model
@@ -301,6 +308,7 @@ markers and receipt hashes.
 | --- | --- |
 | `fern-resource-merge` | Add the plan tool baseline to an existing table, preserve unrelated tool settings, and repeat in the same session |
 | `fern-read-only` | Inventory gaps and conflicts without writes |
+| `fern-delegation-plan` | Apply the maintained user-level dispatch policy to proposed briefs, completed-agent resumption and bounded waiting; no setup or actual delegation |
 | `fern-fresh-user-instructions` | Complete rules and a canonical receipt in a new home |
 | `fern-legacy-instructions-migrate` | Owned legacy block and historical receipt including LF |
 | `fern-legacy-instructions-edited` | Locally edited legacy policy preserved |
@@ -313,7 +321,7 @@ markers and receipt hashes.
 
 The [missing plan tool scenarios](../examples/setup-fern.md#native-plan-tool-unavailable)
 route to the executable `codex-config` cases below. They are separate from
-these eleven Fern setup cases.
+these twelve cases for the setup package.
 
 Deliver the two `fern-resource-merge` turns separately in the same session,
 retaining the first application before the repeat. Check that

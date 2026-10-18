@@ -167,6 +167,11 @@ Planned next minor release: `0.2.0`.
 
 ### Changed
 
+- The maintained user instructions own general delegation briefs, completed-agent
+  resumption, and bounded waiting. Fern keeps dependency coordination and
+  validation handoffs, including known tool/environment entrypoints and trial
+  delivery checks, without repeating the general dispatch procedure.
+
 - Fern installation validation checks both supported Skills CLI 1.7.0 hash
   forms against the resolved source snapshot, retaining exact source and
   package-byte verification. Reports preserve allowlisted lock records and

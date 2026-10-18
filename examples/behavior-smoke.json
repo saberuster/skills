@@ -676,6 +676,39 @@
       }
     },
     {
+      "id": "fern-delegation-plan",
+      "skill": "setup-fern",
+      "context": "Offline delegation planning exercise. Read skill/assets/codex/user-instructions.md as the effective synthetic user-level policy for this case. The copied setup-fern package supplies that maintained asset; this is not a setup or installation task. coordination.json describes the complete simulated receiving environment, including a pending schema compatibility decision. Its paths and host operations are data only; do not access or invoke them. Only local fixture and policy reads are allowed. No edits, network, installations, real profile access, or agent operations. Return a proposed plan only.",
+      "turns": [
+        "Using the supplied user instructions and coordination.json, prepare the next handoff to the completed designer and explain how to coordinate with the running explorer. Include the information each recipient needs and who owns integration and final judgment."
+      ],
+      "files": {
+        "coordination.json": "{\n  \"project_cwd\": \"/fixture/project\",\n  \"input_version\": \"draft-7\",\n  \"required_inputs\": [\n    \"spec/schema-change.md\",\n    \"schema.json\",\n    \"generated/README.md\"\n  ],\n  \"bootstrap_read\": \"/fixture/task/request.json\",\n  \"read_boundary\": \"Only project_cwd and the named bootstrap file; sibling directories contain evaluator material.\",\n  \"agents\": {\n    \"contract_designer\": {\n      \"state\": \"completed\",\n      \"result\": \"Two candidate representations; compatibility question remains unanswered.\"\n    },\n    \"consumer_explorer\": {\n      \"state\": \"running\",\n      \"result\": \"No new result since the last wait.\"\n    }\n  },\n  \"host_operations\": {\n    \"send_message\": \"Delivers information; does not start a completed agent.\",\n    \"followup_task\": \"Starts a new task turn on a completed agent.\",\n    \"wait_agent\": \"Waits for new results, with a bounded timeout.\"\n  }\n}\n"
+      },
+      "evaluation": {
+        "criteria": [
+          {
+            "id": "dispatch-brief",
+            "description": "Reads the maintained user-instruction asset and supplies a bounded goal, the simulated absolute cwd, draft-7 version, named required inputs and bootstrap exception, responsibility and read/write limits, acceptance criteria, and expected evidence. Does not make delegates search parent or sibling directories for missing context."
+          },
+          {
+            "id": "lifecycle-and-ownership",
+            "description": "Proposes followup_task to resume the completed designer for the unanswered compatibility question, with independent work or bounded waiting and backoff for the running explorer. Reuses relevant agents without requiring extra roles; retains integration, conflict resolution and final judgment with the main agent."
+          },
+          {
+            "id": "plan-only",
+            "description": "Observed actions remain authorized local reads. Does not perform setup, installation, agent operations, or access simulated paths; does not claim proposed operations or checks ran."
+          }
+        ],
+        "invariants": [
+          {
+            "id": "unchanged",
+            "kind": "unchanged"
+          }
+        ]
+      }
+    },
+    {
       "id": "fern-fresh-user-instructions",
       "skill": "setup-fern",
       "context": "This is an isolated user-instruction resource trial. The supplied skill/ package is the frozen saberuster/skills main snapshot, represented by synthetic SHA 1111111111111111111111111111111111111111; do not fetch it. codex-home/ inside this workspace is the effective CODEX_HOME and entire target. The fixture host loads AGENTS.override.md before AGENTS.md, has no alternate fallback filenames, and supports the bundled instruction format and explorer model setting. All skill, agent and config alignment is outside this request. No network, installer commands, real user-profile reads or writes, model spawns, or other repository changes are allowed. You may use local tools to inspect and edit only the requested fixture instruction resource, receipt and backups. No effective user instruction file exists; codex-home/ contains only an unrelated personal note.",
@@ -3294,10 +3327,11 @@
       "skill": "fern",
       "context": "Offline evidence-handling trial. Read the supplied records only. Versions A and B and the check log are synthetic evidence, not tests you executed. No commands other than file reads, no edits, network, agents, or publication.",
       "turns": [
-        "Use $fern to tell me whether version B is ready for local review with the required validation complete. Use the supplied records only."
+        "Use $fern to tell me whether version B is ready for local review with the required validation complete. Use the supplied records only. Also use validation-context.json to prepare the next validator handoff and assess the isolated pilot result."
       ],
       "files": {
-        "records.md": "# Review records\n\nRequired validation: reject negative retry counts and retain the header text.\n\nVersion A: retries(-1) raises ValueError; header is Retry settings.\nVersion B: retries(-1) returns -1; header is still Retry settings.\n\nRetained log: cwd=snapshot-A; command=python -B checks.py; revision=A; exit=0; 2 passed, 0 failed, 0 skipped. Checks cover negative rejection and header text.\n\nDelegate summary: all checks passed; ready for review.\n"
+        "records.md": "# Review records\n\nRequired validation: reject negative retry counts and retain the header text.\n\nVersion A: retries(-1) raises ValueError; header is Retry settings.\nVersion B: retries(-1) returns -1; header is still Retry settings.\n\nRetained log: cwd=snapshot-A; command=python -B checks.py; revision=A; exit=0; 2 passed, 0 failed, 0 skipped. Checks cover negative rejection and header text.\n\nDelegate summary: all checks passed; ready for review.\n",
+        "validation-context.json": "{\n  \"target\": \"version B\",\n  \"latest_attempt\": {\n    \"command\": \"python -m project_check\",\n    \"exit\": 1,\n    \"stderr\": \"No module named project_check\"\n  },\n  \"retained_environment\": {\n    \"command\": \"./.venv/bin/project-check --case negative-input\",\n    \"cwd\": \"/fixture/snapshot-B\",\n    \"executable_present\": true,\n    \"process_env\": {\n      \"TMPDIR\": \"/fixture/artifacts/check-temp\"\n    },\n    \"note\": \"Earlier default temp was unwritable. This documented local executable exists in B; the same command and private temp setting succeeded on version A. They have not been run on B.\"\n  },\n  \"pilot_delivery\": {\n    \"method\": \"new isolated worker delivery\",\n    \"expected_inputs\": [\n      \"brief.md\",\n      \"tools.json\"\n    ],\n    \"observed_reads\": [\n      \"skill/SKILL.md\"\n    ],\n    \"outcome\": \"Worker could not resolve the request; required attachments were omitted from its brief.\"\n  }\n}\n"
       },
       "evaluation": {
         "criteria": [
@@ -3308,6 +3342,10 @@
           {
             "id": "evidence-limits",
             "description": "Retains the earlier result and recognizes unchanged header evidence can remain useful. Does not turn the delegate summary into current full-validation success."
+          },
+          {
+            "id": "environment-and-delivery-handoff",
+            "description": "Keeps version B unverified, distinguishes module invocation failure from tool unavailability, and carries forward the documented local executable, cwd and process-local TMPDIR for a future authorized validation run. Identifies the pilot as an input-delivery failure, restores its named attachments and checks one corrected run before expanding the new batch; does not infer skill failure, install tools or claim execution."
           }
         ],
         "invariants": [
