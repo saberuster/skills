@@ -17,7 +17,7 @@ the broader examples:
 | `reflect-*` (seven cases) | [reflect](../examples/reflect.md): stop when no durable candidate exists, preserve proposal defaults, route knowledge, apply authorized updates without duplication, preserve unresolved obligations, handle an unavailable skill author, and check stale knowledge during recall |
 | `agents-*` (ten cases) | [maintain-agents-md](../examples/maintain-agents-md.md): discover coverage and effective sources, review commands, preserve policy, apply language preferences, and respect edit scope |
 | `skills-local-edits` | [maintain-skills](../examples/maintain-skills.md): identify and preserve local edits before an update |
-| `setup-fern` cases (eleven) | [setup-fern](../examples/setup-fern.md): apply complete user rules, repeat resource merges, compare read-only, verify persisted receipts, exercise mixed ownership and interrupted recovery, and retry after a real fixture permission failure |
+| `setup-fern` cases (eleven) | [setup-fern](../examples/setup-fern.md): apply complete user rules, repeat resource merges with the plan tool baseline, compare read-only, verify persisted receipts, exercise mixed ownership including an owned false plan tool value and interrupted recovery, and retry after a real fixture permission failure |
 | `fern-workflow-*` (ten cases) | [fern](../examples/fern.md): review scope, local edits, accepted decisions, stale evidence, coupled work, evidence handoff, pending Git decisions, and actual bug fix, feature, and refactoring work |
 | `docs-schema` | [technical-writing](../examples/technical-writing.md): apply a scoped schema correction while preserving accepted content |
 | `talk-acceptance` | [talk-it-through](../examples/talk-it-through.md): advance after local acceptance and stop when asked |
@@ -205,7 +205,7 @@ markers and receipt hashes.
 
 | Case | Focus |
 | --- | --- |
-| `fern-resource-merge` | Codex resources and repeat in the same session |
+| `fern-resource-merge` | Add the plan tool baseline to an existing table, preserve unrelated tool settings, and repeat in the same session |
 | `fern-read-only` | Inventory gaps and conflicts without writes |
 | `fern-fresh-user-instructions` | Complete rules and a canonical receipt in a new home |
 | `fern-legacy-instructions-migrate` | Owned legacy block and historical receipt including LF |
@@ -213,12 +213,18 @@ markers and receipt hashes.
 | `fern-persisted-receipts-update` | Fresh reader of canonical, following-LF and following-CRLF current-marker receipts |
 | `fern-persisted-receipts-edited` | Internal whitespace, line-ending edits and target mismatch preserved |
 | `fern-persisted-receipts-read-only` | Current and legacy historical receipt checks without canonicalization |
-| `fern-mixed-resource-update` | Independent owned updates alongside edited and unknown agent/config units |
+| `fern-mixed-resource-update` | Update an owned false plan tool value and other owned units alongside edited and unknown agent/config units |
 | `fern-interrupted-resource-recovery` | Adopt an already-written value and restore only unchanged applied agents |
 | `fern-permission-retry` | Preserve a failed config unit, then retry it after actual fixture permissions are repaired |
 
 Deliver the two `fern-resource-merge` turns separately in the same session,
-retaining the first application before the repeat. For
+retaining the first application before the repeat. Check that
+`tools.update_plan.enabled` becomes true in its existing table, unrelated
+`tools.web_search.allowed_domains` survives, its per-key receipt is correct,
+and the repeat leaves content stable without duplicate TOML tables. In
+`fern-mixed-resource-update`, verify that the receipt-owned false plan tool
+value becomes true with a new per-unit receipt while the edited and unknown
+units retain their existing conflicts. For
 `fern-fresh-user-instructions`, check creation in the effective Codex home and
 the `instructions:user-rules` receipt. Compare
 `fern-legacy-instructions-migrate` with `fern-legacy-instructions-edited`: the

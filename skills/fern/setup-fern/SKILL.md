@@ -61,8 +61,9 @@ backups, merges, receipts, and recovery. The owned resources are:
 
 - [Custom agent files](assets/codex/agents/): copy standalone TOMLs into the
   selected Codex home; no config registration or source checkout is required.
-- [Config fragment](assets/codex/config.fragment.toml): merge only its three
-  selected keys; preserve all unrelated values, tables, and comments.
+- [Config fragment](assets/codex/config.fragment.toml): merge its selected
+  agent defaults and `tools.update_plan.enabled` for native task progress;
+  preserve all unrelated values, tables, and comments.
 - [User instructions](assets/codex/user-instructions.md): apply the complete
   personal rule baseline, including initiative, instruction precedence,
   writing style, subagent delegation, explorer model selection, and testing.

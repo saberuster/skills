@@ -14,7 +14,7 @@ these targets before preparing changes:
 | Resource | Target | Owned unit |
 | --- | --- | --- |
 | `assets/codex/agents/*.toml` | `<CODEX_HOME>/agents/<name>.toml` | One selected file |
-| `assets/codex/config.fragment.toml` | `<CODEX_HOME>/config.toml` | Three selected `[agents]` keys |
+| `assets/codex/config.fragment.toml` | `<CODEX_HOME>/config.toml` | Selected `[agents]` keys and `tools.update_plan.enabled` |
 | `assets/codex/user-instructions.md` | Effective user instruction file | One complete marked rule block |
 | Application receipt | `<CODEX_HOME>/fern/receipt.json` | Codex resource evidence only |
 
@@ -69,18 +69,25 @@ override; role instructions and inherited session permissions still apply.
 
 ### Configuration
 
-The fragment owns only these keys under `[agents]`:
+The fragment owns only these configuration keys:
 
 ```toml
 [agents]
 max_concurrent_threads_per_session = 4
 default_subagent_model = "gpt-6.1-sol"
 default_subagent_reasoning_effort = "high"
+
+[tools.update_plan]
+enabled = true
 ```
 
-Merge each selected key into the existing table using a TOML-aware edit that
-preserves unrelated tables, keys, and comments. Create the table only when
-absent. Do not append a second `[agents]` table, overwrite the entire config,
+Include the native task progress setting in each authorized baseline setup or
+update, subject to the per-key ownership checks above and host support.
+Record its successful application as `config:tools.update_plan.enabled`.
+
+Merge each selected key into its existing table using a TOML-aware edit that
+preserves unrelated tables, keys, and comments. Create tables only when
+absent. Do not append duplicate tables, overwrite the entire config,
 or introduce `agents.enabled` merely to repeat its default. Treat other valid
 TOML representations of the same table structurally; do not rely on a text
 search for one exact header. If a faithful merge is unavailable, report the

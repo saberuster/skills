@@ -151,6 +151,10 @@ Planned next minor release: `0.2.0`.
 
 ### Changed
 
+- `setup-fern` now enables native Codex task progress with
+  `tools.update_plan.enabled = true` in its maintained config fragment.
+  Resource merges and receipts include this key while preserving unrelated
+  tool configuration and existing per-key conflict handling.
 - Validation entrypoints distinguish direct-script and package imports,
   including environments with an unrelated installed `scripts` namespace.
   The unittest child uses module execution to retain the repository import
