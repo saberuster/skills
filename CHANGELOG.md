@@ -6,6 +6,17 @@ Planned next minor release: `0.2.0`.
 
 ### Added
 
+- `deep-search` in `skills/fern/`, replacing the unpublished
+  `multi-source-search` draft. Plans search directions and sufficiency criteria,
+  uses Exa for broad discovery with specialist sources, and sends only assessed
+  gaps to Parallel. Prefers Exa content for known substantive pages; GitHub
+  uses native tools then built-in raw-file reads and excludes Exa content.
+  Preserves the native X, usable local Grok Build, then host-default fallback.
+  Delivers traceable evidence in a user-selected or unique system temporary
+  directory, distinguishing sufficient coverage from budget-limited results.
+  Uses explicit `$deep-search` invocation in Codex with implicit selection
+  disabled; downstream analysis stays with the caller. Offline cases keep
+  decision evidence separate from live search quality, billing, and discovery.
 - `codex-config` under `skills/meta/` with a concise entrypoint for inspecting,
   changing, and verifying Codex configuration against the target runtime,
   configuration layers, and enforced requirements. Fern retains baseline
@@ -156,6 +167,12 @@ Planned next minor release: `0.2.0`.
 
 ### Changed
 
+- Fern installation validation checks both supported Skills CLI 1.7.0 hash
+  forms against the resolved source snapshot, retaining exact source and
+  package-byte verification. Reports preserve allowlisted lock records and
+  field-level differences on failure, and identify the accepted hash form.
+  Deterministic regressions cover fallback hashes and diagnostic preservation;
+  native Windows CI checks its Node runtime for the content-hash fixtures.
 - `setup-fern` distinguishes the target chat runtime from a terminal CLI when
   diagnosing an unavailable plan tool, and checks runtime-specific configuration
   evidence before inferring support from a feature list or online schema.

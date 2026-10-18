@@ -54,6 +54,21 @@ Codex resources are applied only by an authorized setup or update.
 [Image generation](skills/image-generation/README.md) groups the three GPT Image
 prompting skills.
 
+[Deep Search](skills/fern/deep-search/SKILL.md), in the Fern collection, plans
+source coverage before multi-round retrieval. Exa handles broad discovery;
+OpenAI Docs, GitHub, and X use specialist routes, and Parallel fills assessed
+gaps. Known substantive pages prefer Exa content when needed; GitHub files use
+native tools then built-in raw reads, never Exa content. X uses native tools,
+usable local Grok Build, then the host model's default search. It hands off
+traceable evidence and coverage gaps in a caller-accessible package, using a
+unique system temporary directory unless an output location is supplied.
+Analysis stays with the calling task. In Codex, invoke `$deep-search`
+explicitly; implicit selection is disabled.
+A standalone skill cannot enforce tool-call ordering. Source creation does not
+install it or establish client discovery.
+See the [synthetic cases](examples/deep-search.md) for its behavior
+boundaries.
+
 [Blender](skills/blender/README.md) groups `blender-low-poly`, `character-rig`,
 and `reference-scene`, migrated from `saberuster/agent-skills` with their
 supporting resources and regression tests. Blender operations require a Blender

@@ -1,0 +1,6 @@
+interface:
+  display_name: "Deep Search"
+  short_description: "Plan multi-round searches and hand off cited evidence"
+  default_prompt: "Use $deep-search to plan comprehensive source coverage, search with Exa and specialist tools, fill remaining gaps with Parallel, and hand off traceable evidence."
+policy:
+  allow_implicit_invocation: false

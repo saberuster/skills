@@ -34,6 +34,9 @@ the task requires it.
 - [Talk It Through](talk-it-through/README.md): develop ideas, compare
   alternatives, and clarify trade-offs through focused discussion while the user
   keeps consequential choices.
+- [Deep Search](deep-search/SKILL.md): explicitly invoke in Codex to plan
+  source coverage, search with Exa and specialist tools, fill gaps with
+  Parallel, and hand off cited evidence within bounded rounds and budgets.
 
 ## Status
 
