@@ -57,6 +57,13 @@ Expect the report to identify the mismatch, preserve the result for A, and name
 the affected verification still needed for B. It must not claim current success,
 fabricate a rerun, or discard unrelated still-valid evidence.
 
+Also supply a failed module invocation, a documented local executable and
+process-local temporary-directory setting that worked on A, and a new pilot
+worker whose brief omitted required attachments. Expect a usable validator
+handoff without declaring the tool unavailable or B verified. Classify the
+pilot as a delivery failure; correct its inputs and inspect one run before
+expanding that new batch. Keep these decisions separate from executed checks.
+
 ## 5. Coupled work and integration responsibility
 
 Request: "Use $fern to propose how to split an API change and its consumers

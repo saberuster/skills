@@ -78,17 +78,10 @@ Keep the goal, scope, accepted decisions, input version, remaining work, and
 evidence current as the user steers or new facts change the approach. Repeated
 failures call for testing the shared assumption before another speculative fix.
 
-Delegate when independent work or specialist judgment improves the result.
-Supply the bounded task, relevant inputs, file/interface ownership, acceptance
-criteria, and expected return. Check shared files, APIs, generated outputs, and
-runtime resources before parallel work; sequence coupled changes or give them
-one owner. Follow host and project role/model policy without another config
-system. Prefer a validator for scoped checks and a reviewer for independent
-review when useful and available; neither fixes files or owns final judgment.
-
-Delegates return scoped results. Inspect their actual changes and evidence,
-resolve contradictions, and integrate them in the current task. A delegate's
-success summary cannot substitute for supporting evidence.
+Before parallel work, identify shared files, interfaces, generated outputs,
+and runtime resources. Sequence dependent changes or assign one owner to
+coupled work. Choose available roles under host and project policy, and
+integrate their actual changes and evidence against the accepted task contract.
 
 ## Verify and deliver
 

@@ -1,7 +1,8 @@
 # Setup Fern Examples
 
 Use these synthetic cases to assess
-[setup-fern](../skills/fern/setup-fern/SKILL.md). Run them in an isolated Codex
+[setup-fern](../skills/fern/setup-fern/SKILL.md) and its bundled user policy.
+Run setup operations in an isolated Codex
 home and skill scope with fixture repositories and controlled CLI responses.
 Do not point a case at the author's installed environment. Save actual agent
 replies, file changes, and assessments using the
@@ -11,7 +12,7 @@ Text review and fixture assertions do not prove a host loaded the package or
 that the agent made the expected decisions. Record actual execution evidence
 and untested expectations separately.
 
-Eleven selected Fern cases are available through the repository-wide
+Twelve selected cases are available through the repository-wide
 [validation layers](../docs/validation.md). On a user machine, use Python
 3.11+, Git and a running Docker daemon, with `CODEX_API_KEY` set in the
 launching environment (`OPENAI_API_KEY` is also accepted locally). For two
@@ -25,7 +26,7 @@ Use a new absolute writable temporary path outside the repository and real
 user profile; replace `/tmp/...` on Windows. Repeat `--case` with exact IDs from
 the [case table](../docs/behavior-checks.md#select-fern-setup-cases) to select
 other Fern cases. The legacy `scripts/run_fern_validation.py --suite behavior`
-entrypoint remains compatible and selects all eleven Fern cases when no case
+entrypoint remains compatible and selects all twelve cases when no case
 is specified; the unified full layer selects cases across all skills.
 
 Repository testing uses the
@@ -70,6 +71,13 @@ For changes to the bundled custom-agent instructions, use the
 [agent handoff comparison cases](fern-agent-handoffs.md). These exercise the
 role instructions directly, separately from setup, installation, and host
 discovery.
+
+The `fern-delegation-plan` case reads the bundled
+`assets/codex/user-instructions.md` as effective synthetic user policy. It
+supplies a receiving cwd, versioned inputs, a bootstrap exception, and simulated
+host operations for a completed designer and running explorer. Assess the
+proposed briefs, task resumption, bounded waiting, and main-agent ownership.
+It does not invoke setup, install rules, or perform actual delegation.
 
 ## Explicit invocation and implicit selection
 
@@ -341,7 +349,7 @@ Use the general [Codex configuration cases](codex-config.md) for diagnosis:
 `codex-config-runtime-schema` tests target-bound support evidence, and
 `codex-config-online-schema-gap` tests unresolved support with an unversioned
 online schema. Both are executable offline, read-only decision trials and
-remain separate from the eleven Fern setup cases. Fern's baseline application
+remain separate from the twelve setup-package cases. Fern's baseline application
 and ownership receipts retain their existing coverage.
 
 ## Custom roles load but a task probe is blocked

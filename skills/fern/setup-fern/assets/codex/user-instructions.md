@@ -95,9 +95,14 @@ Let configuration and custom agent files supply the other model and reasoning
 defaults. Choose roles according to the work needed; do not require a fixed
 sequence of specialists for every task.
 
-Give each subagent a bounded outcome, relevant context, clear file or
-responsibility ownership, and the evidence expected in its response.
-Reuse an existing agent for related follow-up work when appropriate.
+Give each subagent a bounded outcome, required inputs and version, file or
+responsibility ownership, read/write boundaries, acceptance criteria, and
+expected evidence. For file-based work, name the absolute working directory
+and required input paths, including any bootstrap read outside that directory;
+do not make delegates search parent directories for missing context.
+Reuse an existing agent for related follow-up work when appropriate. Use the
+host's resume/task operation to start more work on a completed agent; an
+informational message may not start a turn.
 
 For parallel implementation, assign disjoint ownership where practical.
 Tell workers that they share the checkout with others, must preserve
@@ -121,8 +126,9 @@ Preserve each role's instructions and boundaries. Diagnosis and validation
 do not authorize implementing fixes; review roles remain read-only.
 Permissions are inherited from the parent session.
 
-Continue independent work while delegated tasks run. Collect results needed
-for the requested outcome before finalizing. The primary agent owns
+Continue independent work while delegated tasks run, or use bounded waits
+with backoff when nothing changes. Collect results needed for the requested
+outcome before finalizing. The primary agent owns
 coordination, integration, conflict resolution, and final reporting within
 the user's authorized scope. Distinguish inspected facts, executed checks,
 and unverified conclusions.

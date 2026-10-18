@@ -35,8 +35,9 @@ descriptions are acceptance criteria, not evidence of successful execution.
    token cost. One pair per case is a smoke comparison, not a reliability or
    performance estimate.
 
-The existing `behavior_trials.py` cases for `setup-fern` cover installation
-fixtures; they do not automatically run these custom-agent comparisons.
+The `behavior_trials.py` cases for `setup-fern` cover setup fixtures and the
+bundled user delegation policy; they do not automatically run these custom-agent
+comparisons.
 
 ## Architect: state ownership and compatibility
 

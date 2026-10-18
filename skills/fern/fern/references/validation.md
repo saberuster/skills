@@ -18,12 +18,19 @@ pass. Preserve required in-tree build outputs; block only checks whose effects
 remain unresolved.
 
 Give delegated validators the target, allowed commands and side effects, input
-boundaries, and artifact locations. They collect evidence without implementing
-fixes or changing controlled sources, documentation, fixtures, snapshots, assets,
+boundaries, and artifact locations. Carry forward known-working interpreter and
+tool entrypoints, required process-local environment or temporary-directory
+settings, and known blockers. They collect evidence without implementing fixes
+or changing controlled sources, documentation, fixtures, snapshots, assets,
 manifests, or lockfiles. If a check unexpectedly changes controlled files, stop
 that check, preserve the state, and report the paths. On contamination, retain
 the failure and affected paths before a justified retry. Do not delete existing
 files or change discovery exclusions to make the check pass.
+
+For a new or changed isolated-agent delivery method, check one run's actual
+input reads and scope before expanding the batch. Keep evaluator material out
+of worker inputs. An omitted attachment or wrong working directory is a
+delivery failure; correct it before judging the skill's behavior.
 
 ## Match evidence to delivery
 
@@ -48,8 +55,10 @@ unverified. No separate report file or independent review is mandatory.
 
 Classify failed checks using baseline, fixture, and environment evidence. Fix
 task-induced failures and rerun affected coverage; retain uncertainty when the
-cause is unproven. A zero exit code does not establish required coverage, and
-skipped checks are not passes.
+cause is unproven. An invocation failure alone does not establish that a tool
+is unavailable; check documented or previously working local entrypoints first.
+A zero exit code does not establish required coverage, and skipped checks are
+not passes.
 
 ## Regressions, persistence, and guarded mutations
 
