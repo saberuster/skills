@@ -1,6 +1,7 @@
 # Skills
 
-Focused standalone agent skills by saberuster, licensed under the
+Focused agent skills and a Codex plugin marketplace by saberuster, licensed under
+the
 [MIT License](LICENSE). Use them to maintain project instructions and installed
 skills, reflect on a session, write technical documentation, review project
 readiness for agent work, and work through ideas and decisions, or compose
@@ -17,7 +18,8 @@ It includes
 for scoped configuration inspection, changes, and runtime verification.
 Client discovery for new, renamed, and relocated packages remains unverified.
 
-[fern](skills/fern/README.md) groups personal workflows for accomplishing
+[fern](skills/fern/README.md) is a Codex plugin grouping personal workflows for
+accomplishing
 complex tasks with the simplest effective methods. It includes
 [Fern](skills/fern/fern/SKILL.md) as an explicitly invoked entry for task
 coordination and current-chat development through the authorized endpoint.
@@ -126,6 +128,11 @@ Evidence: [CI run](https://github.com/saberuster/skills/actions/runs/39043119042
 
 ## Get started
 
+For the complete Fern workflow, use the
+[Codex marketplace](docs/plugins.md). Its plugin installs the eight Fern skills
+from their maintained source directories. Individual skills remain available
+through the standalone installation protocol below.
+
 1. Choose a skill from the table and read its requirements.
 2. Use the [installation protocol](docs/installation.md) to select a revision,
    client, scope, and the source directory linked in the catalog.
@@ -200,7 +207,10 @@ this repository. Tags version the whole repository;
 [CHANGELOG.md](CHANGELOG.md) records user-visible changes. Before 1.0, changes
 to task scope or instruction behavior increment the minor version; compatible
 corrections increment the patch version. There is no separate skill version
-file.
+file. The Fern plugin has its own SemVer version in
+[`skills/fern/.codex-plugin/plugin.json`](skills/fern/.codex-plugin/plugin.json).
+Bump that version when shipping changes to any bundled skill or plugin metadata;
+see the [plugin maintenance rules](docs/plugins.md#maintenance-and-releases).
 
 ## License
 

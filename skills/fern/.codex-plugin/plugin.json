@@ -1,0 +1,30 @@
+{
+  "name": "fern",
+  "version": "0.2.0",
+  "description": "Personal workflows for implementation, research, reflection, commits, technical writing, and Codex environment setup.",
+  "author": {
+    "name": "saberuster"
+  },
+  "repository": "https://github.com/saberuster/skills",
+  "license": "MIT",
+  "skills": [
+    "./commit",
+    "./deep-search",
+    "./fern",
+    "./reflect",
+    "./setup-fern",
+    "./talk-it-through",
+    "./technical-writing",
+    "./unslop"
+  ],
+  "interface": {
+    "displayName": "Fern",
+    "shortDescription": "Focused development workflows",
+    "longDescription": "Eight skills for coordinating work, setting up Codex projects, committing, researching, reflecting, discussing decisions, and editing technical prose.",
+    "developerName": "saberuster",
+    "websiteURL": "https://github.com/saberuster/skills/tree/main/skills/fern",
+    "category": "Productivity",
+    "capabilities": [],
+    "defaultPrompt": "Use $fern to carry out my task with the simplest effective workflow."
+  }
+}

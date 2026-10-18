@@ -1,6 +1,14 @@
 # fern
 
-A personal workflow plugin project inspired by pstack.
+A Codex workflow plugin inspired by pstack. The plugin manifest in
+[`.codex-plugin/plugin.json`](.codex-plugin/plugin.json) packages the eight
+skills below from their existing source directories. Each skill also remains
+independently installable.
+
+The repository's `saberuster-skills` marketplace lists this plugin as
+`fern@saberuster-skills`. See the
+[marketplace guide](https://github.com/saberuster/skills/blob/main/docs/plugins.md)
+for registration, installation, updates, and maintenance.
 
 ## Inspiration
 
@@ -49,7 +57,8 @@ references. Specialist skills and agents remain independently usable. Missing
 optional capabilities do not start environment installation. `setup-fern` owns
 that separate preparation lifecycle.
 
-See the [Fern cases](../../examples/fern.md) for behavioral expectations.
+See the [Fern cases](https://github.com/saberuster/skills/blob/main/examples/fern.md)
+for behavioral expectations.
 Static checks, isolated agent trials, client discovery, and live installation
 provide separate evidence. Fern's pinned Codex and Claude Code
 [discovery jobs](https://github.com/saberuster/skills/actions/runs/39066063246)
@@ -66,6 +75,6 @@ It merges `.codex/config.toml`, copies the six custom agent TOMLs into
 `.codex/agents/`, and adds the complete instruction asset to root `AGENTS.md`.
 The same command works locally and in Codex Cloud. Skill installation is
 separate. See its [usage and merge rules](setup-fern/references/installation.md)
-and [synthetic cases](../../examples/setup-fern.md).
+and [synthetic cases](https://github.com/saberuster/skills/blob/main/examples/setup-fern.md).
 Source changes do not update existing installations. File application and
 fresh-session loading of its Codex resources remain separate checks.

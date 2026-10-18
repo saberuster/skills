@@ -108,6 +108,24 @@ alone does not establish the layered plan's runtime coverage.
 
 ## Fern installation provenance
 
+The Codex marketplace and native Fern plugin have separate coverage from the
+Skills CLI installation probe below. `tests/test_fern_plugin.py` validates
+the marketplace source and policy, manifest identity and contained paths,
+complete skill membership, and bundled license in the deterministic `checks`
+layer. Package discovery excludes only the `.codex-plugin` metadata directory
+and still checks the entire source tree for links. Docker snapshots include
+only the exact public `.agents/plugins/marketplace.json` path from `.agents`;
+other profile files remain excluded.
+
+Marketplace and plugin manifest changes select the Fern collection in the
+affected planner. Its `fern-plugin` manual evidence entry keeps actual plugin
+cache loading and fresh-host discovery visible as `not_run`. The existing
+`codex-discovery`, `claude-discovery`, and `fern-install` checks exercise
+standalone skills and cannot satisfy that plugin evidence. Follow the
+[isolated plugin procedure](plugins.md#maintenance-and-releases), retaining
+separate source and client evidence. There is no automated plugin runtime
+job or model behavior change in this packaging addition.
+
 The `fern-install` runtime check verifies the pinned Skills CLI against resolved
 public source snapshots. A lock's `skillFolderHash` may contain either the Git
 directory object ID or the CLI's supported content SHA-256 fallback. The probe

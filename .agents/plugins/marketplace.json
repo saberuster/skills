@@ -1,0 +1,20 @@
+{
+  "name": "saberuster-skills",
+  "interface": {
+    "displayName": "saberuster Skills"
+  },
+  "plugins": [
+    {
+      "name": "fern",
+      "source": {
+        "source": "local",
+        "path": "./skills/fern"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

@@ -6,6 +6,12 @@ Planned next minor release: `0.2.0`.
 
 ### Added
 
+- A Codex marketplace named `saberuster-skills` with the `fern` plugin.
+  Plugin metadata includes version `0.2.0` and the Fern project website.
+  Its versioned native manifest packages all eight existing Fern skill sources
+  without duplicating them. Standalone installation remains available. Includes
+  marketplace and package validation, snapshot isolation, and maintenance and
+  installation guidance; plugin installation does not apply Setup Fern resources.
 - A project-only Setup Fern installer shared by local Codex and Codex Cloud.
   Merges bundled config keys into `.codex/config.toml`, copies six custom agents
   into `.codex/agents/`, and adds the complete managed rule block to `AGENTS.md`.

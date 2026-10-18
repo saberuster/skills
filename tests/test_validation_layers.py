@@ -93,6 +93,36 @@ class LayerPlanTests(unittest.TestCase):
             ):
                 self.assertEqual(len(self.plan(base="main")["selected_skills"]), 3)
 
+    def test_plugin_manifest_changes_select_only_their_collection(self):
+        for path, expected in (
+            (".agents/plugins/marketplace.json", ["setup-fern"]),
+            ("skills/fern/.codex-plugin/plugin.json", ["setup-fern"]),
+            ("skills/blender/.codex-plugin/plugin.json", ["reference-scene"]),
+        ):
+            with (
+                self.subTest(path=path),
+                mock.patch.object(
+                    validation_plan, "changed_paths", return_value=("base", [path])
+                ),
+            ):
+                plan = self.plan(base="main")
+            self.assertEqual(plan["selected_skills"], expected)
+
+    def test_fern_plugin_host_evidence_remains_not_run(self):
+        with mock.patch.object(
+            validation_plan,
+            "changed_paths",
+            return_value=("base", [".agents/plugins/marketplace.json"]),
+        ):
+            plan = self.plan(base="main")
+        plugin = next(
+            item for item in plan["manual_evidence"] if item["scope"] == "fern-plugin"
+        )
+        self.assertEqual(plugin["skills"], ["setup-fern"])
+        self.assertEqual(plugin["status"], "not_run")
+        self.assertIn("standalone skill", plugin["reason"])
+        self.assertNotIn("fern-plugin", {item["check"] for item in plan["checks"]})
+
     def test_docs_only_change_does_not_claim_runtime_pass(self):
         with mock.patch.object(
             validation_plan,

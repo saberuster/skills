@@ -6,6 +6,11 @@ This shared protocol applies to
 all standalone skills in this repository. Reading documentation alone grants no
 permission to install, run a skill, or edit project or skill files.
 
+To install all eight Fern skills as a Codex plugin, use the separate
+[marketplace workflow](plugins.md). Both distribution methods use the same
+leaf sources. Select one method for Fern in a given client to avoid duplicate
+skill entries; switching an existing installation remains an explicit action.
+
 ## Destinations
 
 Select the client and scope explicitly. `<project-root>` is the absolute path

@@ -48,6 +48,8 @@ class LaunchError(Exception):
 def allowed_source(relative, *, all_public=False):
     """Allow public source trees and explicit root metadata only."""
     parts = relative.parts
+    if parts == (".agents", "plugins", "marketplace.json"):
+        return True
     return (
         bool(parts)
         and (
