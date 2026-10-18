@@ -43,13 +43,12 @@ Source changes do not update installed copies. Switch installed sources
 through `maintain-skills` and the invocation from `$implement` to `$fern`
 explicitly.
 
-[Setup Fern](skills/fern/setup-fern/SKILL.md) composes the personal Codex
-environment: all skills in `fern` and `meta`, individually selected external
-skills, six custom agents, selected config values, and complete personal user
-instructions, including subagent scheduling and explorer model selection.
-It delegates skill installation to `maintain-skills` and offers read-only
-comparison. Other collections are selected by project need. The package's
-Codex resources are applied only by an authorized setup or update.
+[Setup Fern](skills/fern/setup-fern/SKILL.md) applies bundled Codex resources
+to a project: six custom agents, selected configuration values and complete
+user instructions. Its Python installer merges `.codex/config.toml`, copies
+`.codex/agents/` and manages a block in the root `AGENTS.md`. The same command
+works locally and in Codex Cloud; it does not install skills. See
+[installer usage](skills/fern/setup-fern/references/installation.md).
 
 [Image generation](skills/image-generation/README.md) groups the three GPT Image
 prompting skills.

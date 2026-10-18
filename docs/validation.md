@@ -89,7 +89,7 @@ run the independent PR layer as well when validating the whole change locally.
 | `checks` | Ruff, Markdown lint, and all non-engine unittest modules, including package/link hygiene, helper scripts, protocol mocks, installer and behavior harness regressions | No API key; PowerShell is supplied for the Godot helper fixtures; synthetic responses do not exercise model decisions |
 | `codex-discovery` | Real Codex app-server initialization and skill listing in an isolated profile | No API key or model prompts; names, descriptions, paths, enabled state and load errors are checked |
 | `claude-discovery` | Real Claude Agent SDK initialization with its bundled CLI in an isolated profile | No API key or model prompts; initialization lists available skill commands |
-| `fern-install` | Real pinned Skills CLI installation from resolved public snapshots, content/provenance checks and fresh Codex user discovery | Network required; validates installation mechanics against public snapshots, not unpublished candidate instructions or a second mutating installation |
+| `fern-install` | Real pinned Skills CLI installation from public snapshots, provenance checks and local discovery | Network required; verifies package installation separately from the project resource installer; no model prompts |
 | `blender` | The two background Blender integration modules | A real Blender executable inside the container; controlled scene creation and audit checks, not visual or human acceptance |
 | `agent-behavior` | Real Codex worker turns and a separate evaluator for selected smoke cases, plus filesystem invariants | Explicit `--run-agent`, accessible `--model` and API credential; real calls, tool actions and judgments must be retained |
 
@@ -136,6 +136,22 @@ content tampering and retained failure diagnostics in the deterministic
 it and native Windows CI checks the image's Node runtime before running tests.
 These fixtures do not establish a real public installation or client discovery;
 the separate `fern-install` runtime job provides that evidence.
+
+The packaged Setup Fern installer has deterministic regression coverage in
+`tests/test_setup_fern_installer.py` and `tests/test_setup_fern_resources.py`,
+selected by `checks` on Linux and Windows. These execute the candidate script
+with bundled assets against isolated projects: config merge, six agents, root
+instructions, direct overwrites, one config write, selected-path link checks,
+unrelated-content preservation, read-only comparison and unchanged repeats.
+The installer does not install skills; the separate `fern-install` probe above
+continues to validate public package distribution and client skill discovery.
+A Linux-only deterministic test in `tests/test_fern_ci.py` runs the actual
+installer as the container worker UID through permission failure, repair and
+retry. Native Windows selection excludes this POSIX test explicitly. The
+project-script agent cases separately exercise model command selection and scope.
+Native custom-agent loading, effective project configuration and Cloud
+publication/new-task discovery remain manual host checks, described in
+[Setup Fern examples](../examples/setup-fern.md).
 
 [skills-hash-selection]: https://github.com/vercel-labs/skills/blob/7407f3893ad4dceab546ac002c3ef806e4000c73/src/add.ts#L2099-L2121
 [skills-content-hash]: https://github.com/vercel-labs/skills/blob/7407f3893ad4dceab546ac002c3ef806e4000c73/src/local-lock.ts#L145-L184
@@ -219,8 +235,7 @@ The independent evaluator assesses actual replies, actions and file outcomes.
 Deterministic invariants also reject unauthorized changes, missing required
 changes and source/case drift. Evaluator agreement alone does not establish
 correctness. Retain intermediate snapshots for multi-turn and retry cases,
-including the real Linux permission-denial/retry fixture. Preconstructed
-interruption artifacts do not exercise a live process crash.
+including the real Linux permission-denial/retry fixture.
 
 Use [behavior-checks.md](behavior-checks.md) for exact case IDs, special
 delivery
@@ -286,7 +301,7 @@ agent cases. Adding them to the full plan does not create an automated test.
 | Area | Available automated evidence | Separate evidence still needed |
 | --- | --- | --- |
 | Skill packages and client support | Static package checks and real prompt-free listing | Natural selection, invocation-policy parity and fresh-chat host loading |
-| Fern setup | Resource parsing, fixture behavior, snapshot installation and discovery | Native custom-agent spawning and user-instruction loading, Windows junction migration, live interruption/recovery and real producer-to-consumer handoff |
+| Fern setup | Resource parsing, fixture behavior, snapshot installation and discovery | Native custom-agent spawning and user-instruction loading, Windows ACL handling and real producer-to-consumer handoff |
 | Godot collection | Fake-process PowerShell helper regressions and package discovery | Real Godot import/build/runtime, editor/MCP operations, scene/resource behavior, UI and playtesting |
 | Blender collection | Pure component geometry and background creation/audit regressions | Reference fidelity, render/visual quality, character deformation and editor/MCP workflows |
 | Image prompt skills | Text fixture behavior for the shared prompt core | Real image observation, entry-skill routing, generated images and asset acceptance |

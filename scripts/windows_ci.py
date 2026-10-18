@@ -14,6 +14,8 @@ from scripts import validation_ci
 
 ROOT = Path(__file__).resolve().parents[1]
 EXCLUDED_CASES = {
+    "test_fern_ci.FernRunnerTests."
+    "test_permission_installer_failure_repair_and_repeat_as_worker_uid": "Linux container worker UID and filesystem permission repair run in Linux Docker",
     "test_godot_build_regressions.GodotBuildRegressionTests."
     "test_output_collection_failure_preserves_native_exit_and_evidence": "POSIX inherited-pipe fixture runs in Linux Docker",
     "test_fern_ci.FernRunnerTests."

@@ -95,8 +95,9 @@ class SetupFernTests(unittest.TestCase):
                 for relative in (
                     "SKILL.md",
                     "agents/openai.yaml",
-                    "references/baseline.md",
-                    "references/codex-installation.md",
+                    "references/installation.md",
+                    "scripts/install.py",
+                    "scripts/resources.py",
                     "assets/codex/config.fragment.toml",
                     "assets/codex/user-instructions.md",
                     *(f"assets/codex/agents/{role}.toml" for role in sorted(ROLES)),

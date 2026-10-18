@@ -67,7 +67,7 @@ class WindowsRegressionTests(unittest.TestCase):
         self.assertEqual(identities, windows_ci.REQUIRED_CASES | {new, similar})
         self.assertIn("test_future", selection["selected_modules"])
         self.assertEqual(selection["selection_errors"], [])
-        self.assertEqual(len(selection["excluded_cases"]), 7)
+        self.assertEqual(len(selection["excluded_cases"]), 8)
         self.assertTrue(all(row["reason"] for row in selection["excluded_cases"]))
         self.assertTrue(all(row["discovered"] for row in selection["excluded_cases"]))
 

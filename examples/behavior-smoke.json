@@ -1,6 +1,116 @@
 {
   "cases": [
     {
+      "id": "fern-project-script-setup",
+      "skill": "setup-fern",
+      "context": "Offline isolated project-resource trial. The complete installed skill/ package supplies the bundled assets. Only project/ inside this workspace is the target. Resources are .codex/config.toml, six .codex/agents/*.toml files and root AGENTS.md. Bundled values replace existing selected config values and same-name agents; unrelated fields, roles and root text outside the managed block remain intact. Setup creates no bookkeeping directories or backups. No Git, network, skill installation, source resolution, real user-profile access or model spawns. Project file results do not establish host loading or model availability. Python 3.11+ is available. Execute python skill/scripts/install.py --project project, using assets from the installed package. ",
+      "turns": [
+        "Use $setup-fern to apply its bundled project resources to project/. Replace the existing selected config values with the bundled values and preserve unrelated settings and project rules.",
+        "Repeat the same project setup and confirm that aligned resources are unchanged."
+      ],
+      "files": {
+        "project/README.md": "# Synthetic project\n",
+        "project/AGENTS.md": "# Existing project rules\n\nPreserve configured commit signing.\n",
+        "other-project/AGENTS.md": "# Unrelated project rules\n",
+        "project/.codex/config.toml": "# Personal configuration\nmodel = \"personal-model\"\n\n[agents]\nmax_concurrent_threads_per_session = 1\ndefault_subagent_model = \"previous-model\"\ndefault_subagent_reasoning_effort = \"low\"\nmax_depth = 2\n\n[tools.update_plan]\nenabled = false\n\n[tools.web_search]\nallowed_domains = [\"example.com\"]\n"
+      },
+      "evaluation": {
+        "criteria": [
+          {
+            "id": "applies-selected-resources",
+            "description": "Observed commands execute the packaged --project project entrypoint. All six project .codex/agents/*.toml files equal bundled assets. Parsed config uses bundled values agents.max_concurrent_threads_per_session=4, agents.default_subagent_model=gpt-6.1-sol, agents.default_subagent_reasoning_effort=high and tools.update_plan.enabled=true, replacing differing existing values. Preserves unrelated model, max_depth and tools.web_search settings without duplicate TOML tables. Root AGENTS.md contains exactly one complete managed instruction block equal to the bundled asset, preserving prior personal text."
+          },
+          {
+            "id": "repeat-and-scope",
+            "description": "Second setup leaves aligned resource bytes stable and does not duplicate tables or instruction blocks. Preserves unrelated roles, project files and copied skill bytes. Creates no .codex/fern directory, receipt, backup or other bookkeeping artifact; does not claim host loading, model success, installation, Git or publication. Retain first-turn files, actual actions and final bytes."
+          }
+        ],
+        "invariants": [
+          {
+            "id": "required-project-resources",
+            "kind": "changed",
+            "paths": [
+              "project/AGENTS.md",
+              "project/.codex/config.toml",
+              "project/.codex/agents/architect.toml",
+              "project/.codex/agents/debugger.toml",
+              "project/.codex/agents/docs_researcher.toml",
+              "project/.codex/agents/reviewer.toml",
+              "project/.codex/agents/validator.toml",
+              "project/.codex/agents/visual_reviewer.toml"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fern-project-script-check",
+      "skill": "setup-fern",
+      "context": "Offline isolated project-resource trial. The complete installed skill/ package supplies the bundled assets. Only project/ inside this workspace is the target. Resources are .codex/config.toml, six .codex/agents/*.toml files and root AGENTS.md. Bundled values replace existing selected config values and same-name agents; unrelated fields, roles and root text outside the managed block remain intact. Setup creates no bookkeeping directories or backups. No Git, network, skill installation, source resolution, real user-profile access or model spawns. Project file results do not establish host loading or model availability. Python 3.11+ is available. Execute python skill/scripts/install.py --project project, using assets from the installed package. Only --check execution and local reads are allowed; do not change anything.",
+      "turns": [
+        "Use $setup-fern to check project/ against the bundled project resources. Do not change anything."
+      ],
+      "files": {
+        "project/AGENTS.md": "# Existing project rules\n\nPreserve configured commit signing.\n"
+      },
+      "evaluation": {
+        "criteria": [
+          {
+            "id": "read-only-script",
+            "description": "Observed command executes python skill/scripts/install.py --project project --check. Reports absent resources while preserving all fixture bytes and creating no directories, resource files or bookkeeping artifacts. Does not run a mutating retry after a difference exit."
+          },
+          {
+            "id": "project-boundary",
+            "description": "Uses only project/ and installed skill assets. Reports file differences separately from native host loading and preserves existing root project rules."
+          }
+        ],
+        "invariants": [
+          {
+            "id": "preserved-fixture",
+            "kind": "unchanged"
+          }
+        ]
+      }
+    },
+    {
+      "id": "fern-project-overwrite",
+      "skill": "setup-fern",
+      "context": "Offline isolated project-resource trial. The complete installed skill/ package supplies the bundled assets. Only project/ inside this workspace is the target. Resources are .codex/config.toml, six .codex/agents/*.toml files and root AGENTS.md. Bundled values replace existing selected config values and same-name agents; unrelated fields, roles and root text outside the managed block remain intact. Setup creates no bookkeeping directories or backups. No Git, network, skill installation, source resolution, real user-profile access or model spawns. Project file results do not establish host loading or model availability. Python 3.11+ is available. Execute python skill/scripts/install.py --project project, using assets from the installed package. Existing selected values, reviewer and valid current-marker rules deliberately differ. Historical .codex/fern files are unrelated legacy data and must be ignored, preserved and never used as prerequisites.",
+      "turns": [
+        "Use $setup-fern to apply its bundled project resources to project/. Replace selected config values, same-name agents and the managed instruction block with the bundled versions; preserve everything else."
+      ],
+      "files": {
+        "project/.codex/config.toml": "# Personal configuration\nmodel = \"personal-model\"\n\n[agents]\nmax_concurrent_threads_per_session = 1\ndefault_subagent_model = \"previous-model\"\ndefault_subagent_reasoning_effort = \"low\"\nmax_depth = 2\n\n[tools.update_plan]\nenabled = false\n\n[tools.web_search]\nallowed_domains = [\"example.com\"]\n",
+        "project/.codex/agents/reviewer.toml": "name = \"reviewer\"\ndescription = \"Previous reviewer\"\ndeveloper_instructions = \"Use previous instructions.\"\n",
+        "project/.codex/agents/personal.toml": "name = \"personal\"\ndescription = \"Personal role\"\ndeveloper_instructions = \"Keep personal notes.\"\n",
+        "project/AGENTS.md": "# Personal project rules\n\nPreserve configured commit signing.\n\n<!-- fern:user-instructions:start -->\n# Historical managed rules\n\nUse historical defaults.\n<!-- fern:user-instructions:end -->\n\nKeep this trailing personal note.\n",
+        "project/.codex/fern/legacy-state.txt": "Historical state must remain byte-identical.\n"
+      },
+      "evaluation": {
+        "criteria": [
+          {
+            "id": "applies-selected-resources",
+            "description": "Observed commands execute the packaged --project project entrypoint. All six project .codex/agents/*.toml files equal bundled assets. Parsed config uses bundled values agents.max_concurrent_threads_per_session=4, agents.default_subagent_model=gpt-6.1-sol, agents.default_subagent_reasoning_effort=high and tools.update_plan.enabled=true, replacing differing existing values. Preserves unrelated model, max_depth and tools.web_search settings without duplicate TOML tables. Root AGENTS.md contains exactly one complete managed instruction block equal to the bundled asset, preserving prior personal text."
+          },
+          {
+            "id": "overwrite-without-ownership",
+            "description": "Replaces the existing reviewer and complete managed block with bundled content without requiring hashes, source commits or ownership records. Preserves personal.toml, root prefix/suffix and legacy .codex/fern/legacy-state.txt exactly. Adds no receipt, backup or bookkeeping files. Does not treat historical state as authority or describe it as necessary for setup."
+          }
+        ],
+        "invariants": [
+          {
+            "id": "selected-existing-resources-changed",
+            "kind": "changed",
+            "paths": [
+              "project/.codex/config.toml",
+              "project/.codex/agents/reviewer.toml",
+              "project/AGENTS.md"
+            ]
+          }
+        ]
+      }
+    },
+    {
       "id": "search-cache-complete",
       "skill": "deep-search",
       "context": "Offline synthetic retrieval decision trial. Records and dates are fictional. A display preview was truncated; the complete returned body is available in cache/result.json. Read only the copied skill package and supplied fixture files; do not inspect parent directories or real profiles. No network, real tool/provider calls, installations, delegates, agent spawning, or file writes. Return source passages or a request plan in the conversation and preserve every file.",
@@ -598,46 +708,45 @@
     {
       "id": "fern-resource-merge",
       "skill": "setup-fern",
-      "context": "This is an isolated Codex-resource trial. The supplied skill/ package is the frozen saberuster/skills main snapshot, represented by synthetic SHA 1111111111111111111111111111111111111111; do not fetch it. codex-home/ inside this workspace is the entire target. The fixture host supports the bundled custom TOMLs, the bundled agents keys, tools.update_plan.enabled and all selected models, and loads AGENTS.override.md before AGENTS.md. Skills and host-skill checks are already complete and outside this request. No network, installer commands, real user-profile reads or writes, model spawns, or other repository changes are allowed. You may use local tools to inspect and edit this fixture only.",
+      "context": "Offline isolated project-resource trial. The complete installed skill/ package supplies the bundled assets. Only project/ inside this workspace is the target. Resources are .codex/config.toml, six .codex/agents/*.toml files and root AGENTS.md. Bundled values replace existing selected config values and same-name agents; unrelated fields, roles and root text outside the managed block remain intact. Setup creates no bookkeeping directories or backups. No Git, network, skill installation, source resolution, real user-profile access or model spawns. Project file results do not establish host loading or model availability. Python 3.11+ is available. Execute python skill/scripts/install.py --project project, using assets from the installed package. Personal config includes existing tables and an empty plan-tool table. Root AGENTS.md, AGENTS.override.md and an unrelated agent exist.",
       "turns": [
-        "Use $setup-fern to apply only the bundled Codex agents, config fragment, and complete user instructions to codex-home/. Preserve my existing personal settings and instructions.",
-        "Run the same Codex-resource alignment again from the same snapshot."
+        "Use $setup-fern to apply its bundled project resources to project/. Preserve unrelated settings, roles and personal root rules.",
+        "Repeat the same project-resource setup."
       ],
       "files": {
-        "codex-home/config.toml": "# Personal configuration\nmodel = \"personal-model\"\n\n[agents]\n# Keep this limit\nmax_depth = 2\n\n[tools.web_search]\nallowed_domains = [\"example.com\"]\n\n[tools.update_plan]\n# Keep this tool table\n\n[projects.demo]\ntrust_level = \"trusted\"\n",
-        "codex-home/AGENTS.override.md": "# Personal instructions\n\nPreserve configured commit signing.\n",
-        "codex-home/AGENTS.md": "# Shadowed instructions\n\nThis file must remain unchanged.\n",
-        "codex-home/agents/personal.toml": "name = \"personal\"\ndescription = \"Personal role\"\ndeveloper_instructions = \"Keep user notes organized.\"\n"
+        "project/.codex/config.toml": "# Personal configuration\nmodel = \"personal-model\"\n\n[agents]\n# Keep this limit\nmax_depth = 2\n\n[tools.web_search]\nallowed_domains = [\"example.com\"]\n\n[tools.update_plan]\n# Keep this tool table\n\n[projects.demo]\ntrust_level = \"trusted\"\n",
+        "project/AGENTS.md": "# Personal instructions\n\nPreserve configured commit signing.\n",
+        "project/AGENTS.override.md": "# Shadowed instructions\n\nThis file must remain unchanged.\n",
+        "project/.codex/agents/personal.toml": "name = \"personal\"\ndescription = \"Personal role\"\ndeveloper_instructions = \"Keep user notes organized.\"\n"
       },
       "evaluation": {
         "criteria": [
           {
-            "id": "resource-application",
-            "description": "Six ordinary custom TOMLs equal the bundled files. Parsed config has the three incoming agents keys added and tools.update_plan.enabled set to true in the existing table, retaining personal model, max_depth, tools.web_search.allowed_domains, project table, comments and formatting outside additions. Effective AGENTS.override.md contains exactly one fern:user-instructions block equal to assets/codex/user-instructions.md, including initiative, user precedence, writing style, delegation, built-in explorer gpt-6-luna/high defaults and testing rules. Surrounding instructions, shadowed AGENTS.md and personal role remain byte-identical."
+            "id": "applies-selected-resources",
+            "description": "Observed commands execute the packaged --project project entrypoint. All six project .codex/agents/*.toml files equal bundled assets. Parsed config uses bundled values agents.max_concurrent_threads_per_session=4, agents.default_subagent_model=gpt-6.1-sol, agents.default_subagent_reasoning_effort=high and tools.update_plan.enabled=true, replacing differing existing values. Preserves unrelated model, max_depth and tools.web_search settings without duplicate TOML tables. Root AGENTS.md contains exactly one complete managed instruction block equal to the bundled asset, preserving prior personal text."
           },
           {
-            "id": "receipt-and-repeat",
-            "description": "Receipt entries identify all successfully applied role files, config keys (including config:tools.update_plan.enabled with value true) and instructions:user-rules with correct hashes or values and fixture source SHA. The instruction hash covers the exact bytes from the start marker opening < through the end marker closing > inclusive, excluding the following line ending without normalizing internal bytes, and target is AGENTS.override.md. Repeating alignment changes no owned resource content and creates no duplicate block or TOML table, including tools.update_plan. Backups preserve pre-application bytes or original absence. Inspect first-turn state and final state."
+            "id": "repeat-and-scope",
+            "description": "Second setup leaves aligned resource bytes stable and does not duplicate tables or instruction blocks. Preserves unrelated roles, project files and copied skill bytes. Creates no .codex/fern directory, receipt, backup or other bookkeeping artifact; does not claim host loading, model success, installation, Git or publication. Retain first-turn files, actual actions and final bytes."
           },
           {
-            "id": "scope-and-evidence",
-            "description": "Observed actions stay inside fixture and requested Codex resources. No installer, network, real profile change or claimed fresh-host loading. Reports actual application and limits separately."
+            "id": "preserve-surroundings",
+            "description": "Preserves comments and bytes outside selected config replacements/additions, existing root personal rules, AGENTS.override.md and personal.toml. Uses root AGENTS.md even when override exists."
           }
         ],
         "invariants": [
           {
-            "id": "required-resource-changes",
+            "id": "required-project-resources",
             "kind": "changed",
             "paths": [
-              "codex-home/config.toml",
-              "codex-home/AGENTS.override.md",
-              "codex-home/fern/receipt.json",
-              "codex-home/agents/architect.toml",
-              "codex-home/agents/debugger.toml",
-              "codex-home/agents/docs_researcher.toml",
-              "codex-home/agents/reviewer.toml",
-              "codex-home/agents/validator.toml",
-              "codex-home/agents/visual_reviewer.toml"
+              "project/AGENTS.md",
+              "project/.codex/config.toml",
+              "project/.codex/agents/architect.toml",
+              "project/.codex/agents/debugger.toml",
+              "project/.codex/agents/docs_researcher.toml",
+              "project/.codex/agents/reviewer.toml",
+              "project/.codex/agents/validator.toml",
+              "project/.codex/agents/visual_reviewer.toml"
             ]
           }
         ]
@@ -646,34 +755,25 @@
     {
       "id": "fern-read-only",
       "skill": "setup-fern",
-      "context": "This is an offline isolated comparison trial. The supplied skill/ package is the frozen own-source snapshot represented by synthetic SHA 1111111111111111111111111111111111111111; no branch resolution or fetching is needed. codex-home/ is the only target. Skill inventory: all leaf packages in skills/fern/ and skills/meta/ are current, including deep-search and codex-config, with synthetic metadata and capability records in installed/; gh is missing, an unknown-source personal-helper remains installed. Retrieval inventory: GitHub read tools and the host web reader are available; Exa, Parallel, OpenAI Docs tools, native X tools and local Grok Build are unavailable. No external dispatch or execplan skill is installed. Host exposes skill-creator, lacks openai-docs, supports custom TOMLs and the selected config keys/models, and loads AGENTS.override.md before AGENTS.md. Its installed Skills CLI check command aliases a mutating update; read-only list is unavailable. Use supplied inventory and local file reads. No network, CLI invocation, model spawn, real user-profile access or writes are allowed.",
+      "context": "Offline isolated project-resource trial. The complete installed skill/ package supplies the bundled assets. Only project/ inside this workspace is the target. Resources are .codex/config.toml, six .codex/agents/*.toml files and root AGENTS.md. Bundled values replace existing selected config values and same-name agents; unrelated fields, roles and root text outside the managed block remain intact. Setup creates no bookkeeping directories or backups. No Git, network, skill installation, source resolution, real user-profile access or model spawns. Project file results do not establish host loading or model availability. Python 3.11+ is available. Execute python skill/scripts/install.py --project project, using assets from the installed package. Only --check and local reads are allowed. Existing reviewer and selected model differ from the bundled values.",
       "turns": [
-        "Use $setup-fern to check how this environment differs from Fern. Do not change anything."
+        "Use $setup-fern to check project/ against its bundled resources. Do not change anything."
       ],
       "files": {
-        "codex-home/config.toml": "[agents]\ndefault_subagent_model = \"personal-model\"\n",
-        "codex-home/AGENTS.override.md": "# Personal instructions\n\nDelegate only when explicitly requested.\n",
-        "codex-home/AGENTS.md": "# Shadowed instructions\n\nUse the Fern defaults.\n",
-        "codex-home/agents/reviewer.toml": "name = \"reviewer\"\ndescription = \"Personal reviewer\"\ndeveloper_instructions = \"Review only the explicitly selected files.\"\n",
-        "installed/deep-search/SKILL.md": "---\nname: deep-search\ndescription: Synthetic search capability fixture.\n---\n\n# Deep Search\n\nUse Exa for broad discovery and Parallel for assessed gaps. Use OpenAI Docs\nfor OpenAI contracts, with official-domain web retrieval when unavailable.\nUse GitHub native reads, then raw-file reads for repository files.\nFor X use native tools, then usable local Grok Build, then host-default search.\nDisclose unavailable providers and permitted substitutions. Do not install or\nconfigure providers. This fixture records requirements; do not run searches.\n",
-        "installed/fern/agents/openai.yaml": "policy:\n  allow_implicit_invocation: false\n",
-        "installed/setup-fern/agents/openai.yaml": "policy:\n  allow_implicit_invocation: false\n",
-        "installed/deep-search/agents/openai.yaml": "policy:\n  allow_implicit_invocation: false\n",
-        "installed/codex-config/SKILL.md": "---\nname: codex-config\ndescription: Synthetic configuration capability fixture.\n---\n\n# Codex Config\n\nInspect target-supported configuration and overrides. Keep diagnosis read-only.\nWhen called by setup-fern, follow its baseline, conflict and receipt contract.\n"
+        "project/.codex/config.toml": "[agents]\ndefault_subagent_model = \"personal-model\"\n",
+        "project/AGENTS.md": "# Personal project rules\n\nPreserve configured commit signing.\n",
+        "project/AGENTS.override.md": "# Shadowed instructions\n\nUse the Fern defaults.\n",
+        "project/.codex/agents/reviewer.toml": "name = \"reviewer\"\ndescription = \"Personal reviewer\"\ndeveloper_instructions = \"Review only the explicitly selected files.\"\n"
       },
       "evaluation": {
         "criteria": [
           {
-            "id": "grounded-gaps",
-            "description": "Reports missing gh and host openai-docs, missing packaged custom roles, changed reviewer without ownership evidence, the differing model and three absent config keys, missing complete user instructions and the effective override's conflicting delegation policy. Identifies the bundled built-in explorer gpt-6-luna/high instruction as part of the baseline without spawning a model. Does not treat shadowed AGENTS.md as active or claim host loading."
-          },
-          {
-            "id": "capability-boundaries",
-            "description": "Distinguishes installed deep-search from unavailable Exa, Parallel, OpenAI Docs and X routes, using its available packaged tool requirements. Reports available GitHub/web fallback routes without claiming the missing providers ran. Preserves explicit invocation for fern, setup-fern and deep-search. Does not add dispatch or execplan as mandatory packages, install providers, configure credentials, or probe paid search. Recognizes codex-config for configuration diagnosis while Setup Fern owns baseline and receipts."
+            "id": "grounded-differences",
+            "description": "Reports differing reviewer and model, absent selected config values, absent agent files and missing complete marked root rules. Explains that a future setup replaces selected differing values and same-name agents while preserving unrelated content; comparison itself does not authorize writes."
           },
           {
             "id": "read-only-actions",
-            "description": "Observed actions use only permitted reads; no CLI check/update/install, target edits, receipts, backups or invented host-skill fallback. Preserves unknown-source helper and distinguishes pending conflicts from successful alignment."
+            "description": "Uses python skill/scripts/install.py --project project --check and permitted local reads. Every fixture byte remains unchanged and no directory, receipt, backup or resource is created. Does not claim host-loading or model success."
           }
         ],
         "invariants": [
@@ -687,7 +787,7 @@
     {
       "id": "fern-delegation-plan",
       "skill": "setup-fern",
-      "context": "Offline delegation planning exercise. Read skill/assets/codex/user-instructions.md as the effective synthetic user-level policy for this case. The copied setup-fern package supplies that maintained asset; this is not a setup or installation task. coordination.json describes the complete simulated receiving environment, including a pending schema compatibility decision. Its paths and host operations are data only; do not access or invoke them. Only local fixture and policy reads are allowed. No edits, network, installations, real profile access, or agent operations. Return a proposed plan only.",
+      "context": "Offline delegation planning exercise. Read skill/assets/codex/user-instructions.md as the effective synthetic project policy for this case. The copied setup-fern package supplies that maintained asset; this is not a setup or installation task. coordination.json describes the complete simulated receiving environment, including a pending schema compatibility decision. Its paths and host operations are data only; do not access or invoke them. Only local fixture and policy reads are allowed. No edits, network, installations, real profile access, or agent operations. Return a proposed plan only.",
       "turns": [
         "Using the supplied user instructions and coordination.json, prepare the next handoff to the completed designer and explain how to coordinate with the running explorer. Include the information each recipient needs and who owns integration and final judgment."
       ],
@@ -720,330 +820,37 @@
     {
       "id": "fern-fresh-user-instructions",
       "skill": "setup-fern",
-      "context": "This is an isolated user-instruction resource trial. The supplied skill/ package is the frozen saberuster/skills main snapshot, represented by synthetic SHA 1111111111111111111111111111111111111111; do not fetch it. codex-home/ inside this workspace is the effective CODEX_HOME and entire target. The fixture host loads AGENTS.override.md before AGENTS.md, has no alternate fallback filenames, and supports the bundled instruction format and explorer model setting. All skill, agent and config alignment is outside this request. No network, installer commands, real user-profile reads or writes, model spawns, or other repository changes are allowed. You may use local tools to inspect and edit only the requested fixture instruction resource, receipt and backups. No effective user instruction file exists; codex-home/ contains only an unrelated personal note.",
+      "context": "Offline isolated project-resource trial. The complete installed skill/ package supplies the bundled assets. Only project/ inside this workspace is the target. Resources are .codex/config.toml, six .codex/agents/*.toml files and root AGENTS.md. Bundled values replace existing selected config values and same-name agents; unrelated fields, roles and root text outside the managed block remain intact. Setup creates no bookkeeping directories or backups. No Git, network, skill installation, source resolution, real user-profile access or model spawns. Project file results do not establish host loading or model availability. Python 3.11+ is available. Execute python skill/scripts/install.py --project project, using assets from the installed package. project/ contains only an unrelated personal note; no root instruction file exists.",
       "turns": [
-        "Use $setup-fern to initialize the complete bundled user instructions in this new Codex home."
+        "Use $setup-fern to initialize the bundled resources and complete root instructions in project/."
       ],
       "files": {
-        "codex-home/personal-note.txt": "Keep this unrelated note.\n"
+        "project/personal-note.txt": "Keep this unrelated note.\n"
       },
       "evaluation": {
         "criteria": [
           {
             "id": "complete-fresh-instructions",
-            "description": "Creates codex-home/AGENTS.md with exactly one fern:user-instructions:start/end block whose body equals assets/codex/user-instructions.md. Verifies the complete initiative, user precedence, writing style, delegation, built-in explorer model gpt-6-luna and reasoning_effort high, and testing rules rather than applying only the earlier scheduling subset. Does not create an override file."
+            "description": "Runs packaged setup and creates root project/AGENTS.md with exactly one complete marked asset, including initiative, user precedence, writing style, delegation, built-in explorer gpt-6-luna/high defaults and testing rules. Creates the six bundled agent files and four selected config values. Does not create AGENTS.override.md."
           },
           {
-            "id": "fresh-ownership-evidence",
-            "description": "After successful readback, records instructions:user-rules with target AGENTS.md, the fixture source SHA and the canonical hash of the exact complete block including markers and excluding any following line ending, without normalizing internal bytes. Records original absence in local backups. Preserves personal-note.txt and all copied skill files; creates no agents, config or skill installation."
-          },
-          {
-            "id": "fresh-scope-and-evidence",
-            "description": "Observed actions remain in the authorized fixture scope. Distinguishes written instruction evidence from actual host loading, explorer spawning, availability or effective model defaults in an existing chat."
+            "id": "preservation-and-no-bookkeeping",
+            "description": "Preserves personal-note.txt and the installed package. Creates no .codex/fern, receipt or backup artifact. Verifies saved files without claiming host loading or model availability."
           }
         ],
         "invariants": [
           {
-            "id": "required-instruction-changes",
+            "id": "required-project-resources",
             "kind": "changed",
             "paths": [
-              "codex-home/AGENTS.md",
-              "codex-home/fern/receipt.json"
-            ]
-          }
-        ]
-      }
-    },
-    {
-      "id": "fern-legacy-instructions-migrate",
-      "skill": "setup-fern",
-      "context": "This is an isolated user-instruction resource trial. The supplied skill/ package is the frozen saberuster/skills main snapshot, represented by synthetic SHA 1111111111111111111111111111111111111111; do not fetch it. codex-home/ inside this workspace is the effective CODEX_HOME and entire target. The fixture host loads AGENTS.override.md before AGENTS.md, has no alternate fallback filenames, and supports the bundled instruction format and explorer model setting. All skill, agent and config alignment is outside this request. No network, installer commands, real user-profile reads or writes, model spawns, or other repository changes are allowed. You may use local tools to inspect and edit only the requested fixture instruction resource, receipt and backups. The paired legacy block is a synthetic historical Fern snapshot, not a claim about a live upstream version. Its receipt hashes exactly the block bytes including markers and the final newline. Personal text outside the block is nonconflicting.",
-      "turns": [
-        "Use $setup-fern to update only the user instructions to the complete bundled rules, including migrating an owned legacy scheduling block."
-      ],
-      "files": {
-        "codex-home/AGENTS.override.md": "# Personal instructions\n\nPreserve configured commit signing.\n\n<!-- fern:subagent-instructions:start -->\n## Subagent delegation\n\nDelegate independent work when parallelism can save time.\nUse model=\"gpt-6-luna\" and reasoning_effort=\"high\" for built-in explorers.\n<!-- fern:subagent-instructions:end -->\n",
-        "codex-home/AGENTS.md": "# Shadowed instructions\n\nThis file must remain unchanged.\n",
-        "codex-home/fern/receipt.json": "{\n  \"schema_version\": 1,\n  \"resources\": {\n    \"instructions:subagent-delegation\": {\n      \"source_commit\": \"0000000000000000000000000000000000000000\",\n      \"target\": \"AGENTS.override.md\",\n      \"sha256\": \"149c71cc14895fd8f048f68f45102fc5dc771f2d03f6f1b76ec451ca773a0d94\"\n    },\n    \"config:agents.default_subagent_model\": {\n      \"source_commit\": \"0000000000000000000000000000000000000000\",\n      \"value\": \"gpt-6.1-sol\"\n    }\n  }\n}\n"
-      },
-      "evaluation": {
-        "criteria": [
-          {
-            "id": "owned-migration",
-            "description": "Shows the added baseline rule topics and checks the legacy receipt target and exact full marked-block hash, then replaces the single owned legacy block with one fern:user-instructions:start/end block containing the complete bundled asset. Preserves surrounding personal rules and shadowed AGENTS.md exactly. No legacy block or stacked duplicate policies remain."
-          },
-          {
-            "id": "migration-receipt-order",
-            "description": "Retains the old ownership record until successful new-block readback, then records instructions:user-rules with the new canonical marked-block hash excluding its following line ending and preserving internal bytes, effective target and fixture source SHA and removes only instructions:subagent-delegation. The unrelated config receipt entry remains unchanged. Backups retain the exact previous instruction and receipt bytes. Inspect observed actions as well as final files."
-          },
-          {
-            "id": "migration-scope",
-            "description": "Observed actions stay inside the authorized fixture instructions, receipt and backups; no real installation, network, profile access or model spawn. Reports file readback without claiming fresh-chat loading."
-          }
-        ],
-        "invariants": [
-          {
-            "id": "required-migration-changes",
-            "kind": "changed",
-            "paths": [
-              "codex-home/AGENTS.override.md",
-              "codex-home/fern/receipt.json"
-            ]
-          }
-        ]
-      }
-    },
-    {
-      "id": "fern-legacy-instructions-edited",
-      "skill": "setup-fern",
-      "context": "This is an isolated user-instruction resource trial. The supplied skill/ package is the frozen saberuster/skills main snapshot, represented by synthetic SHA 1111111111111111111111111111111111111111; do not fetch it. codex-home/ inside this workspace is the effective CODEX_HOME and entire target. The fixture host loads AGENTS.override.md before AGENTS.md, has no alternate fallback filenames, and supports the bundled instruction format and explorer model setting. All skill, agent and config alignment is outside this request. No network, installer commands, real user-profile reads or writes, model spawns, or other repository changes are allowed. You may use local tools to inspect and edit only the requested fixture instruction resource, receipt and backups. The receipt records a synthetic historical Fern block. The current legacy block was edited locally after that receipt: its delegation sentence now requires explicit user requests. No new user-instruction block exists. Only this instruction resource is selected, so no independent resource requires an update.",
-      "turns": [
-        "Use $setup-fern to update only the user instructions to the complete bundled rules, including migrating an owned legacy scheduling block."
-      ],
-      "files": {
-        "codex-home/AGENTS.override.md": "# Personal instructions\n\nPreserve configured commit signing.\n\n<!-- fern:subagent-instructions:start -->\n## Subagent delegation\n\nDelegate only when the user explicitly requests it.\nUse model=\"gpt-6-luna\" and reasoning_effort=\"high\" for built-in explorers.\n<!-- fern:subagent-instructions:end -->\n",
-        "codex-home/AGENTS.md": "# Shadowed instructions\n\nThis file must remain unchanged.\n",
-        "codex-home/fern/receipt.json": "{\n  \"schema_version\": 1,\n  \"resources\": {\n    \"instructions:subagent-delegation\": {\n      \"source_commit\": \"0000000000000000000000000000000000000000\",\n      \"target\": \"AGENTS.override.md\",\n      \"sha256\": \"149c71cc14895fd8f048f68f45102fc5dc771f2d03f6f1b76ec451ca773a0d94\"\n    },\n    \"config:agents.default_subagent_model\": {\n      \"source_commit\": \"0000000000000000000000000000000000000000\",\n      \"value\": \"gpt-6.1-sol\"\n    }\n  }\n}\n"
-      },
-      "evaluation": {
-        "criteria": [
-          {
-            "id": "preserved-local-policy",
-            "description": "Detects the current full legacy block hash differs from instructions:subagent-delegation. Preserves its markers, local delegation sentence, surrounding text, shadowed file and receipt byte-for-byte; does not append a new block, silently adopt ownership, or remove the old receipt entry."
-          },
-          {
-            "id": "concrete-conflict",
-            "description": "Reports the effective AGENTS.override.md, old receipt mismatch and exact delegation-policy difference with the incoming proactive delegation rule. Offers a concrete replacement decision for the unresolved instruction unit without claiming complete alignment. Does not treat the setup/update request as authorization to overwrite a local edit."
-          },
-          {
-            "id": "edited-scope",
-            "description": "Observed actions remain read-only for this conflicted unit. No backup or receipt writes, installer, network, real profile access or model spawn; distinguishes pending migration from successful instruction loading."
-          }
-        ],
-        "invariants": [
-          {
-            "id": "preserved-files",
-            "kind": "unchanged"
-          }
-        ]
-      }
-    },
-    {
-      "id": "fern-persisted-receipts-update",
-      "skill": "setup-fern",
-      "context": "This is an offline isolated instruction-resource trial. The supplied skill/ package is the frozen own-source snapshot represented by synthetic SHA 1111111111111111111111111111111111111111; do not fetch it. Each named home inside this workspace is a separate effective CODEX_HOME, loading AGENTS.override.md before AGENTS.md with no alternate filenames. All skill, agent, config and host alignment is outside this request. The homes contain synthetic prior-run instruction blocks and persisted receipts left before this session; they do not claim a real upstream history. No earlier executor response or tool state is available. No network, installer commands, model spawns, real user-profile access or other repository changes are allowed. Only home-canonical/, home-lf/ and home-crlf/ are targets. You may inspect and update their requested instruction resource, receipts and backups. Personal text outside each block is nonconflicting.",
-      "turns": [
-        "Use $setup-fern to update only the user instructions in home-canonical/, home-lf/ and home-crlf/ to the complete bundled rules. Preserve personal text and unrelated receipts."
-      ],
-      "files": {
-        "home-canonical/AGENTS.override.md": "# Personal instructions\n\nKeep personal notes.\n\n<!-- fern:user-instructions:start -->\n## Historical user instructions\n\nPreserve configured commit signing.\n<!-- fern:user-instructions:end -->\n",
-        "home-canonical/AGENTS.md": "# Shadowed instructions\n\nKeep this file.\n",
-        "home-canonical/fern/receipt.json": "{\n  \"schema_version\": 1,\n  \"resources\": {\n    \"instructions:user-rules\": {\n      \"source_commit\": \"0000000000000000000000000000000000000000\",\n      \"target\": \"AGENTS.override.md\",\n      \"sha256\": \"837cb60df356ce7ee1757258851d6ddd645b25091c87660dcbf119068dc17cb4\"\n    },\n    \"config:agents.default_subagent_model\": {\n      \"source_commit\": \"0000000000000000000000000000000000000000\",\n      \"value\": \"gpt-6.1-sol\"\n    }\n  }\n}\n",
-        "home-lf/AGENTS.override.md": "# Personal instructions\n\nKeep personal notes.\n\n<!-- fern:user-instructions:start -->\n## Historical user instructions\n\nPreserve configured commit signing.\n<!-- fern:user-instructions:end -->\n",
-        "home-lf/AGENTS.md": "# Shadowed instructions\n\nKeep this file.\n",
-        "home-lf/fern/receipt.json": "{\n  \"schema_version\": 1,\n  \"resources\": {\n    \"instructions:user-rules\": {\n      \"source_commit\": \"0000000000000000000000000000000000000000\",\n      \"target\": \"AGENTS.override.md\",\n      \"sha256\": \"d39f397e766baa2cdf49b0cb4c1a08720897160dae926f6dc812719395fd6b86\"\n    },\n    \"config:agents.default_subagent_model\": {\n      \"source_commit\": \"0000000000000000000000000000000000000000\",\n      \"value\": \"gpt-6.1-sol\"\n    }\n  }\n}\n",
-        "home-crlf/AGENTS.override.md": "# Personal instructions\n\nKeep personal notes.\n\n<!-- fern:user-instructions:start -->\n## Historical user instructions\n\nPreserve configured commit signing.\n<!-- fern:user-instructions:end -->\r\n",
-        "home-crlf/AGENTS.md": "# Shadowed instructions\n\nKeep this file.\n",
-        "home-crlf/fern/receipt.json": "{\n  \"schema_version\": 1,\n  \"resources\": {\n    \"instructions:user-rules\": {\n      \"source_commit\": \"0000000000000000000000000000000000000000\",\n      \"target\": \"AGENTS.override.md\",\n      \"sha256\": \"1efb156655f544a967d988445eb282af630069bf20d4ad018fccac6feef779ce\"\n    },\n    \"config:agents.default_subagent_model\": {\n      \"source_commit\": \"0000000000000000000000000000000000000000\",\n      \"value\": \"gpt-6.1-sol\"\n    }\n  }\n}\n"
-      },
-      "evaluation": {
-        "criteria": [
-          {
-            "id": "persisted-ownership",
-            "description": "In this fresh session, validates each recorded target and establishes ownership from the persisted bytes: home-canonical hashes the exact marked range, home-lf includes its immediately following LF, and home-crlf includes its immediately following CRLF. Does not invent receipt mismatch or rely on earlier executor state."
-          },
-          {
-            "id": "canonical-update",
-            "description": "Updates all three instruction blocks to the complete bundled asset with exactly one current marker pair per home. New instructions:user-rules receipts use the fixture source SHA, AGENTS.override.md target and SHA-256 of the raw marked range from opening < through closing > inclusive, excluding following line endings without internal normalization. Writes receipts only after authorized application and successful readback. Retains exact previous instruction and receipt bytes in backups, surrounding personal text including each following line ending, shadowed files and unrelated receipt entries."
-          },
-          {
-            "id": "persisted-scope",
-            "description": "Observed operations remain inside the three requested homes and copied skill reads. Preserves the skill package. Reports synthetic receipt compatibility and file readback without claiming real installation or host loading."
-          }
-        ],
-        "invariants": [
-          {
-            "id": "required-persisted-updates",
-            "kind": "changed",
-            "paths": [
-              "home-canonical/AGENTS.override.md",
-              "home-canonical/fern/receipt.json",
-              "home-lf/AGENTS.override.md",
-              "home-lf/fern/receipt.json",
-              "home-crlf/AGENTS.override.md",
-              "home-crlf/fern/receipt.json"
-            ]
-          }
-        ]
-      }
-    },
-    {
-      "id": "fern-persisted-receipts-edited",
-      "skill": "setup-fern",
-      "context": "This is an offline isolated instruction-resource trial. The supplied skill/ package is the frozen own-source snapshot represented by synthetic SHA 1111111111111111111111111111111111111111; do not fetch it. Each named home inside this workspace is a separate effective CODEX_HOME, loading AGENTS.override.md before AGENTS.md with no alternate filenames. All skill, agent, config and host alignment is outside this request. The homes contain synthetic prior-run instruction blocks and persisted receipts left before this session; they do not claim a real upstream history. No earlier executor response or tool state is available. No network, installer commands, model spawns, real user-profile access or other repository changes are allowed. Only home-whitespace/, home-line-endings/ and home-target/ are targets. The persisted receipts and present files are the available ownership evidence. You may inspect these homes and the copied skill; any update must remain within the requested instruction resource, receipt and backups.",
-      "turns": [
-        "Use $setup-fern to update only the user instructions in home-whitespace/, home-line-endings/ and home-target/ to the complete bundled rules, preserving local edits."
-      ],
-      "files": {
-        "home-whitespace/AGENTS.override.md": "# Personal instructions\n\n<!-- fern:user-instructions:start -->\n## Historical user instructions\n\nPreserve configured commit signing. \n<!-- fern:user-instructions:end -->\n",
-        "home-whitespace/fern/receipt.json": "{\n  \"schema_version\": 1,\n  \"resources\": {\n    \"instructions:user-rules\": {\n      \"source_commit\": \"0000000000000000000000000000000000000000\",\n      \"target\": \"AGENTS.override.md\",\n      \"sha256\": \"d39f397e766baa2cdf49b0cb4c1a08720897160dae926f6dc812719395fd6b86\"\n    },\n    \"config:agents.default_subagent_model\": {\n      \"source_commit\": \"0000000000000000000000000000000000000000\",\n      \"value\": \"gpt-6.1-sol\"\n    }\n  }\n}\n",
-        "home-line-endings/AGENTS.override.md": "# Personal instructions\n\n<!-- fern:user-instructions:start -->\r\n## Historical user instructions\r\n\r\nPreserve configured commit signing.\r\n<!-- fern:user-instructions:end -->\n",
-        "home-line-endings/fern/receipt.json": "{\n  \"schema_version\": 1,\n  \"resources\": {\n    \"instructions:user-rules\": {\n      \"source_commit\": \"0000000000000000000000000000000000000000\",\n      \"target\": \"AGENTS.override.md\",\n      \"sha256\": \"d39f397e766baa2cdf49b0cb4c1a08720897160dae926f6dc812719395fd6b86\"\n    },\n    \"config:agents.default_subagent_model\": {\n      \"source_commit\": \"0000000000000000000000000000000000000000\",\n      \"value\": \"gpt-6.1-sol\"\n    }\n  }\n}\n",
-        "home-target/AGENTS.override.md": "# Personal instructions\n\n<!-- fern:user-instructions:start -->\n## Historical user instructions\n\nPreserve configured commit signing.\n<!-- fern:user-instructions:end -->\n",
-        "home-target/fern/receipt.json": "{\n  \"schema_version\": 1,\n  \"resources\": {\n    \"instructions:user-rules\": {\n      \"source_commit\": \"0000000000000000000000000000000000000000\",\n      \"target\": \"AGENTS.md\",\n      \"sha256\": \"d39f397e766baa2cdf49b0cb4c1a08720897160dae926f6dc812719395fd6b86\"\n    },\n    \"config:agents.default_subagent_model\": {\n      \"source_commit\": \"0000000000000000000000000000000000000000\",\n      \"value\": \"gpt-6.1-sol\"\n    }\n  }\n}\n"
-      },
-      "evaluation": {
-        "criteria": [
-          {
-            "id": "strict-bytes-and-target",
-            "description": "Identifies the extra space inside home-whitespace, changed internal LF-to-CRLF bytes in home-line-endings, and recorded AGENTS.md target mismatch in home-target. Does not trim whitespace, normalize internal line endings, or accept a matching block hash with the wrong target."
-          },
-          {
-            "id": "preserve-unowned-units",
-            "description": "Preserves every fixture file and receipt byte-for-byte; no replacement, duplicate block, backup, receipt canonicalization or ownership adoption occurs. Gives concrete pending differences without treating the update request as permission to overwrite locally edited or differently targeted blocks."
-          },
-          {
-            "id": "edited-scope",
-            "description": "Observed actions stay within permitted reads with no network, installation, real profile access or model spawn; does not claim host loading."
-          }
-        ],
-        "invariants": [
-          {
-            "id": "preserved-edited-homes",
-            "kind": "unchanged"
-          }
-        ]
-      }
-    },
-    {
-      "id": "fern-persisted-receipts-read-only",
-      "skill": "setup-fern",
-      "context": "This is an offline isolated instruction-resource trial. The supplied skill/ package is the frozen own-source snapshot represented by synthetic SHA 1111111111111111111111111111111111111111; do not fetch it. Each named home inside this workspace is a separate effective CODEX_HOME, loading AGENTS.override.md before AGENTS.md with no alternate filenames. All skill, agent, config and host alignment is outside this request. The homes contain synthetic prior-run instruction blocks and persisted receipts left before this session; they do not claim a real upstream history. No earlier executor response or tool state is available. No network, installer commands, model spawns, real user-profile access or other repository changes are allowed. Only home-current/ and home-legacy/ are targets. Skill inventory, host capabilities and other resources need no checks. You may use local file reads only.",
-      "turns": [
-        "Use $setup-fern to check only the user instructions in home-current/ and home-legacy/ against the bundled rules. Do not change anything."
-      ],
-      "files": {
-        "home-current/AGENTS.override.md": "# Personal instructions\n\n<!-- fern:user-instructions:start -->\n## Historical user instructions\n\nPreserve configured commit signing.\n<!-- fern:user-instructions:end -->\r\n",
-        "home-current/fern/receipt.json": "{\n  \"schema_version\": 1,\n  \"resources\": {\n    \"instructions:user-rules\": {\n      \"source_commit\": \"0000000000000000000000000000000000000000\",\n      \"target\": \"AGENTS.override.md\",\n      \"sha256\": \"1efb156655f544a967d988445eb282af630069bf20d4ad018fccac6feef779ce\"\n    },\n    \"config:agents.default_subagent_model\": {\n      \"source_commit\": \"0000000000000000000000000000000000000000\",\n      \"value\": \"gpt-6.1-sol\"\n    }\n  }\n}\n",
-        "home-legacy/AGENTS.override.md": "# Personal instructions\n\n<!-- fern:subagent-instructions:start -->\n## Historical user instructions\n\nPreserve configured commit signing.\n<!-- fern:subagent-instructions:end -->\n",
-        "home-legacy/fern/receipt.json": "{\n  \"schema_version\": 1,\n  \"resources\": {\n    \"instructions:subagent-delegation\": {\n      \"source_commit\": \"0000000000000000000000000000000000000000\",\n      \"target\": \"AGENTS.override.md\",\n      \"sha256\": \"346cfdded44ea09e4de65ec7d8e6dc344ddbc4f76502f3c65c08ac1ebd67e7fc\"\n    },\n    \"config:agents.default_subagent_model\": {\n      \"source_commit\": \"0000000000000000000000000000000000000000\",\n      \"value\": \"gpt-6.1-sol\"\n    }\n  }\n}\n"
-      },
-      "evaluation": {
-        "criteria": [
-          {
-            "id": "owned-but-stale",
-            "description": "Verifies the recorded target and recognizes historical receipt ownership in both homes using the exact marked range plus the immediately following CRLF for current markers or LF for legacy markers. Reports that the short historical bodies differ from the complete bundled asset; successful ownership verification alone is not complete alignment."
-          },
-          {
-            "id": "read-only-persisted-receipts",
-            "description": "Leaves all fixture bytes unchanged, including historical receipt hashes and keys. Does not canonicalize receipts, migrate legacy markers, update instructions, create backups or adopt ownership during read-only comparison."
-          },
-          {
-            "id": "readonly-scope",
-            "description": "Observed actions use permitted local reads only; no installation, network, real profile access, model spawn or claim of real host loading."
-          }
-        ],
-        "invariants": [
-          {
-            "id": "preserved-prior-run-state",
-            "kind": "unchanged"
-          }
-        ]
-      }
-    },
-    {
-      "id": "fern-mixed-resource-update",
-      "skill": "setup-fern",
-      "context": "This is an offline isolated Codex-resource trial. The supplied skill/ package is the frozen own-source snapshot represented by synthetic SHA 1111111111111111111111111111111111111111; do not fetch it. The fixture host supports the bundled custom TOMLs, selected config keys and models. Only the named fixture resources, their receipts and run-specific backups are targets. Skills, host checks, user instructions and other roles are outside this request. No network, installers, model spawns, real user-profile access or changes to copied skill files are allowed. Historical files and receipts are synthetic prior-run artifacts, not evidence of a real upstream version. You may inspect and edit the selected fixture resources with local tools. codex-home/ is the effective CODEX_HOME. The selected files and config have persisted independently since the recorded run.",
-      "turns": [
-        "Use $setup-fern to update only architect, reviewer and validator plus the three bundled agents config keys and tools.update_plan.enabled in codex-home/. Preserve my personal settings. Apply independent updates where possible and report anything still pending."
-      ],
-      "files": {
-        "codex-home/agents/architect.toml": "name = \"architect\"\ndescription = \"Historical Fern architect\"\ndeveloper_instructions = \"Follow the assigned architect scope.\"\n",
-        "codex-home/agents/reviewer.toml": "name = \"reviewer\"\ndescription = \"Historical Fern reviewer\"\ndeveloper_instructions = \"Review only files I explicitly select.\"\n",
-        "codex-home/agents/validator.toml": "name = \"validator\"\ndescription = \"Personally maintained validator\"\ndeveloper_instructions = \"Follow the assigned validator scope.\"\n",
-        "codex-home/agents/personal.toml": "name = \"personal\"\ndescription = \"Personal role\"\ndeveloper_instructions = \"Follow the assigned personal scope.\"\n",
-        "codex-home/config.toml": "# Personal configuration\nmodel = \"personal-model\"\n\n[agents]\n# Keep my nesting limit\nmax_depth = 2\nmax_concurrent_threads_per_session = 2\ndefault_subagent_model = \"local-model\"\ndefault_subagent_reasoning_effort = \"medium\"\n\n[tools.update_plan]\nenabled = false\n\n[projects.demo]\ntrust_level = \"trusted\"\n",
-        "codex-home/fern/receipt.json": "{\n  \"schema_version\": 1,\n  \"resources\": {\n    \"agents/architect.toml\": {\n      \"source_commit\": \"0000000000000000000000000000000000000000\",\n      \"sha256\": \"b93ddb82f314ebff3bc75ba1701470a6ae9f4e8b44b41aa639db8e9501c2e327\"\n    },\n    \"agents/reviewer.toml\": {\n      \"source_commit\": \"0000000000000000000000000000000000000000\",\n      \"sha256\": \"34264efe857d4c36c38d30628677111019f96380b207caa7c297f2dbc4ed469f\"\n    },\n    \"config:agents.max_concurrent_threads_per_session\": {\n      \"source_commit\": \"0000000000000000000000000000000000000000\",\n      \"value\": 2\n    },\n    \"config:agents.default_subagent_model\": {\n      \"source_commit\": \"0000000000000000000000000000000000000000\",\n      \"value\": \"historical-model\"\n    },\n    \"config:tools.update_plan.enabled\": {\n      \"source_commit\": \"0000000000000000000000000000000000000000\",\n      \"value\": false\n    },\n    \"instructions:user-rules\": {\n      \"source_commit\": \"0000000000000000000000000000000000000000\",\n      \"target\": \"AGENTS.md\",\n      \"sha256\": \"2222222222222222222222222222222222222222222222222222222222222222\"\n    }\n  }\n}\n",
-        "codex-home/AGENTS.md": "# Personal instructions\n\nPreserve configured commit signing.\n"
-      },
-      "evaluation": {
-        "criteria": [
-          {
-            "id": "independent-owned-updates",
-            "description": "Validates the architect file against its persisted SHA-256; validates the concurrency key and tools.update_plan.enabled against their parsed prior values. Updates architect to the exact bundled TOML, concurrency to 4 and the receipt-owned tools.update_plan.enabled from false to true despite other conflicts. Backs up exact previous file bytes and receipt before replacement, validates written TOML and reads results before recording successful units."
-          },
-          {
-            "id": "preserved-conflicting-units",
-            "description": "Preserves reviewer byte-for-byte because its instructions differ from the recorded hash, and validator because no ownership record exists. Preserves local-model because it differs from historical-model, and medium because its selected key has no ownership baseline. Reports exact per-unit differences and pending decisions rather than treating the update request or familiar names as overwrite consent. Preserves unrelated config bytes/comments, personal agent, AGENTS.md and copied skill files; creates no other custom agents."
-          },
-          {
-            "id": "mixed-receipt-and-scope",
-            "description": "Only architect, config:agents.max_concurrent_threads_per_session and config:tools.update_plan.enabled advance to synthetic source SHA 1111111111111111111111111111111111111111 with exact applied hash or value, including true for the plan tool key. Reviewer and model receipts remain unchanged, unknown validator/effort receive no entries, and the unrelated instruction receipt remains unchanged. No installer, network, real profile access, model spawn or claims of host loading. Inspect observed tool actions and before/after bytes, not only the final reply."
-          }
-        ],
-        "invariants": [
-          {
-            "id": "safe-units-changed",
-            "kind": "changed",
-            "paths": [
-              "codex-home/agents/architect.toml",
-              "codex-home/config.toml",
-              "codex-home/fern/receipt.json"
-            ]
-          }
-        ]
-      }
-    },
-    {
-      "id": "fern-interrupted-resource-recovery",
-      "skill": "setup-fern",
-      "context": "This is an offline isolated Codex-resource trial. The supplied skill/ package is the frozen own-source snapshot represented by synthetic SHA 1111111111111111111111111111111111111111; do not fetch it. The fixture host supports the bundled custom TOMLs, selected config keys and models. Only the named fixture resources, their receipts and run-specific backups are targets. Skills, host checks, user instructions and other roles are outside this request. No network, installers, model spawns, real user-profile access or changes to copied skill files are allowed. Historical files and receipts are synthetic prior-run artifacts, not evidence of a real upstream version. You may inspect and edit the selected fixture resources with local tools. home-resume/ and home-restore/ are separate effective Codex homes. run-journal.json describes two interrupted operations using raw retained target, prepared-result and backup files. The journal schema is synthetic fixture metadata, not a host API. Earlier replies and process state are unavailable; inspect the actual files before acting.",
-      "turns": [
-        "Use $setup-fern to resume only the interrupted concurrency-key update in home-resume/. Separately, restore only the two agent files recorded in home-restore/ to their run backups. Keep any edits made after that run. Report completed and incomplete recovery with evidence."
-      ],
-      "files": {
-        "run-journal.json": "{\n  \"fixture_format\": \"synthetic-run-journal-1\",\n  \"run\": \"fixture-interrupted-001\",\n  \"source_commit\": \"1111111111111111111111111111111111111111\",\n  \"note\": \"Raw execution record supplied by the fixture, not a Fern receipt or a standard host journal.\",\n  \"resume\": {\n    \"home\": \"home-resume\",\n    \"target\": \"config.toml\",\n    \"unit\": \"config:agents.max_concurrent_threads_per_session\",\n    \"backup\": \"fern/backups/fixture-interrupted-001/config.toml\",\n    \"prepared\": \"fern/backups/fixture-interrupted-001/prepared-config.toml\",\n    \"last_event\": \"config file replacement completed; process stopped before readback and receipt update\"\n  },\n  \"restore\": {\n    \"home\": \"home-restore\",\n    \"last_event\": \"both selected agent files written, read back and recorded; process stopped before final report\",\n    \"resources\": [\n      {\n        \"target\": \"agents/architect.toml\",\n        \"backup\": \"fern/backups/fixture-interrupted-001/agents/architect.toml\",\n        \"applied_sha256\": \"5c976433121685d5cc7cbc37dc6eb94ff6cf5fdcb2eab294e1359edf7762e026\"\n      },\n      {\n        \"target\": \"agents/reviewer.toml\",\n        \"backup\": \"fern/backups/fixture-interrupted-001/agents/reviewer.toml\",\n        \"applied_sha256\": \"e2058930d7b6cc42db0595bc140e45ce7b515943c7ba48b5f9a00bdb1d7d4c24\"\n      }\n    ],\n    \"previous_receipt\": \"fern/backups/fixture-interrupted-001/receipt.json\"\n  }\n}\n",
-        "home-resume/config.toml": "# Personal configuration\nmodel = \"personal-model\"\n\n[agents]\nmax_concurrent_threads_per_session = 4\n",
-        "home-resume/fern/receipt.json": "{\n  \"schema_version\": 1,\n  \"resources\": {\n    \"config:agents.max_concurrent_threads_per_session\": {\n      \"source_commit\": \"0000000000000000000000000000000000000000\",\n      \"value\": 2\n    },\n    \"config:agents.default_subagent_model\": {\n      \"source_commit\": \"0000000000000000000000000000000000000000\",\n      \"value\": \"personal-default\"\n    }\n  }\n}\n",
-        "home-resume/fern/backups/fixture-interrupted-001/config.toml": "# Personal configuration\nmodel = \"personal-model\"\n\n[agents]\nmax_concurrent_threads_per_session = 2\n",
-        "home-resume/fern/backups/fixture-interrupted-001/prepared-config.toml": "# Personal configuration\nmodel = \"personal-model\"\n\n[agents]\nmax_concurrent_threads_per_session = 4\n",
-        "home-resume/fern/backups/fixture-interrupted-001/receipt.json": "{\n  \"schema_version\": 1,\n  \"resources\": {\n    \"config:agents.max_concurrent_threads_per_session\": {\n      \"source_commit\": \"0000000000000000000000000000000000000000\",\n      \"value\": 2\n    },\n    \"config:agents.default_subagent_model\": {\n      \"source_commit\": \"0000000000000000000000000000000000000000\",\n      \"value\": \"personal-default\"\n    }\n  }\n}\n",
-        "home-restore/agents/architect.toml": "name = \"architect\"\ndescription = \"Resolves consequential technical architecture decisions before implementation: cross-module boundaries, state ownership, dependency direction, public contracts, and compatibility migrations. Use when an unresolved choice has substantial downstream or reversal cost; not for routine fixes, local refactors, or implementing an already chosen design. Returns an evidence-backed recommendation and implementation constraints. Read-only.\"\nmodel = \"gpt-6-astra\"\nmodel_reasoning_effort = \"max\"\nsandbox_mode = \"read-only\"\n\ndeveloper_instructions = \"\"\"\nResolve the assigned consequential architecture decision and give the main agent an implementable recommendation. Use this role for unresolved choices about boundaries, state ownership and lifetime, dependencies, public contracts, or compatibility with substantial downstream or reversal cost. Task length or file count alone is insufficient. For a routine fix, local refactor, or already settled design without such a choice, return `NOT_NEEDED`, a brief reason, and the next action.\n\nAnalyze and report only. Do not edit files, run builds, tests, benchmarks, migrations, or prototypes, change external state, commit, push, or publish. Do not delegate, create sessions or worktrees, or create Issues, PRs, documents, or execution plans. The main agent owns implementation, coordination, durable records, and final reporting, regardless of the tools exposed to this role.\n\nEstablish the decision, expected behavior, non-goals, fixed user decisions, acceptance criteria, and relevant constraints. Inspect applicable repository instructions, accepted contracts and decisions, and the affected implementation. Verify material claims from supplied exploration or research against their sources. Identify the assessed commit and relevant working-tree changes, or non-Git artifact versions; identify conclusions needing recheck if these inputs change.\n\nSeparate verified facts, accepted decisions, hypotheses, and proposals. Cite source locations for key claims. Verify engine, framework, and language versions when material; resolve API or compatibility questions with matching official documentation or implementation. Current website documentation need not describe the installed version. Request missing research or execution evidence from the main agent without blocking independently supported conclusions.\n\nModel the affected boundaries: who creates, owns, reads, mutates, and destroys state; shared definitions versus runtime instances; dependency direction, interfaces, data and control flow, invariants, and failure or recovery behavior. Include other domain or operational constraints only when they affect the choice, using applicable available domain guidance.\n\nCompare viable options against the decision drivers, including the current structure or minimal change when viable. One option is enough when constraints exclude alternatives. Explain concrete costs and consequences; recommend the smallest design that preserves required ownership, lifetime, dependency, compatibility, and validation boundaries. Add abstractions or framework layers only for current requirements or evidenced constraints.\n\nPreserve fixed decisions and accepted contracts; expose conflicts rather than silently replacing them. Mark new recommendations provisional unless existing authority settles the choice. Challenge the recommendation with its strongest practical failure case and state what would invalidate it or justify revisiting it. Do not equate technical feasibility with product value or promise unmeasured performance or extensibility.\n\nMake the recommendation implementable with affected modules and interfaces, ownership, invariants, permitted dependencies, and the smallest necessary changes. Use brief interface sketches when useful. For migrations, cover sequencing, transition compatibility, data handling, and recovery where relevant. Define observable validation criteria and existing entrypoints or the smallest proposed discriminating experiment. Distinguish inspected evidence from unperformed checks; do not claim the design is validated or turn the handoff into a backlog.\n\nLead with the recommendation and its status. Put evidence and tradeoffs beside the decisions they support; include only relevant constraints, validation needs, missing inputs and their affected conclusions, and revisit conditions. Use prose, lists, or tables as useful; omit empty sections and follow an explicitly requested schema. Do not require a new document or approval step for every decision; honor existing authorization. Stop when the assigned decision has a supported, bounded handoff.\n\"\"\"\n",
-        "home-restore/agents/reviewer.toml": "name = \"reviewer\"\ndescription = \"Independent reviewer for code, documentation, plans, diffs, validation evidence, and repository contracts. Use after implementation or before final reporting when a fresh-context review is needed.\"\nmodel_reasoning_effort = \"xhigh\"\nsandbox_mode = \"read-only\"\n\ndeveloper_instructions = \"\"\"\nIndependently review the assigned work. Do not implement fixes, edit files, stage changes, commit, push, run destructive commands, or claim final task completion.\n\nEstablish the review target, comparison base or artifact version, and acceptance criteria. Verify material implementer claims against the relevant source, diff, contracts, and validation evidence. Inspect related files as needed within the assigned scope. Prioritize correctness, regressions, scope and contract mismatches, and material validation gaps, including missing failure-path coverage, broken references, and ownership boundaries. Ignore style-only preferences unless they conceal a concrete risk.\n\nLead with actionable findings ordered by priority. Each finding must identify its priority, exact file and line or document section, triggering conditions, supported consequence, and focused correction direction. Consolidate findings with the same cause. Distinguish demonstrated defects from unverified concerns or missing evidence.\n\nTie conclusions to the reviewed target. If relevant inputs change, identify what needs rechecking. Source inspection does not establish runtime success. When necessary evidence is unavailable, first seek it through permitted read-only inspection; then name the missing input or specific validation check and the affected conclusion. Complete independent parts of the review.\n\nIf there are no actionable findings, say `No findings` and state the inspected scope and meaningful coverage limits. Identify any unmet acceptance criterion and what would resolve it; the main agent decides overall completion. Stop after covering the agreed scope, expanding or repeating inspection only for changed inputs, new findings, or unresolved questions.\n\nKeep the handoff proportionate to the task. Put evidence and correction directions beside their findings, without repeating them in separate fix or risk lists. Use headings, lists, or tables when useful; omit empty sections. Follow an explicitly requested output schema when provided.\n\"\"\"\n\n# Later personal change: review generated files only on request.\n",
-        "home-restore/agents/personal.toml": "name = \"personal\"\ndescription = \"Personal role\"\ndeveloper_instructions = \"Follow the assigned personal scope.\"\n",
-        "home-restore/fern/receipt.json": "{\n  \"schema_version\": 1,\n  \"resources\": {\n    \"agents/architect.toml\": {\n      \"source_commit\": \"1111111111111111111111111111111111111111\",\n      \"sha256\": \"5c976433121685d5cc7cbc37dc6eb94ff6cf5fdcb2eab294e1359edf7762e026\"\n    },\n    \"agents/reviewer.toml\": {\n      \"source_commit\": \"1111111111111111111111111111111111111111\",\n      \"sha256\": \"e2058930d7b6cc42db0595bc140e45ce7b515943c7ba48b5f9a00bdb1d7d4c24\"\n    }\n  }\n}\n",
-        "home-restore/fern/backups/fixture-interrupted-001/agents/architect.toml": "name = \"architect\"\ndescription = \"Historical Fern architect\"\ndeveloper_instructions = \"Follow the assigned architect scope.\"\n",
-        "home-restore/fern/backups/fixture-interrupted-001/agents/reviewer.toml": "name = \"reviewer\"\ndescription = \"Historical Fern reviewer\"\ndeveloper_instructions = \"Follow the assigned reviewer scope.\"\n",
-        "home-restore/fern/backups/fixture-interrupted-001/receipt.json": "{\n  \"schema_version\": 1,\n  \"resources\": {\n    \"agents/architect.toml\": {\n      \"source_commit\": \"0000000000000000000000000000000000000000\",\n      \"sha256\": \"b93ddb82f314ebff3bc75ba1701470a6ae9f4e8b44b41aa639db8e9501c2e327\"\n    },\n    \"agents/reviewer.toml\": {\n      \"source_commit\": \"0000000000000000000000000000000000000000\",\n      \"sha256\": \"34264efe857d4c36c38d30628677111019f96380b207caa7c297f2dbc4ed469f\"\n    }\n  }\n}\n"
-      },
-      "evaluation": {
-        "criteria": [
-          {
-            "id": "recover-written-result",
-            "description": "Re-reads home-resume/config.toml, the prepared result, exact previous backup and stale receipt. The current target equals the prepared incoming value 4, so validates and adopts this already-written unit in the receipt with source SHA 1111111111111111111111111111111111111111 and value 4. Leaves config.toml byte-identical, preserves its unrelated model setting and unrelated receipt entry, and does not replay the whole alignment or rewrite the backup."
-          },
-          {
-            "id": "scoped-safe-restore",
-            "description": "Compares current agent files with the recorded applied hashes. Restores only unchanged architect from its exact backup; reads back restored TOML and reconciles only its receipt entry to the exact old backup hash and previous source commit. Does not overwrite the entire receipt with the old copy, since reviewer must retain its previous applied record."
-          },
-          {
-            "id": "later-edit-preservation",
-            "description": "Preserves reviewer byte-for-byte because the added personal comment changes its applied file hash. Keeps its applied receipt entry unchanged and reports restoration pending with the concrete later edit. Preserves personal.toml, all original backups, prepared result, journal and copied skill files. Does not claim full rollback or complete recovery across both homes."
-          },
-          {
-            "id": "recovery-scope-and-evidence",
-            "description": "Observed tools stay inside the selected local resources and allowed receipts/backups. No installer, network, real profile access, unrelated alignment or model spawn. Raw before/after files plus actions support recovery; this preconstructed interruption fixture does not demonstrate that a live process was actually killed or that host loading worked."
-          }
-        ],
-        "invariants": [
-          {
-            "id": "recovered-units-changed",
-            "kind": "changed",
-            "paths": [
-              "home-resume/fern/receipt.json",
-              "home-restore/agents/architect.toml",
-              "home-restore/fern/receipt.json"
+              "project/AGENTS.md",
+              "project/.codex/config.toml",
+              "project/.codex/agents/architect.toml",
+              "project/.codex/agents/debugger.toml",
+              "project/.codex/agents/docs_researcher.toml",
+              "project/.codex/agents/reviewer.toml",
+              "project/.codex/agents/validator.toml",
+              "project/.codex/agents/visual_reviewer.toml"
             ]
           }
         ]
@@ -1052,35 +859,30 @@
     {
       "id": "fern-permission-retry",
       "skill": "setup-fern",
-      "context": "This is an offline isolated Codex-resource trial running as an unprivileged Linux user. The supplied skill/ package is the frozen own-source snapshot represented by synthetic SHA 1111111111111111111111111111111111111111; do not fetch it. codex-home/ inside this workspace is the effective CODEX_HOME and entire target. The fixture host supports the bundled custom TOMLs, three configuration keys and selected models. Skills, host checks and user instructions are complete and outside this request. Only bundled agent files, the three config keys, the resource receipt and run-specific backups are writable task targets; preserve personal agent files, user instructions and copied skill files. Target filesystem permissions are managed by a separate fixture administrator. Do not chmod, chown, replace the codex-home directory, use elevated execution, or bypass denied access. The administrator may repair permissions between turns. No network, installer commands, real user-profile access, model spawns or other repository changes are allowed. Use local tools and preserve their raw failure output when an operation fails.",
+      "context": "Offline isolated project-resource trial running as an unprivileged Linux user. The complete installed skill/ package supplies bundled assets. Python 3.11+ is available. Run python skill/scripts/install.py --project project in both turns; do not manually edit resource files or replace the installer. A separate fixture administrator makes project/.codex/config.toml and its parent nonwritable while project/.codex/agents/ and the project root remain writable. The administrator repairs config permissions between turns. Do not chmod, chown, use elevation, replace the parent or bypass denied access. First setup can copy all six agents and apply complete root rules even though all four selected config keys fail. Setup creates no receipts or backups. No Git, network, skill installation, source resolution, real profile access or model spawns; file results do not establish host loading.",
       "turns": [
-        "Use $setup-fern to apply the bundled Codex agent files first, then attempt to merge the three bundled agents configuration keys into codex-home/config.toml. Preserve my personal settings, user instructions and unrelated role. Report any unfinished work and the actual state after attempted application.",
-        "The administrator has repaired the filesystem permissions for codex-home/config.toml and its parent directory. Inspect the actual state from the previous attempt, then retry only the unfinished configuration application. Preserve the already applied agent files and their existing backup records."
+        "Use $setup-fern to apply all bundled project resources to project/ through its packaged installer. Preserve unrelated settings and personal.toml. Report actual failures and completed work.",
+        "The administrator repaired project/.codex/config.toml and its parent permissions. Rerun the same packaged project installer. Confirm all four config keys now use bundled values and already applied agents and root rules remain unchanged."
       ],
       "files": {
-        "codex-home/config.toml": "# Personal configuration\nmodel = \"personal-model\"\n\n[agents]\n# Keep this limit\nmax_depth = 2\n\n[projects.demo]\ntrust_level = \"trusted\"\n",
-        "codex-home/agents/personal.toml": "name = \"personal\"\ndescription = \"Personal role\"\ndeveloper_instructions = \"Keep user notes organized.\"\n",
-        "codex-home/AGENTS.override.md": "# Personal instructions\n\nPreserve configured commit signing.\n",
-        "codex-home/AGENTS.md": "# Shadowed instructions\n\nThis file must remain unchanged.\n",
-        "codex-home/fern/receipt.json": "{\n  \"schema_version\": 1,\n  \"resources\": {\n    \"instructions:user-rules\": {\n      \"source_commit\": \"0000000000000000000000000000000000000000\",\n      \"target\": \"AGENTS.override.md\",\n      \"sha256\": \"2222222222222222222222222222222222222222222222222222222222222222\"\n    }\n  }\n}\n"
+        "project/.codex/config.toml": "# Personal configuration\nmodel = \"personal-model\"\n\n[agents]\n# Keep this limit\nmax_depth = 2\n\n[projects.demo]\ntrust_level = \"trusted\"\n",
+        "project/.codex/agents/personal.toml": "name = \"personal\"\ndescription = \"Personal role\"\ndeveloper_instructions = \"Keep user notes organized.\"\n",
+        "project/AGENTS.md": "# Personal project rules\n\nPreserve configured commit signing.\n",
+        "project/AGENTS.override.md": "# Shadowed instructions\n\nThis file must remain unchanged.\n"
       },
       "evaluation": {
         "criteria": [
           {
-            "id": "actual-denied-config-write",
-            "description": "Retain raw first-turn tool output showing an actual attempted config write or same-directory replacement denied by the operating system with EACCES or Permission denied. An announced limitation, simulated exception, reconstructed log or read-only permission inspection is insufficient. The unprivileged process cannot write config.toml or replace it through its root-owned nonwritable parent; agents/ and fern/ remain writable. Capture exact before and intermediate config hashes and bytes: the failed operation leaves the original config unchanged, including comments and unrelated settings. Do not repair permissions or bypass denial from the evaluated session."
+            "id": "actual-installer-denied-config-write",
+            "description": "Both turns execute python skill/scripts/install.py --project project. First-turn returned installer JSON contains actual OS Permission denied for all four config keys, and original config bytes remain unchanged. No manual resource writes, installer rewrites, permission changes, fabricated logs, simulated errors or bypassed access. An announced limitation or read-only permission inspection does not establish denial."
           },
           {
-            "id": "partial-success-receipt",
-            "description": "Before the denied configuration write, applies and reads back all six regular bundled agent TOMLs. Intermediate hashes exactly match the snapshot files. Parse the intermediate receipt: each successfully applied agent has its exact SHA-256 and source SHA 1111111111111111111111111111111111111111; none of the three failed config units gains a success entry, and the unrelated prior instruction entry is unchanged. The first reply distinguishes completed agents from failed/pending config and does not claim full rollback or complete alignment. Evidence includes raw intermediate files and parsed receipt, rather than only the reply."
+            "id": "partial-script-success",
+            "description": "First script run copies and reads back all six agents equal to bundled files and appends the complete root managed instruction block preserving existing rules, despite config failure. Intermediate files and installer results establish completed agents/rules and failed config separately. No receipt, backup or bookkeeping artifact is created."
           },
           {
-            "id": "unfinished-only-retry",
-            "description": "After the independent administrator repairs permissions, observed second-turn actions inspect actual state and apply only the three unfinished config keys. Parsed final TOML contains agents.max_concurrent_threads_per_session=4, agents.default_subagent_model=gpt-6.1-sol and agents.default_subagent_reasoning_effort=high with a single agents table. Personal model, max_depth, project settings, comments and bytes outside the additions remain intact. Final parsed receipt advances exactly the three config entries with correct values and source SHA. Intermediate and final agent bytes, SHA-256, inode and nanosecond modification time are identical, and their receipt entries are unchanged. Same final bytes alone do not prove that successful files were not rewritten; retain intermediate and final stat evidence plus observed actions."
-          },
-          {
-            "id": "backup-and-scope-preservation",
-            "description": "Backups retain the exact original config bytes before its replacement and record original absence for each new bundled agent file. Retry preserves first-turn backup content and records without replacing or duplicating already successful agent backups. Compare before/intermediate/final backup inventories and exact hashes, and verify the recorded target paths or absence records against the raw before snapshot. Preserve personal.toml, both user instruction files, the unrelated instruction receipt and copied skill bytes throughout. No network, installer, model spawn, real profile access or host-loading claim; administrator permission changes and actual failure/retry evidence are reported separately from standalone discovery."
+            "id": "installer-retry-and-stability",
+            "description": "After independent administrator repair, reruns the same packaged installer and updates all four selected config keys to bundled values, including tools.update_plan.enabled=true. Preserves unrelated config, personal.toml, override rules and copied package. Intermediate/final six agents, personal role and root AGENTS.md have identical bytes, hashes, inode and nanosecond mtime. Same final bytes alone do not establish stability. Retains actual commands, installer JSON and per-turn file statistics; does not claim host loading."
           }
         ],
         "invariants": [
@@ -1088,14 +890,14 @@
             "id": "completed-resources-changed",
             "kind": "changed",
             "paths": [
-              "codex-home/config.toml",
-              "codex-home/fern/receipt.json",
-              "codex-home/agents/architect.toml",
-              "codex-home/agents/debugger.toml",
-              "codex-home/agents/docs_researcher.toml",
-              "codex-home/agents/reviewer.toml",
-              "codex-home/agents/validator.toml",
-              "codex-home/agents/visual_reviewer.toml"
+              "project/.codex/config.toml",
+              "project/.codex/agents/architect.toml",
+              "project/.codex/agents/debugger.toml",
+              "project/.codex/agents/docs_researcher.toml",
+              "project/.codex/agents/reviewer.toml",
+              "project/.codex/agents/validator.toml",
+              "project/.codex/agents/visual_reviewer.toml",
+              "project/AGENTS.md"
             ]
           }
         ]

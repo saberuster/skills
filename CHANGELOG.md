@@ -6,6 +6,15 @@ Planned next minor release: `0.2.0`.
 
 ### Added
 
+- A project-only Setup Fern installer shared by local Codex and Codex Cloud.
+  Merges bundled config keys into `.codex/config.toml`, copies six custom agents
+  into `.codex/agents/`, and adds the complete managed rule block to `AGENTS.md`.
+  Bundled values replace matching config fields, agent files and marked rules;
+  unrelated content remains. Supports read-only checks and unchanged repeats
+  without receipts or backup records, skill installation or profile updates.
+  Consolidated guidance, one config write per run, checks limited to target
+  paths, and direct installer permission-retry validation keep setup focused.
+  Automatic migration of the former subagent instruction block is removed.
 - `deep-search` in `skills/fern/`, replacing the unpublished
   `multi-source-search` draft. Plans search directions and sufficiency criteria,
   uses Exa for broad discovery with specialist sources, and sends only assessed
