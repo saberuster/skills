@@ -1,6 +1,7 @@
 """Exercise install-probe failure gates without network or real installers."""
 
 import copy
+import hashlib
 import json
 import shutil
 import subprocess
@@ -14,9 +15,12 @@ from scripts.check_fern_install import (
     check_install,
     disposable_home,
     fetch_snapshot,
+    inspect_source_lock,
+    installation_home,
     parse_install,
     run,
     select_packages,
+    skills_cli_fallback_sha256,
     verify_installed,
     verify_user_discovery,
 )
@@ -110,6 +114,105 @@ class FernInstallTests(unittest.TestCase):
             package_sha256(self.expected["example"]["path"]),
         )
         self.assertFalse((self.home / ".codex/skills/example").exists())
+        self.assertEqual(first[0]["source_hash_algorithm"], "git_tree_oid")
+
+    def use_fallback_hash(self):
+        digest = skills_cli_fallback_sha256(self.expected["example"]["path"])
+        self.lock["skills"]["example"]["skillFolderHash"] = digest
+        self.write_lock()
+        return digest
+
+    def test_cli_fallback_uses_paths_raw_bytes_locale_order_and_excludes_caches(self):
+        package = self.root / "hash-vector"
+        files = {
+            ".hidden": b"hidden\n",
+            "a_b": b"underscore",
+            "a-B": b"dash",
+            "a.txt": b"lower",
+            "B.txt": b"upper",
+            "nested/z": b"\x00\xff\r\n",
+        }
+        for name, content in files.items():
+            path = package / name
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_bytes(content)
+        for name in (".git/config", "nested/node_modules/module/file"):
+            path = package / name
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_bytes(b"ignored")
+        # This fixed upstream localeCompare order differs from Python sorted().
+        digest = hashlib.sha256()
+        for name in (".hidden", "a_b", "a-B", "a.txt", "B.txt", "nested/z"):
+            digest.update(name.encode("utf-8"))
+            digest.update(files[name])
+        self.assertEqual(skills_cli_fallback_sha256(package), digest.hexdigest())
+
+    def test_cli_fallback_is_accepted_but_installed_bytes_are_still_required(self):
+        self.use_fallback_hash()
+        rows, _ = verify_installed(self.home, self.expected)
+        self.assertEqual(rows[0]["source_hash_algorithm"], "skills_1_7_0_sha256")
+        (self.home / ".agents/skills/example/asset.txt").write_bytes(b"tampered")
+        with self.assertRaisesRegex(DiscoveryError, "byte mismatch"):
+            verify_installed(self.home, self.expected)
+
+    def test_cli_fallback_reads_original_paths_before_normalizing_hash_names(
+        self,
+    ):
+        directory = self.root / "backslash-vector"
+        directory.mkdir()
+        path = directory / "a\\b.txt"
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_bytes(b"backslash filename")
+        expected = hashlib.sha256(b"a/b.txtbackslash filename").hexdigest()
+        self.assertEqual(skills_cli_fallback_sha256(directory), expected)
+
+    def test_fallback_rejects_each_wrong_remote_provenance_field(self):
+        self.use_fallback_hash()
+        original = copy.deepcopy(self.lock)
+        for field, wrong in {
+            "source": "other/repository",
+            "sourceType": "local",
+            "sourceUrl": "https://github.com/other/repository.git",
+            "ref": "main",
+            "skillPath": "skills/other/SKILL.md",
+        }.items():
+            with self.subTest(field=field):
+                self.lock = copy.deepcopy(original)
+                self.lock["skills"]["example"][field] = wrong
+                self.write_lock()
+                with self.assertRaisesRegex(DiscoveryError, rf"example\.{field}"):
+                    verify_installed(self.home, self.expected)
+
+    def test_arbitrary_malformed_and_wrong_hashes_are_rejected(self):
+        for digest in (None, {}, "", "c" * 40, "d" * 64, "x" * 64, "d" * 63):
+            with self.subTest(digest=digest):
+                self.lock["skills"]["example"]["skillFolderHash"] = digest
+                self.write_lock()
+                with self.assertRaisesRegex(
+                    DiscoveryError, r"example\.skillFolderHash"
+                ):
+                    verify_installed(self.home, self.expected)
+
+    def test_fallback_digest_errors_are_bounded_and_cannot_accept_unknown_hash(self):
+        for failure in (OSError("missing node"), subprocess.TimeoutExpired("node", 60)):
+            with (
+                self.subTest(failure=failure),
+                mock.patch(
+                    "scripts.check_fern_install.subprocess.run", side_effect=failure
+                ),
+            ):
+                with self.assertRaisesRegex(DiscoveryError, "fallback SHA-256"):
+                    skills_cli_fallback_sha256(self.source)
+        self.lock["skills"]["example"]["skillFolderHash"] = "d" * 64
+        self.write_lock()
+        with mock.patch(
+            "scripts.check_fern_install.skills_cli_fallback_sha256",
+            side_effect=DiscoveryError("unavailable"),
+        ):
+            _, _, diagnostic = inspect_source_lock(self.home, self.expected)
+            self.assertIn("diagnostic_errors", diagnostic)
+            with self.assertRaisesRegex(DiscoveryError, "skillFolderHash"):
+                verify_installed(self.home, self.expected)
 
     def test_lock_rejects_each_wrong_remote_provenance_field(self):
         original = copy.deepcopy(self.lock)
@@ -131,8 +234,123 @@ class FernInstallTests(unittest.TestCase):
     def test_missing_lock_entry_is_an_incomplete_install(self):
         self.lock["skills"] = {}
         self.write_lock()
-        with self.assertRaisesRegex(DiscoveryError, "missing or unexpected skills"):
+        with self.assertRaisesRegex(DiscoveryError, "provenance mismatch: skills"):
             verify_installed(self.home, self.expected)
+
+    def test_missing_malformed_and_invalid_schema_locks_name_the_failed_field(self):
+        lock_path = self.home / ".agents/.skill-lock.json"
+        cases = (
+            (None, "lock", "missing"),
+            (b"not JSON", "lock", "malformed_json"),
+            (b"[]", "lock", "parsed"),
+            (b'{"version":2,"skills":{}}', "version", "parsed"),
+            (b'{"version":3,"skills":[]}', "skills", "parsed"),
+            (b'{"version":3,"skills":{"example":null}}', "example.record", "parsed"),
+        )
+        for content, field, read_status in cases:
+            with self.subTest(content=content):
+                if content is None:
+                    lock_path.unlink()
+                else:
+                    lock_path.write_bytes(content)
+                _, _, diagnostic = inspect_source_lock(self.home, self.expected)
+                self.assertEqual(diagnostic["read_status"], read_status)
+                with self.assertRaises(DiscoveryError) as caught:
+                    verify_installed(self.home, self.expected)
+                self.assertIn(field, str(caught.exception))
+
+    def test_diagnostics_distinguish_missing_provenance_field_from_null(self):
+        record = self.lock["skills"]["example"]
+        del record["ref"]
+        self.write_lock()
+        _, _, missing = inspect_source_lock(self.home, self.expected)
+        record["ref"] = None
+        self.write_lock()
+        _, _, null = inspect_source_lock(self.home, self.expected)
+        self.assertFalse(missing["mismatches"][0]["actual_present"])
+        self.assertTrue(null["mismatches"][0]["actual_present"])
+        self.assertIsNone(null["mismatches"][0]["actual"])
+
+    def test_diagnostics_survive_failure_cleanup_and_exclude_unknown_fields(self):
+        self.lock["token"] = "secret-top-level"
+        record = self.lock["skills"]["example"]
+        record["credential"] = "secret-extra-field"
+        record["sourceUrl"] = (
+            "https://user:secret-password@github.com/other/repo.git?token=secret-query#secret-fragment"
+        )
+        record["ref"] = "wrong-ref"
+        self.write_lock()
+        target = self.root / "diagnostic-home"
+        report = {}
+        with (
+            mock.patch("scripts.check_fern_install.sys.platform", "linux"),
+            mock.patch(
+                "scripts.check_fern_install.tempfile.gettempdir",
+                return_value=str(self.root),
+            ),
+        ):
+            with self.assertRaisesRegex(
+                DiscoveryError, r"example\.sourceUrl, example\.ref"
+            ):
+                with installation_home(target, self.expected, report) as (_, home):
+                    shutil.copytree(self.home / ".agents", home / ".agents")
+                    verify_installed(home, self.expected)
+        self.assertFalse(target.exists())
+        diagnostic = report["source_lock"]
+        self.assertEqual(diagnostic["version"], 3)
+        self.assertEqual(diagnostic["package_set"], ["example"])
+        self.assertEqual(diagnostic["records"]["example"]["ref"], "wrong-ref")
+        self.assertEqual(diagnostic["mismatches"][1]["expected"], self.revision)
+        self.assertEqual(diagnostic["mismatches"][1]["actual"], "wrong-ref")
+        self.assertNotIn("secret", json.dumps(report))
+        self.assertNotIn("credential", json.dumps(report))
+
+    def test_diagnostic_capture_cannot_mask_original_failure(self):
+        target = self.root / "diagnostic-home"
+        report = {}
+        with (
+            mock.patch("scripts.check_fern_install.sys.platform", "linux"),
+            mock.patch(
+                "scripts.check_fern_install.tempfile.gettempdir",
+                return_value=str(self.root),
+            ),
+            mock.patch(
+                "scripts.check_fern_install.inspect_source_lock",
+                side_effect=RuntimeError("secondary"),
+            ),
+        ):
+            with self.assertRaisesRegex(DiscoveryError, "original failure"):
+                with installation_home(target, self.expected, report):
+                    raise DiscoveryError("original failure")
+        self.assertFalse(target.exists())
+        self.assertEqual(report["source_lock"]["read_status"], "diagnostic_error")
+        self.assertNotIn("secondary", json.dumps(report))
+
+    def test_first_verification_diagnostics_are_not_recomputed_after_failure(self):
+        self.lock["skills"]["example"]["skillFolderHash"] = "d" * 64
+        self.write_lock()
+        target = self.root / "diagnostic-home"
+        report = {}
+        with (
+            mock.patch("scripts.check_fern_install.sys.platform", "linux"),
+            mock.patch(
+                "scripts.check_fern_install.tempfile.gettempdir",
+                return_value=str(self.root),
+            ),
+            mock.patch(
+                "scripts.check_fern_install.skills_cli_fallback_sha256",
+                side_effect=DiscoveryError("first hash failure"),
+            ) as digest,
+        ):
+            with self.assertRaisesRegex(DiscoveryError, "skillFolderHash"):
+                with installation_home(target, self.expected, report) as (_, home):
+                    shutil.copytree(self.home / ".agents", home / ".agents")
+                    verify_installed(home, self.expected, report=report)
+        digest.assert_called_once()
+        self.assertFalse(target.exists())
+        self.assertIn(
+            "first hash failure", report["source_lock"]["diagnostic_errors"][0]
+        )
 
     def test_missing_resource_and_extra_file_both_fail_byte_equality(self):
         installed = self.home / ".agents/skills/example"

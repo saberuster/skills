@@ -106,6 +106,40 @@ Standalone `python -m unittest discover -s tests -v` remains useful for
 debugging, but can skip unavailable Blender or platform paths. Its green exit
 alone does not establish the layered plan's runtime coverage.
 
+## Fern installation provenance
+
+The `fern-install` runtime check verifies the pinned Skills CLI against resolved
+public source snapshots. A lock's `skillFolderHash` may contain either the Git
+directory object ID or the CLI's supported content SHA-256 fallback. The probe
+computes the expected value from the trusted snapshot for the corresponding
+form; a hash-shaped string alone is insufficient. Repository, source URL,
+revision and skill path must still match, and installed package bytes must
+match the complete source package.
+
+The content hash uses the existing Node runtime to preserve Skills CLI 1.7.0's
+path ordering and byte-stream rules. This hash is separate from the probe's
+complete package-byte check. The pinned upstream
+[fallback selection][skills-hash-selection] and
+[content hash algorithm][skills-content-hash] define the compatibility scope.
+A supported fallback does not identify the network or API condition that
+selected it.
+
+Installation reports retain allowlisted lock provenance, lock structure and
+field-level expected/actual differences before the disposable profile is
+removed. They report the matched hash form on success. Missing or malformed
+locks and failed hash computation remain failures with diagnostic evidence.
+Unknown lock fields are not copied into the report.
+
+`tests/test_fern_install.py` covers both hash forms, source-field mismatches,
+content tampering and retained failure diagnostics in the deterministic
+`checks` layer. Its content-hash fixtures require Node; Docker already supplies
+it and native Windows CI checks the image's Node runtime before running tests.
+These fixtures do not establish a real public installation or client discovery;
+the separate `fern-install` runtime job provides that evidence.
+
+[skills-hash-selection]: https://github.com/vercel-labs/skills/blob/7407f3893ad4dceab546ac002c3ef806e4000c73/src/add.ts#L2099-L2121
+[skills-content-hash]: https://github.com/vercel-labs/skills/blob/7407f3893ad4dceab546ac002c3ef806e4000c73/src/local-lock.ts#L145-L184
+
 ## Native Windows CI
 
 The [Windows runner](../scripts/windows_ci.py) discovers the same non-engine
@@ -116,7 +150,7 @@ The PR workflow always requests this job; it is not conditional on Godot
 changes. The affected workflow relies on that independent PR check. Full
 validation also calls it, and the reusable workflow supports manual dispatch.
 
-The job uses `windows-2025`, Python 3.11, Git, PowerShell 7.2+ and the pinned
+The job uses `windows-2025`, Python 3.11, Git, Node, PowerShell 7.2+ and the pinned
 `requirements-dev.txt` dependencies. It runs from the checkout root:
 
 ```powershell

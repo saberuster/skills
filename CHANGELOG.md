@@ -167,6 +167,12 @@ Planned next minor release: `0.2.0`.
 
 ### Changed
 
+- Fern installation validation checks both supported Skills CLI 1.7.0 hash
+  forms against the resolved source snapshot, retaining exact source and
+  package-byte verification. Reports preserve allowlisted lock records and
+  field-level differences on failure, and identify the accepted hash form.
+  Deterministic regressions cover fallback hashes and diagnostic preservation;
+  native Windows CI checks its Node runtime for the content-hash fixtures.
 - `setup-fern` distinguishes the target chat runtime from a terminal CLI when
   diagnosing an unavailable plan tool, and checks runtime-specific configuration
   evidence before inferring support from a feature list or online schema.

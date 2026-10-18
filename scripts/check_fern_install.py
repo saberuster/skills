@@ -14,6 +14,7 @@ import subprocess
 import sys
 import tempfile
 from pathlib import Path
+from urllib.parse import urlsplit, urlunsplit
 
 import yaml
 
@@ -39,6 +40,248 @@ except ModuleNotFoundError:
 ROOT = Path(__file__).resolve().parents[1]
 SKILLS_VERSION = "1.7.0"
 SOURCES = {"saberuster/skills": "main", "cli/cli": "trunk"}
+SOURCE_FIELDS = (
+    "source",
+    "sourceType",
+    "sourceUrl",
+    "ref",
+    "skillPath",
+    "skillFolderHash",
+)
+
+# Match Skills 1.7.0 src/local-lock.ts, including Node's localeCompare order.
+# This hashes the trusted snapshot, never the installer record or installed copy.
+FALLBACK_HASH_SCRIPT = r"""
+const fs = require('node:fs/promises');
+const path = require('node:path');
+const crypto = require('node:crypto');
+async function filesAt(directory, base = '') {
+  const files = [];
+  for (const entry of await fs.readdir(directory, { withFileTypes: true })) {
+    const relativePath = path.join(base, entry.name);
+    if (entry.isDirectory()) {
+      if (entry.name !== '.git' && entry.name !== 'node_modules') {
+        files.push(...await filesAt(path.join(directory, entry.name), relativePath));
+      }
+    } else if (entry.isFile()) {
+      files.push({
+        relativePath: relativePath.replace(/\\/g, '/'),
+        fullPath: path.join(directory, entry.name),
+      });
+    }
+  }
+  return files;
+}
+(async () => {
+  const root = process.argv[1];
+  const files = await filesAt(root);
+  files.sort((a, b) => a.relativePath.localeCompare(b.relativePath));
+  const hash = crypto.createHash('sha256');
+  for (const file of files) {
+    hash.update(file.relativePath);
+    hash.update(await fs.readFile(file.fullPath));
+  }
+  process.stdout.write(hash.digest('hex'));
+})().catch(error => { console.error(error.message); process.exitCode = 1; });
+"""
+
+
+def skills_cli_fallback_sha256(directory, env=None):
+    """Compute the exact pinned installer's fallback from trusted source files."""
+    try:
+        completed = subprocess.run(
+            ["node", "-e", FALLBACK_HASH_SCRIPT, str(directory)],
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            env=env,
+            timeout=60,
+            check=False,
+        )
+    except (OSError, subprocess.SubprocessError) as error:
+        raise DiscoveryError(
+            f"Could not compute Skills 1.7.0 fallback SHA-256 ({type(error).__name__})"
+        ) from error
+    digest = completed.stdout.strip()
+    if completed.returncode or not re.fullmatch(r"[0-9a-f]{64}", digest):
+        reason = (
+            f"exit {completed.returncode}"
+            if completed.returncode
+            else "invalid digest output"
+        )
+        raise DiscoveryError(
+            f"Could not compute Skills 1.7.0 fallback SHA-256 ({reason})"
+        )
+    return digest
+
+
+def diagnostic_value(value, field=None):
+    """Retain scalar provenance only; drop unknown fields and URL credentials."""
+    if value is None or isinstance(value, (bool, int)):
+        return value
+    if not isinstance(value, str):
+        return f"<invalid {type(value).__name__}>"
+    if field == "sourceUrl":
+        try:
+            url = urlsplit(value)
+            value = urlunsplit((url.scheme, url.hostname or "", url.path, "", ""))
+        except ValueError:
+            return "<invalid URL>"
+    return value[:512]
+
+
+def inspect_source_lock(home, expected, env=None):
+    """Return parsed data plus sanitized diagnostics, even for invalid locks."""
+    diagnostics = {"read_status": "missing", "mismatches": []}
+    mismatches = diagnostics["mismatches"]
+    try:
+        lock_bytes = (home / ".agents/.skill-lock.json").read_bytes()
+    except OSError as error:
+        diagnostics["read_status"] = (
+            "missing" if isinstance(error, FileNotFoundError) else "unreadable"
+        )
+        mismatches.append(
+            {
+                "field": "lock",
+                "expected": "readable JSON",
+                "actual": diagnostics["read_status"],
+            }
+        )
+        return None, None, diagnostics
+    diagnostics["sha256"] = hashlib.sha256(lock_bytes).hexdigest()
+    try:
+        lock = json.loads(lock_bytes)
+    except (ValueError, UnicodeError):
+        diagnostics["read_status"] = "malformed_json"
+        mismatches.append(
+            {"field": "lock", "expected": "valid JSON", "actual": "malformed_json"}
+        )
+        return lock_bytes, None, diagnostics
+    diagnostics["read_status"] = "parsed"
+    if not isinstance(lock, dict):
+        mismatches.append(
+            {"field": "lock", "expected": "object", "actual": diagnostic_value(lock)}
+        )
+        return lock_bytes, None, diagnostics
+    diagnostics["version"] = diagnostic_value(lock.get("version"))
+    if type(lock.get("version")) is not int or lock["version"] != 3:
+        mismatches.append(
+            {"field": "version", "expected": 3, "actual": diagnostics["version"]}
+        )
+    entries = lock.get("skills")
+    if not isinstance(entries, dict):
+        mismatches.append(
+            {
+                "field": "skills",
+                "expected": "object",
+                "actual": diagnostic_value(entries),
+            }
+        )
+        return lock_bytes, None, diagnostics
+    diagnostics["package_set"] = sorted(diagnostic_value(name) for name in entries)
+    diagnostics["expected_package_set"] = sorted(expected)
+    if set(entries) != set(expected):
+        mismatches.append(
+            {
+                "field": "skills",
+                "expected": sorted(expected),
+                "actual": diagnostics["package_set"],
+            }
+        )
+    diagnostics["records"] = {}
+    for name, record in entries.items():
+        diagnostics["records"][diagnostic_value(name)] = (
+            {
+                key: diagnostic_value(record[key], key)
+                for key in SOURCE_FIELDS
+                if key in record
+            }
+            if isinstance(record, dict)
+            else diagnostic_value(record)
+        )
+    for name, package in expected.items():
+        if name not in entries:
+            continue
+        record = entries[name]
+        if not isinstance(record, dict):
+            mismatches.append(
+                {
+                    "skill": name,
+                    "field": "record",
+                    "expected": "object",
+                    "actual": diagnostic_value(record),
+                }
+            )
+            continue
+        source = package["source"]
+        provenance = {
+            "source": source["repository"],
+            "sourceType": "github",
+            "sourceUrl": source["url"],
+            "ref": source["sha"],
+            "skillPath": package["skill_path"],
+        }
+        for field, value in provenance.items():
+            if record.get(field) != value:
+                mismatches.append(
+                    {
+                        "skill": name,
+                        "field": field,
+                        "expected": value,
+                        "actual": diagnostic_value(record.get(field), field),
+                        "actual_present": field in record,
+                    }
+                )
+        actual_hash = record.get("skillFolderHash")
+        accepted = {"git_tree_oid": package["tree_oid"]}
+        if actual_hash == package["tree_oid"]:
+            algorithm = "git_tree_oid"
+        else:
+            try:
+                accepted["skills_1_7_0_sha256"] = skills_cli_fallback_sha256(
+                    package["path"], env
+                )
+            except DiscoveryError as error:
+                diagnostics.setdefault("diagnostic_errors", []).append(
+                    f"{name}: {error}"
+                )
+            algorithm = (
+                "skills_1_7_0_sha256"
+                if actual_hash == accepted.get("skills_1_7_0_sha256")
+                and actual_hash is not None
+                else None
+            )
+        if algorithm is None:
+            mismatches.append(
+                {
+                    "skill": name,
+                    "field": "skillFolderHash",
+                    "expected": accepted,
+                    "actual": diagnostic_value(actual_hash),
+                    "actual_present": "skillFolderHash" in record,
+                }
+            )
+        else:
+            diagnostics["records"][name]["hash_algorithm"] = algorithm
+    return lock_bytes, entries, diagnostics
+
+
+@contextlib.contextmanager
+def installation_home(target, expected, report, env=None):
+    """Capture lock evidence before cleanup without masking the primary failure."""
+    with disposable_home(target) as (temporary, home):
+        try:
+            yield temporary, home
+        finally:
+            if "source_lock" not in report:
+                try:
+                    report["source_lock"] = inspect_source_lock(home, expected, env)[2]
+                except Exception as error:
+                    # Evidence collection must not replace the primary error.
+                    report["source_lock"] = {
+                        "read_status": "diagnostic_error",
+                        "error_type": type(error).__name__,
+                    }
 
 
 @contextlib.contextmanager
@@ -207,36 +450,18 @@ def parse_install(stdout, selected, repository, revision, home):
     return rows
 
 
-def verify_installed(home, expected):
-    lock_path = home / ".agents/.skill-lock.json"
-    try:
-        lock_bytes = lock_path.read_bytes()
-        lock = json.loads(lock_bytes)
-    except (OSError, ValueError) as error:
-        raise DiscoveryError("Missing or invalid installer source lock") from error
-    entries = (
-        lock.get("skills")
-        if isinstance(lock, dict) and lock.get("version") == 3
-        else None
-    )
-    if not isinstance(entries, dict) or set(entries) != set(expected):
-        raise DiscoveryError("Installer source lock has missing or unexpected skills")
+def verify_installed(home, expected, env=None, report=None):
+    lock_bytes, _entries, diagnostics = inspect_source_lock(home, expected, env)
+    if report is not None:
+        report["source_lock"] = diagnostics
+    if diagnostics["mismatches"]:
+        fields = ", ".join(
+            f"{row['skill']}.{row['field']}" if "skill" in row else row["field"]
+            for row in diagnostics["mismatches"]
+        )
+        raise DiscoveryError(f"Installer source provenance mismatch: {fields}")
     rows = []
     for name, package in expected.items():
-        record = entries[name]
-        source = package["source"]
-        provenance = {
-            "source": source["repository"],
-            "sourceType": "github",
-            "sourceUrl": source["url"],
-            "ref": source["sha"],
-            "skillPath": package["skill_path"],
-            "skillFolderHash": package["tree_oid"],
-        }
-        if not isinstance(record, dict) or any(
-            record.get(key) != value for key, value in provenance.items()
-        ):
-            raise DiscoveryError(f"Installer source provenance mismatch: {name}")
         hashes = {}
         for label, directory in {
             "canonical": home / ".agents/skills" / name,
@@ -249,7 +474,16 @@ def verify_installed(home, expected):
                 raise DiscoveryError(
                     f"Installed package byte mismatch ({label}): {name}"
                 )
-        rows.append({"name": name, "sha256": hashes, "source_record": record})
+        source_record = diagnostics["records"][name].copy()
+        algorithm = source_record.pop("hash_algorithm")
+        rows.append(
+            {
+                "name": name,
+                "sha256": hashes,
+                "source_record": source_record,
+                "source_hash_algorithm": algorithm,
+            }
+        )
     directory = home / ".agents/skills"
     if {p.name for p in directory.iterdir()} != set(expected):
         raise DiscoveryError(f"Unexpected installed package set: {directory}")
@@ -326,9 +560,11 @@ def check_install(home_target, codex="codex", timeout=180):
             {"name": name, "path": row["skill_path"], "sha256": row["sha256"]}
             for name, row in candidate.items()
         ]
-        with disposable_home(home_target) as (temporary, home):
+        expected = {}
+        env = {}
+        with installation_home(home_target, expected, report, env) as (temporary, home):
             report["disposable_home"] = str(home)
-            env = isolated_environment(home)
+            env.update(isolated_environment(home))
             env.update(
                 CI="1",
                 DISABLE_TELEMETRY="1",
@@ -344,7 +580,6 @@ def check_install(home_target, codex="codex", timeout=180):
             (project / ".git").mkdir()
             snapshots = temporary / "snapshots"
             snapshots.mkdir()
-            expected = {}
             batches = []
             for repository, branch in SOURCES.items():
                 snapshot = snapshots / repository.split("/")[0]
@@ -411,7 +646,7 @@ def check_install(home_target, codex="codex", timeout=180):
                     report["commands"],
                 )
                 parse_install(stdout, names, source["repository"], source["sha"], home)
-            report["installed"], before = verify_installed(home, expected)
+            report["installed"], before = verify_installed(home, expected, env, report)
             report["codex_version"] = run(
                 executable_command(codex, ["--version"]),
                 project,
@@ -444,7 +679,7 @@ def check_install(home_target, codex="codex", timeout=180):
                     report["server_stderr"] = server.stderr[:]
             # Read-only second verification deliberately avoids timestamp changes
             # caused by reinstall. It reuses the original immutable source snapshots.
-            repeated, after = verify_installed(home, expected)
+            repeated, after = verify_installed(home, expected, env, report)
             if repeated != report["installed"] or before != after:
                 raise DiscoveryError(
                     "Same-snapshot verification changed content or lock"
