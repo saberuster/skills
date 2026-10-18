@@ -1,10 +1,13 @@
 # Meta
 
 Skills for maintaining skills and project instructions, reviewing project
-readiness for agent work, and finding open-source skill references on request.
+readiness for agent work, configuring Codex, and finding open-source skill
+references on request.
 
 ## Skills
 
+- [Codex Config](codex-config/SKILL.md): inspect, change, and verify Codex
+  configuration against the target runtime and effective configuration layers.
 - [Maintain Skills](maintain-skills/README.md): list, install, update, and remove
   standalone skills while preserving the requested scope and local edits.
 - [Maintain AGENTS.md](maintain-agents-md/README.md): capture, review, trim, and

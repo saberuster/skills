@@ -6,6 +6,11 @@ Planned next minor release: `0.2.0`.
 
 ### Added
 
+- `codex-config` under `skills/meta/` with a concise entrypoint for inspecting,
+  changing, and verifying Codex configuration against the target runtime,
+  configuration layers, and enforced requirements. Fern retains baseline
+  ownership and receipts while routing general configuration diagnosis to
+  this independent skill.
 - Repository-wide native Windows regressions on every PR/push and full run,
   plus manual dispatch. Automatically includes new non-engine test modules,
   requires junction/symlink execution, rejects unexpected skips, and records

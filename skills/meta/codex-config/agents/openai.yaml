@@ -1,0 +1,7 @@
+interface:
+  display_name: "Codex Config"
+  short_description: "Inspect, adjust, and verify Codex configuration"
+  default_prompt: "Use $codex-config to inspect, change, or verify the requested Codex settings and report their effective state."
+
+policy:
+  allow_implicit_invocation: true

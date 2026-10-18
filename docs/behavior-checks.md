@@ -18,6 +18,7 @@ the broader examples:
 | `agents-*` (ten cases) | [maintain-agents-md](../examples/maintain-agents-md.md): discover coverage and effective sources, review commands, preserve policy, apply language preferences, and respect edit scope |
 | `skills-local-edits` | [maintain-skills](../examples/maintain-skills.md): identify and preserve local edits before an update |
 | `setup-fern` cases (eleven) | [setup-fern](../examples/setup-fern.md): apply complete user rules, repeat resource merges with the plan tool baseline, compare read-only, verify persisted receipts, exercise mixed ownership including an owned false plan tool value and interrupted recovery, and retry after a real fixture permission failure |
+| `codex-config-*` (four cases) | [codex-config](../examples/codex-config.md): distinguish target-bound schema evidence from an online schema gap, apply a user-level edit under a project override, and preserve configuration when managed requirements disallow the requested value |
 | `fern-workflow-*` (ten cases) | [fern](../examples/fern.md): review scope, local edits, accepted decisions, stale evidence, coupled work, evidence handoff, pending Git decisions, and actual bug fix, feature, and refactoring work |
 | `docs-schema` | [technical-writing](../examples/technical-writing.md): apply a scoped schema correction while preserving accepted content |
 | `talk-acceptance` | [talk-it-through](../examples/talk-it-through.md): advance after local acceptance and stop when asked |
@@ -218,9 +219,8 @@ markers and receipt hashes.
 | `fern-permission-retry` | Preserve a failed config unit, then retry it after actual fixture permissions are repaired |
 
 The [missing plan tool scenarios](../examples/setup-fern.md#native-plan-tool-unavailable)
-are separate manual trials, outside these eleven executable cases. Run the
-runtime-specific and online-schema-only variants in fresh isolated sessions;
-retain their actual reads, replies, and unchanged-file evidence.
+route to the executable `codex-config` cases below. They are separate from
+these eleven Fern setup cases.
 
 Deliver the two `fern-resource-merge` turns separately in the same session,
 retaining the first application before the repeat. Check that
@@ -279,6 +279,31 @@ These fixtures do not prove actual Codex instruction loading, explorer model
 availability or spawning, live source resolution, or skill installation. Use
 the [setup examples](../examples/setup-fern.md) for the additional narrative
 cases and keep those unexecuted expectations separate from recorded runs.
+
+## Select Codex configuration cases
+
+Select the four exact IDs `codex-config-runtime-schema`,
+`codex-config-online-schema-gap`, `codex-config-layered-edit`, and
+`codex-config-policy-conflict`. Each copies only the complete `codex-config`
+package and supplies offline synthetic runtime, configuration, and support
+records. See the [narrative cases](../examples/codex-config.md) for acceptance
+details; keep those details and evaluator criteria out of worker inputs.
+
+The two diagnostic cases require an unchanged workspace. The runtime-schema
+case supplies support evidence bound to the Desktop target; the online-schema
+case intentionally lacks it. The edit case requires changes only to the user
+config and its named exact-byte backup, preserving the higher-precedence
+project file. The policy-conflict case requires the full fixture unchanged
+because the requested value violates retained target managed requirements.
+
+Workers may inspect fixture files and use Python standard-library parsing with
+`-B`. No network, installers, real profile access, CLI/runtime invocation, or
+model spawns are allowed. Retain actual reads, commands, replies, before/after
+parses and files; inspect semantic preservation and backup ordering separately
+from filesystem invariants. These are instructions-only agent decision checks,
+not live discovery, runtime compatibility, loaded configuration, tool exposure,
+or native UI checks. Natural selection remains a separate unverified
+expectation.
 
 ## Select reflection cases
 
