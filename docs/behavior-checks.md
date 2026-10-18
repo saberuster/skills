@@ -307,7 +307,7 @@ markers and receipt hashes.
 | Case | Focus |
 | --- | --- |
 | `fern-resource-merge` | Add the plan tool baseline to an existing table, preserve unrelated tool settings, and repeat in the same session |
-| `fern-read-only` | Inventory gaps and conflicts without writes |
+| `fern-read-only` | Package, provider and optional capability gaps, invocation policies, and conflicts without writes |
 | `fern-delegation-plan` | Apply the maintained user-level dispatch policy to proposed briefs, completed-agent resumption and bounded waiting; no setup or actual delegation |
 | `fern-fresh-user-instructions` | Complete rules and a canonical receipt in a new home |
 | `fern-legacy-instructions-migrate` | Owned legacy block and historical receipt including LF |

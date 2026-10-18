@@ -167,6 +167,13 @@ Planned next minor release: `0.2.0`.
 
 ### Changed
 
+- `setup-fern` checks the current Fern and Meta integration: preserves explicit
+  invocation for Fern, Setup Fern, and Deep Search; distinguishes installed
+  search packages from available providers; and keeps optional workflow skills
+  outside mandatory selection. Clarifies configuration and delegation ownership
+  while retaining the existing agent, config, and user-rule baseline. Expands
+  the isolated read-only case with synthetic capability and metadata records.
+
 - The maintained user instructions own general delegation briefs, completed-agent
   resumption, and bounded waiting. Fern keeps dependency coordination and
   validation handoffs, including known tool/environment entrypoints and trial

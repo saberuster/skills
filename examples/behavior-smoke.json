@@ -646,7 +646,7 @@
     {
       "id": "fern-read-only",
       "skill": "setup-fern",
-      "context": "This is an offline isolated comparison trial. The supplied skill/ package is the frozen own-source snapshot represented by synthetic SHA 1111111111111111111111111111111111111111; no branch resolution or fetching is needed. codex-home/ is the only target. Skill inventory: fern and meta are current, gh is missing, an unknown-source personal-helper remains installed. Host exposes skill-creator, lacks openai-docs, supports custom TOMLs and the selected config keys/models, and loads AGENTS.override.md before AGENTS.md. Its installed Skills CLI check command aliases a mutating update; read-only list is unavailable. Use supplied inventory and local file reads. No network, CLI invocation, model spawn, real user-profile access or writes are allowed.",
+      "context": "This is an offline isolated comparison trial. The supplied skill/ package is the frozen own-source snapshot represented by synthetic SHA 1111111111111111111111111111111111111111; no branch resolution or fetching is needed. codex-home/ is the only target. Skill inventory: all leaf packages in skills/fern/ and skills/meta/ are current, including deep-search and codex-config, with synthetic metadata and capability records in installed/; gh is missing, an unknown-source personal-helper remains installed. Retrieval inventory: GitHub read tools and the host web reader are available; Exa, Parallel, OpenAI Docs tools, native X tools and local Grok Build are unavailable. No external dispatch or execplan skill is installed. Host exposes skill-creator, lacks openai-docs, supports custom TOMLs and the selected config keys/models, and loads AGENTS.override.md before AGENTS.md. Its installed Skills CLI check command aliases a mutating update; read-only list is unavailable. Use supplied inventory and local file reads. No network, CLI invocation, model spawn, real user-profile access or writes are allowed.",
       "turns": [
         "Use $setup-fern to check how this environment differs from Fern. Do not change anything."
       ],
@@ -654,13 +654,22 @@
         "codex-home/config.toml": "[agents]\ndefault_subagent_model = \"personal-model\"\n",
         "codex-home/AGENTS.override.md": "# Personal instructions\n\nDelegate only when explicitly requested.\n",
         "codex-home/AGENTS.md": "# Shadowed instructions\n\nUse the Fern defaults.\n",
-        "codex-home/agents/reviewer.toml": "name = \"reviewer\"\ndescription = \"Personal reviewer\"\ndeveloper_instructions = \"Review only the explicitly selected files.\"\n"
+        "codex-home/agents/reviewer.toml": "name = \"reviewer\"\ndescription = \"Personal reviewer\"\ndeveloper_instructions = \"Review only the explicitly selected files.\"\n",
+        "installed/deep-search/SKILL.md": "---\nname: deep-search\ndescription: Synthetic search capability fixture.\n---\n\n# Deep Search\n\nUse Exa for broad discovery and Parallel for assessed gaps. Use OpenAI Docs\nfor OpenAI contracts, with official-domain web retrieval when unavailable.\nUse GitHub native reads, then raw-file reads for repository files.\nFor X use native tools, then usable local Grok Build, then host-default search.\nDisclose unavailable providers and permitted substitutions. Do not install or\nconfigure providers. This fixture records requirements; do not run searches.\n",
+        "installed/fern/agents/openai.yaml": "policy:\n  allow_implicit_invocation: false\n",
+        "installed/setup-fern/agents/openai.yaml": "policy:\n  allow_implicit_invocation: false\n",
+        "installed/deep-search/agents/openai.yaml": "policy:\n  allow_implicit_invocation: false\n",
+        "installed/codex-config/SKILL.md": "---\nname: codex-config\ndescription: Synthetic configuration capability fixture.\n---\n\n# Codex Config\n\nInspect target-supported configuration and overrides. Keep diagnosis read-only.\nWhen called by setup-fern, follow its baseline, conflict and receipt contract.\n"
       },
       "evaluation": {
         "criteria": [
           {
             "id": "grounded-gaps",
-            "description": "Reports missing gh and host openai-docs, missing packaged custom roles, changed reviewer without ownership evidence, the differing model and two absent config keys, missing complete user instructions and the effective override's conflicting delegation policy. Identifies the bundled built-in explorer gpt-6-luna/high instruction as part of the baseline without spawning a model. Does not treat shadowed AGENTS.md as active or claim host loading."
+            "description": "Reports missing gh and host openai-docs, missing packaged custom roles, changed reviewer without ownership evidence, the differing model and three absent config keys, missing complete user instructions and the effective override's conflicting delegation policy. Identifies the bundled built-in explorer gpt-6-luna/high instruction as part of the baseline without spawning a model. Does not treat shadowed AGENTS.md as active or claim host loading."
+          },
+          {
+            "id": "capability-boundaries",
+            "description": "Distinguishes installed deep-search from unavailable Exa, Parallel, OpenAI Docs and X routes, using its available packaged tool requirements. Reports available GitHub/web fallback routes without claiming the missing providers ran. Preserves explicit invocation for fern, setup-fern and deep-search. Does not add dispatch or execplan as mandatory packages, install providers, configure credentials, or probe paid search. Recognizes codex-config for configuration diagnosis while Setup Fern owns baseline and receipts."
           },
           {
             "id": "read-only-actions",
