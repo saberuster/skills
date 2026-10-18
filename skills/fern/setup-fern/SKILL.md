@@ -71,6 +71,11 @@ backups, merges, receipts, and recovery. The owned resources are:
   in the effective file on existing environments, respecting overrides and
   the documented migration from the former subagent-only block.
 
+Use `codex-config` when available for general configuration diagnosis and
+runtime verification. Fern still owns the selected baseline, per-key conflict
+decisions, and receipts; its installation procedure remains usable when that
+skill is unavailable. Do not expand setup into unrelated configuration edits.
+
 Compare current values to the last successfully applied baseline. Do not
 overwrite local changes, adopt unknown files silently, or write through a
 symlink or junction into an authored repository. Record only resources that
