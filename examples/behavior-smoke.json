@@ -3542,6 +3542,170 @@
           }
         ]
       }
+    },
+    {
+      "id": "codex-config-runtime-schema",
+      "skill": "codex-config",
+      "context": "This is an offline isolated configuration decision trial. Only the copied skill/ package and fixture files are available. All retained records and runtime versions are synthetic, not real Codex compatibility claims. Use local file tools and Python standard-library parsing with -B only; no network, installers, CLI/runtime invocation, model spawns, real profile access, or changes to copied skill files are allowed. No live session reload, tool exposure, or native UI observation is available. Local reads only; no fixture writes are authorized. Retained target, terminal and configuration evidence is under retained/.",
+      "turns": [
+        "Use $codex-config to diagnose why this Desktop chat has no update_plan tool. Explain the relevant configuration and a scoped next step. Do not change anything."
+      ],
+      "files": {
+        "retained/desktop-session.json": "{\n  \"entrypoint\": \"Desktop\",\n  \"runtime_version\": \"0.0.0-fixture-desktop\",\n  \"effective_home\": \"codex-home\",\n  \"project\": \"project\",\n  \"tool_inventory\": [\n    \"shell\",\n    \"read_file\"\n  ]\n}\n",
+        "retained/terminal-cli.txt": "Entrypoint: terminal CLI\nVersion: 0.0.0-fixture-cli\nRetained features list:\nfixture_extra  stable  false\n",
+        "codex-home/config.toml": "# Personal fixture configuration\nmodel = \"fixture-model\"\n",
+        "retained/config-layers.json": "{\n  \"target_entrypoint\": \"Desktop\",\n  \"runtime_version\": \"0.0.0-fixture-desktop\",\n  \"user_config\": \"codex-home/config.toml\",\n  \"project_config\": null,\n  \"command_overrides\": {},\n  \"managed_requirements\": {},\n  \"effective_values\": {\n    \"model\": \"fixture-model\"\n  }\n}\n",
+        "retained/schema-origin.json": "{\n  \"source\": \"retained Desktop runtime schema export\",\n  \"entrypoint\": \"Desktop\",\n  \"runtime_version\": \"0.0.0-fixture-desktop\",\n  \"schema\": \"retained/runtime-schema.json\"\n}\n",
+        "retained/runtime-schema.json": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"tools\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"update_plan\": {\n          \"type\": \"object\",\n          \"properties\": {\n            \"enabled\": {\n              \"type\": \"boolean\",\n              \"default\": false\n            }\n          }\n        }\n      }\n    }\n  }\n}\n"
+      },
+      "evaluation": {
+        "criteria": [
+          {
+            "id": "target-bound-evidence",
+            "description": "Reads Desktop session, schema provenance and target-bound runtime schema, config and layering record; distinguishes the Desktop target from the different terminal CLI version."
+          },
+          {
+            "id": "supported-diagnosis",
+            "description": "Identifies the missing tools.update_plan.enabled setting and its false schema default; proposes setting the supported nested boolean to true without treating absence from the CLI feature list as proof of unsupported configuration. Keeps subsequent runtime tool exposure and native display unverified."
+          },
+          {
+            "id": "read-only-scope",
+            "description": "Observed actions stay within allowed local fixture reads and parsing, with no writes, network, CLI/runtime launch, installer, model spawn or real profile access. Reports retained evidence without claiming live runtime or UI verification."
+          }
+        ],
+        "invariants": [
+          {
+            "id": "unchanged-fixture",
+            "kind": "unchanged"
+          }
+        ]
+      }
+    },
+    {
+      "id": "codex-config-online-schema-gap",
+      "skill": "codex-config",
+      "context": "This is an offline isolated configuration decision trial. Only the copied skill/ package and fixture files are available. All retained records and runtime versions are synthetic, not real Codex compatibility claims. Use local file tools and Python standard-library parsing with -B only; no network, installers, CLI/runtime invocation, model spawns, real profile access, or changes to copied skill files are allowed. No live session reload, tool exposure, or native UI observation is available. Local reads only; no fixture writes are authorized. Retained target, terminal and configuration evidence is under retained/. No target runtime schema or other version-bound support record is available.",
+      "turns": [
+        "Use $codex-config to diagnose why this Desktop chat has no update_plan tool. Explain what the available evidence establishes and what is missing. Do not change anything."
+      ],
+      "files": {
+        "retained/desktop-session.json": "{\n  \"entrypoint\": \"Desktop\",\n  \"runtime_version\": \"0.0.0-fixture-desktop\",\n  \"effective_home\": \"codex-home\",\n  \"project\": \"project\",\n  \"tool_inventory\": [\n    \"shell\",\n    \"read_file\"\n  ]\n}\n",
+        "retained/terminal-cli.txt": "Entrypoint: terminal CLI\nVersion: 0.0.0-fixture-cli\nRetained features list:\nfixture_extra  stable  false\n",
+        "codex-home/config.toml": "# Personal fixture configuration\nmodel = \"fixture-model\"\n",
+        "retained/config-layers.json": "{\n  \"target_entrypoint\": \"Desktop\",\n  \"runtime_version\": \"0.0.0-fixture-desktop\",\n  \"user_config\": \"codex-home/config.toml\",\n  \"project_config\": null,\n  \"command_overrides\": {},\n  \"managed_requirements\": {},\n  \"effective_values\": {\n    \"model\": \"fixture-model\"\n  }\n}\n",
+        "retained/schema-origin.json": "{\n  \"source\": \"retained unversioned online schema snapshot\",\n  \"runtime_version\": null,\n  \"entrypoint\": null,\n  \"schema\": \"retained/online-schema.json\"\n}\n",
+        "retained/online-schema.json": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"tools\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"update_plan\": {\n          \"type\": \"object\",\n          \"properties\": {\n            \"enabled\": {\n              \"type\": \"boolean\",\n              \"default\": false\n            }\n          }\n        }\n      }\n    }\n  }\n}\n"
+      },
+      "evaluation": {
+        "criteria": [
+          {
+            "id": "unresolved-target-support",
+            "description": "Reads available target, version, config and schema evidence; recognizes the schema is unversioned and cannot establish support or lack of support for the Desktop runtime. Does not substitute the different CLI runtime or its feature list."
+          },
+          {
+            "id": "concrete-evidence-gap",
+            "description": "Names target-runtime schema, matching versioned source, or equivalent target-bound support evidence as the missing input, while distinguishing configuration support, loaded tool exposure and native UI evidence. May describe a conditional setting without presenting it as a verified target fix."
+          },
+          {
+            "id": "read-only-scope",
+            "description": "Observed actions use permitted fixture reads and parsing only; no edits, live access, network, CLI/runtime invocation, installation or model spawns. Makes no unsupported success, runtime or UI claim."
+          }
+        ],
+        "invariants": [
+          {
+            "id": "unchanged-fixture",
+            "kind": "unchanged"
+          }
+        ]
+      }
+    },
+    {
+      "id": "codex-config-layered-edit",
+      "skill": "codex-config",
+      "context": "This is an offline isolated configuration decision trial. Only the copied skill/ package and fixture files are available. All retained records and runtime versions are synthetic, not real Codex compatibility claims. Use local file tools and Python standard-library parsing with -B only; no network, installers, CLI/runtime invocation, model spawns, real profile access, or changes to copied skill files are allowed. No live session reload, tool exposure, or native UI observation is available. codex-home/config.toml is the selected user configuration. Retained schema and configuration layering evidence is under retained/. The authorized backup location is backup/user-config.toml, which does not yet exist. Only the selected user file and this backup may be written; all other fixture files are read-only.",
+      "turns": [
+        "Use $codex-config to set my user-level model_reasoning_effort to high in codex-home/config.toml. Preserve project overrides, unrelated settings and comments. Back up the original user file at the supplied backup location and validate the TOML before and after the edit. Explain the saved value and the effective setting for this project."
+      ],
+      "files": {
+        "retained/desktop-session.json": "{\n  \"entrypoint\": \"Desktop\",\n  \"runtime_version\": \"0.0.0-fixture-desktop\",\n  \"effective_home\": \"codex-home\",\n  \"project\": \"project\",\n  \"tool_inventory\": [\n    \"shell\",\n    \"read_file\"\n  ]\n}\n",
+        "retained/schema-origin.json": "{\n  \"source\": \"retained Desktop runtime schema export\",\n  \"entrypoint\": \"Desktop\",\n  \"runtime_version\": \"0.0.0-fixture-desktop\",\n  \"schema\": \"retained/runtime-schema.json\"\n}\n",
+        "retained/runtime-schema.json": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"model_reasoning_effort\": {\n      \"type\": \"string\",\n      \"enum\": [\n        \"low\",\n        \"medium\",\n        \"high\"\n      ]\n    }\n  }\n}\n",
+        "codex-home/config.toml": "# Keep this personal comment.\nmodel = \"fixture-model\"\nmodel_reasoning_effort = \"medium\" # User preference\n\n[fixture_notes]\nlabel = \"keep me\"\n",
+        "project/.codex/config.toml": "# Keep the project override.\nmodel_reasoning_effort = \"low\"\n",
+        "retained/config-layers.json": "{\n  \"target_entrypoint\": \"Desktop\",\n  \"runtime_version\": \"0.0.0-fixture-desktop\",\n  \"user_config\": \"codex-home/config.toml\",\n  \"project_config\": \"project/.codex/config.toml\",\n  \"project_trusted\": true,\n  \"precedence_low_to_high\": [\n    \"user_config\",\n    \"project_config\",\n    \"command_overrides\"\n  ],\n  \"command_overrides\": {},\n  \"managed_requirements\": {},\n  \"effective_values\": {\n    \"model_reasoning_effort\": \"low\"\n  },\n  \"effective_sources\": {\n    \"model_reasoning_effort\": \"project/.codex/config.toml\"\n  }\n}\n"
+      },
+      "evaluation": {
+        "criteria": [
+          {
+            "id": "validated-scoped-edit",
+            "description": "Reads target-bound schema and config; actually parses TOML before and after, backs up exact original user bytes to backup/user-config.toml before editing, and changes only model_reasoning_effort from medium to high. Preserves comments, formatting and unrelated settings; project config remains byte-identical. No redundant permission question delays the authorized edit."
+          },
+          {
+            "id": "saved-versus-effective",
+            "description": "Reports the saved user value high separately from the trusted project's higher-precedence low value, grounding the effective result in retained layering evidence. Does not claim the edit changed the running session or that a live reload or runtime probe occurred."
+          },
+          {
+            "id": "authorized-actions",
+            "description": "Observed actions stay inside permitted local fixture tools and the two authorized write paths, with no profile access, network, installers, CLI/runtime invocation or model spawns. Evidence distinguishes parsed saved config from retained effective configuration and unverified live state."
+          }
+        ],
+        "invariants": [
+          {
+            "id": "only-user-and-backup",
+            "kind": "only_changes",
+            "paths": [
+              "codex-home/config.toml",
+              "backup/user-config.toml"
+            ]
+          },
+          {
+            "id": "required-user-and-backup",
+            "kind": "changed",
+            "paths": [
+              "codex-home/config.toml",
+              "backup/user-config.toml"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "codex-config-policy-conflict",
+      "skill": "codex-config",
+      "context": "This is an offline isolated configuration decision trial. Only the copied skill/ package and fixture files are available. All retained records and runtime versions are synthetic, not real Codex compatibility claims. Use local file tools and Python standard-library parsing with -B only; no network, installers, CLI/runtime invocation, model spawns, real profile access, or changes to copied skill files are allowed. No live session reload, tool exposure, or native UI observation is available. codex-home/config.toml is the selected user configuration. retained/ includes target-bound schema, layering and managed requirement records. These records are fixture exports, not an actual managed-policy file format. Only the selected user setting is requested; policy records and all other fixture files are protected from edits.",
+      "turns": [
+        "Use $codex-config to set user-level model_reasoning_effort to high for this Desktop runtime. Check the supplied runtime requirements before making the scoped edit. Preserve unrelated settings and report any constraint that prevents the requested result."
+      ],
+      "files": {
+        "retained/desktop-session.json": "{\n  \"entrypoint\": \"Desktop\",\n  \"runtime_version\": \"0.0.0-fixture-desktop\",\n  \"effective_home\": \"codex-home\",\n  \"project\": \"project\",\n  \"tool_inventory\": [\n    \"shell\",\n    \"read_file\"\n  ]\n}\n",
+        "retained/schema-origin.json": "{\n  \"source\": \"retained Desktop runtime schema export\",\n  \"entrypoint\": \"Desktop\",\n  \"runtime_version\": \"0.0.0-fixture-desktop\",\n  \"schema\": \"retained/runtime-schema.json\"\n}\n",
+        "retained/runtime-schema.json": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"model_reasoning_effort\": {\n      \"type\": \"string\",\n      \"enum\": [\n        \"low\",\n        \"medium\",\n        \"high\"\n      ]\n    }\n  }\n}\n",
+        "codex-home/config.toml": "# Keep this personal comment.\nmodel = \"fixture-model\"\nmodel_reasoning_effort = \"medium\" # User preference\n\n[fixture_notes]\nlabel = \"keep me\"\n",
+        "retained/config-layers.json": "{\n  \"target_entrypoint\": \"Desktop\",\n  \"runtime_version\": \"0.0.0-fixture-desktop\",\n  \"user_config\": \"codex-home/config.toml\",\n  \"project_config\": null,\n  \"command_overrides\": {},\n  \"managed_requirements\": \"retained/managed-requirements.json\",\n  \"requirement_semantics\": \"All configured values must satisfy the listed managed allowed_values; local configuration cannot override them.\",\n  \"effective_values\": {\n    \"model_reasoning_effort\": \"medium\"\n  }\n}\n",
+        "retained/managed-requirements.json": "{\n  \"source\": \"retained target runtime managed-requirements export\",\n  \"entrypoint\": \"Desktop\",\n  \"runtime_version\": \"0.0.0-fixture-desktop\",\n  \"constraints\": {\n    \"model_reasoning_effort\": {\n      \"allowed_values\": [\n        \"low\",\n        \"medium\"\n      ]\n    }\n  }\n}\n"
+      },
+      "evaluation": {
+        "criteria": [
+          {
+            "id": "managed-constraint",
+            "description": "Reads the target-bound schema, configuration and managed requirements; distinguishes schema support for high from the target policy restricting effort to low or medium. Names this affected constraint and explains that local settings cannot override it."
+          },
+          {
+            "id": "no-ineffective-edit",
+            "description": "Does not write a disallowed high user value, modify protected requirements, silently choose another value, create backups, or ask redundant permission for an edit that cannot satisfy the requested result. Reports the unresolved requested setting without claiming effective success."
+          },
+          {
+            "id": "policy-scope-and-evidence",
+            "description": "Observed actions stay within permitted local reads and parsing, preserving the full fixture. No runtime/CLI launch, real profile access, network, installation, model spawn, or unsupported live-session claim occurs."
+          }
+        ],
+        "invariants": [
+          {
+            "id": "unchanged-fixture",
+            "kind": "unchanged"
+          }
+        ]
+      }
     }
   ]
 }
