@@ -335,6 +335,30 @@ same-name fallback or silently changing a model. Record compatible successful
 items and leave incompatible items pending. No source test should be described
 as a successful model spawn.
 
+## Native plan tool unavailable
+
+Request: "Use $setup-fern to diagnose why this Desktop chat has no
+update_plan tool. Do not change the environment."
+
+Fixture: retained Desktop session metadata and terminal CLI output identify
+different synthetic runtime versions. The CLI's `features list` omits
+`update_plan`. The schema retained from the Desktop runtime defines
+`tools.update_plan.enabled` as a boolean defaulting to false, and the effective
+fixture config does not set it. The chat's tool inventory lacks `update_plan`.
+
+Observe that the agent uses the Desktop runtime as the target, checks its
+nested tool configuration, and proposes the supported setting without writing
+it. Absence from the CLI feature list must not become an unsupported-host
+conclusion. Keep tool exposure and native display unverified until the changed
+configuration is loaded and each has actual evidence.
+
+In a separate fresh trial, remove the Desktop-specific schema and supply only
+an unversioned online schema containing the field. The agent should identify
+the missing target-runtime evidence and keep support unresolved, without
+declaring the field supported or unsupported from the online schema alone.
+Both trials preserve fixture files and avoid live profile or host changes.
+These manual cases are outside the eleven executable Fern smoke cases.
+
 ## Custom roles load but a task probe is blocked
 
 Request: "Check that these two installed custom agents load correctly in a

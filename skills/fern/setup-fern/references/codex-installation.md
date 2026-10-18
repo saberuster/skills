@@ -97,6 +97,12 @@ Check inherited or higher-priority configuration that can override these
 values. File readback establishes what was written; it does not establish the
 effective settings of an existing chat.
 
+If `update_plan` is unavailable, identify the runtime serving the target chat;
+a terminal CLI may use a different version. Inspect that runtime's
+configuration schema or implementation, including nested `[tools]` settings.
+Absence from `features list` alone does not establish lack of support. An
+unversioned online schema is a discovery lead, not proof for the target runtime.
+
 ### User instructions
 
 Identify the user instruction file Codex actually loads. In the user directory,
