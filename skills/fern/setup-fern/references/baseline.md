@@ -73,6 +73,33 @@ versions finish. Continue using the selected snapshot after replacement.
 
 ## Host and runtime checks
 
+### Skills and workflow capabilities
+
+Read each selected package's metadata and relevant requirements from the
+resolved snapshot. Preserve its invocation policy when copying the complete
+package. In Codex, `fern`, `setup-fern`, and `deep-search` use explicit
+invocation; installing them does not enable automatic selection.
+
+Use `fern` as the current-chat workflow entrypoint. `maintain-skills` owns
+installed packages and provenance; `codex-config` handles configuration
+diagnosis while Setup Fern owns this baseline and application receipts.
+Keep delegation and model policy in the bundled user instructions and custom
+agent files; Fern's workflow entrypoint chooses methods and integrates results.
+
+For `deep-search`, inspect available Exa, Parallel, OpenAI Docs, GitHub, and
+applicable X retrieval routes against its packaged tool notes. Report missing
+routes and the package's permitted fallbacks separately from installation
+status. A successful package copy does not establish provider access. Do not
+install plugins, connect accounts, configure credentials, or run paid searches
+as a setup probe.
+
+References to `dispatch` and `execplan` in Fern are conditional capabilities;
+they do not add external packages to this baseline. Check their availability
+when the requested workflow needs them. Discover selected leaves from the
+directories above; these integration notes are not an installation allowlist.
+
+### Host resources
+
 Check that the host exposes usable `skill-creator` and `openai-docs` skills.
 Identify whether each entry is host managed or a standalone installation when
 the source is visible. Do not install a second same-name copy to satisfy a

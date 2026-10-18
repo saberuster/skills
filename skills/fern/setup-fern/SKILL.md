@@ -14,7 +14,8 @@ this package alone does not authorize applying it to the current machine.
 1. Read [the baseline](references/baseline.md). Select every leaf skill in
    `skills/fern` and `skills/meta` from the declared source. Select additional
    directories only from the user's project needs or explicit choices. Keep
-   external skills individually selected, and inspect the required host skills.
+   external skills individually selected, and inspect the required host skills
+   and selected packages' capability requirements and invocation policies.
 2. Identify the operation, user-level Codex skill destination, effective
    `CODEX_HOME`, host version, and available tools. Inspect existing source
    records, same-name packages, links, custom agents, config, and effective
@@ -90,8 +91,12 @@ new instructions take effect in a fresh session, not midway through this run.
 
 Read back installed skill files and CLI provenance, custom agent TOML, merged
 config, the complete effective instruction block, and successful receipt
-entries. Confirm the built-in `explorer` rule retains `gpt-6-luna` with `high`
-reasoning and the context-mode guidance needed for explicit model overrides.
+entries. Preserve package invocation policies and report unavailable workflow
+tools separately from missing packages. For configuration gaps, identify
+`codex-config` as the diagnosis route when available; keep baseline changes
+and application receipts under Setup Fern. Confirm the built-in `explorer`
+rule retains `gpt-6-luna` with `high` reasoning and the context-mode guidance
+needed for explicit model overrides.
 Report added, refreshed, unchanged, conflicted, missing-host, and failed items
 with source branch and resolved revision. After a partial failure, inspect
 actual state and retry only unfinished items; do not claim a whole-run rollback.

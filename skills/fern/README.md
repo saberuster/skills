@@ -21,7 +21,7 @@ the task requires it.
   authorized Git, PR, and CI delivery in the current chat.
 - [Setup Fern](setup-fern/SKILL.md): align a curated Codex environment with
   the mandatory Fern and meta collections, selected external skills, custom
-  agents, configuration, and subagent instructions.
+  agents, configuration, and complete personal user instructions.
 - [Commit](commit/README.md): draft or review Conventional Commit messages and
   create scoped Git commits when requested.
 - [Technical Writing](technical-writing/SKILL.md): create, revise,

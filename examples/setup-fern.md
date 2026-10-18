@@ -51,8 +51,11 @@ discovery boundaries.
 The resource case supplies a supported fixture host and resolved snapshot,
 applies only Codex resources, and repeats the request in the same agent session.
 Capture the first application before delivering its second turn. The read-only
-case supplies an offline inventory with missing and conflicting items. The fresh
-instruction case creates the complete user rules in a home without an effective
+case supplies an offline inventory with missing and conflicting items, installed
+search skills with unavailable providers, and optional workflow skills that are
+absent. It checks package presence, invocation policy, and usable capabilities
+separately. The fresh instruction case creates the complete user rules in a
+home without an effective
 instruction file. The two legacy cases compare successful receipt-backed
 migration with preservation of a locally edited block. Their historical blocks
 and receipt hashes are synthetic. The three persisted-receipt cases start fresh
@@ -123,6 +126,18 @@ receipt records `config:tools.update_plan.enabled` with value `true`. Repeat
 the resource application and verify the value stays enabled without duplicate
 tables or changes to unrelated tool configuration. Actual native progress
 display requires separate host verification after the configuration is loaded.
+
+## Installed skills and unavailable capabilities
+
+The read-only fixture includes the current `deep-search` and `codex-config`
+integration. Verify that unavailable Exa, Parallel, OpenAI Docs and X routes
+remain capability gaps even with all Fern and Meta packages installed. Use
+available GitHub/web routes only within the search package's fallback rules;
+do not install providers or run paid retrieval as a setup test. Preserve the
+explicit invocation metadata for `fern`, `setup-fern`, and `deep-search`.
+Missing optional `dispatch` and `execplan` packages do not expand selection.
+Configuration diagnosis can use `codex-config`; baseline and receipt ownership
+remain with Setup Fern.
 
 ## Required directory grows
 
