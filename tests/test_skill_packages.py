@@ -27,6 +27,33 @@ class SkillPackageTests(unittest.TestCase):
         nested = self.package("fern/beta")
         self.assertEqual(skill_packages(self.root), {"alpha": direct, "beta": nested})
 
+    def test_plugin_metadata_is_not_a_leaf_package(self):
+        direct = self.package("alpha")
+        nested = self.package("fern/beta")
+        metadata = self.root / "skills/fern/.codex-plugin"
+        metadata.mkdir()
+        (metadata / "plugin.json").write_text("{}\n", encoding="ascii")
+        self.assertEqual(skill_packages(self.root), {"alpha": direct, "beta": nested})
+
+    def test_other_hidden_directories_still_require_a_skill_entry(self):
+        self.package("fern/beta")
+        (self.root / "skills/fern/.unknown").mkdir()
+        with self.assertRaisesRegex(ValueError, "missing source SKILL.md"):
+            skill_packages(self.root)
+
+    def test_plugin_metadata_contents_still_reject_links(self):
+        self.package("fern/beta")
+        metadata = self.root / "skills/fern/.codex-plugin"
+        metadata.mkdir()
+        external = self.root / "external.json"
+        external.write_text("{}\n", encoding="ascii")
+        try:
+            (metadata / "plugin.json").symlink_to(external)
+        except OSError:
+            self.skipTest("Host does not permit creating test symbolic links")
+        with self.assertRaisesRegex(ValueError, "linked skill source"):
+            skill_packages(self.root)
+
     def test_duplicate_leaf_name_is_rejected_by_all_source_consumers(self):
         self.package("alpha")
         self.package("fern/alpha")

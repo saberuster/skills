@@ -33,12 +33,16 @@ def skill_packages(root):
         packages[name] = directory
 
     for directory in sorted(tree.iterdir()):
-        if not directory.is_dir():
+        if not directory.is_dir() or directory.name == ".codex-plugin":
             continue
         if (directory / "SKILL.md").is_file():
             add(directory)
         else:
-            children = [p for p in sorted(directory.iterdir()) if p.is_dir()]
+            children = [
+                p
+                for p in sorted(directory.iterdir())
+                if p.is_dir() and p.name != ".codex-plugin"
+            ]
             if not children:
                 add(directory)
             for child in children:

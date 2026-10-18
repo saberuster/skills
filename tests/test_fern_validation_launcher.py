@@ -90,6 +90,55 @@ class LauncherTests(unittest.TestCase):
             self.assertFalse((destination / "scripts/auth.json").exists())
             self.assertFalse((destination / ".git").exists())
 
+    def test_only_root_plugin_marketplace_can_cross_agents_snapshot_boundary(self):
+        public = ".agents/plugins/marketplace.json"
+        private = (
+            ".agents/config.json",
+            ".agents/plugins/private.json",
+            "nested/.agents/plugins/marketplace.json",
+            "skills/item/.agents/plugins/marketplace.json",
+        )
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary) / "source"
+            for relative in (public, *private):
+                source = root / relative
+                source.parent.mkdir(parents=True, exist_ok=True)
+                source.write_text("synthetic source\n", encoding="ascii")
+            listing = "\0".join((public, *private)).encode() + b"\0"
+            for all_public in (False, True):
+                with self.subTest(all_public=all_public):
+                    self.assertTrue(
+                        launcher.allowed_source(Path(public), all_public=all_public)
+                    )
+                    for relative in (
+                        *private,
+                        ".agents/plugins/marketplace.json/private.json",
+                    ):
+                        self.assertFalse(
+                            launcher.allowed_source(
+                                Path(relative), all_public=all_public
+                            ),
+                            relative,
+                        )
+                    destination = Path(temporary) / str(all_public)
+                    with mock.patch.object(
+                        launcher.subprocess,
+                        "run",
+                        return_value=subprocess.CompletedProcess([], 0, stdout=listing),
+                    ):
+                        launcher.stage_source(root, destination, all_public=all_public)
+                    self.assertEqual(
+                        [
+                            path.relative_to(destination).as_posix()
+                            for path in destination.rglob("*")
+                            if path.is_file()
+                        ],
+                        [public],
+                    )
+                    self.assertEqual(
+                        (destination / public).read_text("ascii"), "synthetic source\n"
+                    )
+
     def test_deadline_counts_worker_turns_and_independent_evaluations(self):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)

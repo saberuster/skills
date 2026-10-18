@@ -14,6 +14,11 @@ conventions.
   and improvement; each leaf remains an independent package.
   The personal Fern environment composition entrypoint and its supporting
   Codex resources belong in `skills/fern/setup-fern/`.
+- Maintain the Codex marketplace in `.agents/plugins/marketplace.json` and
+  the Fern plugin manifest in `skills/fern/.codex-plugin/plugin.json`. Keep its
+  explicit skill list aligned with the Fern leaf packages; do not copy or move
+  those sources merely to package the plugin. Follow `docs/plugins.md` for
+  plugin versions and validation.
 - When the user seeks open-source references for a specific or planned skill,
   apply [find-skill-references](skills/meta/find-skill-references/SKILL.md).
   Ordinary skill creation, editing, review, or explanation does not require

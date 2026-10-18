@@ -70,6 +70,23 @@ def affected_skills(paths, packages, root):
         return sorted(packages)
     selected = set()
     for path in paths:
+        collection = None
+        parts = Path(path).parts
+        if path == ".agents/plugins/marketplace.json":
+            collection = "fern"
+        elif (
+            len(parts) == 4
+            and parts[0] == "skills"
+            and parts[2:] == (".codex-plugin", "plugin.json")
+        ):
+            collection = parts[1]
+        if collection:
+            selected.update(
+                name
+                for name, package in packages.items()
+                if package.relative_to(root).parts[:2] == ("skills", collection)
+            )
+            continue
         for name, package in packages.items():
             relative = package.relative_to(root).as_posix()
             if path == relative or path.startswith(relative + "/"):
@@ -190,6 +207,20 @@ def make_plan(layer, *, root=ROOT, base=None, cases=None, checks=None, latest=Fa
                 "skills": ["setup-fern"],
                 "status": "not_run",
                 "reason": "Effective project config, native custom-agent/instruction loading, Windows migration and Codex Cloud publication/new-task discovery require host evidence",
+            }
+        )
+    fern_skills = [
+        name
+        for name in selected
+        if packages[name].relative_to(root).parts[:2] == ("skills", "fern")
+    ]
+    if fern_skills:
+        manual.append(
+            {
+                "scope": "fern-plugin",
+                "skills": fern_skills,
+                "status": "not_run",
+                "reason": "Codex plugin cache loading and fresh-host marketplace installation require separate host evidence from standalone skill installation and discovery",
             }
         )
     if "commit" in selected:
