@@ -3,13 +3,13 @@
     {
       "id": "fern-resource-merge",
       "skill": "setup-fern",
-      "context": "This is an isolated Codex-resource trial. The supplied skill/ package is the frozen saberuster/skills main snapshot, represented by synthetic SHA 1111111111111111111111111111111111111111; do not fetch it. codex-home/ inside this workspace is the entire target. The fixture host supports the bundled custom TOMLs, three configuration keys and all selected models, and loads AGENTS.override.md before AGENTS.md. Skills and host-skill checks are already complete and outside this request. No network, installer commands, real user-profile reads or writes, model spawns, or other repository changes are allowed. You may use local tools to inspect and edit this fixture only.",
+      "context": "This is an isolated Codex-resource trial. The supplied skill/ package is the frozen saberuster/skills main snapshot, represented by synthetic SHA 1111111111111111111111111111111111111111; do not fetch it. codex-home/ inside this workspace is the entire target. The fixture host supports the bundled custom TOMLs, the bundled agents keys, tools.update_plan.enabled and all selected models, and loads AGENTS.override.md before AGENTS.md. Skills and host-skill checks are already complete and outside this request. No network, installer commands, real user-profile reads or writes, model spawns, or other repository changes are allowed. You may use local tools to inspect and edit this fixture only.",
       "turns": [
         "Use $setup-fern to apply only the bundled Codex agents, config fragment, and complete user instructions to codex-home/. Preserve my existing personal settings and instructions.",
         "Run the same Codex-resource alignment again from the same snapshot."
       ],
       "files": {
-        "codex-home/config.toml": "# Personal configuration\nmodel = \"personal-model\"\n\n[agents]\n# Keep this limit\nmax_depth = 2\n\n[projects.demo]\ntrust_level = \"trusted\"\n",
+        "codex-home/config.toml": "# Personal configuration\nmodel = \"personal-model\"\n\n[agents]\n# Keep this limit\nmax_depth = 2\n\n[tools.web_search]\nallowed_domains = [\"example.com\"]\n\n[tools.update_plan]\n# Keep this tool table\n\n[projects.demo]\ntrust_level = \"trusted\"\n",
         "codex-home/AGENTS.override.md": "# Personal instructions\n\nPreserve configured commit signing.\n",
         "codex-home/AGENTS.md": "# Shadowed instructions\n\nThis file must remain unchanged.\n",
         "codex-home/agents/personal.toml": "name = \"personal\"\ndescription = \"Personal role\"\ndeveloper_instructions = \"Keep user notes organized.\"\n"
@@ -18,11 +18,11 @@
         "criteria": [
           {
             "id": "resource-application",
-            "description": "Six ordinary custom TOMLs equal the bundled files. Parsed config has exactly the three incoming keys added under agents, retaining personal model, max_depth, project table, comments and formatting outside additions. Effective AGENTS.override.md contains exactly one fern:user-instructions block equal to assets/codex/user-instructions.md, including initiative, user precedence, writing style, delegation, built-in explorer gpt-6-luna/high defaults and testing rules. Surrounding instructions, shadowed AGENTS.md and personal role remain byte-identical."
+            "description": "Six ordinary custom TOMLs equal the bundled files. Parsed config has the three incoming agents keys added and tools.update_plan.enabled set to true in the existing table, retaining personal model, max_depth, tools.web_search.allowed_domains, project table, comments and formatting outside additions. Effective AGENTS.override.md contains exactly one fern:user-instructions block equal to assets/codex/user-instructions.md, including initiative, user precedence, writing style, delegation, built-in explorer gpt-6-luna/high defaults and testing rules. Surrounding instructions, shadowed AGENTS.md and personal role remain byte-identical."
           },
           {
             "id": "receipt-and-repeat",
-            "description": "Receipt entries identify all successfully applied role files, config keys and instructions:user-rules with correct hashes or values and fixture source SHA. The instruction hash covers the exact bytes from the start marker opening < through the end marker closing > inclusive, excluding the following line ending without normalizing internal bytes, and target is AGENTS.override.md. Repeating alignment changes no owned resource content and creates no duplicate block or TOML table. Backups preserve pre-application bytes or original absence. Inspect first-turn state and final state."
+            "description": "Receipt entries identify all successfully applied role files, config keys (including config:tools.update_plan.enabled with value true) and instructions:user-rules with correct hashes or values and fixture source SHA. The instruction hash covers the exact bytes from the start marker opening < through the end marker closing > inclusive, excluding the following line ending without normalizing internal bytes, and target is AGENTS.override.md. Repeating alignment changes no owned resource content and creates no duplicate block or TOML table, including tools.update_plan. Backups preserve pre-application bytes or original absence. Inspect first-turn state and final state."
           },
           {
             "id": "scope-and-evidence",
@@ -319,22 +319,22 @@
       "skill": "setup-fern",
       "context": "This is an offline isolated Codex-resource trial. The supplied skill/ package is the frozen own-source snapshot represented by synthetic SHA 1111111111111111111111111111111111111111; do not fetch it. The fixture host supports the bundled custom TOMLs, selected config keys and models. Only the named fixture resources, their receipts and run-specific backups are targets. Skills, host checks, user instructions and other roles are outside this request. No network, installers, model spawns, real user-profile access or changes to copied skill files are allowed. Historical files and receipts are synthetic prior-run artifacts, not evidence of a real upstream version. You may inspect and edit the selected fixture resources with local tools. codex-home/ is the effective CODEX_HOME. The selected files and config have persisted independently since the recorded run.",
       "turns": [
-        "Use $setup-fern to update only architect, reviewer and validator plus the three bundled agents config keys in codex-home/. Preserve my personal settings. Apply independent updates where possible and report anything still pending."
+        "Use $setup-fern to update only architect, reviewer and validator plus the three bundled agents config keys and tools.update_plan.enabled in codex-home/. Preserve my personal settings. Apply independent updates where possible and report anything still pending."
       ],
       "files": {
         "codex-home/agents/architect.toml": "name = \"architect\"\ndescription = \"Historical Fern architect\"\ndeveloper_instructions = \"Follow the assigned architect scope.\"\n",
         "codex-home/agents/reviewer.toml": "name = \"reviewer\"\ndescription = \"Historical Fern reviewer\"\ndeveloper_instructions = \"Review only files I explicitly select.\"\n",
         "codex-home/agents/validator.toml": "name = \"validator\"\ndescription = \"Personally maintained validator\"\ndeveloper_instructions = \"Follow the assigned validator scope.\"\n",
         "codex-home/agents/personal.toml": "name = \"personal\"\ndescription = \"Personal role\"\ndeveloper_instructions = \"Follow the assigned personal scope.\"\n",
-        "codex-home/config.toml": "# Personal configuration\nmodel = \"personal-model\"\n\n[agents]\n# Keep my nesting limit\nmax_depth = 2\nmax_concurrent_threads_per_session = 2\ndefault_subagent_model = \"local-model\"\ndefault_subagent_reasoning_effort = \"medium\"\n\n[projects.demo]\ntrust_level = \"trusted\"\n",
-        "codex-home/fern/receipt.json": "{\n  \"schema_version\": 1,\n  \"resources\": {\n    \"agents/architect.toml\": {\n      \"source_commit\": \"0000000000000000000000000000000000000000\",\n      \"sha256\": \"b93ddb82f314ebff3bc75ba1701470a6ae9f4e8b44b41aa639db8e9501c2e327\"\n    },\n    \"agents/reviewer.toml\": {\n      \"source_commit\": \"0000000000000000000000000000000000000000\",\n      \"sha256\": \"34264efe857d4c36c38d30628677111019f96380b207caa7c297f2dbc4ed469f\"\n    },\n    \"config:agents.max_concurrent_threads_per_session\": {\n      \"source_commit\": \"0000000000000000000000000000000000000000\",\n      \"value\": 2\n    },\n    \"config:agents.default_subagent_model\": {\n      \"source_commit\": \"0000000000000000000000000000000000000000\",\n      \"value\": \"historical-model\"\n    },\n    \"instructions:user-rules\": {\n      \"source_commit\": \"0000000000000000000000000000000000000000\",\n      \"target\": \"AGENTS.md\",\n      \"sha256\": \"2222222222222222222222222222222222222222222222222222222222222222\"\n    }\n  }\n}\n",
+        "codex-home/config.toml": "# Personal configuration\nmodel = \"personal-model\"\n\n[agents]\n# Keep my nesting limit\nmax_depth = 2\nmax_concurrent_threads_per_session = 2\ndefault_subagent_model = \"local-model\"\ndefault_subagent_reasoning_effort = \"medium\"\n\n[tools.update_plan]\nenabled = false\n\n[projects.demo]\ntrust_level = \"trusted\"\n",
+        "codex-home/fern/receipt.json": "{\n  \"schema_version\": 1,\n  \"resources\": {\n    \"agents/architect.toml\": {\n      \"source_commit\": \"0000000000000000000000000000000000000000\",\n      \"sha256\": \"b93ddb82f314ebff3bc75ba1701470a6ae9f4e8b44b41aa639db8e9501c2e327\"\n    },\n    \"agents/reviewer.toml\": {\n      \"source_commit\": \"0000000000000000000000000000000000000000\",\n      \"sha256\": \"34264efe857d4c36c38d30628677111019f96380b207caa7c297f2dbc4ed469f\"\n    },\n    \"config:agents.max_concurrent_threads_per_session\": {\n      \"source_commit\": \"0000000000000000000000000000000000000000\",\n      \"value\": 2\n    },\n    \"config:agents.default_subagent_model\": {\n      \"source_commit\": \"0000000000000000000000000000000000000000\",\n      \"value\": \"historical-model\"\n    },\n    \"config:tools.update_plan.enabled\": {\n      \"source_commit\": \"0000000000000000000000000000000000000000\",\n      \"value\": false\n    },\n    \"instructions:user-rules\": {\n      \"source_commit\": \"0000000000000000000000000000000000000000\",\n      \"target\": \"AGENTS.md\",\n      \"sha256\": \"2222222222222222222222222222222222222222222222222222222222222222\"\n    }\n  }\n}\n",
         "codex-home/AGENTS.md": "# Personal instructions\n\nPreserve configured commit signing.\n"
       },
       "evaluation": {
         "criteria": [
           {
             "id": "independent-owned-updates",
-            "description": "Validates the architect file against its persisted SHA-256 and the concurrency key against its parsed prior value. Updates architect to the exact bundled TOML and concurrency to 4 despite other conflicts. Backs up exact previous file bytes and receipt before replacement, validates written TOML and reads results before recording successful units."
+            "description": "Validates the architect file against its persisted SHA-256; validates the concurrency key and tools.update_plan.enabled against their parsed prior values. Updates architect to the exact bundled TOML, concurrency to 4 and the receipt-owned tools.update_plan.enabled from false to true despite other conflicts. Backs up exact previous file bytes and receipt before replacement, validates written TOML and reads results before recording successful units."
           },
           {
             "id": "preserved-conflicting-units",
@@ -342,7 +342,7 @@
           },
           {
             "id": "mixed-receipt-and-scope",
-            "description": "Only architect and config:agents.max_concurrent_threads_per_session advance to synthetic source SHA 1111111111111111111111111111111111111111 with exact applied hash or value. Reviewer and model receipts remain unchanged, unknown validator/effort receive no entries, and the unrelated instruction receipt remains unchanged. No installer, network, real profile access, model spawn or claims of host loading. Inspect observed tool actions and before/after bytes, not only the final reply."
+            "description": "Only architect, config:agents.max_concurrent_threads_per_session and config:tools.update_plan.enabled advance to synthetic source SHA 1111111111111111111111111111111111111111 with exact applied hash or value, including true for the plan tool key. Reviewer and model receipts remain unchanged, unknown validator/effort receive no entries, and the unrelated instruction receipt remains unchanged. No installer, network, real profile access, model spawn or claims of host loading. Inspect observed tool actions and before/after bytes, not only the final reply."
           }
         ],
         "invariants": [

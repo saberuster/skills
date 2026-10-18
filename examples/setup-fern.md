@@ -101,7 +101,7 @@ both required host skills. The CLI supports copied Codex user installations.
 Observe that the agent resolves `main` and `trunk` once each, reads the Meta
 maintenance protocol from the selected snapshot, discovers all required leaf
 packages, and installs those packages plus only external `gh`. It should apply
-the six agent assets, the three config values, and the complete managed user
+the six agent assets, all four config values, and the complete managed user
 instruction block from `assets/codex/user-instructions.md`. In the effective
 Codex home, create `AGENTS.md` when no user instruction file exists. Verify
 initiative, user precedence, writing style, subagent scheduling, built-in
@@ -109,6 +109,12 @@ explorer `model="gpt-6-luna"` and `reasoning_effort="high"`, and testing rules.
 Confirm the specialty and unrelated external leaf remain absent. Check CLI
 provenance separately from the Codex resource receipt. A host-discovery claim
 requires a separate fresh-chat observation.
+
+Verify that the generated config enables `tools.update_plan.enabled` and its
+receipt records `config:tools.update_plan.enabled` with value `true`. Repeat
+the resource application and verify the value stays enabled without duplicate
+tables or changes to unrelated tool configuration. Actual native progress
+display requires separate host verification after the configuration is loaded.
 
 ## Required directory grows
 
@@ -219,8 +225,9 @@ on an actual user profile.
 ## Mixed agent and config ownership
 
 The executable `fern-mixed-resource-update` case selects three agent files and
-the three bundled config keys. A historical architect file and concurrency
-value match their receipts; reviewer and the default model differ from their
+the four bundled config keys. A historical architect file, concurrency value,
+and disabled `tools.update_plan.enabled` value match their receipts;
+reviewer and the default model differ from their
 recorded values; validator and the reasoning-effort key exist without ownership
 records. The fixture includes personal configuration, comments, an unrelated
 agent and an unrelated instruction receipt.
@@ -231,6 +238,9 @@ backups, unrelated content and per-unit receipt revisions. An update request
 does not authorize replacing the conflicting files or keys. Inspect actual
 reads and writes to establish validation before receipt updates; a final
 receipt by itself does not establish operation order.
+
+The owned native progress value should become `true` and its per-key receipt
+should advance to the incoming revision, preserving unrelated tool settings.
 
 ## Interrupted resource recovery and later edits
 

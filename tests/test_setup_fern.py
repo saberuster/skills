@@ -41,7 +41,7 @@ class SetupFernTests(unittest.TestCase):
                     "Maintain custom agents inside the complete setup-fern package",
                 )
 
-    def test_config_fragment_owns_only_selected_agent_defaults(self):
+    def test_config_fragment_owns_only_selected_defaults(self):
         fragment = tomllib.loads(
             (ASSETS / "config.fragment.toml").read_text(encoding="utf-8")
         )
@@ -52,7 +52,8 @@ class SetupFernTests(unittest.TestCase):
                     "max_concurrent_threads_per_session": 4,
                     "default_subagent_model": "gpt-6.1-sol",
                     "default_subagent_reasoning_effort": "high",
-                }
+                },
+                "tools": {"update_plan": {"enabled": True}},
             },
         )
 
