@@ -32,8 +32,10 @@ package self-contained.
 
 ## Check and report
 
-Compare the result with the original and current requirements for unintended
-behavior changes. Run relevant available checks and distinguish text review
-from tested agent behavior. Briefly report applied simplifications and any
-remaining deletion choices. Use no compression quota; leave effective content
-unchanged and stop when further reduction would harm clarity or behavior.
+After each pass, compare the revision with the original and current requirements.
+Correct unintended behavior changes and repeat while worthwhile equivalent
+simplifications remain. Use no compression quota; leave effective content
+unchanged.
+
+Run relevant available checks and distinguish text review from tested agent
+behavior. Briefly report applied simplifications and remaining deletion choices.
