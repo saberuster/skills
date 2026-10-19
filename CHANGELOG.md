@@ -6,6 +6,9 @@ Planned next minor release: `0.2.0`.
 
 ### Added
 
+- `simplify-skill` under `skills/meta/` for simplifying an existing skill after
+  iteration. Applies equivalent edits and proposes behavior-changing removals
+  for the user to decide, with manual behavioral cases.
 - Maintained Fern plugin installation and loading checks using the pinned Codex
   client in disposable Linux profiles, with candidate metadata and cache-byte
   verification. Real Docker fixtures verify both ignore files preserve only

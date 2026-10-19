@@ -6,6 +6,8 @@ references on request.
 
 ## Skills
 
+- [Simplify Skill](simplify-skill/SKILL.md): trim redundant skill instructions
+  and propose behavior-changing removals for the user to decide.
 - [Codex Config](codex-config/SKILL.md): inspect, change, and verify Codex
   configuration against the target runtime and effective configuration layers.
 - [Maintain Skills](maintain-skills/README.md): list, install, update, and remove
