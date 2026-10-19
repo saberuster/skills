@@ -1,0 +1,7 @@
+interface:
+  display_name: "Simplify Skill"
+  short_description: "Trim skill redundancy and surface deletion trade-offs"
+  default_prompt: "Use $simplify-skill to simplify this skill, apply equivalent edits, and propose behavior-changing removals for me to decide."
+
+policy:
+  allow_implicit_invocation: true

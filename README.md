@@ -14,7 +14,10 @@ instructions, configuring Codex, reviewing project readiness for agent work,
 and finding open-source references for a specific or planned skill on request.
 It includes
 `maintain-skills`, `maintain-agents-md`, `agent-ready`, and
-`find-skill-references`, plus [Codex Config](skills/meta/codex-config/SKILL.md)
+`find-skill-references`, plus
+[Simplify Skill](skills/meta/simplify-skill/SKILL.md) for equivalent instruction
+cleanup and user-decided behavioral removals, and
+[Codex Config](skills/meta/codex-config/SKILL.md)
 for scoped configuration inspection, changes, and runtime verification.
 Client discovery for new, renamed, and relocated packages remains unverified.
 
