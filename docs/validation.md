@@ -10,7 +10,7 @@ workflow. Use [development.md](development.md) for implementation details and
 | Layer | Trigger | Checks | Evidence boundary |
 | --- | --- | --- | --- |
 | `pr` | Every pull request and push | Linux Docker checks plus native Windows regressions across all non-engine modules; Ruff and Markdown lint run in Linux | No model requests or real engine runs; mock clients and synthetic replies test the validation tools |
-| `affected` | Changes affecting runtime or behavior; manual selection | Relevant pinned-client discovery, Fern snapshot installation, background Blender integration and selected agent cases; the PR layer runs independently | Only executed checks and cases supply runtime or model evidence |
+| `affected` | Changes affecting runtime or behavior; manual selection | Relevant pinned-client discovery, Fern installation and plugin loading, Docker context filtering, background Blender integration and selected agent cases; the PR layer runs independently | Only executed checks and cases supply runtime or model evidence |
 | `full` | Weekly, manual, and release validation | The PR checks, all implemented runtime checks, pinned and latest-client discovery, and every eligible agent case when requested | The broadest automated coverage; remaining manual scenarios and missing cases stay explicit |
 
 Layer membership describes which evidence to request. It does not make a
@@ -90,6 +90,8 @@ run the independent PR layer as well when validating the whole change locally.
 | `codex-discovery` | Real Codex app-server initialization and skill listing in an isolated profile | No API key or model prompts; names, descriptions, paths, enabled state and load errors are checked |
 | `claude-discovery` | Real Claude Agent SDK initialization with its bundled CLI in an isolated profile | No API key or model prompts; initialization lists available skill commands |
 | `fern-install` | Real pinned Skills CLI installation from public snapshots, provenance checks and local discovery | Network required; verifies package installation separately from the project resource installer; no model prompts |
+| `fern-plugin` | Real pinned Codex marketplace registration, native plugin installation, metadata/cache verification and app-server skill listing from the candidate source | Disposable Linux profile; no model prompts; Windows, Cloud and fresh-chat acceptance remain separate |
+| `docker-context` | Real scratch-image builds using both Docker ignore files and inspection of exported synthetic filesystems | Host Docker daemon; exact public marketplace bytes must survive while sibling/nested `.agents` files are excluded; no container execution or socket mount |
 | `blender` | The two background Blender integration modules | A real Blender executable inside the container; controlled scene creation and audit checks, not visual or human acceptance |
 | `agent-behavior` | Real Codex worker turns and a separate evaluator for selected smoke cases, plus filesystem invariants | Explicit `--run-agent`, accessible `--model` and API credential; real calls, tool actions and judgments must be retained |
 
@@ -117,14 +119,29 @@ and still checks the entire source tree for links. Docker snapshots include
 only the exact public `.agents/plugins/marketplace.json` path from `.agents`;
 other profile files remain excluded.
 
-Marketplace and plugin manifest changes select the Fern collection in the
-affected planner. Its `fern-plugin` manual evidence entry keeps actual plugin
-cache loading and fresh-host discovery visible as `not_run`. The existing
-`codex-discovery`, `claude-discovery`, and `fern-install` checks exercise
-standalone skills and cannot satisfy that plugin evidence. Follow the
-[isolated plugin procedure](plugins.md#maintenance-and-releases), retaining
-separate source and client evidence. There is no automated plugin runtime
-job or model behavior change in this packaging addition.
+Marketplace and plugin manifest changes select the Fern collection and the
+`fern-plugin` runtime check. It derives identity, version, website and exact
+skill membership from the candidate metadata, verifies complete cached package
+bytes and namespaced skill discovery, and rejects CLI failures, load errors,
+unexpected user skills and source drift. Protocol mocks in
+`tests/test_check_fern_plugin.py` test failure accounting; the real Docker job
+supplies installation and loading evidence. Deliberate app-server termination
+is recorded separately from normal CLI success.
+
+The `docker-context` check runs on the host through the same launcher. It uses
+synthetic contexts and both checked-in Docker ignore files, retaining build,
+create, export and cleanup results, exported filesystem archives, and source
+hashes. `tests/test_check_docker_context.py` covers the checker with mocked processes;
+those tests alone do not establish Docker filtering behavior. Affected runs
+select the real check for marketplace, filtering, staging and fixture-runner
+changes; full runs always include it. Unrelated skill edits do not require
+another real filtering run.
+
+The `codex-discovery`, `claude-discovery`, and `fern-install` checks exercise
+standalone skills separately. The manual `fern-plugin-host` entry still marks
+Windows desktop, Cloud, fresh-chat loading, natural invocation and remote
+marketplace publication as `not_run`. See the
+[plugin procedure](plugins.md#maintenance-and-releases) for commands and scope.
 
 The `fern-install` runtime check verifies the pinned Skills CLI against resolved
 public source snapshots. A lock's `skillFolderHash` may contain either the Git
@@ -294,8 +311,11 @@ workflow as a model regression run unless its agent steps actually executed.
 Job success and artifact existence alone are insufficient.
 
 Keep the output root's `plan.json`, `summary.json`, `summary.md` and source
-manifest. Each launched check has a directory containing launcher evidence, a
-source manifest and `evidence/summary.json` with its detailed reports. Retain
+manifest. Each container check has a directory containing launcher evidence, a
+source manifest and `evidence/summary.json` with its detailed reports. The
+host-side `docker-context` check instead records its scoped `source_hashes` in
+that summary; overlapping inputs are compared across checks for source drift.
+Retain
 commands, exit codes, test counts and skip reasons. For discovery, retain
 actual client versions and per-skill reports. For installation, retain resolved
 public source revisions and copied-file comparisons. For behavior, retain

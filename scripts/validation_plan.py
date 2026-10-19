@@ -16,10 +16,24 @@ CHECKS = (
     "codex-discovery",
     "claude-discovery",
     "fern-install",
+    "fern-plugin",
+    "docker-context",
     "blender",
     "agent-behavior",
 )
 LAYERS = ("pr", "affected", "full")
+DOCKER_CONTEXT_PATHS = {
+    ".agents/plugins/marketplace.json",
+    "scripts/run_fern_validation.py",
+    "scripts/run_validation.py",
+    "scripts/validation_plan.py",
+    "scripts/check_docker_context.py",
+    "tests/test_check_docker_context.py",
+    "tests/test_validation_layers.py",
+    "tests/test_fern_ci.py",
+    ".github/workflows/validation-runtime.yml",
+    ".github/workflows/validation-full.yml",
+}
 ENGINE_TESTS = {
     "test_scene_blender_integration.py",
     "test_low_poly_blender_integration.py",
@@ -146,6 +160,21 @@ def make_plan(layer, *, root=ROOT, base=None, cases=None, checks=None, latest=Fa
         if any(name in selected for name in ("setup-fern", "maintain-skills")):
             requested.append("fern-install")
         if any(
+            packages[name].relative_to(root).parts[:2] == ("skills", "fern")
+            for name in selected
+        ):
+            requested.append("fern-plugin")
+        if (
+            layer == "full"
+            or paths is None
+            or any(
+                path in DOCKER_CONTEXT_PATHS
+                or path.startswith(("scripts/fern-ci/", "scripts/validation-ci/"))
+                for path in paths
+            )
+        ):
+            requested.append("docker-context")
+        if any(
             packages[name].relative_to(root).parts[1] == "blender" for name in selected
         ):
             requested.append("blender")
@@ -217,10 +246,10 @@ def make_plan(layer, *, root=ROOT, base=None, cases=None, checks=None, latest=Fa
     if fern_skills:
         manual.append(
             {
-                "scope": "fern-plugin",
+                "scope": "fern-plugin-host",
                 "skills": fern_skills,
                 "status": "not_run",
-                "reason": "Codex plugin cache loading and fresh-host marketplace installation require separate host evidence from standalone skill installation and discovery",
+                "reason": "Linux pinned-client plugin checks do not establish Windows desktop or Cloud installation, fresh-chat loading, natural invocation, or remote marketplace publication",
             }
         )
     if "commit" in selected:

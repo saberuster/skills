@@ -8,9 +8,11 @@ import sys
 from pathlib import Path
 
 if __package__ in {None, ""}:
+    import check_docker_context
     import run_fern_validation as docker_launcher
     from validation_plan import CHECKS, LAYERS, ROOT, make_plan
 else:
+    from . import check_docker_context
     from . import run_fern_validation as docker_launcher
     from .validation_plan import CHECKS, LAYERS, ROOT, make_plan
 
@@ -85,40 +87,53 @@ def run_check(entry, args, output, root):
             arguments += ["--case", case]
     result = {"id": entry["id"], "status": "failed", "evidence": output.name}
     try:
-        code = docker_launcher.launch(
-            options,
-            root=root,
-            dockerfile="scripts/validation-ci/Dockerfile",
-            entrypoint="scripts/validation_ci.py",
-            entrypoint_args=arguments,
-            target="engines" if entry["check"] == "blender" else "core",
-            deadline=deadline(entry, args.timeout, root),
-            label="Repository validation",
-            all_public=True,
-        )
+        if entry["check"] == "docker-context":
+            host_report = check_docker_context.run(root, output, args.timeout)
+            code = int(host_report.get("status") != "passed")
+        else:
+            code = docker_launcher.launch(
+                options,
+                root=root,
+                dockerfile="scripts/validation-ci/Dockerfile",
+                entrypoint="scripts/validation_ci.py",
+                entrypoint_args=arguments,
+                target="engines" if entry["check"] == "blender" else "core",
+                deadline=deadline(entry, args.timeout, root),
+                label="Repository validation",
+                all_public=True,
+            )
         report = output / "evidence/summary.json"
         if not report.is_file():
-            result["reason"] = "Container did not produce the required summary.json"
+            result["reason"] = "Check did not produce the required summary.json"
         else:
             data = json.loads(report.read_text("utf-8"))
+            if not isinstance(data, dict):
+                raise ValueError("Check report must be an object")
             if data.get("check") != entry["check"]:
-                raise ValueError("Container report does not match the requested check")
+                raise ValueError("Report does not match the requested check")
             result["status"] = data.get("status", "failed") if code == 0 else "failed"
             result["summary"] = str(Path(output.name) / "evidence/summary.json")
             result["limits"] = data.get("limits", [])
+            if entry["check"] == "docker-context":
+                hashes = data.get("source_hashes")
+                if not isinstance(hashes, dict) or not hashes:
+                    raise ValueError("Docker context report requires source hashes")
+                result["source_hashes"] = hashes
             if result["status"] not in {"passed", "partial", "failed", "not_run"}:
                 result["status"] = "failed"
-                result["reason"] = "Container returned an unknown result status"
+                result["reason"] = "Check returned an unknown result status"
             if result["status"] == "not_run":
                 result["status"] = "failed"
-                result["reason"] = "An explicitly selected container check did not run"
+                result["reason"] = "An explicitly selected check did not run"
         result["exit_code"] = code
     except (
         ValueError,
         OSError,
         subprocess.SubprocessError,
         docker_launcher.LaunchError,
+        check_docker_context.ContextError,
     ) as error:
+        result["status"] = "failed"
         result["reason"] = str(error)
     return result
 
@@ -127,7 +142,7 @@ def markdown_summary(summary):
     lines = [
         f"## Validation: {summary['layer']} ({summary['status']})",
         "",
-        f"Source revision: `{summary['source_revision']}`. Working-tree hashes are in each check's source manifest.",
+        f"Source revision: `{summary['source_revision']}`. Working-tree hashes are in container source manifests or the host check's source_hashes.",
         "",
         "| Check | Status | Evidence / reason |",
         "| --- | --- | --- |",
@@ -189,12 +204,15 @@ def run(args, root=ROOT):
         return 0
     results = []
     snapshot = None
+    scoped_hashes = {}
     for entry in plan["checks"]:
         directory = output / entry["id"]
         result = run_check(entry, args, directory, root)
+        current_hashes = result.get("source_hashes", {})
         manifest = directory / "source-manifest.json"
         if manifest.is_file():
             current = json.loads(manifest.read_text("utf-8"))
+            current_hashes = current
             if snapshot is None:
                 snapshot = current
                 write_json(output / "source-manifest.json", snapshot)
@@ -203,6 +221,15 @@ def run(args, root=ROOT):
                 result["reason"] = (
                     "Source changed between check snapshots; rerun a stable candidate"
                 )
+        if any(
+            path in scoped_hashes and scoped_hashes[path] != digest
+            for path, digest in current_hashes.items()
+        ):
+            result["status"] = "failed"
+            result["reason"] = (
+                "Source changed between check snapshots; rerun a stable candidate"
+            )
+        scoped_hashes.update(current_hashes)
         results.append(result)
         print(f"{entry['id']}: {result['status']}", flush=True)
     summary = {

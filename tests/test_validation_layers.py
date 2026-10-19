@@ -116,12 +116,34 @@ class LayerPlanTests(unittest.TestCase):
         ):
             plan = self.plan(base="main")
         plugin = next(
-            item for item in plan["manual_evidence"] if item["scope"] == "fern-plugin"
+            item
+            for item in plan["manual_evidence"]
+            if item["scope"] == "fern-plugin-host"
         )
         self.assertEqual(plugin["skills"], ["setup-fern"])
         self.assertEqual(plugin["status"], "not_run")
-        self.assertIn("standalone skill", plugin["reason"])
-        self.assertNotIn("fern-plugin", {item["check"] for item in plan["checks"]})
+        self.assertIn("Windows", plugin["reason"])
+        self.assertIn("fern-plugin", {item["check"] for item in plan["checks"]})
+
+    def test_docker_context_selected_only_for_affected_filtering_inputs(self):
+        for path, expected in (
+            ("scripts/fern-ci/Dockerfile.dockerignore", True),
+            ("scripts/validation-ci/Dockerfile.dockerignore", True),
+            ("scripts/run_fern_validation.py", True),
+            ("scripts/check_docker_context.py", True),
+            (".agents/plugins/marketplace.json", True),
+            ("skills/fern/setup-fern/SKILL.md", False),
+            ("scripts/unrelated.py", False),
+            ("docs/plugins.md", False),
+        ):
+            with (
+                self.subTest(path=path),
+                mock.patch.object(
+                    validation_plan, "changed_paths", return_value=("base", [path])
+                ),
+            ):
+                checks = {item["check"] for item in self.plan(base="main")["checks"]}
+                self.assertEqual("docker-context" in checks, expected)
 
     def test_docs_only_change_does_not_claim_runtime_pass(self):
         with mock.patch.object(
@@ -311,6 +333,56 @@ class LayerRunnerTests(unittest.TestCase):
                     expected,
                 )
 
+    def test_host_context_check_bypasses_container_and_requires_valid_report(self):
+        with (
+            tempfile.TemporaryDirectory() as temporary,
+            mock.patch.object(run_validation.docker_launcher, "launch") as launch,
+            mock.patch.object(run_validation.check_docker_context, "run") as host,
+        ):
+            output = Path(temporary) / "context"
+            valid = {
+                "check": "docker-context",
+                "status": "passed",
+                "source_hashes": {"filter": "a" * 64},
+            }
+            for payload, expected in (
+                (valid, "passed"),
+                ({**valid, "status": "not_run"}, "failed"),
+                ({**valid, "source_hashes": {}}, "failed"),
+                ({**valid, "check": "checks"}, "failed"),
+                ([], "failed"),
+            ):
+                run_validation.write_json(output / "evidence/summary.json", payload)
+                host.return_value = valid
+                result = run_validation.run_check(
+                    self.entry("docker-context"),
+                    self.options(output),
+                    output,
+                    Path(temporary) / "source",
+                )
+                self.assertEqual(result["status"], expected)
+            launch.assert_not_called()
+
+    def test_fern_plugin_uses_container_runtime(self):
+        with (
+            tempfile.TemporaryDirectory() as temporary,
+            mock.patch.object(
+                run_validation.docker_launcher, "launch", return_value=0
+            ) as launch,
+            mock.patch.object(run_validation.check_docker_context, "run") as host,
+        ):
+            output = Path(temporary) / "plugin"
+            run_validation.write_json(
+                output / "evidence/summary.json",
+                {"check": "fern-plugin", "status": "passed"},
+            )
+            result = run_validation.run_check(
+                self.entry("fern-plugin"), self.options(output), output, Path(temporary)
+            )
+            self.assertEqual(result["status"], "passed")
+            self.assertIn("fern-plugin", launch.call_args.kwargs["entrypoint_args"])
+            host.assert_not_called()
+
     def test_planning_writes_no_execution_claims_and_never_starts_docker(self):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary) / "source"
@@ -356,6 +428,39 @@ class LayerRunnerTests(unittest.TestCase):
             summary = json.loads((output / "summary.json").read_text())
             self.assertEqual(summary["status"], "failed")
             self.assertIn("Source changed", summary["checks"][1]["reason"])
+
+    def test_host_hashes_detect_drift_against_container_snapshot_in_either_order(self):
+        for order in (("checks", "docker-context"), ("docker-context", "checks")):
+            with self.subTest(order=order), tempfile.TemporaryDirectory() as temporary:
+                root = Path(temporary) / "source"
+                root.mkdir()
+                output = Path(temporary) / "result"
+                plan = {
+                    "layer": "full",
+                    "source_revision": "base",
+                    "checks": [self.entry(name) for name in order],
+                    "manual_evidence": [],
+                    "behavior_coverage": {"skills_without_cases": []},
+                }
+
+                def check(entry, args, folder, source):
+                    result = {"id": entry["id"], "status": "passed"}
+                    if entry["id"] == "docker-context":
+                        result["source_hashes"] = {"filter": "b" * 64}
+                    else:
+                        run_validation.write_json(
+                            folder / "source-manifest.json",
+                            {"filter": "a" * 64, "unrelated": "c" * 64},
+                        )
+                    return result
+
+                with (
+                    mock.patch.object(run_validation, "make_plan", return_value=plan),
+                    mock.patch.object(run_validation, "run_check", side_effect=check),
+                ):
+                    self.assertEqual(run_validation.run(self.options(output), root), 1)
+                summary = json.loads((output / "summary.json").read_text())
+                self.assertIn("Source changed", summary["checks"][1]["reason"])
 
 
 if __name__ == "__main__":

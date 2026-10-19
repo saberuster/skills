@@ -20,6 +20,7 @@ CHECKS = (
     "codex-discovery",
     "claude-discovery",
     "fern-install",
+    "fern-plugin",
     "blender",
     "agent-behavior",
 )
@@ -138,6 +139,17 @@ def command_plan(check, output, timeout):
                 str(output / "discovery.json"),
             ]
         ]
+    if check == "fern-plugin":
+        return [
+            [
+                python,
+                "scripts/check_fern_plugin.py",
+                "--report",
+                str(output / "plugin.json"),
+                "--timeout",
+                str(timeout),
+            ]
+        ]
     if check == "fern-install":
         return [
             [
@@ -198,6 +210,52 @@ def prerequisites(check):
             )
 
 
+def validate_plugin_report(report):
+    """Reject a green exit without the plugin probe's required evidence."""
+    if not isinstance(report, dict) or report.get("check") != "fern-plugin":
+        raise ValueError("Plugin report has missing or incorrect check identity")
+    if report.get("status") != "passed":
+        raise ValueError("Plugin check did not report a complete pass")
+    candidate = report.get("candidate")
+    processes = report.get("processes")
+    replies = report.get("app_server_replies")
+    if (
+        not isinstance(candidate, dict)
+        or not candidate.get("skills")
+        or not report.get("source_hashes")
+        or candidate.get("source_hashes") != report["source_hashes"]
+        or not report.get("client_version")
+        or not report.get("checks")
+        or report.get("errors") != []
+        or not isinstance(processes, list)
+        or not processes
+        or not all(isinstance(row, dict) for row in processes)
+        or not isinstance(replies, dict)
+        or any(
+            not isinstance(replies.get(method), dict)
+            for method in ("initialize", "plugin/list", "plugin/read", "skills/list")
+        )
+    ):
+        raise ValueError("Passing plugin report is missing required evidence")
+    servers = [row for row in processes if row.get("kind") == "app-server"]
+    commands = [row for row in processes if row.get("kind") != "app-server"]
+    if (
+        len(servers) != 1
+        or not commands
+        or servers[0].get("returncode") is None
+        or servers[0].get("shutdown")
+        != "deliberate process-tree termination after protocol checks"
+        or any(row.get("cleanup_error") for row in processes)
+        or any(
+            row.get("returncode") != 0 or row.get("timed_out") is not False
+            for row in commands
+        )
+    ):
+        raise ValueError(
+            "Passing plugin report contains incomplete or failed processes"
+        )
+
+
 def run(check, output, timeout, channel="pinned", model=None, selected_cases=None):
     summary = {
         "check": check,
@@ -239,9 +297,13 @@ def run(check, output, timeout, channel="pinned", model=None, selected_cases=Non
             if check in {"checks", "blender"}
             else "install.json"
             if check == "fern-install"
+            else "plugin.json"
+            if check == "fern-plugin"
             else "discovery.json"
         )
         report = json.loads((output / report_name).read_text(encoding="utf-8"))
+        if check == "fern-plugin":
+            validate_plugin_report(report)
         summary["results"].append({"evidence": report_name, **report})
         summary["status"] = (
             report["status"]
