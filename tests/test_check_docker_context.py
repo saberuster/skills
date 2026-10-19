@@ -88,6 +88,15 @@ class DockerContextTests(unittest.TestCase):
         self.assertFalse(any(call[1] in ("run", "start") for call in self.calls))
         self.assertNotEqual(self.calls[0][5], self.calls[5][5])
 
+    def test_equivalent_noncanonical_source_root_preserves_public_bytes(self):
+        alias = self.root / "existing" / ".."
+        alias.parent.mkdir()
+        self.assertNotEqual(alias, alias.resolve())
+        inputs = checker.source_bytes(alias)
+        self.assertEqual(inputs, checker.source_bytes(self.root.resolve()))
+        self.assertEqual(inputs[checker.MARKETPLACE], self.payload)
+        self.assertEqual(set(inputs), {*checker.FILTERS, checker.MARKETPLACE})
+
     def test_archive_rejects_missing_changed_duplicate_or_leaked_members(self):
         valid = (checker.MARKETPLACE, self.payload)
         cases = (

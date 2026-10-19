@@ -6,6 +6,7 @@ import shutil
 import subprocess
 import tempfile
 import unittest
+from contextlib import contextmanager
 from pathlib import Path
 from unittest.mock import patch
 
@@ -215,6 +216,27 @@ class FernPluginTests(unittest.TestCase):
         self.assertEqual(report["processes"][-1]["returncode"], -9)
         self.assertIn("deliberate", report["processes"][-1]["shutdown"])
         self.assertFalse(report["model_requests"])
+
+    def test_equivalent_noncanonical_temporary_root_passes(self):
+        temporary_directory = tempfile.TemporaryDirectory
+
+        @contextmanager
+        def equivalent_temporary_directory(**kwargs):
+            with temporary_directory(dir=self.root, **kwargs) as temporary:
+                alias = Path(temporary) / "existing" / ".."
+                alias.parent.mkdir()
+                self.assertNotEqual(alias, alias.resolve())
+                yield str(alias)
+
+        with patch.object(
+            probe.tempfile,
+            "TemporaryDirectory",
+            side_effect=equivalent_temporary_directory,
+        ):
+            report = self.run_mocked()
+        self.assertEqual(report["status"], "passed", report)
+        self.assertEqual(len(report["processes"]), 6)
+        self.assertIn("Disposable fixture cleaned up", report["checks"])
 
     def test_cli_nonzero_is_failed(self):
         report = self.run_mocked(cli_failure=True)

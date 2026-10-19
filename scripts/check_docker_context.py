@@ -34,12 +34,13 @@ class ContextError(Exception):
 
 def source_bytes(root):
     """Read only the public inputs used by this check, rejecting source links."""
+    canonical_root = root.resolve()
     result = {}
     for name in (*FILTERS, MARKETPLACE):
         source = root / name
         if any(item.is_symlink() for item in (source, *source.parents)):
             raise ContextError(f"Source symlinks are not supported: {name}")
-        if not source.resolve().is_relative_to(root) or not source.is_file():
+        if not source.resolve().is_relative_to(canonical_root) or not source.is_file():
             raise ContextError(f"Missing regular public source file: {name}")
         result[name] = source.read_bytes()
     return result

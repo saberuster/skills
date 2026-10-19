@@ -282,7 +282,8 @@ def check_plugin(source=ROOT, executable="codex", timeout=60):
         report["candidate"] = expected
         report["source_hashes"] = expected["source_hashes"]
         with tempfile.TemporaryDirectory(prefix="fern-plugin-") as temporary:
-            temporary = Path(temporary)
+            # Windows TEMP can use an 8.3 alias for the same directory.
+            temporary = Path(temporary).resolve()
             project, home = temporary / "project", temporary / "home"
             (project / MARKETPLACE.parent).mkdir(parents=True)
             (project / ".git").mkdir()
