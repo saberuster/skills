@@ -224,6 +224,18 @@ Those remain separate acceptance procedures. Local Docker results do not
 replace this hosted Windows evidence, and configuring the job is not proof
 that it has run successfully.
 
+To diagnose a failed job, inspect the structured summary's `status`,
+`selection_errors`, `unittest.errors` and `unittest.failures`, then read the
+test log around the recorded test IDs and tracebacks.
+
+Windows temporary roots can use equivalent 8.3 and long names. When a path
+check reports missing source or linked cache, compare canonical locations
+before changing containment or forbidden-link checks. The equivalent-path
+regressions in
+[`test_check_fern_plugin.py`](../tests/test_check_fern_plugin.py) and
+[`test_check_docker_context.py`](../tests/test_check_docker_context.py)
+cover root normalization.
+
 ## Request actual agent execution
 
 Model execution is explicit. For a focused affected run:

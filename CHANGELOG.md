@@ -13,7 +13,8 @@ Planned next minor release: `0.2.0`.
   unified affected/full validation entrypoint and CI, with retained process,
   source and cleanup evidence; native host and model acceptance stay separate.
   Path comparisons normalize Windows short-name aliases while preserving
-  source-link and cache-escape checks.
+  source-link and cache-escape checks. Native Windows troubleshooting guidance
+  identifies structured failure evidence and equivalent-path checks.
 - A Codex marketplace named `saberuster-skills` with the `fern` plugin.
   Plugin metadata includes version `0.2.0` and the Fern project website.
   Its versioned native manifest packages all eight existing Fern skill sources
