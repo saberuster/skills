@@ -7,8 +7,9 @@ Planned next minor release: `0.2.0`.
 ### Added
 
 - `simplify-skill` under `skills/meta/` for simplifying an existing skill after
-  iteration. Applies equivalent edits and proposes behavior-changing removals
-  for the user to decide, with manual behavioral cases.
+  iteration. Rechecks each pass and continues while worthwhile equivalent
+  simplifications remain, leaving behavior-changing removals for the user to
+  decide. Includes manual behavioral and self-application cases.
 - Maintained Fern plugin installation and loading checks using the pinned Codex
   client in disposable Linux profiles, with candidate metadata and cache-byte
   verification. Real Docker fixtures verify both ignore files preserve only

@@ -56,6 +56,24 @@ Observe whether it leaves files unchanged and accepts that no useful reduction
 may exist. It should not invent a compression target, move instructions to a
 new reference, or add generic process rules to create an apparent improvement.
 
+## 4. Self-application and convergence
+
+Input: an isolated copy of the current simplify-skill package as the target.
+Keep the executing skill snapshot separate from that editable copy.
+
+Request:
+
+> Use simplify-skill to simplify its own package.
+
+Observe whether each editing pass is followed by a fresh review of the revision.
+Further edits need a concrete equivalent improvement; a no-change review is a
+valid stopping point. Preserve the iteration rule, user decisions, scope, and
+evidence boundaries. Do not require a fixed number of passes or a smaller file.
+Retain per-pass edits and reviews to distinguish iteration from a final claim.
+
+Also run case 1 with the updated skill: pending removal of the appendix must not
+block equivalent edits or trigger repeated requests for the same decision.
+
 ## Evidence limits
 
 These manual trials exercise explicit invocation and selected editing decisions.
