@@ -93,17 +93,31 @@ verify the marketplace source, plugin identity, exact skill membership,
 contained paths, metadata, license, and snapshot inclusion. Standalone
 client discovery and Skills CLI installation remain separate checks.
 
-Plugin loading requires its own isolated host check: register the candidate
-marketplace in a disposable profile, inspect the available plugin, install it
-there, and inspect the installed plugin and discovered skill paths. Retain
-the tested source hashes, client version, command responses, load errors,
-and all eight skill entries. Do not use the real user profile as a test
-fixture. This procedure is currently manual and recorded as `not_run` by
-the affected/full planner until separate evidence is supplied.
+The `fern-plugin` runtime check registers the candidate marketplace in a
+disposable Linux profile, inspects the available plugin, installs it, and checks
+the installed plugin metadata, complete cache contents and discovered skill
+paths. Expected version, website and membership come from the candidate
+manifest. Reports retain source hashes, the pinned client version, CLI results,
+app-server responses and cleanup outcomes. Run it through the unified launcher:
+
+```text
+python scripts/run_validation.py --layer affected --check fern-plugin --output /tmp/fern-plugin-001
+```
+
+Fern source and marketplace changes select this check in the affected layer;
+the full layer always includes it. The `docker-context` check separately builds
+synthetic contexts with each checked-in Docker ignore file. It verifies that
+the exact public marketplace file survives with identical bytes while sibling
+and nested `.agents` files remain excluded. Relevant filtering changes select
+it in the affected layer; full validation includes both filters. It uses the
+host Docker daemon and never mounts its socket inside a validation container.
 
 No model calls are needed to check registration and loading. Those checks
 do not establish natural selection, task behavior, or successful application
-of the Setup Fern project resources.
+of the Setup Fern project resources. The `fern-plugin-host` manual entry keeps
+Windows desktop, Codex Cloud, fresh-chat loading and remote marketplace
+publication visible as `not_run` until separately tested. Use disposable
+profiles for those procedures as well.
 
 ## Format references
 

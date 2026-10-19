@@ -161,6 +161,7 @@ class ValidationRuntimeTests(unittest.TestCase):
             ("codex-discovery", "check_codex_skills.py"),
             ("claude-discovery", "check_claude_skills.py"),
             ("fern-install", "check_fern_install.py"),
+            ("fern-plugin", "check_fern_plugin.py"),
         ]:
             command = validation_ci.command_plan(check, output, 42)[0]
             self.assertIn("scripts/" + script, command)
@@ -270,6 +271,61 @@ class ValidationRuntimeTests(unittest.TestCase):
             result = validation_ci.run("codex-discovery", Path(temporary), 3)
         self.assertEqual(result["status"], "failed")
         self.assertIn("error", result)
+
+    def test_plugin_report_failure_survives_successful_process(self):
+        with (
+            tempfile.TemporaryDirectory() as temporary,
+            patch.object(validation_ci, "execute", return_value={"status": "passed"}),
+        ):
+            output = Path(temporary)
+            for status in ("passed", "failed", "partial", "not_run"):
+                (output / "plugin.json").write_text(
+                    json.dumps({"check": "fern-plugin", "status": status})
+                )
+                result = validation_ci.run("fern-plugin", output, 3)
+                self.assertEqual(result["status"], "failed")
+            self.assertNotIn("docker-context", validation_ci.CHECKS)
+
+    def test_plugin_report_requires_identity_and_complete_process_evidence(self):
+        report = {
+            "check": "fern-plugin",
+            "status": "passed",
+            "candidate": {"skills": {"fixture": {}}, "source_hashes": {"file": "hash"}},
+            "source_hashes": {"file": "hash"},
+            "client_version": "fixture-client",
+            "checks": ["fixture check"],
+            "errors": [],
+            "app_server_replies": {
+                method: {}
+                for method in (
+                    "initialize",
+                    "plugin/list",
+                    "plugin/read",
+                    "skills/list",
+                )
+            },
+            "processes": [
+                {"returncode": 0, "timed_out": False, "cleanup_error": None},
+                {
+                    "kind": "app-server",
+                    "returncode": -9,
+                    "cleanup_error": None,
+                    "shutdown": "deliberate process-tree termination after protocol checks",
+                },
+            ],
+        }
+        validation_ci.validate_plugin_report(report)
+        for field, value in (
+            ("check", "other"),
+            ("candidate", None),
+            ("source_hashes", {}),
+            ("app_server_replies", {}),
+            ("processes", [{"returncode": 1}]),
+            ("errors", ["failure"]),
+            ("status", "partial"),
+        ):
+            with self.subTest(field=field), self.assertRaises(ValueError):
+                validation_ci.validate_plugin_report({**report, field: value})
 
     def test_structured_skip_survives_process_success(self):
         with (
