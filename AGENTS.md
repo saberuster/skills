@@ -9,6 +9,10 @@ conventions.
   `skills/<collection>/<name>/`. Keep `SKILL.md`, `agents/openai.yaml`,
   and any required resources consistent; keep packages self-contained. Add
   resources only when the skill needs them, not to fill a template.
+- Keep repository-only skills in `.agents/skills/`, outside the public catalog
+  and plugin membership. Use `$release-plugin` at
+  `.agents/skills/release-plugin/SKILL.md` for plugin version decisions and
+  releases. Only plugins have versions; bump once per released batch.
 - Place general skills for maintaining skills or agents in `skills/meta/`.
   The collection covers their instructions, configuration, lifecycle, review,
   and improvement; each leaf remains an independent package.
@@ -30,7 +34,7 @@ conventions.
   task.
 - Keep public instructions and examples in English. Use ASCII text and LF line
   endings to match the repository's checks. Record user-visible changes in
-  `CHANGELOG.md`; follow the README version policy.
+  `CHANGELOG.md` by plugin; leave standalone and repository changes unversioned.
 
 ## Validate changes
 

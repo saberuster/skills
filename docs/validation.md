@@ -64,6 +64,7 @@ For repository automation, use the checked-in GitHub Actions workflows:
 | [validation-full.yml](../.github/workflows/validation-full.yml) | Scheduled, manual and release `full` validation |
 | [agent-support.yml](../.github/workflows/agent-support.yml) | Prompt-free client discovery and the generated README support table |
 | [validation-windows.yml](../.github/workflows/validation-windows.yml) | All non-engine Windows regressions; reused by PR/full validation and available for a standalone manual run |
+| [release-plugin.yml](../.github/workflows/release-plugin.yml) | Tag-triggered packaging and Release drafts for all plugins; does not publish or replace full release validation |
 
 The agent-support workflow retains its report and README publication format.
 Pinned discovery supplies layer 2 evidence; latest-client discovery supplies
@@ -73,8 +74,19 @@ pushing: workflow configuration is not an observed hosted execution.
 
 Before publishing a release, manually run full validation for the intended
 revision and inspect its evidence. The `release: published` trigger provides a
-post-publication regression run; it does not block publishing. There is no
-automated release pipeline currently consuming an eval gate.
+post-publication regression run when GitHub emits the event; it does not block
+publishing. The draft workflow checks packaging and release identity, but does
+not consume a full-validation or model-evaluation gate.
+
+The project-only `release-plugin` skill under `.agents/skills/` is outside the
+public package catalog and Docker snapshot. Its manual cases are recorded in
+[release-plugin.md](../examples/release-plugin.md). Validate its metadata and
+text separately and retain isolated agent trials; public-package checks do not
+establish its discovery or behavior. Do not add it to Fern to obtain coverage.
+For its approval boundary, deliver default invocation and confirmation as
+separate turns, retain the reviewed brief and before/after state, and verify
+that publication occurs only within the confirmed scope. Simulated hosting
+proves agent decisions in that fixture, not live GitHub delivery.
 
 ## Check selection and prerequisites
 
@@ -104,6 +116,18 @@ the selected plan before narrowing it with explicit checks or cases.
 All known unittest modules belong either to the deterministic layer or to the
 separate real-engine check. Pure component geometry and fake Godot process
 tests belong to `checks`; their names do not make them engine integration.
+`tests/test_package_plugin.py` belongs to deterministic `checks` in PR/full
+validation, including native Windows runs. It checks dynamic ZIP membership,
+portable metadata, reproducibility, committed-source selection and rejected
+inputs. Script/test changes select affected checks through the existing shared
+path rules. These regressions do not upload a plugin or establish host loading;
+portable ZIP import and actual skill execution remain manual checks.
+`tests/test_release_plugin.py` also belongs to `checks`, including Windows.
+Synthetic Git repositories and mocked GitHub calls cover tag/manifest binding,
+multiple plugins, draft creation, retry integrity and remote failures. Existing
+shared path rules select affected checks for the helper, tests and workflow.
+Hosted tag events, token permissions and real Release uploads remain unverified
+until an authorized run is observed; mocks do not establish those outcomes.
 Standalone `python -m unittest discover -s tests -v` remains useful for
 debugging, but can skip unavailable Blender or platform paths. Its green exit
 alone does not establish the layered plan's runtime coverage.

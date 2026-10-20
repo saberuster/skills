@@ -2,14 +2,28 @@
 
 ## Unreleased
 
-Planned next minor release: `0.2.0`.
-
 ### Added
 
 - `simplify-skill` under `skills/meta/` for simplifying an existing skill after
   iteration. Rechecks each pass and continues while worthwhile equivalent
   simplifications remain, leaving behavior-changing removals for the user to
   decide. Includes manual behavioral and self-application cases.
+- Shared tag-triggered plugin release workflow: validate plugin identity/version,
+  package the tagged commit, and create a Release draft with verified download
+  attachments. Reruns resume matching drafts without replacing existing assets;
+  publication remains separate.
+- Portable plugin ZIP builder with dynamic skill discovery, exact-commit builds,
+  archive verification, checksums and provenance reports. Release preparation
+  creates previews; the release workflow packages tagged commits and attaches
+  their outputs. Ordinary commits do not trigger release packaging or uploads.
+- Project skill `release-plugin` for plugin version assessment, batch release
+  preparation, validation and authorized publication. Its default entry first
+  presents a read-only release brief; one confirmation authorizes the approved
+  steps through formal publication, with narrower endpoints when requested.
+  Only plugins have versions, maintained in their manifests and updated once
+  per released batch; `main` remains the installation branch. The skill defines
+  minor and patch changes for `0.x`; repository and standalone skill changes
+  stay unversioned.
 - Maintained Fern plugin installation and loading checks using the pinned Codex
   client in disposable Linux profiles, with candidate metadata and cache-byte
   verification. Real Docker fixtures verify both ignore files preserve only

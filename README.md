@@ -132,7 +132,7 @@ Evidence: [CI run](https://github.com/saberuster/skills/actions/runs/39043119042
 ## Get started
 
 For the complete Fern workflow, use the
-[Codex marketplace](docs/plugins.md). Its plugin installs the eight Fern skills
+[Codex marketplace](docs/plugins.md). Its plugin installs the Fern skills
 from their maintained source directories. Individual skills remain available
 through the standalone installation protocol below.
 
@@ -205,15 +205,26 @@ passing static checks does not validate agent decisions.
 
 ## Releases
 
-The initial public release is `v0.1.0`. It starts a new version history for
-this repository. Tags version the whole repository;
-[CHANGELOG.md](CHANGELOG.md) records user-visible changes. Before 1.0, changes
-to task scope or instruction behavior increment the minor version; compatible
-corrections increment the patch version. There is no separate skill version
-file. The Fern plugin has its own SemVer version in
-[`skills/fern/.codex-plugin/plugin.json`](skills/fern/.codex-plugin/plugin.json).
-Bump that version when shipping changes to any bundled skill or plugin metadata;
-see the [plugin maintenance rules](docs/plugins.md#maintenance-and-releases).
+Only plugins have versions; each plugin manifest is its sole version source.
+The repository and individual skills use commit SHAs, with `v0.1.0` retained
+as a historical repository tag. Installation follows `main`, which can contain
+unreleased changes under the last released plugin version.
+
+Accumulate changes and bump each affected plugin once when releasing a batch.
+[CHANGELOG.md](CHANGELOG.md) records user-visible changes by plugin, with
+standalone skill and repository maintenance entries left unversioned. Use the
+project skill `$release-plugin <plugin>` at
+`.agents/skills/release-plugin/SKILL.md` to review a release brief first.
+After confirmation it completes the approved version edits, Git delivery,
+validation, CI packaging and formal publication without per-step approvals; see
+[plugin maintenance](docs/plugins.md#maintenance-and-releases) for packaging
+and validation.
+Build downloadable upload ZIPs with the
+[plugin packager](docs/plugins.md#build-a-downloadable-plugin); it discovers all
+skills in the selected plugin directory. Local preparation builds previews;
+pushing `<plugin>/v<VERSION>` runs the shared GitHub Actions workflow to package
+that commit and create a Release draft with download attachments. The skill
+verifies and publishes that draft under the confirmed brief.
 
 ## License
 

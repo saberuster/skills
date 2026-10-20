@@ -1,0 +1,6 @@
+interface:
+  display_name: "Plugin Release"
+  short_description: "Review a release brief, then publish after approval"
+  default_prompt: "Use $release-plugin to present a release brief for my review, then wait for my confirmation before executing it through publication."
+policy:
+  allow_implicit_invocation: true
