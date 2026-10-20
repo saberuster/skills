@@ -4,6 +4,11 @@
 
 ### Added
 
+- Repository behavior regressions for Fern path review and partial acceptance:
+  valid, invalid, and unavailable relative targets, misleading reviewer agreement,
+  atlas default disclosure, and a completed handoff with an unmet requirement.
+  Reuses the existing trial recorder and per-criterion assessments; synthetic
+  harness tests remain separate from actual model evidence.
 - Standalone `godot-tileset` for editable Godot tile atlases, placement, and
   layered maps, with module footprint checks and source-bound capture evidence.
   Grid sizes, visual style, and layer structure come from each project.

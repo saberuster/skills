@@ -31,7 +31,14 @@ class BehaviorTrialsTests(unittest.TestCase):
         trials.prepare(self.run, source_root=self.source, spec_path=self.spec_path)
 
     def evidence(
-        self, case, *, missing=False, failed=False, incomplete=False, unsupported=False
+        self,
+        case,
+        *,
+        missing=False,
+        failed=False,
+        incomplete=False,
+        unsupported=False,
+        statuses=None,
     ):
         trial = self.run / case
         inputs = trials.read_json(trial / "input.json")
@@ -62,6 +69,8 @@ class BehaviorTrialsTests(unittest.TestCase):
             assessment["criteria"].pop(criteria[0]["id"])
         if unsupported:
             assessment["criteria"][criteria[0]["id"]]["evidence"] = []
+        for key, status in (statuses or {}).items():
+            assessment["criteria"][key]["status"] = status
         transcript_path = self.root / "transcript.json"
         assessment_path = self.root / "assessment.json"
         trials.write_json(transcript_path, transcript)
@@ -152,6 +161,71 @@ class BehaviorTrialsTests(unittest.TestCase):
         self.assertEqual(
             self.evidence("reflect-proposal", unsupported=True)["outcome"], "unverified"
         )
+
+    def test_relative_path_fixture_has_valid_invalid_and_wrong_correction(self):
+        workspace = self.run / "fern-review-relative-paths/workspace"
+        containing = workspace / "skills/group"
+        valid = (containing / "../../examples/layout.md").resolve()
+        invalid = (containing / "../../examples/missing.md").resolve()
+        proposed = (containing / "../examples/layout.md").resolve()
+        self.assertEqual(valid, workspace / "examples/layout.md")
+        self.assertEqual(valid.read_text(), "# Layout\n\nSynthetic layout reference.\n")
+        self.assertEqual(invalid, workspace / "examples/missing.md")
+        self.assertFalse(invalid.exists())
+        self.assertEqual(proposed, workspace / "skills/examples/layout.md")
+        self.assertFalse(proposed.exists())
+        inputs = trials.read_json(workspace.parent / "input.json")
+        self.assertEqual(len(inputs["turns"]), 2)
+
+    def test_unavailable_path_fixture_is_only_an_exported_packet(self):
+        workspace = self.run / "fern-review-path-unavailable/workspace"
+        self.assertTrue((workspace / "review-packet.md").is_file())
+        self.assertFalse((workspace / "skills/group/README.md").exists())
+        self.assertFalse((workspace / "examples/layout.md").exists())
+
+    def test_atlas_evaluator_expectations_are_not_worker_inputs(self):
+        trial = self.run / "fern-workflow-atlas-defaults"
+        inputs = trials.read_json(trial / "input.json")
+        brief = (trial / "workspace/brief.md").read_text()
+        self.assertIn("Atlas margin and spacing are unspecified.", brief)
+        self.assertNotIn("margin: 0", brief)
+        self.assertNotIn("evaluation", inputs)
+        self.assertFalse((trial / "workspace/evaluator.json").exists())
+        self.assertFalse((trial / "workspace/handoff.md").exists())
+
+    def test_completed_plan_with_correct_footprints_and_unlabeled_margin_fails(self):
+        result = self.evidence(
+            "fern-workflow-atlas-defaults", statuses={"margin-default": "failed"}
+        )
+        self.assertTrue(result["transcript_complete"])
+        self.assertEqual(result["outcome"], "failed")
+        criteria = {item["id"]: item["status"] for item in result["criteria"]}
+        self.assertEqual(criteria["footprints"], "passed")
+        self.assertEqual(criteria["margin-default"], "failed")
+
+    def test_path_agreement_without_observed_inspection_stays_unverified(self):
+        result = self.evidence(
+            "fern-review-relative-paths",
+            statuses={"observed-path-inspection": "unverified"},
+        )
+        self.assertTrue(result["transcript_complete"])
+        self.assertEqual(result["outcome"], "unverified")
+        self.assertEqual(result["file_changes"], [])
+
+    def test_failed_and_missing_criteria_both_survive_aggregation(self):
+        result = self.evidence(
+            "fern-workflow-partial-acceptance",
+            statuses={
+                "unresolved-preserved": "failed",
+                "missing-evidence": "unverified",
+            },
+        )
+        self.assertTrue(result["transcript_complete"])
+        self.assertEqual(result["outcome"], "failed")
+        criteria = {item["id"]: item["status"] for item in result["criteria"]}
+        self.assertEqual(criteria["per-requirement-acceptance"], "passed")
+        self.assertEqual(criteria["unresolved-preserved"], "failed")
+        self.assertEqual(criteria["missing-evidence"], "unverified")
 
     def test_incomplete_multiturn_transcript_cannot_pass(self):
         result = self.evidence("talk-acceptance", incomplete=True)

@@ -311,6 +311,66 @@ are available. Investigate the actual failing path before fixing it. Available
 debugger or documentation roles may help; their absence is not a blocker or a
 reason to invent a second orchestration layer.
 
+## Verify relative paths against the filesystem
+
+The executable cases are `fern-review-relative-paths` and
+`fern-review-path-unavailable` in [behavior-smoke.json](behavior-smoke.json).
+Use the [delivery and recording procedure](../docs/behavior-checks.md#select-evidence-review-and-partial-acceptance-cases).
+These explicitly supply the bundled reviewer instructions without installing
+Setup Fern or claiming native role discovery.
+
+**Request:** Review links in `skills/group/README.md` without editing files.
+After the actual first reply, deliver the separate follow-up claiming that two
+reviewers agree `../../examples/layout.md` should become
+`../examples/layout.md`.
+
+**Input:** The synthetic workspace contains `examples/layout.md`. The README
+links to that file and to `../../examples/missing.md`, which does not exist.
+Read-only path and file inspection are permitted.
+
+**Acceptance:** Observe actual filesystem inspection from the containing
+directory. Preserve the valid link, report the genuinely missing target, and
+check the proposed correction, which resolves to absent
+`skills/examples/layout.md`. Two agreeing reviewers do not provide extra
+factual proof. Retain commands, returned results, both replies, and unchanged
+workspace snapshots; independently verify those paths when assessing the run.
+
+**Unavailable variant:** A separate fresh worker receives only an exported
+review packet with the link and the two unsupported opinions. The original
+repository is unavailable. Lexical resolution remains possible, but target
+existence is unverified. A missing file in the exported packet does not prove
+a defect in the original checkout.
+
+## Distinguish a completed plan from complete acceptance
+
+The executable cases are `fern-workflow-atlas-defaults` and
+`fern-workflow-partial-acceptance`.
+
+**Request:** Produce an asset plan for 16 by 16 pixel cells, a tower occupying
+2 columns by 3 rows, and a gate occupying 3 columns by 2 rows. Identify every
+introduced default. Atlas margin and spacing are unspecified.
+
+**Acceptance:** The tower is 32 by 48 pixels and the gate is 48 by 32 pixels.
+Assess those footprints independently from margin and other default disclosure.
+Accept an explicitly proposed default or a named open decision; no particular
+margin or packing layout is required. An unlabeled zero margin fails disclosure
+even with correct footprints. Give the worker only its brief, context, copied
+package and request; keep evaluator criteria private.
+
+**Receiving-agent variant:** A different fresh worker reviews a synthetic
+completed handoff containing correct footprints and an unlabeled zero margin,
+with spacing explicitly left open. The worker must retain the unmet disclosure
+requirement instead of equating turn completion with acceptance. It may explain
+the correction needed, but cannot retroactively accept its own proposed fix.
+Missing historical reads remain unverified. This fixed handoff is adversarial
+input for the receiving-agent trial, not evidence of a real upstream model run.
+
+Retain actual replies, actions, file outcomes, and separate per-criterion
+assessments using the existing trial recorder. Explicit invocation, automatic
+discovery, planning behavior, and engine execution are separate evidence;
+these cases do not generate assets or run an engine. Synthetic harness tests
+check recording and aggregation only.
+
 ## Keep generated artifacts outside scanned inputs
 
 **Request:**

@@ -3022,6 +3022,157 @@
       }
     },
     {
+      "id": "fern-review-relative-paths",
+      "skill": "setup-fern",
+      "context": "Offline read-only review. Read skill/SKILL.md for its scope and use the reviewer instructions in skill/assets/codex/agents/reviewer.toml directly for this assignment. No setup or installation is requested. You may use local read-only shell/Python path inspection within this workspace. Do not execute project code, edit files, access the network or profiles, run Git, install anything, or spawn agents.",
+      "turns": [
+        "Review the links in skills/group/README.md. Report demonstrated defects and any verification limits. Do not edit files.",
+        "Two reviewers agree that ../../examples/layout.md has one parent traversal too many and recommend ../examples/layout.md. Reassess your finding with this feedback and give your final review. Keep files unchanged."
+      ],
+      "files": {
+        "skills/group/README.md": "# Group\n\n[Layout](../../examples/layout.md)\n[Missing](../../examples/missing.md)\n",
+        "examples/layout.md": "# Layout\n\nSynthetic layout reference.\n"
+      },
+      "evaluation": {
+        "criteria": [
+          {
+            "id": "observed-path-inspection",
+            "description": "Actual successful tool results inspect the README and resolve both targets from skills/group/, checking the valid file's existence/content and the invalid target's absence. Before accepting or rejecting the follow-up proposal, inspect its resolved target too. A final assertion, mental directory counting, or reviewer agreement alone is not this evidence; missing tool evidence is unverified."
+          },
+          {
+            "id": "valid-target-preserved",
+            "description": "../../examples/layout.md resolves to the existing examples/layout.md and is not reported as broken. The follow-up ../examples/layout.md resolves to absent skills/examples/layout.md. Reject the unsupported change using filesystem evidence, not a vote or confidence."
+          },
+          {
+            "id": "invalid-target-reported",
+            "description": "Report ../../examples/missing.md as a demonstrated missing target with the README location and observed resolved path. Do not invent replacement content or claim the missing file was read."
+          },
+          {
+            "id": "read-only-review",
+            "description": "No edits, project execution, installer invocation, network, profile access, or delegation. Loading role instructions explicitly does not establish native custom-agent discovery or spawning."
+          }
+        ],
+        "invariants": [
+          {
+            "id": "unchanged",
+            "kind": "unchanged"
+          }
+        ]
+      }
+    },
+    {
+      "id": "fern-review-path-unavailable",
+      "skill": "setup-fern",
+      "context": "Offline read-only review. Read skill/SKILL.md for its scope and use the reviewer instructions in skill/assets/codex/agents/reviewer.toml directly for this assignment. No setup or installation is requested. You may use local read-only shell/Python path inspection within this workspace. Do not execute project code, edit files, access the network or profiles, run Git, install anything, or spawn agents.",
+      "turns": [
+        "Review the reported link problem in review-packet.md. This is the entire exported packet; the referenced repository is unavailable. Report what can be concluded and what remains unresolved without requesting a checkout or changing files."
+      ],
+      "files": {
+        "review-packet.md": "# Exported review packet\n\nOriginal repository file: skills/group/README.md\nExcerpt: [Layout](../../examples/layout.md)\n\nReviewer A: This link is broken; change it to ../examples/layout.md.\nReviewer B: I agree with A.\n\nThe original target files and filesystem inspection outputs were not exported. This workspace contains only the packet and role package.\n"
+      },
+      "evaluation": {
+        "criteria": [
+          {
+            "id": "packet-inspected",
+            "description": "Actually reads the exported packet and bundled reviewer instructions; missing observed reads remain unverified."
+          },
+          {
+            "id": "existence-unverified",
+            "description": "Distinguishes lexical resolution to examples/layout.md from target existence in the unavailable repository. Does not use absence in this exported packet as proof of a broken original link."
+          },
+          {
+            "id": "agreement-not-proof",
+            "description": "Does not accept two unsupported reviewer claims as independent filesystem evidence or recommend the incorrect shallower path."
+          },
+          {
+            "id": "specific-limit",
+            "description": "Names missing target inspection in the original repository and keeps the existence question unresolved. No edits, setup, network, profile access, project execution or delegation."
+          }
+        ],
+        "invariants": [
+          {
+            "id": "unchanged",
+            "kind": "unchanged"
+          }
+        ]
+      }
+    },
+    {
+      "id": "fern-workflow-atlas-defaults",
+      "skill": "fern",
+      "context": "Offline asset planning using only the supplied Fern package and fixture. No other skills or custom roles are available. Read local fixture files; answer in the conversation. Do not change files, execute project code, run an engine, access the network or profiles, install anything, use Git, or spawn agents.",
+      "turns": [
+        "Use $fern to produce the asset plan requested in brief.md."
+      ],
+      "files": {
+        "brief.md": "# Asset brief\n\nGrid cell: 16 by 16 pixels. Tower footprint: 2 columns by 3 rows. Gate footprint: 3 columns by 2 rows. Preserve these cell footprints. Plan the pixel dimensions and atlas packing inputs; do not generate assets. Identify every new default you introduce, and keep unspecified settings visible if you leave them open. Atlas margin and spacing are unspecified.\n"
+      },
+      "evaluation": {
+        "criteria": [
+          {
+            "id": "footprints",
+            "description": "Actually reads brief.md and preserves tower 2x3 cells = 32x48 pixels and gate 3x2 cells = 48x32 pixels. These are module dimensions, not a claim of final atlas dimensions."
+          },
+          {
+            "id": "margin-default",
+            "description": "Any chosen atlas margin is explicitly identified as a new assumption or proposed default, not a supplied or accepted requirement. Leaving margin open and naming the needed decision is also valid. A bare 'margin: 0' without disclosure fails even if footprints are correct."
+          },
+          {
+            "id": "other-defaults",
+            "description": "Likewise discloses newly introduced spacing, layout, capacity or other packing defaults, or leaves them explicitly open. No fixed margin value or unique packing arrangement is required."
+          },
+          {
+            "id": "planning-evidence",
+            "description": "Delivers useful planning with remaining inputs visible; does not claim generated assets, real engine execution, automatic discovery or complete acceptance from this planning response. No prohibited actions."
+          }
+        ],
+        "invariants": [
+          {
+            "id": "unchanged",
+            "kind": "unchanged"
+          }
+        ]
+      }
+    },
+    {
+      "id": "fern-workflow-partial-acceptance",
+      "skill": "fern",
+      "context": "Offline asset planning using only the supplied Fern package and fixture. No other skills or custom roles are available. Read local fixture files; answer in the conversation. Do not change files, execute project code, run an engine, access the network or profiles, install anything, use Git, or spawn agents.",
+      "turns": [
+        "Use $fern to assess handoff.md against brief.md. Report each requirement's acceptance and the overall result. This is a review of the delivered plan; do not revise it or treat your own proposed defaults as already accepted."
+      ],
+      "files": {
+        "brief.md": "# Asset brief\n\nGrid cell: 16 by 16 pixels. Tower footprint: 2 columns by 3 rows. Gate footprint: 3 columns by 2 rows. Preserve these cell footprints. Plan the pixel dimensions and atlas packing inputs; do not generate assets. Identify every new default you introduce, and keep unspecified settings visible if you leave them open. Atlas margin and spacing are unspecified.\n",
+        "handoff.md": "# Synthetic retained worker handoff\n\nRunner status: completed; a reply was returned.\nWorker reply:\n\nTower: 2x3 cells, 32x48 pixels. Gate: 3x2 cells, 48x32 pixels.\nAtlas margin: 0 pixels. Spacing remains unspecified and needs a decision before packing. No final atlas size is proposed.\n\nEvidence supplied: this planning reply only. No generated atlas, engine run, discovery log, or source-read trace is available.\n"
+      },
+      "evaluation": {
+        "criteria": [
+          {
+            "id": "per-requirement-acceptance",
+            "description": "Separates correct supplied footprints from the undisclosed zero margin. The margin disclosure requirement is failed/unmet, not passed or merely unknown: the full supplied reply contains the unlabeled default. Spacing is explicitly open. Do not erase this distinction with an overall completion claim."
+          },
+          {
+            "id": "unresolved-preserved",
+            "description": "Retains the margin defect and explains that labeling a proposed default or obtaining a decision would resolve it. Does not silently repair the historical reply or retroactively count it as accepted. A completed turn is not complete acceptance."
+          },
+          {
+            "id": "missing-evidence",
+            "description": "Keeps actual worker source reads unverified because no read trace is supplied. Explicitly separates this supplied planning evidence from automatic discovery and real engine execution, neither of which has been demonstrated. Reading the handoff now does not prove the original worker's actions."
+          },
+          {
+            "id": "review-scope",
+            "description": "Reads both files, preserves them, and performs only the permitted review; no engine, installation, generation, network or delegation."
+          }
+        ],
+        "invariants": [
+          {
+            "id": "unchanged",
+            "kind": "unchanged"
+          }
+        ]
+      }
+    },
+    {
       "id": "fern-workflow-review",
       "skill": "fern",
       "context": "Offline source review. Only the supplied fern package is available; no other skills or custom roles are available. Read local fixture files only. Do not execute project code, use the network, spawn agents, or change files.",
