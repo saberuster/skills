@@ -163,7 +163,7 @@ class BehaviorTrialsTests(unittest.TestCase):
         )
 
     def test_relative_path_fixture_has_valid_invalid_and_wrong_correction(self):
-        workspace = self.run / "fern-review-relative-paths/workspace"
+        workspace = (self.run / "fern-review-relative-paths/workspace").resolve()
         containing = workspace / "skills/group"
         valid = (containing / "../../examples/layout.md").resolve()
         invalid = (containing / "../../examples/missing.md").resolve()
