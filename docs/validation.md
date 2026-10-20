@@ -113,6 +113,14 @@ affect several collections. A changed skill with no automated behavior case is
 a coverage gap, not a reason to invent a successful behavior result. Inspect
 the selected plan before narrowing it with explicit checks or cases.
 
+Top-level directories under `skills/` containing only an empty `.gitkeep` are
+reserved scaffolds, not discoverable skill packages. Other incomplete sources
+and linked paths remain errors. `tests/test_skill_packages.py` covers this
+boundary in the deterministic `checks` layer, including PR CI. Changes to
+`scripts/skill_packages.py` select all packages in the affected layer through
+the existing shared-script mapping. The release text-hygiene check allows
+these zero-byte top-level markers without a trailing LF.
+
 All known unittest modules belong either to the deterministic layer or to the
 separate real-engine check. Pure component geometry and fake Godot process
 tests belong to `checks`; their names do not make them engine integration.

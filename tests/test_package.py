@@ -69,7 +69,13 @@ class PackageTests(unittest.TestCase):
                 data = path.read_bytes()
                 text = data.decode("ascii")
                 self.assertNotIn(b"\r", data, "Use LF line endings")
-                self.assertTrue(text.endswith("\n"))
+                empty_scaffold_marker = (
+                    not data
+                    and len(relative.parts) == 3
+                    and relative.parts[0] == "skills"
+                    and relative.name == ".gitkeep"
+                )
+                self.assertTrue(empty_scaffold_marker or text.endswith("\n"))
                 self.assertTrue(
                     all(line == line.rstrip() for line in text.splitlines())
                 )

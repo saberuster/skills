@@ -35,6 +35,14 @@ def skill_packages(root):
     for directory in sorted(tree.iterdir()):
         if not directory.is_dir() or directory.name == ".codex-plugin":
             continue
+        entries = list(directory.iterdir())
+        if (
+            len(entries) == 1
+            and entries[0].name == ".gitkeep"
+            and entries[0].is_file()
+            and entries[0].stat().st_size == 0
+        ):
+            continue
         if (directory / "SKILL.md").is_file():
             add(directory)
         else:

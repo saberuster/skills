@@ -4,6 +4,9 @@
 
 ### Added
 
+- Reserved `skills/pixel-asset-maker/` with an empty `.gitkeep`. Package discovery
+  excludes top-level directories containing only this empty marker while still
+  rejecting incomplete skill sources.
 - `simplify-skill` under `skills/meta/` for simplifying an existing skill after
   iteration. Rechecks each pass and continues while worthwhile equivalent
   simplifications remain, leaving behavior-changing removals for the user to

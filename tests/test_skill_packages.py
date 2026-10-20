@@ -35,6 +35,45 @@ class SkillPackageTests(unittest.TestCase):
         (metadata / "plugin.json").write_text("{}\n", encoding="ascii")
         self.assertEqual(skill_packages(self.root), {"alpha": direct, "beta": nested})
 
+    def test_empty_top_level_placeholder_is_not_a_package(self):
+        direct = self.package("alpha")
+        placeholder = self.root / "skills/future-plugin"
+        placeholder.mkdir()
+        (placeholder / ".gitkeep").touch()
+        self.assertEqual(skill_packages(self.root), {"alpha": direct})
+
+    def test_placeholder_does_not_hide_incomplete_source(self):
+        self.package("alpha")
+        placeholder = self.root / "skills/future-plugin"
+        placeholder.mkdir()
+        marker = placeholder / ".gitkeep"
+        marker.touch()
+        for extra in ("README.md", "draft.py"):
+            with self.subTest(extra=extra):
+                path = placeholder / extra
+                path.write_text("Draft.\n", encoding="ascii")
+                with self.assertRaisesRegex(ValueError, "missing source SKILL.md"):
+                    skill_packages(self.root)
+                path.unlink()
+        marker.write_text("Not an empty marker.\n", encoding="ascii")
+        with self.assertRaisesRegex(ValueError, "missing source SKILL.md"):
+            skill_packages(self.root)
+
+    def test_placeholder_only_tree_has_no_source_skills(self):
+        placeholder = self.root / "skills/future-plugin"
+        placeholder.mkdir(parents=True)
+        (placeholder / ".gitkeep").touch()
+        with self.assertRaisesRegex(ValueError, "No source skills found"):
+            skill_packages(self.root)
+
+    def test_nested_placeholder_still_requires_a_skill_entry(self):
+        self.package("fern/beta")
+        placeholder = self.root / "skills/fern/missing"
+        placeholder.mkdir()
+        (placeholder / ".gitkeep").touch()
+        with self.assertRaisesRegex(ValueError, "missing source SKILL.md"):
+            skill_packages(self.root)
+
     def test_other_hidden_directories_still_require_a_skill_entry(self):
         self.package("fern/beta")
         (self.root / "skills/fern/.unknown").mkdir()
