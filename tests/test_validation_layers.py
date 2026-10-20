@@ -10,6 +10,8 @@ import unittest
 from pathlib import Path
 from unittest import mock
 
+import yaml
+
 from scripts import run_validation, validation_plan
 from scripts.check_markdown_links import check_markdown_links
 
@@ -185,6 +187,91 @@ class LayerPlanTests(unittest.TestCase):
         self.assertEqual(len(paths), 3)
         self.assertIn("--no-renames", git.call_args_list[1].args)
         self.assertNotIn("HEAD", git.call_args_list[1].args)
+
+    def test_ci_model_shards_gate_exact_cases_on_same_invocation_preflight(self):
+        workflows = validation_plan.ROOT / ".github/workflows"
+        for filename in ("validation-runtime.yml", "validation-full.yml"):
+            jobs = yaml.load(
+                (workflows / filename).read_text("ascii"), Loader=yaml.BaseLoader
+            )["jobs"]
+            steps = jobs["behavior"]["steps"]
+            step = next(item for item in steps if "CASES" in item.get("env", {}))
+            script = step["run"].split("python - <<'PY'\n", 1)[1].rsplit("\nPY", 1)[0]
+            # Runtime jobs keep their independent schedule; only model shards
+            # repeat the cheap checks against their own immutable checkout.
+            runtime = jobs.get("runtime", jobs.get("extended"))
+            self.assertNotIn("behavior", runtime.get("needs", []))
+            for preflight in ("failed", "passed", "partial"):
+                with self.subTest(workflow=filename, preflight=preflight):
+                    guide = self.root / "guide.md"
+                    guide.unlink(missing_ok=True)
+                    (self.root / "README.md").write_text("[Guide](guide.md)\n")
+                    if preflight != "failed":
+                        guide.write_text("Guide\n")
+                    output = Path(self.temporary.name) / f"{filename}-{preflight}"
+                    seen = []
+                    real_run = run_validation.run
+
+                    def check(entry, args, folder, source):
+                        seen.append(entry["check"])
+                        if entry["check"] == "checks":
+                            findings = check_markdown_links(source)
+                            self.assertEqual(bool(findings), preflight == "failed")
+                            status = "failed" if findings else preflight
+                        else:
+                            self.assertEqual(entry["check"], "agent-behavior")
+                            self.assertEqual(entry["cases"], ["reflect-one"])
+                            status = "passed"  # Dispatch stub, not a model trial.
+                        return {"id": entry["id"], "status": status}
+
+                    def dispatch(command):
+                        self.assertEqual(
+                            command[:2], [sys.executable, "scripts/run_validation.py"]
+                        )
+                        with mock.patch.object(
+                            run_validation,
+                            "run",
+                            side_effect=lambda args: real_run(args, self.root),
+                        ):
+                            return run_validation.main(command[2:])
+
+                    with (
+                        mock.patch.dict(
+                            os.environ,
+                            {
+                                "MODEL": "fixture",
+                                "CASES": '["reflect-one"]',
+                                "RUNNER_TEMP": str(output),
+                            },
+                        ),
+                        mock.patch.object(subprocess, "call", side_effect=dispatch),
+                        mock.patch.object(
+                            run_validation, "run_check", side_effect=check
+                        ),
+                        self.assertRaises(SystemExit) as exit_result,
+                    ):
+                        exec(compile(script, filename, "exec"), {})
+                    self.assertEqual(
+                        exit_result.exception.code, int(preflight == "failed")
+                    )
+                    summary = json.loads(
+                        (output / "behavior-evidence/summary.json").read_text()
+                    )
+                    self.assertEqual(
+                        [item["id"] for item in summary["checks"]],
+                        ["checks", "agent-behavior"],
+                    )
+                    self.assertEqual(summary["behavior_coverage"]["selected_cases"], 1)
+                    if preflight == "failed":
+                        self.assertEqual(seen, ["checks"])
+                        blocked = summary["checks"][-1]
+                        self.assertEqual(blocked["status"], "not_run")
+                        self.assertEqual(blocked["cases"], ["reflect-one"])
+                        self.assertIn("Deterministic checks failed", blocked["reason"])
+                        self.assertEqual(summary["status"], "failed")
+                        self.assertEqual(summary["coverage_status"], "incomplete")
+                    else:
+                        self.assertEqual(seen, ["checks", "agent-behavior"])
 
 
 class LayerRunnerTests(unittest.TestCase):

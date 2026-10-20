@@ -124,7 +124,7 @@ jobs:
       - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: '3.11'
-      - name: Run all cases for this skill
+      - name: Check candidate before all cases for this skill
         env:
           CODEX_API_KEY: ${{ secrets.CODEX_API_KEY }}
           MODEL: ${{ inputs.model || vars.AGENT_TEST_MODEL }}
@@ -132,8 +132,11 @@ jobs:
         run: |
           python - <<'PY'
           import json, os, subprocess, sys
+          # Keep preflight and model dispatch in one invocation so a failed
+          # candidate retains not_run case evidence without making model calls.
           args = [sys.executable, 'scripts/run_validation.py', '--layer', 'full',
-                  '--check', 'agent-behavior', '--run-agent', '--model', os.environ['MODEL'],
+                  '--check', 'checks', '--check', 'agent-behavior',
+                  '--run-agent', '--model', os.environ['MODEL'],
                   '--output', os.path.join(os.environ['RUNNER_TEMP'], 'behavior-evidence')]
           for case in json.loads(os.environ['CASES']):
               args += ['--case', case]

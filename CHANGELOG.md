@@ -220,6 +220,8 @@
   affected evidence after edits, and retain matching results and required gates.
   Repository validation now records expensive checks as not run after selected
   deterministic checks fail, preserving the failure and planned coverage.
+  CI model shards explicitly run those checks before their exact selected cases,
+  retaining blocked case evidence while independent runtime jobs stay separate.
 - `setup-fern` checks the current Fern and Meta integration: preserves explicit
   invocation for Fern, Setup Fern, and Deep Search; distinguishes installed
   search packages from available providers; and keeps optional workflow skills

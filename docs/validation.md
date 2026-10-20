@@ -92,6 +92,19 @@ layer 3 upstream compatibility evidence. Latest results do not overwrite the
 README's pinned-client table. Read actual job conclusions and artifacts after
 pushing: workflow configuration is not an observed hosted execution.
 
+Both CI behavior workflows explicitly select `checks` and `agent-behavior`
+in one launcher invocation per opted-in skill shard. They use the full layer
+with those two check filters and the exact planned case IDs; this does not
+broaden affected cases or rerun unrelated runtime checks. Each shard repeats
+the cheap deterministic suite against its own checkout before model dispatch,
+avoiding dependence on another workflow's status or stale evidence. A failed
+preflight leaves selected cases `not_run` in the uploaded shard summary and
+fails the job. Independent runtime jobs retain their separate schedules.
+`tests/test_validation_layers.py` executes both workflow dispatch snippets
+against the planner and runner with broken-link, passed and platform-partial
+preflight fixtures; model dispatch is stubbed, so this is CI gate evidence,
+not agent behavior evidence.
+
 Before publishing a release, manually run full validation for the intended
 revision and inspect its evidence. The `release: published` trigger provides a
 post-publication regression run when GitHub emits the event; it does not block
