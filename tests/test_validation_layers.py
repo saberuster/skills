@@ -11,6 +11,7 @@ from pathlib import Path
 from unittest import mock
 
 from scripts import run_validation, validation_plan
+from scripts.check_markdown_links import check_markdown_links
 
 
 class LayerPlanTests(unittest.TestCase):
@@ -428,6 +429,99 @@ class LayerRunnerTests(unittest.TestCase):
             summary = json.loads((output / "summary.json").read_text())
             self.assertEqual(summary["status"], "failed")
             self.assertIn("Source changed", summary["checks"][1]["reason"])
+
+    def test_broken_reference_blocks_expensive_checks_without_hiding_selection(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary) / "source"
+            root.mkdir()
+            (root / "README.md").write_text("[Guide](missing.md)\n")
+            output = Path(temporary) / "result"
+            entries = [
+                self.entry(name)
+                for name in ("checks", "codex-discovery", "blender", "agent-behavior")
+            ]
+            plan = {
+                "layer": "full",
+                "source_revision": "base",
+                "checks": entries,
+                "manual_evidence": [],
+                "behavior_coverage": {"skills_without_cases": []},
+            }
+
+            def check(entry, args, folder, source):
+                self.assertEqual(entry["check"], "checks")
+                findings = check_markdown_links(source)
+                self.assertEqual(len(findings), 1)
+                self.assertEqual(findings[0].target, "missing.md")
+                run_validation.write_json(
+                    folder / "evidence/summary.json",
+                    {"status": "failed", "reason": findings[0].message},
+                )
+                return {"id": entry["id"], "status": "failed", "exit_code": 1}
+
+            with (
+                mock.patch.object(run_validation, "make_plan", return_value=plan),
+                mock.patch.object(
+                    run_validation, "run_check", side_effect=check
+                ) as run,
+            ):
+                self.assertEqual(
+                    run_validation.run(
+                        self.options(output, run_agent=True, model="fixture"), root
+                    ),
+                    1,
+                )
+            run.assert_called_once()
+            summary = json.loads((output / "summary.json").read_text())
+            self.assertEqual(summary["status"], "failed")
+            self.assertEqual(summary["coverage_status"], "incomplete")
+            self.assertEqual(
+                [item["id"] for item in summary["checks"]],
+                [item["id"] for item in entries],
+            )
+            for item in summary["checks"][1:]:
+                self.assertEqual(item["status"], "not_run")
+                self.assertIn("Deterministic checks failed", item["reason"])
+            self.assertEqual(summary["checks"][-1]["cases"], ["one"])
+            self.assertTrue((output / "checks/evidence/summary.json").is_file())
+
+    def test_success_partial_and_runtime_failure_do_not_gate_independent_checks(self):
+        for first_check, first_status, expected in (
+            ("checks", "passed", 0),
+            ("checks", "partial", 0),
+            ("codex-discovery", "failed", 1),
+        ):
+            with (
+                self.subTest(check=first_check, status=first_status),
+                tempfile.TemporaryDirectory() as temporary,
+            ):
+                root = Path(temporary) / "source"
+                root.mkdir()
+                output = Path(temporary) / "result"
+                plan = {
+                    "layer": "full",
+                    "source_revision": "base",
+                    "checks": [self.entry(first_check), self.entry("blender")],
+                    "manual_evidence": [],
+                    "behavior_coverage": {"skills_without_cases": []},
+                }
+                with (
+                    mock.patch.object(run_validation, "make_plan", return_value=plan),
+                    mock.patch.object(
+                        run_validation,
+                        "run_check",
+                        side_effect=[
+                            {"id": first_check, "status": first_status},
+                            {"id": "blender", "status": "passed"},
+                        ],
+                    ) as run,
+                ):
+                    self.assertEqual(
+                        run_validation.run(self.options(output), root), expected
+                    )
+                self.assertEqual(run.call_count, 2)
+                summary = json.loads((output / "summary.json").read_text())
+                self.assertEqual(summary["checks"][-1]["status"], "passed")
 
     def test_host_hashes_detect_drift_against_container_snapshot_in_either_order(self):
         for order in (("checks", "docker-context"), ("docker-context", "checks")):

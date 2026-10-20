@@ -215,6 +215,11 @@
 
 ### Changed
 
+- Fern plugin: prepare complete, accessible candidate handoffs after cheap
+  checks; keep same-candidate review and validation parallelizable, supersede
+  affected evidence after edits, and retain matching results and required gates.
+  Repository validation now records expensive checks as not run after selected
+  deterministic checks fail, preserving the failure and planned coverage.
 - `setup-fern` checks the current Fern and Meta integration: preserves explicit
   invocation for Fern, Setup Fern, and Deep Search; distinguishes installed
   search packages from available providers; and keeps optional workflow skills

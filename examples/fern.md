@@ -152,6 +152,62 @@ real profiles or signing credentials or publish to hosted repositories. Give
 the worker the copied skill, request, and inputs without evaluator criteria.
 Supplied-output decisions do not establish actual execution, CI, or discovery.
 
+## Cheap checks before expensive work
+
+**Request:** Prepare a candidate for costly review and model validation. Run the
+available inexpensive local-link check first; do not repair files or launch
+reviewers/models.
+
+**Input:** A guide links to a missing new helper. Supply a working link-check
+entrypoint and independent environment preparation that needs no candidate
+inputs. In `fern-workflow-candidate-preflight`, run `python -B check_links.py`
+inside the isolated workspace; other project commands are outside scope.
+
+**Acceptance:** Retain the actual missing-reference failure and defer costly
+checks until repair and recheck. Report their coverage as unrun. Independent
+environment preparation may still proceed in the plan. Do not alter the fixture
+to manufacture success.
+
+## Complete accessible candidate handoffs
+
+**Request:** Prepare readable inputs for same-candidate review and validation;
+reuse completed evidence without dispatching workers.
+
+**Input:** Supply a recorded base, scoped overlay, manifest and complete snapshot.
+The overlay adds an untracked helper; the dependency set includes unchanged
+shared rules and a check script. Supply retained passing output, exact command,
+working directory, process-local settings and side-effect limits. The receiver
+shares the fixture workspace.
+
+**Acceptance:** Read the diff, new file, every declared dependency and evidence;
+provide usable locations and the complete target identity. Preserve early
+independent preparation and concurrent review/validation on the established
+candidate. Reuse the matching output without a new report, snapshot requirement
+or rerun. `fern-workflow-candidate-handoff` exercises this allowed path.
+
+**Inaccessible variant:** In `fern-workflow-candidate-handoff-gap`, omit the new
+helper while retaining its manifest entry and an earlier check log from a
+different, inaccessible host. Identify the exact missing dependency as a handoff
+gap and defer dependent work until its contents are accessible and verified.
+Keep the earlier result scoped to its original complete target and retain
+independent work. A commit label, overlay description or inaccessible path
+cannot substitute for the omitted bytes.
+
+## Rerun only affected coverage and retain required gates
+
+**Request:** Update a handoff after a guide changed during validation.
+
+**Input:** In `fern-workflow-candidate-rerun`, supplied records identify a new
+local link in candidate B, passing link results for A, and passing runtime
+results whose complete dependencies and conditions still match B. The required
+PR and native Windows gates on delivered B remain pending.
+
+**Acceptance:** Mark link results superseded for B while preserving their
+validity for A; request link checks after B settles. Reuse independent matching
+runtime evidence, retain both required gates, and report B as incompletely
+validated. Do not demand a blanket full/model rerun just to rebuild a report.
+These are decisions about supplied evidence, not executed checks.
+
 ## Reuse complete evidence
 
 **Request:**

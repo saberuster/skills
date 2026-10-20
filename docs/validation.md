@@ -55,6 +55,26 @@ and latest discovery by default; `--latest` adds that channel to an affected
 run. The current working tree is the source under test; a commit label
 alone does not establish byte-for-byte identity with a clean commit.
 
+Finish applicable cheap checks and establish the candidate before expensive
+review or validation. When a selected `checks` run fails, the launcher retains
+its evidence and records subsequent selected checks as `not_run` with the
+blocking reason; the aggregate fails. An expected platform `partial` result
+does not block independent runtime checks or erase the missing platform coverage.
+Affected and explicitly narrowed runs do not silently add the PR suite:
+complete or reuse matching deterministic evidence separately. The existing
+source manifests and cross-check drift detection still bind each result to
+its inputs. Review and validation can proceed independently against that same
+candidate after preparation.
+
+For handoffs, provide the base, complete scoped diff including new files,
+dependency set, readable inputs, exact working directory, known-working commands,
+side-effect limits and evidence locations. Verify receiver access before dispatch.
+After edits, mark affected results superseded for the new candidate and rerun
+their required coverage; retain matching independent evidence and every required
+repository gate. Missing pointers alone do not justify repeating completed work.
+The Fern [validation reference](../skills/fern/fern/references/validation.md)
+describes the handoff and evidence boundaries.
+
 For repository automation, use the checked-in GitHub Actions workflows:
 
 | Workflow | Role |
@@ -139,6 +159,13 @@ until an authorized run is observed; mocks do not establish those outcomes.
 Standalone `python -m unittest discover -s tests -v` remains useful for
 debugging, but can skip unavailable Blender or platform paths. Its green exit
 alone does not establish the layered plan's runtime coverage.
+
+`tests/test_validation_layers.py` covers deterministic-failure gating with a
+real broken-link fixture, retained blocked selections, expected platform
+partials, independent runtime failures and existing snapshot drift checks.
+It belongs to `checks` on Linux and Windows; shared runner/test changes select
+affected runtime checks through the existing planner rules. These controlled
+runner tests do not establish agent decisions or real model execution.
 
 ## Fern installation provenance
 

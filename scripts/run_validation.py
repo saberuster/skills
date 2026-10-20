@@ -205,9 +205,18 @@ def run(args, root=ROOT):
     results = []
     snapshot = None
     scoped_hashes = {}
+    deterministic_failure = False
     for entry in plan["checks"]:
         directory = output / entry["id"]
-        result = run_check(entry, args, directory, root)
+        if deterministic_failure:
+            result = {
+                "id": entry["id"],
+                "status": "not_run",
+                "reason": "Deterministic checks failed; fix the candidate before expensive validation",
+                "cases": entry["cases"],
+            }
+        else:
+            result = run_check(entry, args, directory, root)
         current_hashes = result.get("source_hashes", {})
         manifest = directory / "source-manifest.json"
         if manifest.is_file():
@@ -231,6 +240,8 @@ def run(args, root=ROOT):
             )
         scoped_hashes.update(current_hashes)
         results.append(result)
+        if entry["check"] == "checks" and result["status"] == "failed":
+            deterministic_failure = True
         print(f"{entry['id']}: {result['status']}", flush=True)
     summary = {
         **plan,
