@@ -81,9 +81,11 @@ remains unverified.
 
 [Godot](skills/godot/README.md) groups `setup-godot-skills` and the five former
 `godot-dev` skills from `saberuster/agent-skills`, including their references,
-build helpers, and isolated regressions. Each skill is independently installable.
+build helpers, and isolated regressions. It also includes
+[Godot TileSet](skills/godot/godot-tileset/SKILL.md) for editable atlases and
+layered tile maps. Each skill is independently installable.
 The setup skill keeps its existing curated selection; grouping these packages
-does not add the other five skills to that selection. Client discovery from the
+does not add development skills to that selection. Client discovery from the
 relocated sources remains unverified.
 
 ## Available skills
