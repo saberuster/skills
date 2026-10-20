@@ -3,6 +3,7 @@
 import json
 import shutil
 import tempfile
+import tomllib
 import unittest
 from pathlib import Path
 
@@ -182,6 +183,32 @@ class BehaviorTrialsTests(unittest.TestCase):
         self.assertTrue((workspace / "review-packet.md").is_file())
         self.assertFalse((workspace / "skills/group/README.md").exists())
         self.assertFalse((workspace / "examples/layout.md").exists())
+
+    def test_path_trials_deliver_actual_bundled_reviewer(self):
+        cases = ["fern-review-relative-paths", "fern-review-path-unavailable"]
+        output = self.root / "real-reviewer-run"
+        trials.prepare(output, cases=cases, source_root=ROOT, spec_path=trials.SPEC)
+        source = ROOT / "skills/fern/setup-fern"
+        asset = "assets/codex/agents/reviewer.toml"
+        expected = (source / asset).read_bytes()
+        source_hash = trials.hashes(source)[asset]
+        for case in cases:
+            with self.subTest(case=case):
+                trial = output / case
+                inputs = trials.read_json(trial / "input.json")
+                self.assertIn(f"skill/{asset}", inputs["context"])
+                for tree in ("workspace", "before"):
+                    delivered = (trial / tree / "skill" / asset).read_bytes()
+                    self.assertEqual(delivered, expected)
+                    reviewer = tomllib.loads(delivered.decode("utf-8"))
+                    self.assertEqual(reviewer["name"], "reviewer")
+                    self.assertTrue(reviewer["developer_instructions"].strip())
+                manifest = trials.read_json(trial / "manifest.json")
+                self.assertEqual(Path(manifest["source_path"]), source.resolve())
+                self.assertEqual(manifest["source_hashes"][asset], source_hash)
+                self.assertEqual(
+                    manifest["initial_hashes"][f"skill/{asset}"], source_hash
+                )
 
     def test_atlas_evaluator_expectations_are_not_worker_inputs(self):
         trial = self.run / "fern-workflow-atlas-defaults"
