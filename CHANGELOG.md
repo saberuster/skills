@@ -4,6 +4,11 @@
 
 ### Added
 
+- Repository behavior regressions for Fern path review and partial acceptance:
+  valid, invalid, and unavailable relative targets, misleading reviewer agreement,
+  atlas default disclosure, and a completed handoff with an unmet requirement.
+  Reuses the existing trial recorder and per-criterion assessments; synthetic
+  harness tests remain separate from actual model evidence.
 - Standalone `godot-tileset` for editable Godot tile atlases, placement, and
   layered maps, with module footprint checks and source-bound capture evidence.
   Grid sizes, visual style, and layer structure come from each project.
@@ -222,6 +227,11 @@
   deterministic checks fail, preserving the failure and planned coverage.
   CI model shards explicitly run those checks before their exact selected cases,
   retaining blocked case evidence while independent runtime jobs stay separate.
+- Fern: clarify delegation cost and decision value, fresh versus continuous
+  context, and meaningful status/evidence handoffs. Preserve useful parallel
+  work, agent reuse, host-responsive waiting, role boundaries and model policy.
+  Add offline behavior cases; no measured performance improvement is claimed.
+
 - `setup-fern` checks the current Fern and Meta integration: preserves explicit
   invocation for Fern, Setup Fern, and Deep Search; distinguishes installed
   search packages from available providers; and keeps optional workflow skills

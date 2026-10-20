@@ -17,9 +17,10 @@ the broader examples:
 | `reflect-*` (seven cases) | [reflect](../examples/reflect.md): stop when no durable candidate exists, preserve proposal defaults, route knowledge, apply authorized updates without duplication, preserve unresolved obligations, handle an unavailable skill author, and check stale knowledge during recall |
 | `agents-*` (ten cases) | [maintain-agents-md](../examples/maintain-agents-md.md): discover coverage and effective sources, review commands, preserve policy, apply language preferences, and respect edit scope |
 | `skills-local-edits` | [maintain-skills](../examples/maintain-skills.md): identify and preserve local edits before an update |
-| `setup-fern` cases (eight) | [setup-fern](../examples/setup-fern.md): project setup and check, selected-field overwrite, repeat stability, complete root rules, delegation policy and permission retry |
+| `setup-fern` cases (ten) | [setup-fern](../examples/setup-fern.md): project setup and check, selected-field overwrite, repeat stability, complete root rules, delegation cost/context/handoffs and permission retry |
 | `codex-config-*` (four cases) | [codex-config](../examples/codex-config.md): distinguish target-bound schema evidence from an online schema gap, apply a user-level edit under a project override, and preserve configuration when managed requirements disallow the requested value |
-| `fern-workflow-*` (fourteen cases) | [fern](../examples/fern.md): review scope, local edits, accepted decisions, stale evidence, coupled work, candidate preparation and handoff, scoped reruns, pending Git decisions, and actual bug fix, feature, and refactoring work |
+| `fern-workflow-*` (sixteen cases) | [fern](../examples/fern.md): review scope, local edits, accepted decisions, stale evidence, coupled work, candidate preparation and handoff, scoped reruns, pending Git decisions, actual bug fix, feature, refactoring, atlas defaults, and partial acceptance |
+| `fern-review-relative-paths`, `fern-review-path-unavailable` | [Fern review cases](../examples/fern.md#verify-relative-paths-against-the-filesystem): explicitly supplied Setup Fern reviewer instructions, actual target inspection, misleading agreement, and missing filesystem evidence |
 | `docs-schema` | [technical-writing](../examples/technical-writing.md): apply a scoped schema correction while preserving accepted content |
 | `talk-acceptance` | [talk-it-through](../examples/talk-it-through.md): advance after local acceptance and stop when asked |
 | `talk-goal-drift` | [talk-it-through case 7](../examples/talk-it-through.md#7-a-drifting-branch-and-an-explicit-new-goal): check a drifting branch against the goal, distinguish interest from agreement, and follow an explicit goal change |
@@ -306,9 +307,43 @@ duplication, preserving the intentional edge behavior. File invariants alone
 do not prove these outcomes. Explicit invocation trials do not establish
 automatic selection or host discovery.
 
+## Select evidence review and partial acceptance cases
+
+Select `fern-review-relative-paths`, `fern-review-path-unavailable`,
+`fern-workflow-atlas-defaults`, and `fern-workflow-partial-acceptance`.
+The review cases copy Setup Fern, then explicitly assign its bundled
+`assets/codex/agents/reviewer.toml` instructions; they do not run setup or
+exercise native custom-agent loading. Deliver the relative-path case's two
+turns separately to the same worker. Retain actual read-only commands and
+their returned targets/existence results, including the follow-up's proposed
+path. Independently resolve each link from its containing directory; a
+reviewer's assertion or agreement does not establish a filesystem fact.
+The unavailable case contains an exported packet, not the original checkout;
+absence from the packet cannot establish absence from the original repository.
+
+The atlas worker receives the brief without evaluator criteria or a suggested
+margin. Accept disclosed defaults or explicitly open decisions; do not require
+a particular margin or packing scheme. Score footprints and default disclosure
+separately. The partial-acceptance case gives a different fresh worker a
+deliberately flawed, clearly synthetic retained handoff. It tests the receiving
+agent's assessment, not whether a real preceding worker produced that handoff.
+The omitted default disclosure is visible in the full supplied reply; missing
+historical tool evidence is instead unverified. Keep both in the result.
+
+Record every real reply, action, per-turn workspace snapshot, and separate
+assessment through `behavior_trials.py record`. A completed transcript and
+unchanged files alone cannot pass semantic criteria. The deterministic tests in
+`tests/test_behavior_trials.py` check fixture paths, evaluator separation, and
+mixed passed/failed/unverified aggregation with synthetic assessments; they
+do not establish model behavior. The existing shared examples/test mapping
+selects these fixtures in the affected layer, and full runs include them.
+Explicit instruction delivery, automatic discovery, asset planning, and real
+engine execution remain separate evidence classes; these cases exercise only
+the first and planning/review decisions.
+
 ## Select Fern setup cases
 
-Select the eight exact IDs below. The installed `setup-fern` package supplies
+Select the ten exact IDs below. The installed `setup-fern` package supplies
 its own assets. Targets are isolated projects with root `AGENTS.md`,
 `.codex/config.toml` and six `.codex/agents/*.toml` files. Setup needs no skill
 inventory, Git operation, network, source snapshot or target-type branch.
@@ -322,7 +357,9 @@ do not establish native instruction, custom-agent or config loading.
 | `fern-project-overwrite` | Replace same-name reviewer and a valid managed block directly, preserving unrelated text and legacy files |
 | `fern-resource-merge` | Preserve personal config and instructions, add the plan-tool value and repeat without duplicate tables |
 | `fern-read-only` | Report missing resources and differing selected values without writes |
-| `fern-delegation-plan` | Apply synthetic project policy to proposed briefs, completed-agent resumption and bounded waiting |
+| `fern-delegation-short-audit` | Read three local files directly and weigh delegation overhead against adequate deterministic evidence |
+| `fern-delegation-fresh-context` | Keep substantial independent work eligible for delegation with concise, complete fresh context and a result handoff |
+| `fern-delegation-plan` | Resume a continuous investigation with relevant history, wait responsively and handle changed inputs without relabeling old evidence |
 | `fern-fresh-user-instructions` | Create complete root rules and other bundled project resources through the installer |
 | `fern-permission-retry` | Preserve a failed config write, then retry after actual fixture permissions are repaired |
 
@@ -346,8 +383,15 @@ unrelated tool settings and comments survive. Root rules before/after the
 managed block and the override file remain unchanged. Compare bytes to reject
 duplicate TOML tables, duplicate markers or rewrites of already aligned files.
 
-`fern-delegation-plan` reads policy and proposes operations without setup or
-real delegation. The permission case runs the same packaged installer in both
+The three delegation cases read policy and propose coordination without setup
+or real delegation; the short audit also requires actual local evidence reads.
+Deliver `fern-delegation-plan` turns separately to test new input during work.
+Retain replies, tool events and unchanged-file checks. Evaluate context,
+cost/value and versioned handoffs semantically; do not infer actual coordination
+or performance savings from these offline decisions. Harness tests with
+synthetic responses establish fixture/evidence plumbing only.
+
+The permission case runs the same packaged installer in both
 turns. Initial agents and root rules succeed while all four config keys fail
 with a real OS denial and unchanged config bytes. After administrator repair,
 the installer applies all four keys without rewriting successful agents or

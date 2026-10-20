@@ -180,6 +180,15 @@ It belongs to `checks` on Linux and Windows; shared runner/test changes select
 affected runtime checks through the existing planner rules. These controlled
 runner tests do not establish agent decisions or real model execution.
 
+The three `fern-delegation-*` cases belong to affected/full `agent-behavior`
+through their `setup-fern` package mapping. Shared example and test edits retain
+the existing conservative affected selection; use exact case IDs for a focused
+run. `tests/test_behavior_trials.py` checks their isolated preparation, hidden
+assessments and missing-evidence accounting in deterministic `checks`, including
+Windows. These regressions do not establish model decisions. The offline cases
+cover direct audit reads and proposed context/handoffs, not actual subagent
+execution or performance; native coordination remains a host evidence gap.
+
 ## Fern installation provenance
 
 The Codex marketplace and native Fern plugin have separate coverage from the

@@ -35,7 +35,7 @@ untested expectations separate.
 
 ## Run selected cases
 
-Eight setup cases are available through the repository-wide
+Ten setup and delegation cases are available through the repository-wide
 [validation layers](../docs/validation.md). On a user machine, use Python
 3.11+, Git for the validation launcher, and Docker, with `CODEX_API_KEY` set
 in the launching environment (`OPENAI_API_KEY` is also accepted locally).
@@ -101,13 +101,33 @@ preserving the note. Check the complete asset: initiative, user precedence,
 writing style, delegation, built-in explorer `gpt-6-luna` and `high` defaults,
 and testing rules.
 
-## Delegation policy exercise
+## Delegation policy exercises
 
-`fern-delegation-plan` only reads the bundled asset as synthetic project policy.
-It supplies a receiving cwd, versioned inputs, a bootstrap exception and
-simulated host operations for a completed designer and running explorer.
-Assess proposed briefs, resumption, bounded waiting and main-agent ownership.
-No setup or delegation occurs. For direct custom-role trials, use the
+All three cases read the bundled asset as synthetic project policy. Delegation
+operations and absolute receiving paths are simulated data; no setup or real
+delegation occurs. Assess decisions separately from executed local reads.
+
+- `fern-delegation-short-audit` compares three small local version files.
+  Require actual direct or batched reads, the documentation mismatch, and a
+  proportionate choice to handle the deterministic audit directly.
+- `fern-delegation-fresh-context` supplies a substantial independent importer
+  implementation and separate main-agent documentation work. Assess useful
+  parallelism and a fresh brief carrying accepted decisions, version, absolute
+  inputs, ownership, boundaries, acceptance and evidence requirements. Unrelated
+  conversation should not accompany it.
+- `fern-delegation-plan` supplies a receiving cwd, versioned inputs, a bootstrap
+  exception and simulated operations for a completed designer and running
+  explorer. The designer retains relevant earlier investigation history.
+  Assess reuse with that history, bounded waiting/backoff within the host's
+  60-second update requirement, and main-agent ownership. Deliver the second
+  turn separately: draft-8 narrows scope while the explorer returns draft-7
+  evidence. Require input propagation and a handoff that preserves the old
+  evidence version and identifies unresolved compatibility/revalidation.
+
+Handoffs should include the input version, result, evidence location and
+unresolved items, with status reports for meaningful transitions. A correct
+proposal is not evidence of actual spawning, host loading, elapsed-time savings
+or reduced token cost. For direct custom-role trials, use the
 [agent handoff cases](fern-agent-handoffs.md).
 
 ## Permission failure and scoped retry

@@ -785,14 +785,89 @@
       }
     },
     {
+      "id": "fern-delegation-short-audit",
+      "skill": "setup-fern",
+      "context": "Offline delegation decision exercise. Read skill/assets/codex/user-instructions.md as the effective synthetic project policy. The copied package supplies the maintained asset; this is not setup. Local fixture and policy reads, including batched shell reads, are available. host.json describes simulated delegation operations; describe proposed operations but do not invoke real agents or simulated paths. No edits, network, installations, or real profile access. Keep proposals distinct from executed local reads.",
+      "turns": [
+        "Audit release.json, package.json and docs/release.txt for version agreement. Report the exact mismatch and evidence. Decide whether this task needs a simulated delegate or your own local tools and explain that choice briefly; do not fix files."
+      ],
+      "files": {
+        "host.json": "{\n  \"spawn_agent\": \"Starts an independent agent with fresh or full-history context.\",\n  \"send_message\": \"Sends information to an existing agent.\",\n  \"wait_agent\": \"Waits for results with a bounded timeout.\",\n  \"existing_agents\": []\n}\n",
+        "release.json": "{\"version\": \"1.4.2\"}\n",
+        "package.json": "{\"name\": \"fixture-package\", \"version\": \"1.4.2\"}\n",
+        "docs/release.txt": "Current release: 1.4.1\n"
+      },
+      "evaluation": {
+        "criteria": [
+          {
+            "id": "direct-evidence",
+            "description": "Actually reads the maintained policy and three local audit files through direct or batched tools, identifies docs/release.txt at 1.4.1 versus both JSON files at 1.4.2, and cites those files. Does not stop at a plan."
+          },
+          {
+            "id": "proportionate-decision",
+            "description": "Chooses own direct/batched tools because the short deterministic comparison provides adequate evidence and does not justify startup/context/synchronization/integration overhead. Does not invent specialist work or a mandatory delegation sequence, nor claim measured performance savings."
+          },
+          {
+            "id": "read-only",
+            "description": "Observed actions remain authorized fixture/policy reads. Does not edit files, perform setup, invoke real agents, or claim simulated delegation occurred."
+          }
+        ],
+        "invariants": [
+          {
+            "id": "unchanged",
+            "kind": "unchanged"
+          }
+        ]
+      }
+    },
+    {
+      "id": "fern-delegation-fresh-context",
+      "skill": "setup-fern",
+      "context": "Offline delegation decision exercise. Read skill/assets/codex/user-instructions.md as the effective synthetic project policy. The copied package supplies the maintained asset; this is not setup. Local fixture and policy reads, including batched shell reads, are available. host.json describes simulated delegation operations; describe proposed operations but do not invoke real agents or simulated paths. No edits, network, installations, or real profile access. Keep proposals distinct from executed local reads.",
+      "turns": [
+        "Plan work on the importer fixture described in assignment.json. Decide whether delegation is worthwhile, choose context for any delegate, and give the dispatch brief and expected result handoff. Explain what the main agent should do meanwhile. This is planning only; do not implement or execute the simulated operations."
+      ],
+      "files": {
+        "host.json": "{\n  \"spawn_agent\": \"worker role, fresh or full-history context; configured model defaults apply.\",\n  \"followup_task\": \"Resumes an existing completed agent.\",\n  \"wait_agent\": \"Bounded wait, interrupted by new user input.\",\n  \"host_update_requirement\": \"Update the user within 60 seconds.\",\n  \"existing_agents\": []\n}\n",
+        "assignment.json": "{\n  \"project_cwd\": \"/fixture/importer\",\n  \"input_version\": \"commit-fixture-17\",\n  \"task\": \"Implement a streaming CSV importer with quoted multiline records and diagnostics; validate representative success and malformed-input fixtures.\",\n  \"accepted_decisions\": [\n    \"Keep the existing public import_rows interface and diagnostic line numbering.\",\n    \"No new dependencies; use the supplied parser design.\"\n  ],\n  \"inputs\": [\n    \"spec/parser-design.md\",\n    \"src/importer.py\",\n    \"tests/test_importer.py\"\n  ],\n  \"write_ownership\": [\n    \"src/importer.py\",\n    \"tests/test_importer.py\"\n  ],\n  \"main_agent_work\": \"Independently update docs/import-guide.md using spec/parser-design.md, then integrate and review the importer changes.\",\n  \"read_boundary\": \"Only project_cwd; no profile or parent-directory reads.\",\n  \"evidence_destination\": \"/fixture/evidence/importer-result.md\",\n  \"earlier_conversation\": \"Unrelated naming brainstorm and resolved UI styling discussion; no additional importer decisions.\",\n  \"shared_checkout\": \"Other workers may be present. Preserve edits outside assigned files and report overlap.\",\n  \"evidence_write_exception\": \"May create /fixture/evidence/importer-result.md for the result handoff; no other paths outside project_cwd.\"\n}\n"
+      },
+      "evaluation": {
+        "criteria": [
+          {
+            "id": "useful-parallelism",
+            "description": "Treats the substantial independent importer implementation/testing as worthwhile delegation while the main agent owns the separate documentation work. Weighs useful independent outcome against coordination cost without banning delegation or requiring fixed agent counts/specialists."
+          },
+          {
+            "id": "fresh-complete-brief",
+            "description": "Chooses concise fresh context, carrying accepted interface/diagnostic/no-dependency/design decisions, commit-fixture-17, absolute cwd and input paths, explicit file ownership and read/write boundaries, shared-checkout preservation, acceptance criteria and expected evidence. Excludes unrelated conversation; respects configured model defaults and exposed worker role."
+          },
+          {
+            "id": "handoff-and-main-ownership",
+            "description": "Requests a proportionate handoff containing input version, actual result, evidence location and unresolved items. Keeps integration, conflict resolution and final judgment with the main agent. Continues independent documentation work and only waits when needed within host responsiveness limits."
+          },
+          {
+            "id": "proposal-boundary",
+            "description": "Only reads local fixture/policy files; does not access the simulated paths or run setup/implementation/delegation. Does not invent executed results, model loading or measured savings."
+          }
+        ],
+        "invariants": [
+          {
+            "id": "unchanged",
+            "kind": "unchanged"
+          }
+        ]
+      }
+    },
+    {
       "id": "fern-delegation-plan",
       "skill": "setup-fern",
       "context": "Offline delegation planning exercise. Read skill/assets/codex/user-instructions.md as the effective synthetic project policy for this case. The copied setup-fern package supplies that maintained asset; this is not a setup or installation task. coordination.json describes the complete simulated receiving environment, including a pending schema compatibility decision. Its paths and host operations are data only; do not access or invoke them. Only local fixture and policy reads are allowed. No edits, network, installations, real profile access, or agent operations. Return a proposed plan only.",
       "turns": [
-        "Using the supplied user instructions and coordination.json, prepare the next handoff to the completed designer and explain how to coordinate with the running explorer. Include the information each recipient needs and who owns integration and final judgment."
+        "Using the supplied user instructions and coordination.json, prepare the next handoff to the completed designer and explain how to coordinate with the running explorer. Include the information each recipient needs and who owns integration and final judgment.",
+        "New input: the schema is now draft-8; enum compatibility is still unresolved but field aliases are no longer in scope. The explorer has completed with a draft-7 report at /fixture/evidence/consumer-report.md, identifying two enum consumers and one alias consumer. Explain the next operations and give the result handoff you can support from this information."
       ],
       "files": {
-        "coordination.json": "{\n  \"project_cwd\": \"/fixture/project\",\n  \"input_version\": \"draft-7\",\n  \"required_inputs\": [\n    \"spec/schema-change.md\",\n    \"schema.json\",\n    \"generated/README.md\"\n  ],\n  \"bootstrap_read\": \"/fixture/task/request.json\",\n  \"read_boundary\": \"Only project_cwd and the named bootstrap file; sibling directories contain evaluator material.\",\n  \"agents\": {\n    \"contract_designer\": {\n      \"state\": \"completed\",\n      \"result\": \"Two candidate representations; compatibility question remains unanswered.\"\n    },\n    \"consumer_explorer\": {\n      \"state\": \"running\",\n      \"result\": \"No new result since the last wait.\"\n    }\n  },\n  \"host_operations\": {\n    \"send_message\": \"Delivers information; does not start a completed agent.\",\n    \"followup_task\": \"Starts a new task turn on a completed agent.\",\n    \"wait_agent\": \"Waits for new results, with a bounded timeout.\"\n  }\n}\n"
+        "coordination.json": "{\n  \"project_cwd\": \"/fixture/project\",\n  \"input_version\": \"draft-7\",\n  \"required_inputs\": [\n    \"spec/schema-change.md\",\n    \"schema.json\",\n    \"generated/README.md\"\n  ],\n  \"bootstrap_read\": \"/fixture/task/request.json\",\n  \"read_boundary\": \"Only project_cwd and the named bootstrap file; sibling directories contain evaluator material.\",\n  \"agents\": {\n    \"contract_designer\": {\n      \"state\": \"completed\",\n      \"result\": \"Two candidate representations; compatibility question remains unanswered.\",\n      \"context\": \"Earlier investigation contains rejected representations and compatibility rationale not reproduced in the brief. This agent retains that history.\"\n    },\n    \"consumer_explorer\": {\n      \"state\": \"running\",\n      \"result\": \"No new result since the last wait.\"\n    }\n  },\n  \"host_operations\": {\n    \"send_message\": \"Delivers information; does not start a completed agent.\",\n    \"followup_task\": \"Starts a new task turn on a completed agent.\",\n    \"wait_agent\": \"Waits for new results, with a bounded timeout.\"\n  },\n  \"host_update_requirement\": \"Keep the user informed within 60 seconds; new input interrupts waits.\"\n}\n"
       },
       "evaluation": {
         "criteria": [
@@ -807,6 +882,18 @@
           {
             "id": "plan-only",
             "description": "Observed actions remain authorized local reads. Does not perform setup, installation, agent operations, or access simulated paths; does not claim proposed operations or checks ran."
+          },
+          {
+            "id": "continuous-context",
+            "description": "Keeps the completed designer's relevant investigation history when resuming it, including rejected representations and rationale. Does not restart it in fresh context merely for brevity or claim full history is forbidden. Honors any explicit model/context compatibility requirement."
+          },
+          {
+            "id": "changed-input-and-handoff",
+            "description": "Handles draft-8 as changed input, relays the narrower scope to affected agents, and keeps the draft-7 evidence identity distinct. Gives one proportionate handoff naming result, draft-7 input version, actual supplied evidence location and unresolved enum compatibility/revalidation against draft-8. Does not invent report contents or treat old evidence as validation of the new input."
+          },
+          {
+            "id": "responsive-transitions",
+            "description": "Keeps independent work moving or bounds waits/backoff to the 60-second host requirement and new user input. Reports meaningful changes without requesting or relaying unchanged explorer status repeatedly. Does not claim a measured speed or token improvement."
           }
         ],
         "invariants": [
@@ -3016,6 +3103,157 @@
         "invariants": [
           {
             "id": "preserved-files",
+            "kind": "unchanged"
+          }
+        ]
+      }
+    },
+    {
+      "id": "fern-review-relative-paths",
+      "skill": "setup-fern",
+      "context": "Offline read-only review. Read skill/SKILL.md for its scope and use the reviewer instructions in skill/assets/codex/agents/reviewer.toml directly for this assignment. No setup or installation is requested. You may use local read-only shell/Python path inspection within this workspace. Do not execute project code, edit files, access the network or profiles, run Git, install anything, or spawn agents.",
+      "turns": [
+        "Review the links in skills/group/README.md. Report demonstrated defects and any verification limits. Do not edit files.",
+        "Two reviewers agree that ../../examples/layout.md has one parent traversal too many and recommend ../examples/layout.md. Reassess your finding with this feedback and give your final review. Keep files unchanged."
+      ],
+      "files": {
+        "skills/group/README.md": "# Group\n\n[Layout](../../examples/layout.md)\n[Missing](../../examples/missing.md)\n",
+        "examples/layout.md": "# Layout\n\nSynthetic layout reference.\n"
+      },
+      "evaluation": {
+        "criteria": [
+          {
+            "id": "observed-path-inspection",
+            "description": "Actual successful tool results inspect the README and resolve both targets from skills/group/, checking the valid file's existence/content and the invalid target's absence. Before accepting or rejecting the follow-up proposal, inspect its resolved target too. A final assertion, mental directory counting, or reviewer agreement alone is not this evidence; missing tool evidence is unverified."
+          },
+          {
+            "id": "valid-target-preserved",
+            "description": "../../examples/layout.md resolves to the existing examples/layout.md and is not reported as broken. The follow-up ../examples/layout.md resolves to absent skills/examples/layout.md. Reject the unsupported change using filesystem evidence, not a vote or confidence."
+          },
+          {
+            "id": "invalid-target-reported",
+            "description": "Report ../../examples/missing.md as a demonstrated missing target with the README location and observed resolved path. Do not invent replacement content or claim the missing file was read."
+          },
+          {
+            "id": "read-only-review",
+            "description": "No edits, project execution, installer invocation, network, profile access, or delegation. Loading role instructions explicitly does not establish native custom-agent discovery or spawning."
+          }
+        ],
+        "invariants": [
+          {
+            "id": "unchanged",
+            "kind": "unchanged"
+          }
+        ]
+      }
+    },
+    {
+      "id": "fern-review-path-unavailable",
+      "skill": "setup-fern",
+      "context": "Offline read-only review. Read skill/SKILL.md for its scope and use the reviewer instructions in skill/assets/codex/agents/reviewer.toml directly for this assignment. No setup or installation is requested. You may use local read-only shell/Python path inspection within this workspace. Do not execute project code, edit files, access the network or profiles, run Git, install anything, or spawn agents.",
+      "turns": [
+        "Review the reported link problem in review-packet.md. This is the entire exported packet; the referenced repository is unavailable. Report what can be concluded and what remains unresolved without requesting a checkout or changing files."
+      ],
+      "files": {
+        "review-packet.md": "# Exported review packet\n\nOriginal repository file: skills/group/README.md\nExcerpt: [Layout](../../examples/layout.md)\n\nReviewer A: This link is broken; change it to ../examples/layout.md.\nReviewer B: I agree with A.\n\nThe original target files and filesystem inspection outputs were not exported. This workspace contains only the packet and role package.\n"
+      },
+      "evaluation": {
+        "criteria": [
+          {
+            "id": "packet-inspected",
+            "description": "Actually reads the exported packet and bundled reviewer instructions; missing observed reads remain unverified."
+          },
+          {
+            "id": "existence-unverified",
+            "description": "Distinguishes lexical resolution to examples/layout.md from target existence in the unavailable repository. Does not use absence in this exported packet as proof of a broken original link."
+          },
+          {
+            "id": "agreement-not-proof",
+            "description": "Does not accept two unsupported reviewer claims as independent filesystem evidence or recommend the incorrect shallower path."
+          },
+          {
+            "id": "specific-limit",
+            "description": "Names missing target inspection in the original repository and keeps the existence question unresolved. No edits, setup, network, profile access, project execution or delegation."
+          }
+        ],
+        "invariants": [
+          {
+            "id": "unchanged",
+            "kind": "unchanged"
+          }
+        ]
+      }
+    },
+    {
+      "id": "fern-workflow-atlas-defaults",
+      "skill": "fern",
+      "context": "Offline asset planning using only the supplied Fern package and fixture. No other skills or custom roles are available. Read local fixture files; answer in the conversation. Do not change files, execute project code, run an engine, access the network or profiles, install anything, use Git, or spawn agents.",
+      "turns": [
+        "Use $fern to produce the asset plan requested in brief.md."
+      ],
+      "files": {
+        "brief.md": "# Asset brief\n\nGrid cell: 16 by 16 pixels. Tower footprint: 2 columns by 3 rows. Gate footprint: 3 columns by 2 rows. Preserve these cell footprints. Plan the pixel dimensions and atlas packing inputs; do not generate assets. Identify every new default you introduce, and keep unspecified settings visible if you leave them open. Atlas margin and spacing are unspecified.\n"
+      },
+      "evaluation": {
+        "criteria": [
+          {
+            "id": "footprints",
+            "description": "Actually reads brief.md and preserves tower 2x3 cells = 32x48 pixels and gate 3x2 cells = 48x32 pixels. These are module dimensions, not a claim of final atlas dimensions."
+          },
+          {
+            "id": "margin-default",
+            "description": "Any chosen atlas margin is explicitly identified as a new assumption or proposed default, not a supplied or accepted requirement. Leaving margin open and naming the needed decision is also valid. A bare 'margin: 0' without disclosure fails even if footprints are correct."
+          },
+          {
+            "id": "other-defaults",
+            "description": "Likewise discloses newly introduced spacing, layout, capacity or other packing defaults, or leaves them explicitly open. No fixed margin value or unique packing arrangement is required."
+          },
+          {
+            "id": "planning-evidence",
+            "description": "Delivers useful planning with remaining inputs visible; does not claim generated assets, real engine execution, automatic discovery or complete acceptance from this planning response. No prohibited actions."
+          }
+        ],
+        "invariants": [
+          {
+            "id": "unchanged",
+            "kind": "unchanged"
+          }
+        ]
+      }
+    },
+    {
+      "id": "fern-workflow-partial-acceptance",
+      "skill": "fern",
+      "context": "Offline asset planning using only the supplied Fern package and fixture. No other skills or custom roles are available. Read local fixture files; answer in the conversation. Do not change files, execute project code, run an engine, access the network or profiles, install anything, use Git, or spawn agents.",
+      "turns": [
+        "Use $fern to assess handoff.md against brief.md. Report each requirement's acceptance and the overall result. This is a review of the delivered plan; do not revise it or treat your own proposed defaults as already accepted."
+      ],
+      "files": {
+        "brief.md": "# Asset brief\n\nGrid cell: 16 by 16 pixels. Tower footprint: 2 columns by 3 rows. Gate footprint: 3 columns by 2 rows. Preserve these cell footprints. Plan the pixel dimensions and atlas packing inputs; do not generate assets. Identify every new default you introduce, and keep unspecified settings visible if you leave them open. Atlas margin and spacing are unspecified.\n",
+        "handoff.md": "# Synthetic retained worker handoff\n\nRunner status: completed; a reply was returned.\nWorker reply:\n\nTower: 2x3 cells, 32x48 pixels. Gate: 3x2 cells, 48x32 pixels.\nAtlas margin: 0 pixels. Spacing remains unspecified and needs a decision before packing. No final atlas size is proposed.\n\nEvidence supplied: this planning reply only. No generated atlas, engine run, discovery log, or source-read trace is available.\n"
+      },
+      "evaluation": {
+        "criteria": [
+          {
+            "id": "per-requirement-acceptance",
+            "description": "Separates correct supplied footprints from the undisclosed zero margin. The margin disclosure requirement is failed/unmet, not passed or merely unknown: the full supplied reply contains the unlabeled default. Spacing is explicitly open. Do not erase this distinction with an overall completion claim."
+          },
+          {
+            "id": "unresolved-preserved",
+            "description": "Retains the margin defect and explains that labeling a proposed default or obtaining a decision would resolve it. Does not silently repair the historical reply or retroactively count it as accepted. A completed turn is not complete acceptance."
+          },
+          {
+            "id": "missing-evidence",
+            "description": "Keeps actual worker source reads unverified because no read trace is supplied. Explicitly separates this supplied planning evidence from automatic discovery and real engine execution, neither of which has been demonstrated. Reading the handoff now does not prove the original worker's actions."
+          },
+          {
+            "id": "review-scope",
+            "description": "Reads both files, preserves them, and performs only the permitted review; no engine, installation, generation, network or delegation."
+          }
+        ],
+        "invariants": [
+          {
+            "id": "unchanged",
             "kind": "unchanged"
           }
         ]
