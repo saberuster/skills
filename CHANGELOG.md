@@ -4,6 +4,9 @@
 
 ### Added
 
+- Standalone `godot-tileset` for editable Godot tile atlases, placement, and
+  layered maps, with module footprint checks and source-bound capture evidence.
+  Grid sizes, visual style, and layer structure come from each project.
 - Reserved `skills/pixel-asset-maker/` with an empty `.gitkeep`. Package discovery
   excludes top-level directories containing only this empty marker while still
   rejecting incomplete skill sources.
