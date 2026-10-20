@@ -1,0 +1,7 @@
+interface:
+  display_name: "Godot TileSet"
+  short_description: "Build and validate editable Godot TileSets and tile maps"
+  default_prompt: "Use $godot-tileset to integrate modular assets into editable Godot TileSets and tile maps, then verify saved resources, editor operations, and the actual scene."
+
+policy:
+  allow_implicit_invocation: true

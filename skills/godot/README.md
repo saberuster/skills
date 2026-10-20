@@ -8,6 +8,8 @@ Each leaf directory is an independent skill package:
   lifecycle, signals, input, and runtime interactions.
 - [Godot Scenes and Resources](godot-scene-and-resource-authoring/SKILL.md)
   handles scenes, Nodes, Resources, imports, settings, and serialization.
+- [Godot TileSet](godot-tileset/SKILL.md) handles tile atlases, placement
+  footprints, editable map layers, and source-bound scene validation.
 - [Godot UI Authoring](godot-ui-authoring/SKILL.md) handles native layouts,
   themes, combined control states, reusable components, and UI showcases.
 - [Godot Build and Diagnostics](godot-build-and-diagnostics/SKILL.md) handles
@@ -18,13 +20,13 @@ Each leaf directory is an independent skill package:
 Install individual leaf packages through the repository's
 [installation workflow](../meta/maintain-skills/SKILL.md), selecting the
 requested client and scope. Keep the full leaf directory, including metadata,
-references, and any scripts. The five development skills cooperate by skill
+references, and any scripts. The development skills cooperate by skill
 name and retain standalone fallbacks. Engine-independent
 `game-development-best-practices` is optional for relevant gameplay work.
 
 The setup skill retains its separate
 [curated catalog](setup-godot-skills/references/catalog.md). Moving the packages
-into one collection does not add the other five Godot skills to that catalog;
+into one collection does not add the development skills to that catalog;
 install those only when explicitly selected. The setup skill does not install
 plugins or runtimes.
 
@@ -62,6 +64,9 @@ documentation, and isolated Godot helper regression checks:
 ```console
 python -m unittest discover -s tests -p test_godot_build_regressions.py -v
 ```
+
+See the [TileSet behavior cases](../../examples/godot-tileset.md) for isolated
+planning trials; these do not execute an editor or game.
 
 Repository checks do not establish client discovery, automatic skill selection,
 or real Godot execution. Those checks, C# builds, GUI/input behavior, and visual
