@@ -11,6 +11,50 @@ from scripts import behavior_trials as trials
 ROOT = Path(__file__).resolve().parents[1]
 
 
+class DelegationFixtureTests(unittest.TestCase):
+    """Exercise real case preparation, without inferring agent behavior."""
+
+    def test_selected_cases_copy_policy_and_keep_assessments_outside_workspace(self):
+        cases = [
+            "fern-delegation-short-audit",
+            "fern-delegation-fresh-context",
+            "fern-delegation-plan",
+        ]
+        with tempfile.TemporaryDirectory() as temporary:
+            output = Path(temporary) / "trials"
+            prepared = trials.prepare(output, cases)
+            self.assertEqual({Path(path).name for path in prepared}, set(cases))
+            asset = "assets/codex/user-instructions.md"
+            source = ROOT / "skills/fern/setup-fern" / asset
+            for path in prepared:
+                trial = Path(path)
+                with self.subTest(case=trial.name):
+                    inputs = trials.read_json(trial / "input.json")
+                    self.assertNotIn("evaluation", inputs)
+                    self.assertFalse((trial / "workspace/evaluator.json").exists())
+                    self.assertEqual(
+                        (trial / "workspace/skill" / asset).read_bytes(),
+                        source.read_bytes(),
+                    )
+                    manifest = trials.read_json(trial / "manifest.json")
+                    self.assertEqual(
+                        trials.hashes(trial / "workspace"), manifest["initial_hashes"]
+                    )
+            turns = trials.read_json(output / "fern-delegation-plan/input.json")[
+                "turns"
+            ]
+            self.assertEqual(len(turns), 2)
+            audit = output / "fern-delegation-short-audit/workspace"
+            versions = [
+                trials.read_json(audit / name)["version"]
+                for name in ("release.json", "package.json")
+            ]
+            self.assertEqual(versions, ["1.4.2", "1.4.2"])
+            self.assertEqual(
+                (audit / "docs/release.txt").read_text(), "Current release: 1.4.1\n"
+            )
+
+
 class BehaviorTrialsTests(unittest.TestCase):
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()
@@ -99,6 +143,21 @@ class BehaviorTrialsTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "overwrite"):
             trials.prepare(self.run, source_root=self.source)
         self.assertEqual(trials.hashes(self.run), baseline)
+
+    def test_delegation_requires_all_turns_and_assessment_evidence(self):
+        # Synthetic responses exercise evidence accounting, not the policy.
+        self.assertEqual(
+            self.evidence("fern-delegation-plan", incomplete=True)["outcome"],
+            "unverified",
+        )
+        self.assertEqual(
+            self.evidence("fern-delegation-short-audit", missing=True)["outcome"],
+            "unverified",
+        )
+        self.assertEqual(
+            self.evidence("fern-delegation-fresh-context", unsupported=True)["outcome"],
+            "unverified",
+        )
 
     def test_nested_skill_preparation_records_actual_source_and_resources(self):
         trial = self.run / "docs-schema"

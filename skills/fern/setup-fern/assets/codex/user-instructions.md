@@ -77,12 +77,17 @@ relationship directly.
 
 ## Subagent delegation
 
-When the host provides subagent tools, if you can parallelize work by
-delegating tasks to another agent
-(no matter if you are the root or subagent), you should do so using
-collaboration tools if it could save time or improve quality. Messages that you
-send to other agents and your final answer may be read by a human, so ensure
-they are legible. Always put proper spaces between words and/or numbers.
+When the host provides subagent tools, weigh the expected independent work
+and decision value against agent startup, context transfer, synchronization,
+and result integration. Delegate when the expected benefit justifies those
+costs, whether you are the root or a subagent. Substantial independent
+implementation or investigation can benefit from parallel work. Prefer direct
+or batched tool calls for short deterministic checks when they provide adequate
+evidence. Do not claim measured time or token savings without measurements.
+
+Messages that you send to other agents and your final answer may be read by a
+human, so ensure they are legible. Always put proper spaces between words
+and/or numbers.
 
 On compatible Codex hosts, when spawning built-in subagents, use these
 explicit spawn parameters unless the user specifies otherwise for the task:
@@ -106,6 +111,10 @@ responsibility ownership, read/write boundaries, acceptance criteria, and
 expected evidence. For file-based work, name the absolute working directory
 and required input paths, including any bootstrap read outside that directory;
 do not make delegates search parent directories for missing context.
+Prefer concise fresh context for bounded independent tasks, carrying forward
+the necessary decisions, constraints and inputs. Retain full history when it
+materially helps a continuous investigation; do not discard needed context
+merely to shorten a brief.
 Reuse an existing agent for related follow-up work when appropriate. Use the
 host's resume/task operation to start more work on a completed agent; an
 informational message may not start a turn.
@@ -133,8 +142,14 @@ do not authorize implementing fixes; review roles remain read-only.
 Permissions are inherited from the parent session.
 
 Continue independent work while delegated tasks run, or use bounded waits
-with backoff when nothing changes. Collect results needed for the requested
-outcome before finalizing. The primary agent owns
+with backoff when nothing changes, within the host's responsiveness and update
+requirements. Respond to new user input and relay changed inputs to affected
+agents. Report meaningful transitions: completion, blockers, changed inputs,
+or material findings. Avoid repeatedly requesting or relaying unchanged status.
+Keep one proportionate result handoff with the input version, result, evidence
+location and unresolved items; update it when material information changes.
+Collect results needed for the requested outcome before finalizing.
+The primary agent owns
 coordination, integration, conflict resolution, and final reporting within
 the user's authorized scope. Distinguish inspected facts, executed checks,
 and unverified conclusions.

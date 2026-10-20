@@ -140,6 +140,15 @@ Standalone `python -m unittest discover -s tests -v` remains useful for
 debugging, but can skip unavailable Blender or platform paths. Its green exit
 alone does not establish the layered plan's runtime coverage.
 
+The three `fern-delegation-*` cases belong to affected/full `agent-behavior`
+through their `setup-fern` package mapping. Shared example and test edits retain
+the existing conservative affected selection; use exact case IDs for a focused
+run. `tests/test_behavior_trials.py` checks their isolated preparation, hidden
+assessments and missing-evidence accounting in deterministic `checks`, including
+Windows. These regressions do not establish model decisions. The offline cases
+cover direct audit reads and proposed context/handoffs, not actual subagent
+execution or performance; native coordination remains a host evidence gap.
+
 ## Fern installation provenance
 
 The Codex marketplace and native Fern plugin have separate coverage from the

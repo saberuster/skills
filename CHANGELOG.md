@@ -215,6 +215,11 @@
 
 ### Changed
 
+- Fern: clarify delegation cost and decision value, fresh versus continuous
+  context, and meaningful status/evidence handoffs. Preserve useful parallel
+  work, agent reuse, host-responsive waiting, role boundaries and model policy.
+  Add offline behavior cases; no measured performance improvement is claimed.
+
 - `setup-fern` checks the current Fern and Meta integration: preserves explicit
   invocation for Fern, Setup Fern, and Deep Search; distinguishes installed
   search packages from available providers; and keeps optional workflow skills

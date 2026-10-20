@@ -17,7 +17,7 @@ the broader examples:
 | `reflect-*` (seven cases) | [reflect](../examples/reflect.md): stop when no durable candidate exists, preserve proposal defaults, route knowledge, apply authorized updates without duplication, preserve unresolved obligations, handle an unavailable skill author, and check stale knowledge during recall |
 | `agents-*` (ten cases) | [maintain-agents-md](../examples/maintain-agents-md.md): discover coverage and effective sources, review commands, preserve policy, apply language preferences, and respect edit scope |
 | `skills-local-edits` | [maintain-skills](../examples/maintain-skills.md): identify and preserve local edits before an update |
-| `setup-fern` cases (eight) | [setup-fern](../examples/setup-fern.md): project setup and check, selected-field overwrite, repeat stability, complete root rules, delegation policy and permission retry |
+| `setup-fern` cases (ten) | [setup-fern](../examples/setup-fern.md): project setup and check, selected-field overwrite, repeat stability, complete root rules, delegation cost/context/handoffs and permission retry |
 | `codex-config-*` (four cases) | [codex-config](../examples/codex-config.md): distinguish target-bound schema evidence from an online schema gap, apply a user-level edit under a project override, and preserve configuration when managed requirements disallow the requested value |
 | `fern-workflow-*` (ten cases) | [fern](../examples/fern.md): review scope, local edits, accepted decisions, stale evidence, coupled work, evidence handoff, pending Git decisions, and actual bug fix, feature, and refactoring work |
 | `docs-schema` | [technical-writing](../examples/technical-writing.md): apply a scoped schema correction while preserving accepted content |
@@ -294,7 +294,7 @@ automatic selection or host discovery.
 
 ## Select Fern setup cases
 
-Select the eight exact IDs below. The installed `setup-fern` package supplies
+Select the ten exact IDs below. The installed `setup-fern` package supplies
 its own assets. Targets are isolated projects with root `AGENTS.md`,
 `.codex/config.toml` and six `.codex/agents/*.toml` files. Setup needs no skill
 inventory, Git operation, network, source snapshot or target-type branch.
@@ -308,7 +308,9 @@ do not establish native instruction, custom-agent or config loading.
 | `fern-project-overwrite` | Replace same-name reviewer and a valid managed block directly, preserving unrelated text and legacy files |
 | `fern-resource-merge` | Preserve personal config and instructions, add the plan-tool value and repeat without duplicate tables |
 | `fern-read-only` | Report missing resources and differing selected values without writes |
-| `fern-delegation-plan` | Apply synthetic project policy to proposed briefs, completed-agent resumption and bounded waiting |
+| `fern-delegation-short-audit` | Read three local files directly and weigh delegation overhead against adequate deterministic evidence |
+| `fern-delegation-fresh-context` | Keep substantial independent work eligible for delegation with concise, complete fresh context and a result handoff |
+| `fern-delegation-plan` | Resume a continuous investigation with relevant history, wait responsively and handle changed inputs without relabeling old evidence |
 | `fern-fresh-user-instructions` | Create complete root rules and other bundled project resources through the installer |
 | `fern-permission-retry` | Preserve a failed config write, then retry after actual fixture permissions are repaired |
 
@@ -332,8 +334,15 @@ unrelated tool settings and comments survive. Root rules before/after the
 managed block and the override file remain unchanged. Compare bytes to reject
 duplicate TOML tables, duplicate markers or rewrites of already aligned files.
 
-`fern-delegation-plan` reads policy and proposes operations without setup or
-real delegation. The permission case runs the same packaged installer in both
+The three delegation cases read policy and propose coordination without setup
+or real delegation; the short audit also requires actual local evidence reads.
+Deliver `fern-delegation-plan` turns separately to test new input during work.
+Retain replies, tool events and unchanged-file checks. Evaluate context,
+cost/value and versioned handoffs semantically; do not infer actual coordination
+or performance savings from these offline decisions. Harness tests with
+synthetic responses establish fixture/evidence plumbing only.
+
+The permission case runs the same packaged installer in both
 turns. Initial agents and root rules succeed while all four config keys fail
 with a real OS denial and unchanged config bytes. After administrator repair,
 the installer applies all four keys without rewriting successful agents or
