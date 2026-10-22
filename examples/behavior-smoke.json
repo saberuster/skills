@@ -3466,6 +3466,139 @@
       }
     },
     {
+      "id": "fern-workflow-candidate-preflight",
+      "skill": "fern",
+      "context": "Offline isolated fixture. Read the complete copied Fern package and fixture. You may run only python -B check_links.py from this workspace, plus local read-only file commands. No edits, network, Git, installation, other agents or other project commands. Do not access parent directories. Expensive validation and environment preparation are planning decisions only.",
+      "turns": [
+        "Use $fern to prepare this candidate for costly review and model validation. Run the available inexpensive check first and report what can proceed. Do not repair files or launch reviewers/models."
+      ],
+      "files": {
+        "candidate.md": "# Candidate\n\n[New helper](helpers/new.md)\n",
+        "check_links.py": "from pathlib import Path\nimport sys\n\ntext = Path(\"candidate.md\").read_text()\ntarget = text.split(\"](\", 1)[1].split(\")\", 1)[0]\nif not Path(target).is_file():\n    print(f\"Missing local link target: {target}\")\n    sys.exit(1)\nprint(\"1 link passed\")\n",
+        "plan.md": "# Candidate plan\n\nThe complete candidate is candidate.md and check_links.py. Expensive review and model validation have not started. A separate environment image can be prepared without reading candidate sources or changing the candidate. No preparation execution is requested.\n"
+      },
+      "evaluation": {
+        "criteria": [
+          {
+            "id": "actual-cheap-failure",
+            "description": "Actually reads the validation reference and runs python -B check_links.py in the workspace, retaining the nonzero exit and missing helpers/new.md diagnostic. A proposed command or invented pass is insufficient."
+          },
+          {
+            "id": "bounded-gate",
+            "description": "Reports candidate not ready for expensive review/model validation until the reference is repaired and rechecked. Preserves failure evidence and unrun coverage, while allowing independent environment preparation in the plan. Does not mutate or launch expensive work."
+          }
+        ],
+        "invariants": [
+          {
+            "id": "unchanged",
+            "kind": "unchanged"
+          }
+        ]
+      }
+    },
+    {
+      "id": "fern-workflow-candidate-handoff",
+      "skill": "fern",
+      "context": "Offline synthetic candidate handoff. Read only the copied skill and fixture. No commands except local file reads, no file writes, tests, Git, network, agents, installs or publication. Do not access parent directories. Retained checks are supplied evidence, not checks you executed.",
+      "turns": [
+        "Use $fern to prepare a readable review/validation handoff from these files. Confirm accessible inputs, include the new file and every declared dependency, preserve matching evidence and state which independent work can proceed concurrently."
+      ],
+      "files": {
+        "snapshot/guide.md": "# Guide\n\n[Helper](helpers/new.md)\n",
+        "snapshot/helpers/new.md": "# Helper\n\nUses the shared retry rule.\n",
+        "snapshot/shared/rules.txt": "Retry limit: 3\n",
+        "snapshot/checks.py": "print(\"2 passed, 0 failed, 0 skipped\")\n",
+        "changes.diff": "Synthetic scoped overlay from base 1111111111111111111111111111111111111111:\nMODIFY guide.md: add helper link\nADD helpers/new.md: new untracked helper\nShared rules.txt and checks.py are unchanged declared dependencies.\n",
+        "logs/check.txt": "Synthetic retained output, not a command executed in this trial.\ncwd: snapshot/\ncommand: python -B checks.py\nenvironment: Python 3.11, offline, TMPDIR=/fixture/check-temp\nexit: 0\n2 passed, 0 failed, 0 skipped\nCoverage: complete declared snapshot dependency set.\n",
+        "handoff.md": "# Handoff request\n\nThe source candidate includes an untracked helpers/new.md. snapshot/ includes the complete overlay and declared dependencies. Its manifest still matches the candidate. The receiver shares this workspace and can read all existing fixture files. Review and validation are authorized as plans only; no workers are available. Allowed validator effects: write logs under an external task temporary directory, no controlled-source edits. Independent environment preparation can start early; review and validation may use the same completed snapshot concurrently.\n",
+        "manifest.json": "{\n  \"base\": \"1111111111111111111111111111111111111111\",\n  \"overlay\": \"changes.diff\",\n  \"dependencies\": {\n    \"snapshot/guide.md\": \"51c8b9605cd4f23183d6ede5a8a58587d8f044bf474eec2b29bdc8e4ed8076f2\",\n    \"snapshot/helpers/new.md\": \"b7a3eb2158c16a0a203528ea87c764f2f7bd8e6c0edb01f1115cc226eeb13228\",\n    \"snapshot/shared/rules.txt\": \"255ff3d189d56dc53ab02a99490d3e6940d5a1629f20e2562223957a84373221\",\n    \"snapshot/checks.py\": \"b9c4389c1f05f513fef6d2f5b6f6c5c0f5646a49a14981794d8afb3a7ec09556\"\n  }\n}\n"
+      },
+      "evaluation": {
+        "criteria": [
+          {
+            "id": "complete-accessible-inputs",
+            "description": "Actually reads manifest.json, changes.diff, every declared snapshot dependency and retained check output. Handoff identifies base plus overlay, the new untracked helper and complete dependency set with usable locations, including the absolute workspace/snapshot working directory. Does not give only a commit label or tracked-only diff."
+          },
+          {
+            "id": "usable-parallel-handoff",
+            "description": "Carries forward exact known-working command, Python version, process-local TMPDIR, allowed side effects and log location/result. Keeps early environment preparation and same-candidate review/validation parallelizable without dispatching. Reuses matching evidence without another report or rerunning checks; does not claim actual execution here."
+          }
+        ],
+        "invariants": [
+          {
+            "id": "unchanged",
+            "kind": "unchanged"
+          }
+        ]
+      }
+    },
+    {
+      "id": "fern-workflow-candidate-handoff-gap",
+      "skill": "fern",
+      "context": "Offline synthetic candidate handoff. Read only the copied skill and fixture. No commands except local file reads, no file writes, tests, Git, network, agents, installs or publication. Do not access parent directories. Retained checks are supplied evidence, not checks you executed.",
+      "turns": [
+        "Use $fern to prepare this candidate handoff. Check whether its declared inputs are accessible here and state exactly what remains blocked. Preserve useful evidence and independent work."
+      ],
+      "files": {
+        "snapshot/guide.md": "# Guide\n\n[Helper](helpers/new.md)\n",
+        "snapshot/shared/rules.txt": "Retry limit: 3\n",
+        "snapshot/checks.py": "print(\"2 passed, 0 failed, 0 skipped\")\n",
+        "changes.diff": "Synthetic scoped overlay from base 1111111111111111111111111111111111111111:\nMODIFY guide.md: add helper link\nADD helpers/new.md: new untracked helper\nShared rules.txt and checks.py are unchanged declared dependencies.\n",
+        "logs/check.txt": "Synthetic retained output, not a command executed in this trial.\ncwd: snapshot/\ncommand: python -B checks.py\nenvironment: Python 3.11, offline, TMPDIR=/fixture/check-temp\nexit: 0\n2 passed, 0 failed, 0 skipped\nCoverage: complete declared snapshot dependency set.\n",
+        "handoff.md": "# Handoff gap\n\nThe receiver shares this workspace only. The new helper was omitted from snapshot/ and remains on a different, inaccessible host. The manifest declares it as a dependency; no readable copy or full original excerpt is supplied. changes.diff describes its addition but is not its complete contents. The retained log covers the earlier complete snapshot on that other host. Independent environment preparation does not require the helper. Do not fetch it or search outside this workspace.\n",
+        "manifest.json": "{\n  \"base\": \"1111111111111111111111111111111111111111\",\n  \"overlay\": \"changes.diff\",\n  \"dependencies\": {\n    \"snapshot/guide.md\": \"51c8b9605cd4f23183d6ede5a8a58587d8f044bf474eec2b29bdc8e4ed8076f2\",\n    \"snapshot/helpers/new.md\": \"b7a3eb2158c16a0a203528ea87c764f2f7bd8e6c0edb01f1115cc226eeb13228\",\n    \"snapshot/shared/rules.txt\": \"255ff3d189d56dc53ab02a99490d3e6940d5a1629f20e2562223957a84373221\",\n    \"snapshot/checks.py\": \"b9c4389c1f05f513fef6d2f5b6f6c5c0f5646a49a14981794d8afb3a7ec09556\"\n  }\n}\n"
+      },
+      "evaluation": {
+        "criteria": [
+          {
+            "id": "detect-missing-dependency",
+            "description": "Inspects the manifest and actual fixture files, identifies snapshot/helpers/new.md as a required missing input, and reports inaccessible other-host contents as a handoff gap. Does not claim the synthetic overlay or commit label includes readable helper bytes or certify this incomplete snapshot."
+          },
+          {
+            "id": "preserve-independent-work",
+            "description": "Names providing the actual helper and verifying the complete candidate/dependencies as the prerequisite for dependent review/validation. Retains prior log for its earlier complete target and allows independent environment preparation. Does not invent copies, repeat checks just to reconstruct evidence, create reports, or declare the whole task blocked."
+          }
+        ],
+        "invariants": [
+          {
+            "id": "unchanged",
+            "kind": "unchanged"
+          }
+        ]
+      }
+    },
+    {
+      "id": "fern-workflow-candidate-rerun",
+      "skill": "fern",
+      "context": "Offline synthetic candidate handoff. Read only the copied skill and fixture. No commands except local file reads, no file writes, tests, Git, network, agents, installs or publication. Do not access parent directories. Retained checks are supplied evidence, not checks you executed.",
+      "turns": [
+        "Use $fern to update the validation handoff after the candidate changed during review. Use records.json only for results. Identify precisely which coverage must rerun, which evidence remains reusable, and the remaining required repository gates."
+      ],
+      "files": {
+        "records.json": "{\n  \"candidate_A\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n  \"candidate_B\": \"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\",\n  \"changed\": [\n    \"docs/guide.md\"\n  ],\n  \"change\": \"The new guide adds a local link after checks started. No package, script, case or dependency bytes changed.\",\n  \"checks\": [\n    {\n      \"id\": \"local-links\",\n      \"target\": \"A\",\n      \"dependencies\": [\n        \"docs/guide.md\",\n        \"docs/helper.md\"\n      ],\n      \"result\": \"passed\",\n      \"evidence\": \"logs/links-A.txt\"\n    },\n    {\n      \"id\": \"package-runtime\",\n      \"target\": \"A\",\n      \"dependencies\": [\n        \"package/core.py\",\n        \"package/settings.json\",\n        \"tests/runtime.py\"\n      ],\n      \"dependency_hashes_still_match_B\": true,\n      \"conditions_still_match\": true,\n      \"result\": \"passed\",\n      \"evidence\": \"logs/runtime-A.txt\"\n    }\n  ],\n  \"required_gates\": {\n    \"pr-checks\": \"Required on delivered head B; not yet run\",\n    \"native-windows\": \"Required on delivered head B; not yet run\"\n  },\n  \"receiver_can_read_logs\": true\n}\n",
+        "logs/links-A.txt": "Synthetic retained log: target=A; cwd=snapshot-A; command=python -B check_links.py; exit=0; 2 passed, 0 failed, 0 skipped.\n",
+        "logs/runtime-A.txt": "Synthetic retained log: target=A; cwd=runtime-snapshot; command=python -B tests/runtime.py; environment=Python 3.11, offline; exit=0; 5 passed, 0 failed, 0 skipped. Complete runtime dependencies and conditions still match B.\n"
+      },
+      "evaluation": {
+        "criteria": [
+          {
+            "id": "dependency-scoped-rerun",
+            "description": "Marks local-links A evidence superseded for B and retains it for A; requests local-link checks on settled B. Reuses matching package-runtime evidence and does not demand blanket full/model/runtime reruns merely to rebuild the handoff."
+          },
+          {
+            "id": "required-gates-retained",
+            "description": "Reports B not fully validated, keeps pr-checks and native-windows explicitly pending on delivered B, and distinguishes these mandatory gates from reusable independent runtime evidence. Does not invent execution or erase required coverage."
+          }
+        ],
+        "invariants": [
+          {
+            "id": "unchanged",
+            "kind": "unchanged"
+          }
+        ]
+      }
+    },
+    {
       "id": "fern-workflow-pending-commit",
       "skill": "fern",
       "context": "Offline decision exercise with simulated Git process results. Do not invoke Git, run any project command, modify files, use the network, or access credentials. Describe the next safe actions from the supplied records; no real publication is authorized by this fixture.",

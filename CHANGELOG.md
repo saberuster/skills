@@ -220,6 +220,13 @@
 
 ### Changed
 
+- Fern plugin: prepare complete, accessible candidate handoffs after cheap
+  checks; keep same-candidate review and validation parallelizable, supersede
+  affected evidence after edits, and retain matching results and required gates.
+  Repository validation now records expensive checks as not run after selected
+  deterministic checks fail, preserving the failure and planned coverage.
+  CI model shards explicitly run those checks before their exact selected cases,
+  retaining blocked case evidence while independent runtime jobs stay separate.
 - Fern: simplify `deep-search` by consolidating repeated retrieval, source
   routing, reuse, and handoff rules in its entrypoint. Tool notes retain
   provider-specific schemas, readiness conditions, and limitations. Existing

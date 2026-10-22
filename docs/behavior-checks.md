@@ -19,7 +19,7 @@ the broader examples:
 | `skills-local-edits` | [maintain-skills](../examples/maintain-skills.md): identify and preserve local edits before an update |
 | `setup-fern` cases (ten) | [setup-fern](../examples/setup-fern.md): project setup and check, selected-field overwrite, repeat stability, complete root rules, delegation cost/context/handoffs and permission retry |
 | `codex-config-*` (four cases) | [codex-config](../examples/codex-config.md): distinguish target-bound schema evidence from an online schema gap, apply a user-level edit under a project override, and preserve configuration when managed requirements disallow the requested value |
-| `fern-workflow-*` (twelve cases) | [fern](../examples/fern.md): review scope, local edits, accepted decisions, stale evidence, coupled work, evidence handoff, pending Git decisions, actual bug fix, feature, refactoring, atlas defaults, and partial acceptance |
+| `fern-workflow-*` (sixteen cases) | [fern](../examples/fern.md): review scope, local edits, accepted decisions, stale evidence, coupled work, candidate preparation and handoff, scoped reruns, pending Git decisions, actual bug fix, feature, refactoring, atlas defaults, and partial acceptance |
 | `fern-review-relative-paths`, `fern-review-path-unavailable` | [Fern review cases](../examples/fern.md#verify-relative-paths-against-the-filesystem): explicitly supplied Setup Fern reviewer instructions, actual target inspection, misleading agreement, and missing filesystem evidence |
 | `docs-schema` | [technical-writing](../examples/technical-writing.md): apply a scoped schema correction while preserving accepted content |
 | `talk-acceptance` | [talk-it-through](../examples/talk-it-through.md): advance after local acceptance and stop when asked |
@@ -269,6 +269,20 @@ Stale-evidence also covers known environment reuse and pilot delivery failures;
 its paths and commands are simulated inputs. Evidence-reuse remains a control
 against unnecessary validation. General dispatch policy is tested separately
 by `fern-delegation-plan`; none establishes real agent coordination.
+
+Select `fern-workflow-candidate-preflight`,
+`fern-workflow-candidate-handoff`, `fern-workflow-candidate-handoff-gap` and
+`fern-workflow-candidate-rerun` for the validation preparation boundaries.
+Preflight permits the actual `python -B check_links.py` command in its workspace:
+retain the missing-reference diagnostic and nonzero exit before assessing the
+decision to defer expensive work. It permits no repairs or model subprocesses.
+The handoff pair uses the same manifest and new helper dependency, with the
+helper deliberately absent in the gap case. Inspect actual file reads, complete
+dependency locations and receiver-access conclusions. The rerun case distinguishes
+superseded link evidence, unchanged runtime dependencies and required PR/Windows
+gates. These three cases use supplied results and permit reads only. They do not
+establish real review dispatch, environment preparation or external-host access.
+All four preserve fixture files and keep evaluator criteria out of worker inputs.
 
 The three development cases exercise Fern directly without a separate
 implementation skill. Give each fresh worker its input context, request, and
