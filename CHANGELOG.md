@@ -220,6 +220,9 @@
 
 ### Changed
 
+- Standalone `find-skill-references`: consolidate source-reading, cached-evidence
+  reuse, provenance and citation checks in one section while preserving their
+  requirements and the distinction between current and prior inspections.
 - Fern plugin: prepare complete, accessible candidate handoffs after cheap
   checks; keep same-candidate review and validation parallelizable, supersede
   affected evidence after edits, and retain matching results and required gates.
