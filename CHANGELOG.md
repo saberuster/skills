@@ -227,6 +227,11 @@
   deterministic checks fail, preserving the failure and planned coverage.
   CI model shards explicitly run those checks before their exact selected cases,
   retaining blocked case evidence while independent runtime jobs stay separate.
+- Fern: simplify `deep-search` by consolidating repeated retrieval, source
+  routing, reuse, and handoff rules in its entrypoint. Tool notes retain
+  provider-specific schemas, readiness conditions, and limitations. Existing
+  budget, authorization, evidence, and output requirements are preserved.
+
 - Fern: clarify delegation cost and decision value, fresh versus continuous
   context, and meaningful status/evidence handoffs. Preserve useful parallel
   work, agent reuse, host-responsive waiting, role boundaries and model policy.

@@ -1,63 +1,51 @@
 # Tool selection notes
 
-Use only the relevant section. These notes describe capabilities and connector
-shapes inspected on 2026-10-18, not a portable API contract or price guarantee.
-The host's actual tool definitions and access rules govern each call. Do not
-copy REST API options into a connector that does not expose them.
+Read only the relevant section. The [entrypoint](../SKILL.md) owns workflow,
+source routing, reuse, retries, budget, and handoff rules; these notes add
+tool-specific details. Connector shapes were inspected on 2026-10-18, not
+established as portable API or pricing contracts. Actual host schemas and access
+rules govern calls; do not copy unexposed REST options into connectors.
 
 ## Built-in web search and direct readers
 
-Use the host's search/open/find capabilities for direct reads, the specified
-GitHub raw-file and X fallbacks, and permitted provider-unavailable routes.
-Exa owns planned first-round general discovery. Known substantive pages outside
-specialist routes prefer Exa content when their needed text is missing; status
-endpoints and small factual reads can use the host reader directly. Domain and
-date filters apply only if supported. Built-in retrieval is not inherently free.
+Use host search/open/find within the entrypoint's source routes and fallbacks.
+Apply domain/date filters only when supported. Built-in retrieval is not
+inherently free.
 
 ## OpenAI Docs
 
-For OpenAI product contracts, use its official documentation tool scoped to
-the requested product and version. Current tools include
+Scope documentation to the requested product and version. Inspected tools
+include
 `search_openai_docs(query, limit?, cursor?)`,
 `fetch_openai_doc(url, anchor?)`, and
 `get_openapi_spec(url, languages?, codeExamplesOnly?)`. These names describe the
 tool suffixes; discover the host's full callable names.
 
-Search when the right document is unknown, then fetch its relevant page or
-section before citing exact guidance. With a known document URL, fetch it
-directly. Use an endpoint spec for request/response contracts when appropriate;
-do not enumerate every endpoint for one known operation. Check local code,
-installed versions, or configuration for questions about an actual setup.
-Documentation alone does not prove local or account behavior. If the official
-tool is unavailable, use allowed official-domain web search or a direct reader.
-Other products' known substantive documentation follows the Exa content route
-unless the user or host specifies a different specialist reader.
+Search when the document is unknown; fetch the relevant page or section before
+citing exact guidance. Do not enumerate every endpoint for one known operation.
+Check local code, installed versions, or configuration for an actual setup;
+documentation alone does not prove local or account behavior. If the official
+tool is unavailable, use allowed official-domain search or a direct reader.
+Other products follow the entrypoint's routing unless the user or host specifies
+a different specialist reader.
 
 ## GitHub
 
-Use GitHub tools first to search or read GitHub content, including candidates
-found through Exa or Parallel. Read a known file at the requested tag or commit;
-retain the resolved revision when available. If the ref is unknown, do not
-invent one or equate the default branch with an installed release. Native code
-search may cover only the default branch. Choose the right search surface for
-files, repositories, issues, or PRs; website operators may differ from connectors.
+Read known files at the requested tag or commit and retain resolved revisions
+when available.
+Do not invent unknown refs or equate the default branch with an installed
+release. Native code search may cover only the default branch. Choose the
+right surface for files, repositories, issues, or PRs; website operators may
+differ from connectors.
 
-If the native file reader is unavailable or cannot serve the request, use the
-host's built-in web reader on the matching raw file, preserving repository,
-path, and revision. Do not send GitHub content to Exa content/fetch, including
-GitHub raw hosts. Issues, PRs, discussions, and release pages have no raw-file
-equivalent: use their native tools or accessible original pages. If those paths
-fail, preserve the access gap rather than inventing content or a raw URL.
-
-Current GitHub `fetch_file` supports repository, path, ref, and optional line
+Inspected `fetch_file` supports repository, path, ref, and optional line
 bounds. A PR, its merge commit, release notes, and deployed behavior answer
 different questions. Research uses read operations; finding a bug or a useful
 discussion does not authorize posting a comment or changing the repository.
 
 ## X
 
-Follow this order for a request requiring X retrieval. Reuse adequate cached
-material first, and respect an explicit user-selected provider.
+Apply the entrypoint's X fallback order with these readiness conditions:
 
 1. Use an available native X search/read tool. Inspect its date windows,
    archive access, pagination, and limits. If it is missing or cannot serve
@@ -69,18 +57,14 @@ material first, and respect an explicit user-selected provider.
    If local readiness is uncertain, use the first needed retrieval as a
    bounded attempt rather than adding a separate test search. Proceed only
    when a supported retrieval-only invocation fits the remaining budget.
-3. If Grok is absent, inaccessible, unauthenticated, incompatible, or unable
-   to retrieve useful source material, use the current host model's default
-   search capability. Search indexed X pages and read accessible originals.
-   Keep this fallback with the host model; do not start another Grok session
-   or silently route it to Exa or Parallel. If the default search is also
-   unavailable, return existing evidence and the access gap.
+3. Grok's absence, access/authentication failure, incompatibility, or unusable
+   retrieval triggers the host model's default search. Search indexed X pages
+   and read accessible originals; do not start another Grok session. If that
+   search is unavailable too, return existing evidence and the access gap.
 
 A valid empty result is not an authentication or availability failure. Assess
-the query and requested coverage before spending another attempt. Preserve
-successful partial results and retrieve only the missing part. Do not install,
-update, authenticate, or reconfigure Grok automatically, and do not retry an
-auth/quota failure in a loop.
+the query and coverage before another attempt. Do not automatically install,
+update, authenticate, or reconfigure Grok.
 
 ### Local Grok Build invocation
 
@@ -112,22 +96,15 @@ does not establish that `x_search` is an accepted CLI tool name. Do not copy
 API options into CLI flags. Do not assume Build subscription billing equals
 API pricing.
 
-For all three routes, state missing replies, inaccessible posts, historical
-gaps, or limited sampling when relevant; web results do not establish complete
-X coverage. In the handoff, preserve author, post URL, publication date, and
-retrieval date when available; label missing dates unknown. Name the next
-request's owner and carry forward the task ledger's used/remaining allowance,
-or state that no hard allowance was supplied.
+For all three routes, retain author, post URL, publication/retrieval dates
+(unknown when missing), and relevant reply, access, history, or sampling gaps.
+Web results do not establish complete X coverage. State when no hard allowance
+was supplied.
 See the [X search documentation](https://docs.x.com/x-api/posts/search/introduction)
 for the platform's recent versus archive distinction, subject to connector
 access.
 
 ## Exa
-
-Use search for the first round's distinct discovery objectives. Size result
-sets for each direction's evidence requirements; neither a universal handful
-nor a large quota establishes coverage. Search may already return adequate
-passages, so inspect and reuse them before fetching content.
 
 The inspected plugin exposes `web_search_exa` with required `query` and
 `objective`, plus optional `numResults`. Describe the ideal source in `query`;
@@ -135,16 +112,9 @@ use `objective` for the exact missing evidence and source preferences. Its
 `web_fetch_exa` accepts a `urls` array and optional `maxCharacters` per page.
 Do not use a remembered singular `url` argument.
 
-Use content/fetch directly for a known, likely substantive article, document,
-paper, or technical guide outside OpenAI Docs, GitHub, and X routes. Recognize
-the candidate using available title, publisher, description, URL context, or
-excerpts; do not spend a discovery request merely to classify it. Select only
-relevant pages with needed content absent from existing evidence. Batch related
-URLs when supported and choose a content allowance that retains required
-sections and qualifiers. Assess the actual extraction for completeness and
-source quality; file type or publisher alone does not prove either. Preserve
-successful pages and use an allowed direct reader for inaccessible or unusable
-content. This preference does not establish measured extraction superiority.
+Batch related fetch URLs when supported. Check actual extraction completeness
+and source quality; file type or publisher alone proves neither. Preserve
+successful pages and use an allowed direct reader for unusable extraction.
 
 The broader API has more modes and content options than this connector. Consult
 the [official search guide](https://exa.ai/docs/search/quickstart) for API work
@@ -155,18 +125,14 @@ without a task-specific need, or infer the user's bill from a response length.
 
 ## Parallel
 
-Use search after first-round assessment for unresolved directions. Give the
-request a specific missing question, known findings and source URLs, the new
-evidence sought, and a stopping condition. Encode these in supported objective
-and query fields; do not invent connector fields. Exclude duplicate results
-locally when a provider has no exclusion filter. If the first round already
-meets the plan, skip Parallel. A known missing passage needs a direct read,
-not a repeated discovery search.
+Encode the entrypoint's gap request in supported objective/query fields; do
+not invent connector fields. Exclude duplicates locally when no provider
+exclusion filter exists.
 
 The inspected `web_search` accepts an atomic `objective` and a
-`search_queries` array. Group useful short query variants for the same objective;
-do not pad the array merely to reach a quota. Search returns relevant excerpts,
-which can avoid a fetch when they contain the needed evidence and qualifiers.
+`search_queries` array. Group useful short query variants for the same
+objective; do not pad the array merely to reach a quota. Search returns
+relevant excerpts.
 
 Its `web_fetch` accepts related `urls`, an optional focused `objective`, and
 `search_queries`. Use it only where the source routing permits, such as a
